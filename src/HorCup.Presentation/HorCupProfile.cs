@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using HorCup.Presentation.Players;
+using HorCup.Presentation.ViewModels;
 
 namespace HorCup.Presentation
 {
@@ -6,7 +8,7 @@ namespace HorCup.Presentation
 	{
 		public HorCupProfile()
 		{
-			
+			CreateMap<Player, PlayerViewModel>();
 		}
 	}
 }

@@ -4,6 +4,6 @@ namespace HorCup.Presentation.Services.IdGenerator
 {
 	public interface IIdGenerator
 	{
-		Guid Generate();
+		Guid NewGuid();
 	}
 }
