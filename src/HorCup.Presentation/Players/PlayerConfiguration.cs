@@ -21,6 +21,10 @@ namespace HorCup.Presentation.Players
 				.IsRequired()
 				.HasMaxLength(constraints.MaxNameLength);
 
+			builder.Property(p => p.Nickname)
+				.IsRequired()
+				.HasMaxLength(constraints.MaxNameLength);
+			
 			builder.Property(p => p.BirthDate)
 				.IsRequired()
 				.HasColumnType("datetime");

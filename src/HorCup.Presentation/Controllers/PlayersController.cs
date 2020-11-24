@@ -20,6 +20,7 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpPost]
+		[ProducesResponseType((int)HttpStatusCode.Conflict)]
 		[ProducesResponseType((int)HttpStatusCode.Created)]
 		public async Task<ActionResult<PlayerViewModel>> Add(AddPlayerCommand commandHandler)
 		{
@@ -33,6 +34,19 @@ namespace HorCup.Presentation.Controllers
 		public ActionResult<PlayerConstraints> GetConstraints()
 		{
 			return Ok(new PlayerConstraints());
+		}
+
+		[HttpHead]
+		public async Task<IActionResult> IsNicknameUnique(string nickname)
+		{
+			var isUnique = true;
+			
+			if (isUnique)
+			{
+				return Ok();
+			}
+
+			return Conflict();
 		}
 	}
 }

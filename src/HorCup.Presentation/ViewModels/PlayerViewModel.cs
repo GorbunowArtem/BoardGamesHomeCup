@@ -10,6 +10,8 @@ namespace HorCup.Presentation.ViewModels
 
 		public string LastName { get; set; }
 
+		public string Nickname { get; set; }
+		
 		public DateTime BirthDate { get; set; }
 	}
 }

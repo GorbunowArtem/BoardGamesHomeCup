@@ -18,6 +18,11 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 				.NotEmpty()
 				.MaximumLength(playerConstraints.MaxNameLength);
 
+			RuleFor(p => p.Nickname)
+				.NotNull()
+				.NotEmpty()
+				.MaximumLength(playerConstraints.MaxNameLength);
+			
 			RuleFor(p => p.BirthDate)
 				.GreaterThan(playerConstraints.MinBirthDate);
 		}
