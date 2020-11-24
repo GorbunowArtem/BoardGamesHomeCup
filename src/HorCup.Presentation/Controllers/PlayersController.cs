@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
+using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace HorCup.Presentation.Controllers
 	public class PlayersController: ControllerBase
 	{
 		private readonly ISender _sender;
+		private readonly IPlayersService _playersService;
 
-		public PlayersController(ISender sender)
+		public PlayersController(ISender sender, IPlayersService playersService)
 		{
 			_sender = sender;
+			_playersService = playersService;
 		}
 
 		[HttpPost]
@@ -39,7 +42,7 @@ namespace HorCup.Presentation.Controllers
 		[HttpHead]
 		public async Task<IActionResult> IsNicknameUnique(string nickname)
 		{
-			var isUnique = true;
+			var isUnique = await _playersService.IsNicknameUniqueAsync(nickname);
 			
 			if (isUnique)
 			{

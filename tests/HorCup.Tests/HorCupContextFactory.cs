@@ -1,5 +1,6 @@
 using System;
 using HorCup.Presentation.Context;
+using HorCup.Tests.Players.Factory;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Tests
@@ -16,7 +17,8 @@ namespace HorCup.Tests
 
 			context.Database.EnsureCreated();
 
-
+			var playersFactory = new PlayersFactory();
+			context.Players.AddRange(playersFactory.Players);
 
 			context.SaveChanges();
 

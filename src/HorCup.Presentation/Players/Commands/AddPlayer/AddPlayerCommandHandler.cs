@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Services.IdGenerator;
+using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -17,23 +17,32 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 		private readonly IIdGenerator _idGenerator;
 		private readonly IMapper _mapper;
 		private readonly ILogger<AddPlayerCommandHandler> _logger;
-
+		private readonly IPlayersService _playersService;
+		
 		public AddPlayerCommandHandler(
 			HorCupContext context,
 			IIdGenerator idGenerator,
 			IMapper mapper,
-			ILogger<AddPlayerCommandHandler> logger)
+			ILogger<AddPlayerCommandHandler> logger,
+			IPlayersService playersService)
 		{
 			_context = context;
 			_idGenerator = idGenerator;
 			_mapper = mapper;
 			_logger = logger;
+			_playersService = playersService;
 		}
 
 		public async Task<PlayerViewModel> Handle(AddPlayerCommand request, CancellationToken cancellationToken)
 		{
-			CheckNicknameIsUnique();
+			var isUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname);
 
+			if (!isUnique)
+			{
+				_logger.LogError($"Player with nickname {request.Nickname} already exists");
+				throw new EntityExistsException(nameof(Player), request.Nickname);
+			}
+			
 			var id = _idGenerator.NewGuid();
 
 			var player = new Player
@@ -50,18 +59,6 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 			await _context.SaveChangesAsync(cancellationToken);
 
 			return _mapper.Map<PlayerViewModel>(player);
-
-			void CheckNicknameIsUnique()
-			{
-				var playerWithSameNickName = _context.Players.SingleOrDefault(p =>
-					string.Equals(p.Nickname.ToUpperInvariant(), request.Nickname.ToUpperInvariant()));
-
-				if (playerWithSameNickName != null)
-				{
-					_logger.LogError($"Player with nickname {request.Nickname} already exists");
-					throw new EntityExistsException(nameof(Player), request.Nickname);
-				}
-			}
 		}
 	}
 }

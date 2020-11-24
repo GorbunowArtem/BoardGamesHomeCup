@@ -1,5 +1,5 @@
 ﻿using System;
-using HorCup.Presentation.Players.Commands.AddPlayer;
+using HorCup.Presentation.Players;
 
 namespace HorCup.Tests.Players.Factory
 {
@@ -9,28 +9,37 @@ namespace HorCup.Tests.Players.Factory
 		public const string Player1LastName = "Player 1 Last";
 		public const string Player1NickName = "Player1Nick";
 
-		public readonly Guid Player1Id = new Guid("8B7C5165-B72E-4BDD-A5F1-BACE9D2A6541");
+		public const string Player2FirstName = "Player 2 First";
+		public const string Player2LastName = "Player 2 Last";
+		public const string Player2NickName = "Player2Nick";
+		
+		public const string Player3FirstName = "Player 3 First";
+		public const string Player3LastName = "Player 3 Last";
+		public const string Player3NickName = "Player3Nick";
+
 		public readonly DateTime Player1BirthDate = new DateTime(1990, 2, 3);
+		public readonly DateTime Player2BirthDate = new DateTime(1991, 3, 4);
+		public readonly DateTime Player3BirthDate = new DateTime(1992, 4, 5);
 
-		public Commands Commands => new Commands(this);
-	}
-
-	public class Commands
-	{
-		private readonly PlayersFactory _factory;
-
-		public Commands(PlayersFactory factory)
+		public Player[] Players => new[]
 		{
-			_factory = factory;
-		}
-
-		public AddPlayerCommand AddPlayer() =>
-			new AddPlayerCommand
+			new Player
 			{
-				BirthDate = _factory.Player1BirthDate,
-				FirstName = PlayersFactory.Player1FirstName,
-				LastName = PlayersFactory.Player1LastName,
-				Nickname = PlayersFactory.Player1NickName
-			};
+				FirstName = Player1FirstName,
+				LastName = Player1LastName,
+				Nickname = Player1NickName,
+				BirthDate = Player1BirthDate
+			}, 
+			
+			new Player
+			{
+				FirstName = Player2FirstName,
+				LastName = Player2LastName,
+				Nickname = Player2NickName,
+				BirthDate = Player2BirthDate
+			}, 
+		};
+		
+		public Commands Commands => new Commands(this);
 	}
 }
