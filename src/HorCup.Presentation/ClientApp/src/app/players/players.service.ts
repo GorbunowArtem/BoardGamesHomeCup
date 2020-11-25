@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { PlayerViewModel } from './models/player';
 import { PlayerConstraints } from './models/player-constraints';
 
 @Injectable({
@@ -14,6 +15,10 @@ export class PlayersService {
   }
 
   public isNicknameUnique(nickname: string): Observable<any> {
-    return this._http.head(`/players?${nickname}`);
+    return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
+  }
+
+  public addPlayer(player: PlayerViewModel) {
+    return this._http.post('players', player);
   }
 }

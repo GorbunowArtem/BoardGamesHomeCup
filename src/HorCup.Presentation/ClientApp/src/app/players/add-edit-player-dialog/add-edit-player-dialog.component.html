@@ -26,7 +26,7 @@
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Ник</mat-label>
-        <input matInput type="text" formControlName="nickname" required />
+        <input matInput type="text" formControlName="nickname" required uniqueNicknameValidator />
         <hc-field-validation-errors
           [form]="playersForm"
           [fieldName]="'nickname'"
@@ -37,7 +37,7 @@
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Дата рождения</mat-label>
-        <input matInput [matDatepicker]="picker" required />
+        <input matInput [matDatepicker]="picker" formControlName="birthDate" required />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <hc-field-validation-errors
@@ -49,7 +49,9 @@
     </p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="cancel()">Отмена</button>
-    <button mat-button type="submit" [disabled]="!playersForm.valid">Добавить</button>
+    <button mat-button (click)="cancel()" mat-dialog-close>Отмена</button>
+    <button mat-button type="submit" [disabled]="!playersForm.valid" [mat-dialog-close]="true">
+      Добавить
+    </button>
   </mat-dialog-actions>
 </form>

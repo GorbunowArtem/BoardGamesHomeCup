@@ -40,6 +40,8 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpHead]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.Conflict)]
 		public async Task<IActionResult> IsNicknameUnique(string nickname)
 		{
 			var isUnique = await _playersService.IsNicknameUniqueAsync(nickname);

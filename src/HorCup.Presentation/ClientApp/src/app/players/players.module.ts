@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
+import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     HcCommonModule,
     HttpClientModule
   ],
-  declarations: [PlayersComponent, AddEditPlayerDialogComponent],
+  declarations: [PlayersComponent, AddEditPlayerDialogComponent, UniqueNicknameValidator],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })
 export class PlayersModule {}

@@ -3,6 +3,11 @@ export const RequiredField = {
   message: 'Обязательное поле'
 };
 
+export const NotUnique = {
+  type: 'notUnique',
+  message: 'Значение не уникально'
+};
+
 export function minLength(minLength: number): HcValidationMessage {
   return {
     type: 'minlength',
