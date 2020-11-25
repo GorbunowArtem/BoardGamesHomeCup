@@ -1,22 +1,37 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="playersForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="playersForm" *ngIf="playersForm">
   <h2 mat-dialog-title>Добавить игрока</h2>
   <mat-dialog-content>
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Имя</mat-label>
         <input matInput type="text" formControlName="firstName" required />
+        <hc-field-validation-errors
+          [form]="playersForm"
+          [fieldName]="'firstName'"
+          [messages]="errorMessages"
+        ></hc-field-validation-errors>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Фамилия</mat-label>
         <input matInput type="text" formControlName="lastName" required />
+        <hc-field-validation-errors
+          [form]="playersForm"
+          [fieldName]="'lastName'"
+          [messages]="errorMessages"
+        ></hc-field-validation-errors>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Ник</mat-label>
         <input matInput type="text" formControlName="nickname" required />
+        <hc-field-validation-errors
+          [form]="playersForm"
+          [fieldName]="'nickname'"
+          [messages]="errorMessages"
+        ></hc-field-validation-errors>
       </mat-form-field>
     </p>
     <p>
@@ -25,6 +40,11 @@
         <input matInput [matDatepicker]="picker" required />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <hc-field-validation-errors
+          [form]="playersForm"
+          [fieldName]="'birthDate'"
+          [messages]="errorMessages"
+        ></hc-field-validation-errors>
       </mat-form-field>
     </p>
   </mat-dialog-content>

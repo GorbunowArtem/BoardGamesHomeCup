@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { HcCommonModule } from '../common/hc-common.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    HcCommonModule,
+    HttpClientModule
   ],
   declarations: [PlayersComponent, AddEditPlayerDialogComponent],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]

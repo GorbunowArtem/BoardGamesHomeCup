@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  max,
+  maxLength,
+  RequiredField
+} from 'src/app/common/validation-messages/validation-messages';
 import { PlayersService } from '../players.service';
 
 @Component({
@@ -10,16 +15,25 @@ import { PlayersService } from '../players.service';
 export class AddEditPlayerDialogComponent implements OnInit {
   public playersForm!: FormGroup;
 
+  public errorMessages!: unknown;
+
   constructor(private _fb: FormBuilder, private _playersService: PlayersService) {}
 
   ngOnInit() {
     this._playersService.getConstraints().subscribe((constr) => {
       this.playersForm = this._fb.group({
-        firstName: ['', [Validators.required]],
-        lastName: ['', [Validators.required]],
-        nickname: ['', [Validators.required]],
+        firstName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
+        lastName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
+        nickname: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
         birthDate: ['', [Validators.required]]
       });
+
+      this.errorMessages = {
+        firstName: [RequiredField, maxLength(constr.maxNameLength)],
+        lastName: [RequiredField, maxLength(constr.maxNameLength)],
+        nickname: [RequiredField, maxLength(constr.maxNameLength)],
+        birthDate: [RequiredField]
+      };
     });
   }
 
