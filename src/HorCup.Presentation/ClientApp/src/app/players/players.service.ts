@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { PlayerViewModel } from './models/player';
+import { Player } from './models/player';
 import { PlayerConstraints } from './models/player-constraints';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class PlayersService {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
   }
 
-  public addPlayer(player: PlayerViewModel) {
+  public addPlayer(player: Player) {
     return this._http.post('players', player);
   }
 }
