@@ -30,7 +30,12 @@ describe('Service: Players', () => {
   });
 
   it('should add player', () => {
-    const player = new Player('first', 'last', 'nick', '12.12.1989');
+    const player: Player = {
+      firstName: 'first',
+      lastName: 'last',
+      nickname: 'nick',
+      birthDate: new Date('12.12.1989')
+    };
 
     playersService.addPlayer(player).subscribe();
 

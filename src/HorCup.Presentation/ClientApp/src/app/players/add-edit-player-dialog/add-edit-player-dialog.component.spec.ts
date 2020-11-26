@@ -21,6 +21,8 @@ import { Component, Input } from '@angular/core';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
 import { MatInputModule } from '@angular/material/input';
+import { MatInputHarness } from '@angular/material/input/testing';
+import { Player } from '../models/player';
 
 @Component({ selector: 'hc-field-validation-errors', template: '' })
 class ValidationErrorsComponentStub {
@@ -32,6 +34,18 @@ class ValidationErrorsComponentStub {
 }
 @Component({ selector: 'hc-nav-bar', template: '' })
 class NavBarComponentStub {}
+
+const validName = 'Name';
+const notValidName = 'NotValid';
+
+const validLastName = 'Last';
+const notValidLastName = 'Notvalidlast';
+
+const validNickname = 'Nick';
+const notValidNickname = 'Nickkkk';
+
+const validDate = '1997-12-17T03:24:00';
+const notValidDate = '1995-12-16T03:24:00';
 
 const playerConstraints: PlayerConstraints = {
   maxNameLength: 5,
@@ -50,7 +64,8 @@ describe('AddEditPlayerDialogComponent', () => {
     formBuilder = new FormBuilder();
 
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
-      getConstraints: of(playerConstraints)
+      getConstraints: of(playerConstraints),
+      addPlayer: of()
     });
     await TestBed.configureTestingModule({
       imports: [
@@ -105,6 +120,34 @@ describe('AddEditPlayerDialogComponent', () => {
     overlayContainer.ngOnDestroy();
   });
 
+  it('should add player if all inputs are valid', async () => {
+    const firstNameField = await getFirstNameField(rootLoader);
+
+    await firstNameField.setValue(validName);
+
+    const lastNameField = await getLastNameField(rootLoader);
+
+    await lastNameField.setValue(validLastName);
+
+    const nickNameField = await getNicknameField(rootLoader);
+
+    await nickNameField.setValue(validNickname);
+
+    const birthDateField = await getBirthDateField(rootLoader);
+
+    await birthDateField.setValue(validDate);
+
+    const saveBtn = await getSaveButton(rootLoader);
+
+    await saveBtn.click();
+
+    expect(playersServiceMock.addPlayer).toHaveBeenCalledWith({
+      firstName: validName,
+      lastName: validLastName,
+      nickname: validNickname,
+      birthDate: new Date(validDate)
+    });
+  });
   it('should close dialog when user clicks "cancel" ', async () => {
     fixture.detectChanges();
     const cancelBtn = await rootLoader.getHarness(
@@ -120,3 +163,38 @@ describe('AddEditPlayerDialogComponent', () => {
     expect(dialogs.length).toBe(0);
   });
 });
+async function getSaveButton(rootLoader: HarnessLoader) {
+  return await rootLoader.getHarness(
+    MatButtonHarness.with({
+      text: 'Добавить'
+    })
+  );
+}
+
+async function getBirthDateField(rootLoader: HarnessLoader) {
+  return await rootLoader.getHarness(
+    MatInputHarness.with({
+      placeholder: 'Дата рождения'
+    })
+  );
+}
+
+async function getNicknameField(rootLoader: HarnessLoader) {
+  return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Ник' }));
+}
+
+async function getLastNameField(rootLoader: HarnessLoader) {
+  return await rootLoader.getHarness(
+    MatInputHarness.with({
+      placeholder: 'Фамилия'
+    })
+  );
+}
+
+async function getFirstNameField(rootLoader: HarnessLoader) {
+  return await rootLoader.getHarness(
+    MatInputHarness.with({
+      placeholder: 'Имя'
+    })
+  );
+}
