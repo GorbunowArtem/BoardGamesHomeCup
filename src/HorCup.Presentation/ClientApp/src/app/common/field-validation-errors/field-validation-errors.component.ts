@@ -9,7 +9,7 @@ import { HcValidationMessage } from '../validation-messages/validation-messages'
 export class HcFieldValidationErrorsComponent {
   @Input() messages!: HcValidationMessage[];
 
-  @Input() fieldName!: string;
+  @Input() fieldName!: any;
 
   @Input() form!: FormGroup;
 }

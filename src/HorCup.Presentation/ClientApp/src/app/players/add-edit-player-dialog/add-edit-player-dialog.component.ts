@@ -41,9 +41,7 @@ export class AddEditPlayerDialogComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  public add() {
     this._playersService.addPlayer(this.playersForm.value).subscribe();
   }
-
-  public cancel() {}
 }

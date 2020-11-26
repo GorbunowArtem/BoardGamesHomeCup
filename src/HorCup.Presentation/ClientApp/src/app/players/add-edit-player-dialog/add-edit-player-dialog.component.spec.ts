@@ -22,7 +22,6 @@ import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/
 import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
-import { Player } from '../models/player';
 
 @Component({ selector: 'hc-field-validation-errors', template: '' })
 class ValidationErrorsComponentStub {
@@ -120,24 +119,48 @@ describe('AddEditPlayerDialogComponent', () => {
     overlayContainer.ngOnDestroy();
   });
 
+  describe('Form invalid', () => {
+    it('should "Добавить" button be disabled', async () => {
+      const firstNameField = await getFirstNameField();
+
+      firstNameField.setValue(notValidName);
+
+      const saveBtn = await getSaveButton();
+
+      expect(saveBtn.isDisabled()).toBeTruthy();
+    });
+
+    it('should first name field to be required', async () => {
+      const firstNameField = await getFirstNameField();
+
+      firstNameField.setValue('');
+
+      const form = await rootLoader.getHarness(MatDialogHarness);
+
+      expect(true).toEqual(false);
+    });
+  });
+
   it('should add player if all inputs are valid', async () => {
-    const firstNameField = await getFirstNameField(rootLoader);
+    const firstNameField = await getFirstNameField();
 
     await firstNameField.setValue(validName);
 
-    const lastNameField = await getLastNameField(rootLoader);
+    const lastNameField = await getLastNameField();
 
     await lastNameField.setValue(validLastName);
 
-    const nickNameField = await getNicknameField(rootLoader);
+    const nickNameField = await getNicknameField();
 
     await nickNameField.setValue(validNickname);
 
-    const birthDateField = await getBirthDateField(rootLoader);
+    const birthDateField = await getBirthDateField();
 
     await birthDateField.setValue(validDate);
 
-    const saveBtn = await getSaveButton(rootLoader);
+    const saveBtn = await getSaveButton();
+
+    fixture.detectChanges();
 
     await saveBtn.click();
 
@@ -148,6 +171,7 @@ describe('AddEditPlayerDialogComponent', () => {
       birthDate: new Date(validDate)
     });
   });
+
   it('should close dialog when user clicks "cancel" ', async () => {
     fixture.detectChanges();
     const cancelBtn = await rootLoader.getHarness(
@@ -162,39 +186,40 @@ describe('AddEditPlayerDialogComponent', () => {
 
     expect(dialogs.length).toBe(0);
   });
+
+  async function getSaveButton() {
+    return await rootLoader.getHarness(
+      MatButtonHarness.with({
+        text: 'Добавить'
+      })
+    );
+  }
+
+  async function getBirthDateField() {
+    return await rootLoader.getHarness(
+      MatInputHarness.with({
+        placeholder: 'Дата рождения'
+      })
+    );
+  }
+
+  async function getNicknameField() {
+    return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Ник' }));
+  }
+
+  async function getLastNameField() {
+    return await rootLoader.getHarness(
+      MatInputHarness.with({
+        placeholder: 'Фамилия'
+      })
+    );
+  }
+
+  async function getFirstNameField() {
+    return await rootLoader.getHarness(
+      MatInputHarness.with({
+        placeholder: 'Имя'
+      })
+    );
+  }
 });
-async function getSaveButton(rootLoader: HarnessLoader) {
-  return await rootLoader.getHarness(
-    MatButtonHarness.with({
-      text: 'Добавить'
-    })
-  );
-}
-
-async function getBirthDateField(rootLoader: HarnessLoader) {
-  return await rootLoader.getHarness(
-    MatInputHarness.with({
-      placeholder: 'Дата рождения'
-    })
-  );
-}
-
-async function getNicknameField(rootLoader: HarnessLoader) {
-  return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Ник' }));
-}
-
-async function getLastNameField(rootLoader: HarnessLoader) {
-  return await rootLoader.getHarness(
-    MatInputHarness.with({
-      placeholder: 'Фамилия'
-    })
-  );
-}
-
-async function getFirstNameField(rootLoader: HarnessLoader) {
-  return await rootLoader.getHarness(
-    MatInputHarness.with({
-      placeholder: 'Имя'
-    })
-  );
-}
