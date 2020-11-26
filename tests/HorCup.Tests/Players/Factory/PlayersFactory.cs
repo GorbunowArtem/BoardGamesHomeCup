@@ -13,9 +13,9 @@ namespace HorCup.Tests.Players.Factory
 		public const string Player2LastName = "Player 2 Last";
 		public const string Player2NickName = "Player2Nick";
 		
-		public const string Player3FirstName = "Player 3 First";
-		public const string Player3LastName = "Player 3 Last";
-		public const string Player3NickName = "Player3Nick";
+		public const string Player3FirstName = "   Player 3 First   ";
+		public const string Player3LastName = "   Player 3 Last   ";
+		public const string Player3NickName = "   Player3Nick  ";
 
 		public readonly DateTime Player1BirthDate = new DateTime(1990, 2, 3);
 		public readonly DateTime Player2BirthDate = new DateTime(1991, 3, 4);

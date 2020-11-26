@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { PlayersService } from '../players.service';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +36,7 @@ class ValidationErrorsComponentStub {
 class NavBarComponentStub {}
 
 const validName = 'Name';
-const notValidName = 'NotValid';
+const notValidFirstName = 'NotValid';
 
 const validLastName = 'Last';
 const notValidLastName = 'Notvalidlast';
@@ -119,11 +120,11 @@ describe('AddEditPlayerDialogComponent', () => {
     overlayContainer.ngOnDestroy();
   });
 
-  describe('Form invalid', () => {
-    it('should "Добавить" button be disabled', async () => {
+  describe('Form validation', () => {
+    it('should "Добавить" button be disabled if form is invalid', async () => {
       const firstNameField = await getFirstNameField();
 
-      firstNameField.setValue(notValidName);
+      firstNameField.setValue(notValidFirstName);
 
       const saveBtn = await getSaveButton();
 
@@ -133,11 +134,33 @@ describe('AddEditPlayerDialogComponent', () => {
     it('should first name field to be required', async () => {
       const firstNameField = await getFirstNameField();
 
-      firstNameField.setValue('');
+      const isRequired = await firstNameField.isRequired();
 
-      const form = await rootLoader.getHarness(MatDialogHarness);
+      expect(isRequired).toEqual(true);
+    });
 
-      expect(true).toEqual(false);
+    it('should last name field to be required', async () => {
+      const lastNameField = await getLastNameField();
+
+      const isRequired = await lastNameField.isRequired();
+
+      expect(isRequired).toEqual(true);
+    });
+
+    it('should nickname field to be required', async () => {
+      const nicknameField = await getNicknameField();
+
+      const isRequired = await nicknameField.isRequired();
+
+      expect(isRequired).toEqual(true);
+    });
+
+    it('should birth date field to be required', async () => {
+      const birthDateField = await getBirthDateField();
+
+      const isRequired = await birthDateField.isRequired();
+
+      expect(isRequired).toEqual(true);
     });
   });
 
@@ -158,11 +181,13 @@ describe('AddEditPlayerDialogComponent', () => {
 
     await birthDateField.setValue(validDate);
 
-    const saveBtn = await getSaveButton();
-
     fixture.detectChanges();
 
+    const saveBtn = await getSaveButton();
+
     await saveBtn.click();
+
+    fixture.detectChanges();
 
     expect(playersServiceMock.addPlayer).toHaveBeenCalledWith({
       firstName: validName,

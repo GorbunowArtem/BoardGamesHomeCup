@@ -48,10 +48,10 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 			var player = new Player
 			{
 				Id = id,
-				FirstName = request.FirstName,
-				LastName = request.LastName,
+				FirstName = request.FirstName.Trim(),
+				LastName = request.LastName.Trim(),
 				BirthDate = request.BirthDate,
-				Nickname = request.Nickname
+				Nickname = request.Nickname.Trim()
 			};
 
 			await _context.AddAsync(player, cancellationToken);

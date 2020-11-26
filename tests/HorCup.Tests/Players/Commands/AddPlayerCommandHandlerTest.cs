@@ -46,9 +46,9 @@ namespace HorCup.Tests.Players.Commands
 			var player = await _sut.Handle(_factory.Commands.AddPlayer(), CancellationToken.None);
 
 			player.BirthDate.Should().Be(_factory.Player3BirthDate);
-			player.FirstName.Should().Be(PlayersFactory.Player3FirstName);
-			player.LastName.Should().Be(PlayersFactory.Player3LastName);
-			player.Nickname.Should().Be(PlayersFactory.Player3NickName);
+			player.FirstName.Should().Be(PlayersFactory.Player3FirstName.Trim());
+			player.LastName.Should().Be(PlayersFactory.Player3LastName.Trim());
+			player.Nickname.Should().Be(PlayersFactory.Player3NickName.Trim());
 		}
 
 		[Test]
