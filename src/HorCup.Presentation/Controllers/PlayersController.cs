@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
+using HorCup.Presentation.Players.Queries.SearchPlayers;
+using HorCup.Presentation.Responses;
 using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -22,6 +24,15 @@ namespace HorCup.Presentation.Controllers
 			_playersService = playersService;
 		}
 
+		[HttpGet]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		public async Task<ActionResult<PagedSearchResponse<PlayerViewModel>>> Search([FromQuery]SearchPlayersQuery query)
+		{
+			var (items, total) = await _sender.Send(query);
+			
+			return Ok(new PagedSearchResponse<PlayerViewModel>(items, total));
+		}
+		
 		[HttpPost]
 		[ProducesResponseType((int)HttpStatusCode.Conflict)]
 		[ProducesResponseType((int)HttpStatusCode.Created)]

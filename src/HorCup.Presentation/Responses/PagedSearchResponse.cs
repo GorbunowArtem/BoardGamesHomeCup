@@ -1,9 +1,17 @@
-﻿namespace HorCup.Presentation.Responses
+﻿using System.Collections.Generic;
+
+namespace HorCup.Presentation.Responses
 {
 	public class PagedSearchResponse<T>
 	{
-		public int Total { get; set; }
+		public int Total { get; }
 
-		public T[] Items { get; set; }
+		public IEnumerable<T> Items { get; }
+
+		public PagedSearchResponse(IEnumerable<T> items, int total)
+		{
+			Total = total;
+			Items = items;
+		}
 	}
 }

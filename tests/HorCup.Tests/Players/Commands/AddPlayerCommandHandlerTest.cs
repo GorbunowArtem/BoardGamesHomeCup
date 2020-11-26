@@ -16,10 +16,11 @@ namespace HorCup.Tests.Players.Commands
 {
 	public class AddPlayerCommandHandlerTest : TestFixtureBase
 	{
-		private readonly AddPlayerCommandHandler _sut;
-		private readonly PlayersFactory _factory;
+		private AddPlayerCommandHandler _sut;
+		private PlayersFactory _factory;
 
-		public AddPlayerCommandHandlerTest()
+		[SetUp]
+		public void SetUp()
 		{
 			_factory = new PlayersFactory();
 
