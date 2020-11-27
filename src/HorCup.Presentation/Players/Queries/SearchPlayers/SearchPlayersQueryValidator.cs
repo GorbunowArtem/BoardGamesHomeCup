@@ -11,7 +11,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 				.LessThan(100);
 
 			RuleFor(sp => sp.Skip)
-				.GreaterThan(0);
+				.GreaterThanOrEqualTo(0);
 		}
 	}
 }
