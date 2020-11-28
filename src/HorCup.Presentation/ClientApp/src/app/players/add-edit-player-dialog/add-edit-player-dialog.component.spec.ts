@@ -23,6 +23,8 @@ import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/
 import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
+import { PagedSearchResponse } from 'src/app/common/paged-search-response';
+import { Player } from '../models/player';
 
 @Component({ selector: 'hc-field-validation-errors', template: '' })
 class ValidationErrorsComponentStub {
@@ -52,6 +54,17 @@ const playerConstraints: PlayerConstraints = {
   minBirthDate: '1995-12-17T03:24:00'
 };
 
+const searchPlayersResponse: PagedSearchResponse<Player> = {
+  items: [
+    {
+      birthDate: new Date('1995-12-17T03:24:00'),
+      firstName: 'Test',
+      lastName: 'Player',
+      nickname: 'Test P'
+    }
+  ],
+  total: 1
+};
 describe('AddEditPlayerDialogComponent', () => {
   let component: PlayersComponent;
   let fixture: ComponentFixture<PlayersComponent>;
@@ -65,7 +78,8 @@ describe('AddEditPlayerDialogComponent', () => {
 
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       getConstraints: of(playerConstraints),
-      addPlayer: of()
+      addPlayer: of(),
+      search: of(searchPlayersResponse)
     });
     await TestBed.configureTestingModule({
       imports: [

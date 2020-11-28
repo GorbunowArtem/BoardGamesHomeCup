@@ -10,6 +10,7 @@ export class HcAvatarComponent implements OnInit {
   public name!: string;
 
   public initials!: string;
+
   public circleColor: string = '#EB7181';
 
   private colors = ['#aea1ff', '#468547', '#FFD558', '#3670B2', '#49f5e4', '#6956e8', '#f5c698'];

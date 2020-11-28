@@ -6,7 +6,7 @@ import { Player } from '../models/player';
   templateUrl: './player-card.component.html',
   styleUrls: ['./player-card.component.scss']
 })
-export class PlayerCardComponent implements OnInit {
+export class PlayerCardComponent {
   @Input()
   player!: Player;
 
@@ -15,5 +15,4 @@ export class PlayerCardComponent implements OnInit {
   get fullName() {
     return `${this.player.firstName} ${this.player.lastName}`;
   }
-  ngOnInit() {}
 }
