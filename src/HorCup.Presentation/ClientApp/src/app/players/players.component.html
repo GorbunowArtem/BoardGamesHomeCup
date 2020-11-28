@@ -1,12 +1,14 @@
 <main>
-  <div *ngFor="let player of players">
-    <hc-player-card [player]="player"></hc-player-card>
+  <div class="players-list">
+    <div *ngFor="let player of players">
+      <hc-player-card [player]="player"></hc-player-card>
+    </div>
   </div>
+  <button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
   <mat-paginator
     [length]="totalItems"
     [pageSize]="10"
     [pageSizeOptions]="[5, 10, 25]"
     (page)="pageChangedEvent($event)"
   ></mat-paginator>
-  <button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
 </main>

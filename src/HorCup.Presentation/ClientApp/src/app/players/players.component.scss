@@ -1,3 +1,18 @@
 .players-list {
-  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: auto;
+  align-content: space-around;
+}
+
+mat-paginator {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  margin-left: 80%;
 }
