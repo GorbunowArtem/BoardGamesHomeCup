@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
@@ -12,6 +12,9 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit {
+  @Input()
+  searchText: string = '';
+
   players: Player[] = [];
 
   totalItems: number = 0;
@@ -32,7 +35,18 @@ export class PlayersComponent implements OnInit {
 
   pageChangedEvent(event: PageEvent) {
     this._playersService
-      .search(new SearchPlayersOptions(event.pageSize * event.pageIndex, event.pageSize))
+      .search(
+        new SearchPlayersOptions(event.pageSize * event.pageIndex, event.pageSize, this.searchText)
+      )
+      .subscribe((result) => {
+        this.players = result.items;
+        this.totalItems = result.total;
+      });
+  }
+
+  public search() {
+    this._playersService
+      .search(new SearchPlayersOptions(5, 0, this.searchText))
       .subscribe((result) => {
         this.players = result.items;
         this.totalItems = result.total;
