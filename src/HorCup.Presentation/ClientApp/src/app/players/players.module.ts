@@ -11,10 +11,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
+import { PlayerCardComponent } from './player-card/player-card.component';
 
 @NgModule({
   imports: [
@@ -31,9 +34,16 @@ import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nicknam
     MatNativeDateModule,
     MatRippleModule,
     HcCommonModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatCardModule
   ],
-  declarations: [PlayersComponent, AddEditPlayerDialogComponent, UniqueNicknameValidator],
+  declarations: [
+    PlayersComponent,
+    AddEditPlayerDialogComponent,
+    UniqueNicknameValidator,
+    PlayerCardComponent
+  ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })
 export class PlayersModule {}

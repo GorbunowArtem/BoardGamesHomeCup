@@ -1,1 +1,22 @@
-<button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
+<main>
+  <mat-form-field appearance="fill">
+    <input matInput type="text" [(ngModel)]="searchText" placeholder="Поиск игроков" />
+    <mat-label>Поиск игроков</mat-label>
+    <button matSuffix mat-icon-button (click)="search()">
+      <mat-icon matPrefix>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div class="players-list">
+    <div *ngFor="let player of players">
+      <hc-player-card [player]="player"></hc-player-card>
+    </div>
+  </div>
+  <button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="6"
+    [pageSizeOptions]="[6, 12, 24]"
+    (page)="pageChangedEvent($event)"
+  ></mat-paginator>
+</main>

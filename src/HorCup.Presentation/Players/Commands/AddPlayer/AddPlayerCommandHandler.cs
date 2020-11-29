@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
+using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
@@ -18,19 +19,22 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 		private readonly IMapper _mapper;
 		private readonly ILogger<AddPlayerCommandHandler> _logger;
 		private readonly IPlayersService _playersService;
+		private readonly IDateTimeService _dateTimeService;
 		
 		public AddPlayerCommandHandler(
 			HorCupContext context,
 			IIdGenerator idGenerator,
 			IMapper mapper,
 			ILogger<AddPlayerCommandHandler> logger,
-			IPlayersService playersService)
+			IPlayersService playersService,
+			IDateTimeService dateTimeService)
 		{
 			_context = context;
 			_idGenerator = idGenerator;
 			_mapper = mapper;
 			_logger = logger;
 			_playersService = playersService;
+			_dateTimeService = dateTimeService;
 		}
 
 		public async Task<PlayerViewModel> Handle(AddPlayerCommand request, CancellationToken cancellationToken)
@@ -51,7 +55,8 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 				FirstName = request.FirstName.Trim(),
 				LastName = request.LastName.Trim(),
 				BirthDate = request.BirthDate,
-				Nickname = request.Nickname.Trim()
+				Nickname = request.Nickname.Trim(),
+				Added = _dateTimeService.Now
 			};
 
 			await _context.AddAsync(player, cancellationToken);

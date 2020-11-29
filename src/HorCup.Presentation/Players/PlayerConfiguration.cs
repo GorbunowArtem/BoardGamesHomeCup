@@ -28,6 +28,9 @@ namespace HorCup.Presentation.Players
 			builder.Property(p => p.BirthDate)
 				.IsRequired()
 				.HasColumnType("datetime");
+			
+			builder.Property(p => p.Added)
+				.HasColumnType("datetime");
 		}
 	}
 }

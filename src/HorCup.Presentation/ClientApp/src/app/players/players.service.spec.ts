@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { Player } from './models/player';
+import { SearchPlayersOptions } from './models/search-players-options';
 import { PlayersService } from './players.service';
 
 describe('Service: Players', () => {
@@ -40,5 +41,15 @@ describe('Service: Players', () => {
     playersService.addPlayer(player).subscribe();
 
     expect(httpClientMock.post).toHaveBeenCalledWith('players', player);
+  });
+
+  it('should search players', () => {
+    const searchOptions = new SearchPlayersOptions(3, 5, 'text');
+
+    playersService.search(searchOptions);
+
+    expect(httpClientMock.get).toHaveBeenCalledWith(
+      `/players?take=${searchOptions.take}&skip=${searchOptions.skip}&searchText=${searchOptions.searchText}`
+    );
   });
 });
