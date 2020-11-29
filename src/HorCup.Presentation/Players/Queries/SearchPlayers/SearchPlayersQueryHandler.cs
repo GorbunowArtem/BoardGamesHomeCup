@@ -38,7 +38,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 			}
 			
 			var players = await query
-				.OrderBy(p => p.FirstName)
+				.OrderByDescending(p => p.Added)
 				.Skip(request.Skip)
 				.Take(request.Take)
 				.ToListAsync(cancellationToken);

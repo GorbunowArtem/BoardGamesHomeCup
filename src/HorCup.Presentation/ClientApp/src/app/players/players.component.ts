@@ -44,7 +44,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.search(event.pageSize, event.pageSize * event.pageIndex);
   }
 
-  public search(take: number = 5, skip: number = 0) {
+  public search(take: number = 6, skip: number = 0) {
     this._playersService
       .search(new SearchPlayersOptions(take, skip, this.searchText))
       .subscribe((result) => {

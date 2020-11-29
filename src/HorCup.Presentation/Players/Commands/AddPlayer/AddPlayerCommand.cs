@@ -13,5 +13,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 		public string Nickname { get; set; }
 		
 		public DateTime BirthDate { get; set; }
+
+		public DateTime Added { get; set; }
 	}
 }
