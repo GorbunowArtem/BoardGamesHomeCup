@@ -15,7 +15,7 @@ import { PlayersService } from '../players.service';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { PlayerConstraints } from '../models/player-constraints';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
@@ -79,7 +79,8 @@ describe('AddEditPlayerDialogComponent', () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       getConstraints: of(playerConstraints),
       addPlayer: of(),
-      search: of(searchPlayersResponse)
+      search: of(searchPlayersResponse),
+      playerAdded: new Subject().asObservable()
     });
     await TestBed.configureTestingModule({
       imports: [

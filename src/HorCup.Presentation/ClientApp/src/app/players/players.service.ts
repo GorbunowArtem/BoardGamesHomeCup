@@ -12,7 +12,7 @@ import { SearchPlayersOptions } from './models/search-players-options';
   providedIn: 'root'
 })
 export class PlayersService {
-  public _playerAddedSubject: Subject<any> = new Subject();
+  private _playerAddedSubject: Subject<any> = new Subject();
 
   constructor(private _http: HttpClient) {}
 
