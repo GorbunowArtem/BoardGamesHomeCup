@@ -15,7 +15,7 @@
   <button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
   <mat-paginator
     [length]="totalItems"
-    [pageSize]="10"
+    [pageSize]="5"
     [pageSizeOptions]="[5, 10, 25]"
     (page)="pageChangedEvent($event)"
   ></mat-paginator>

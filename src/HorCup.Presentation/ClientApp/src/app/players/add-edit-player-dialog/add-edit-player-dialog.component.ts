@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import {
   maxLength,
   NotUnique,
@@ -17,7 +18,11 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
   public errorMessages!: any;
 
-  constructor(private _fb: FormBuilder, private _playersService: PlayersService) {}
+  constructor(
+    private _fb: FormBuilder,
+    private _playersService: PlayersService,
+    private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>
+  ) {}
 
   ngOnInit() {
     this._playersService.getConstraints().subscribe((constr) => {
@@ -42,6 +47,8 @@ export class AddEditPlayerDialogComponent implements OnInit {
   }
 
   public add() {
-    this._playersService.addPlayer(this.playersForm.value).subscribe();
+    this._playersService.addPlayer(this.playersForm.value).subscribe(() => {
+      this._dialogRef.close();
+    });
   }
 }
