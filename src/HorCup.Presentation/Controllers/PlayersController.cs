@@ -1,12 +1,15 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
+using HorCup.Presentation.Players.Commands.DeletePlayer;
 using HorCup.Presentation.Players.Queries.SearchPlayers;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
@@ -63,6 +66,16 @@ namespace HorCup.Presentation.Controllers
 			}
 
 			return Conflict();
+		}
+
+		[HttpDelete("{id}:Guid")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> Delete(Guid id)
+		{
+			await _sender.Send(new DeletePlayerCommand(id));
+				
+			return Ok();
 		}
 	}
 }
