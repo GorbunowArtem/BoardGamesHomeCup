@@ -24,7 +24,7 @@ export class PlayersService {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
   }
 
-  public addPlayer(player: Player) {
+  public add(player: Player) {
     return this._http
       .post<Player>('players', player)
       .pipe(map(() => this._countChangedSubject.next({ added: player.id })));

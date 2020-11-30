@@ -38,7 +38,7 @@ describe('Service: Players', () => {
       birthDate: new Date('12.12.1989')
     };
 
-    playersService.addPlayer(player).subscribe();
+    playersService.add(player).subscribe();
 
     expect(httpClientMock.post).toHaveBeenCalledWith('players', player);
   });
