@@ -7,9 +7,9 @@ namespace HorCup.Presentation.Services.Players
 {
 	public class PlayersService: IPlayersService
 	{
-		private readonly HorCupContext _context;
+		private readonly IHorCupContext _context;
 
-		public PlayersService(HorCupContext context)
+		public PlayersService(IHorCupContext context)
 		{
 			_context = context;
 		}

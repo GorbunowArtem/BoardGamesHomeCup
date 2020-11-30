@@ -12,7 +12,7 @@ import { SearchPlayersOptions } from './models/search-players-options';
   providedIn: 'root'
 })
 export class PlayersService {
-  private _playerAddedSubject: Subject<any> = new Subject();
+  private _countChangedSubject: Subject<any> = new Subject();
 
   constructor(private _http: HttpClient) {}
 
@@ -27,7 +27,7 @@ export class PlayersService {
   public addPlayer(player: Player) {
     return this._http
       .post<Player>('players', player)
-      .pipe(map(() => this._playerAddedSubject.next({ added: player.firstName })));
+      .pipe(map(() => this._countChangedSubject.next({ added: player.id })));
   }
 
   public search(options: SearchPlayersOptions) {
@@ -36,7 +36,13 @@ export class PlayersService {
     );
   }
 
-  public playerAdded(): Observable<any> {
-    return this._playerAddedSubject.asObservable();
+  public delete(id: string | undefined): Observable<any> {
+    return this._http
+      .delete(`/players/${id}`)
+      .pipe(map(() => this._countChangedSubject.next({ removed: id })));
+  }
+
+  public countChanged(): Observable<any> {
+    return this._countChangedSubject.asObservable();
   }
 }
