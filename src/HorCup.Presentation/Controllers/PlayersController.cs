@@ -68,7 +68,7 @@ namespace HorCup.Presentation.Controllers
 			return Conflict();
 		}
 
-		[HttpDelete("{id}:Guid")]
+		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> Delete(Guid id)

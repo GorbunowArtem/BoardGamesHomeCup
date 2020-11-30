@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,7 +37,8 @@ import { PlayerCardComponent } from './player-card/player-card.component';
     HcCommonModule,
     HttpClientModule,
     MatPaginatorModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule
   ],
   declarations: [
     PlayersComponent,

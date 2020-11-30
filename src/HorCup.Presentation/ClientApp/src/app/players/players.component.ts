@@ -32,7 +32,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.search();
     this.playerAddedSubscription = this._playersService
-      .playerAdded()
+      .countChanged()
       .subscribe(() => this.search());
   }
 

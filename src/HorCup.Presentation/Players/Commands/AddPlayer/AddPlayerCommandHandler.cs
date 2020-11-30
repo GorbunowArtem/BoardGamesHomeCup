@@ -14,7 +14,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 {
 	public class AddPlayerCommandHandler : IRequestHandler<AddPlayerCommand, PlayerViewModel>
 	{
-		private readonly HorCupContext _context;
+		private readonly IHorCupContext _context;
 		private readonly IIdGenerator _idGenerator;
 		private readonly IMapper _mapper;
 		private readonly ILogger<AddPlayerCommandHandler> _logger;
@@ -22,7 +22,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 		private readonly IDateTimeService _dateTimeService;
 		
 		public AddPlayerCommandHandler(
-			HorCupContext context,
+			IHorCupContext context,
 			IIdGenerator idGenerator,
 			IMapper mapper,
 			ILogger<AddPlayerCommandHandler> logger,
@@ -59,7 +59,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 				Added = _dateTimeService.Now
 			};
 
-			await _context.AddAsync(player, cancellationToken);
+			await _context.Players.AddAsync(player, cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);
 
