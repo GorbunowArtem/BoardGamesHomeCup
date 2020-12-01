@@ -19,6 +19,7 @@ import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
 import { PlayerCardComponent } from './player-card/player-card.component';
+import { PlayerDetailsComponent } from './player-details/player-details.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { PlayerCardComponent } from './player-card/player-card.component';
     PlayersComponent,
     AddEditPlayerDialogComponent,
     UniqueNicknameValidator,
-    PlayerCardComponent
+    PlayerCardComponent,
+    PlayerDetailsComponent
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })

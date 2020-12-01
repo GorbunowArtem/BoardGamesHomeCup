@@ -9,6 +9,7 @@ namespace HorCup.Presentation
 		public HorCupProfile()
 		{
 			CreateMap<Player, PlayerViewModel>();
+			CreateMap<Player, PlayerDetailsViewModel>();
 		}
 	}
 }
