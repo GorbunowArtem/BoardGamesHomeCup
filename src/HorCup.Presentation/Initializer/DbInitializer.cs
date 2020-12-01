@@ -43,7 +43,8 @@ namespace HorCup.Presentation.Initializer
 				.Select(i => new Game
 				{
 					Title = $"Game {i}",
-					MaxPlayers = ++i
+					MaxPlayers = i + 2,
+					MinPlayers = ++i
 				});
 	}
 }

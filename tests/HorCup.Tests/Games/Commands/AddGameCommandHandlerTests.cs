@@ -48,6 +48,7 @@ namespace HorCup.Tests.Games.Commands
 
 			game.Title.Should().Be(GamesFactory.Game1Title);
 			game.MaxPlayers.Should().Be(GamesFactory.Game1MaxPlayers);
+			game.MinPlayers.Should().Be(GamesFactory.Game1MinPlayers);
 			game.Id.Should().Be(_factory.Game1Id);
 		}
 

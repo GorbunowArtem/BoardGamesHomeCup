@@ -9,5 +9,7 @@ namespace HorCup.Presentation.Games
 		public string Title { get; set; }
 
 		public int MaxPlayers { get; set; }
+
+		public int MinPlayers { get; set; }
 	}
 }

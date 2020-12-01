@@ -48,7 +48,8 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 			{
 				Id = id,
 				Title = request.Title,
-				MaxPlayers = request.MaxPlayers
+				MaxPlayers = request.MaxPlayers,
+				MinPlayers = request.MinPlayers
 			};
 
 			_logger.LogInformation($"Adding game with id {id} title {request.Title}");

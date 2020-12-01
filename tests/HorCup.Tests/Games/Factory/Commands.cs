@@ -15,7 +15,8 @@ namespace HorCup.Tests.Games.Factory
 			new AddGameCommand
 			{
 				Title = title ?? GamesFactory.Game1Title,
-				MaxPlayers = GamesFactory.Game1MaxPlayers
+				MaxPlayers = GamesFactory.Game1MaxPlayers,
+				MinPlayers = GamesFactory.Game1MinPlayers
 			};
 	}
 }

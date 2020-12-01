@@ -14,8 +14,12 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 				.MaximumLength(constraints.TitleMaxLength);
 
 			RuleFor(g => g.MaxPlayers)
-				.GreaterThanOrEqualTo(0)
+				.GreaterThanOrEqualTo(1)
 				.LessThanOrEqualTo(24);
+			
+			RuleFor(g => g.MinPlayers)
+				.GreaterThanOrEqualTo(1)
+				.LessThanOrEqualTo(20);
 		}
 	}
 }
