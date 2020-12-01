@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 
-namespace HorCup.Presentation.ViewModels
+namespace HorCup.Presentation.Games
 {
-	public class GameViewModel
+	public class Game
 	{
 		public Guid Id { get; set; }
 
 		public string Title { get; set; }
-		
+
 		public int MaxPlayers { get; set; }
 	}
 }

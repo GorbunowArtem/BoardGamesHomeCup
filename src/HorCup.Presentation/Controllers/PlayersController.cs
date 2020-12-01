@@ -17,7 +17,7 @@ namespace HorCup.Presentation.Controllers
 {
 	[ApiController]
 	[Route("players")]
-	public class PlayersController: ControllerBase
+	public class PlayersController : ControllerBase
 	{
 		private readonly ISender _sender;
 		private readonly IPlayersService _playersService;
@@ -29,17 +29,18 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		public async Task<ActionResult<PagedSearchResponse<PlayerViewModel>>> Search([FromQuery]SearchPlayersQuery query)
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		public async Task<ActionResult<PagedSearchResponse<PlayerViewModel>>> Search(
+			[FromQuery] SearchPlayersQuery query)
 		{
 			var (items, total) = await _sender.Send(query);
-			
+
 			return Ok(new PagedSearchResponse<PlayerViewModel>(items, total));
 		}
-		
+
 		[HttpPost]
-		[ProducesResponseType((int)HttpStatusCode.Conflict)]
-		[ProducesResponseType((int)HttpStatusCode.Created)]
+		[ProducesResponseType((int) HttpStatusCode.Conflict)]
+		[ProducesResponseType((int) HttpStatusCode.Created)]
 		public async Task<ActionResult<PlayerViewModel>> Add(AddPlayerCommand commandHandler)
 		{
 			var player = await _sender.Send(commandHandler);
@@ -48,19 +49,19 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet("constraints")]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public ActionResult<PlayerConstraints> GetConstraints()
 		{
 			return Ok(new PlayerConstraints());
 		}
 
 		[HttpHead]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		[ProducesResponseType((int)HttpStatusCode.Conflict)]
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		[ProducesResponseType((int) HttpStatusCode.Conflict)]
 		public async Task<IActionResult> IsNicknameUnique(string nickname)
 		{
 			var isUnique = await _playersService.IsNicknameUniqueAsync(nickname);
-			
+
 			if (isUnique)
 			{
 				return Ok();
@@ -75,14 +76,14 @@ namespace HorCup.Presentation.Controllers
 		{
 			return Ok(await _sender.Send(new GetPlayerByIdQuery(id)));
 		}
-		
+
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> Delete(Guid id)
 		{
 			await _sender.Send(new DeletePlayerCommand(id));
-				
+
 			return Ok();
 		}
 	}
