@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Players.Commands.DeletePlayer;
+using HorCup.Presentation.Players.Queries.GetById;
 using HorCup.Presentation.Players.Queries.SearchPlayers;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.Services.Players;
@@ -68,6 +69,13 @@ namespace HorCup.Presentation.Controllers
 			return Conflict();
 		}
 
+		[HttpGet("{id:Guid}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		public async Task<ActionResult<PlayerViewModel>> Get(Guid id)
+		{
+			return Ok(await _sender.Send(new GetPlayerByIdQuery(id)));
+		}
+		
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]

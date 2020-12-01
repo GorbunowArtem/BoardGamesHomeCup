@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
 import { PlayerConstraints } from './models/player-constraints';
+import { PlayerDetails } from './models/player-details';
 import { SearchPlayersOptions } from './models/search-players-options';
 
 @Injectable({
@@ -24,7 +25,7 @@ export class PlayersService {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
   }
 
-  public addPlayer(player: Player) {
+  public add(player: Player) {
     return this._http
       .post<Player>('players', player)
       .pipe(map(() => this._countChangedSubject.next({ added: player.id })));
@@ -44,5 +45,9 @@ export class PlayersService {
 
   public countChanged(): Observable<any> {
     return this._countChangedSubject.asObservable();
+  }
+
+  public get(id: string | null): Observable<PlayerDetails> {
+    return this._http.get<PlayerDetails>(`/players/${id}`);
   }
 }

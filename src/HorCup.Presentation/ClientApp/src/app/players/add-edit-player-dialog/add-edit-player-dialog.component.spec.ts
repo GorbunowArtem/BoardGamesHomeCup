@@ -10,7 +10,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { PlayersService } from '../players.service';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -78,7 +77,7 @@ describe('AddEditPlayerDialogComponent', () => {
 
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       getConstraints: of(playerConstraints),
-      addPlayer: of(),
+      add: of(),
       search: of(searchPlayersResponse),
       playerAdded: new Subject().asObservable()
     });
@@ -204,7 +203,7 @@ describe('AddEditPlayerDialogComponent', () => {
 
     fixture.detectChanges();
 
-    expect(playersServiceMock.addPlayer).toHaveBeenCalledWith({
+    expect(playersServiceMock.add).toHaveBeenCalledWith({
       firstName: validName,
       lastName: validLastName,
       nickname: validNickname,
