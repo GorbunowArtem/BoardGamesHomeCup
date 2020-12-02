@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using HorCup.Presentation;
 using HorCup.Presentation.Context;
@@ -24,5 +26,8 @@ namespace HorCup.Tests
 		}
 
 		protected IMapper Mapper { get; }
+
+		protected static IEnumerable<Guid> ToGuidList(IEnumerable<int> ids) =>
+			ids.Select(i => i.Guid()).ToArray();
 	}
 }

@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 
-namespace HorCup.Presentation.Games.SearchGames
+namespace HorCup.Presentation.Games.Queries.SearchGames
 {
-	public class SearchGamesQuery : IRequest<GameViewModel>
+	public class SearchGamesQuery : IRequest<(IEnumerable<GameViewModel> items, int total)>
 	{
-		public int Take { get; set; }
+		public int Take { get; set; } = 10;
 
 		public int Skip { get; set; }
 

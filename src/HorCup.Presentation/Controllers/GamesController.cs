@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Games.Commands.AddGame;
+using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -21,9 +21,11 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames()
+		public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames(SearchGamesQuery query)
 		{
-			throw new NotImplementedException();
+			var (items, total) = await _sender.Send(query);
+
+			return Ok(new PagedSearchResponse<GameViewModel>(items, total));
 		}
 
 		[HttpPost]
