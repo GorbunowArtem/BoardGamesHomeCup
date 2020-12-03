@@ -12,5 +12,7 @@ export class GameCardComponent implements OnInit {
 
   constructor() {}
 
+  rate: number = 1;
+
   ngOnInit() {}
 }

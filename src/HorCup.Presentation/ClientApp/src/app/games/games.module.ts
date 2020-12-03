@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GameCardComponent } from './game-card/game-card.component';
 import { MatCardModule } from '@angular/material/card';
+import { BarRatingModule } from 'ngx-bar-rating';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,
-    MatCardModule
+    MatCardModule,
+    BarRatingModule
   ],
   declarations: [GamesComponent, GameCardComponent]
 })
