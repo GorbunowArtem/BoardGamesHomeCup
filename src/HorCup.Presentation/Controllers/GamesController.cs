@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Queries.SearchGames;
@@ -21,7 +22,8 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames(SearchGamesQuery query)
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames([FromQuery]SearchGamesQuery query)
 		{
 			var (items, total) = await _sender.Send(query);
 

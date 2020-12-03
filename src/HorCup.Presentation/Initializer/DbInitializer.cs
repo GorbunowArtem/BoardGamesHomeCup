@@ -42,7 +42,7 @@ namespace HorCup.Presentation.Initializer
 			Enumerable.Range(1, 16)
 				.Select(i => new Game
 				{
-					Title = $"Game {i}",
+					Title = $"Game {i} with title more than 20 symbols",
 					MaxPlayers = i + 2,
 					MinPlayers = ++i
 				});
