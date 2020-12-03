@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { GamesService } from './games.service';
 import { Game } from './models/game';
 import { SearchGamesOptions } from './models/search-games-options';
@@ -11,13 +12,22 @@ import { SearchGamesOptions } from './models/search-games-options';
 export class GamesComponent implements OnInit {
   games!: Game[];
 
+  total!: number;
+
   constructor(private _gamesService: GamesService) {}
 
   ngOnInit() {
-    this._gamesService.search(new SearchGamesOptions()).subscribe((games) => {
-      this.games = games.items;
-    });
+    this.search();
   }
 
-  applyFilter(event: Event) {}
+  pageChangedEvent(event: PageEvent) {
+    this.search(event.pageSize, event.pageSize * event.pageIndex);
+  }
+
+  public search(take: number = 5, skip: number = 0) {
+    this._gamesService.search(new SearchGamesOptions(take, skip)).subscribe((result) => {
+      this.games = result.items;
+      this.total = result.total;
+    });
+  }
 }

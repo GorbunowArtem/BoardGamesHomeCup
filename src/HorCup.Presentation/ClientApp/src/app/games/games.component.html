@@ -1,4 +1,9 @@
 <div class="games-list">
   <hc-game-card *ngFor="let game of games" [game]="game"></hc-game-card>
 </div>
-<mat-paginator [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
+<mat-paginator
+  [length]="total"
+  [pageSize]="6"
+  [hidePageSize]="true"
+  (page)="pageChangedEvent($event)"
+></mat-paginator>
