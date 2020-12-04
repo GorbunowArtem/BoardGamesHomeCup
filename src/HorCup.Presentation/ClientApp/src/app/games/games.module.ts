@@ -15,6 +15,7 @@ import { BarRatingModule } from 'ngx-bar-rating';
 import { GamesFilterComponent } from './games-filter/games-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatBottomSheetModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule
   ],
   declarations: [GamesComponent, GameCardComponent, GamesFilterComponent]
 })

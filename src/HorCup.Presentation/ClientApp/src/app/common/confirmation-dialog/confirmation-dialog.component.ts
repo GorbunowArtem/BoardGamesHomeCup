@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationDialogModel } from '../models/confirmation-dialog-model';
 
 @Component({
-  selector: 'app-confirmation-dialog',
+  selector: 'hc-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })

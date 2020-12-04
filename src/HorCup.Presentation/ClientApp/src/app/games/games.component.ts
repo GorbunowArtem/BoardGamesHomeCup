@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { GamesFilterComponent } from './games-filter/games-filter.component';
@@ -37,7 +37,6 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   pageChangedEvent(event: PageEvent) {
-    window.scrollTo(0, 0);
     this._searchOptions.take = event.pageSize;
     this._searchOptions.skip = event.pageSize * event.pageIndex;
 
@@ -48,6 +47,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     this._gamesService.search(this._searchOptions).subscribe((result) => {
       this.games = result.items;
       this.total = result.total;
+      window.scrollTo(0, 0);
     });
   }
 

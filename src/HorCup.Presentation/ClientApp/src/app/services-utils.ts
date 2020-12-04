@@ -6,7 +6,7 @@ export function toHttpParams(options: any) {
   for (const key in options) {
     if (Object.prototype.hasOwnProperty.call(options, key)) {
       const element = options[key];
-      if (element !== undefined) {
+      if (element !== undefined && element !== null) {
         params = params.set(key, element.toString());
       }
     }
