@@ -11,7 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Games.Queries.SearchGames
 {
-	public class SearchGamesQueryHandler : IRequestHandler<SearchGamesQuery, (IEnumerable<GameViewModel> items, int total)>
+	public class
+		SearchGamesQueryHandler : IRequestHandler<SearchGamesQuery, (IEnumerable<GameViewModel> items, int total)>
 	{
 		private readonly IHorCupContext _context;
 		private readonly IMapper _mapper;
@@ -40,26 +41,26 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 				query = query.Where(g => g.Title.ToUpper().Contains(searchText));
 			}
 
-			if (request.MinPlayers.HasValue)
-			{
-				query = query.Where(g => g.MinPlayers >= request.MinPlayers);
-			}
-
-			if (request.MaxPlayers.HasValue)
-			{
-				query = query.Where(g => g.MaxPlayers <= request.MaxPlayers);
-			}
-
 			if (request.MaxPlayers.HasValue && request.MinPlayers.HasValue)
 			{
 				query = query.Where(g => g.MinPlayers >= request.MinPlayers && g.MaxPlayers <= request.MaxPlayers);
+			}
+			else
+			{
+				if (request.MinPlayers.HasValue)
+				{
+					query = query.Where(g => g.MinPlayers >= request.MinPlayers);
+				}
+				else if (request.MaxPlayers.HasValue)
+				{
+					query = query.Where(g => g.MaxPlayers <= request.MaxPlayers);
+				}
 			}
 
 			var games = await query
 				.Skip(request.Skip)
 				.Take(request.Take)
 				.ToListAsync(cancellationToken);
-
 			return (_mapper.Map<IEnumerable<GameViewModel>>(games), await query.CountAsync(CancellationToken.None));
 		}
 	}

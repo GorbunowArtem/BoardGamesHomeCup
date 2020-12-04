@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { toHttpParams } from '../services-utils';
 import { Game } from './models/game';
@@ -10,6 +10,8 @@ import { SearchGamesOptions } from './models/search-games-options';
   providedIn: 'root'
 })
 export class GamesService {
+  public searchParamsChangedSubject = new Subject<SearchGamesOptions>();
+
   constructor(private _httpModule: HttpClient) {}
 
   public search(options: SearchGamesOptions): Observable<any> {

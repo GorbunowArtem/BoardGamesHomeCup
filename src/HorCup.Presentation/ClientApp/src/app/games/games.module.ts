@@ -10,7 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GameCardComponent } from './game-card/game-card.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { BarRatingModule } from 'ngx-bar-rating';
+import { GamesFilterComponent } from './games-filter/games-filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -23,8 +27,12 @@ import { BarRatingModule } from 'ngx-bar-rating';
     MatInputModule,
     MatPaginatorModule,
     MatCardModule,
-    BarRatingModule
+    BarRatingModule,
+    MatBottomSheetModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
-  declarations: [GamesComponent, GameCardComponent]
+  declarations: [GamesComponent, GameCardComponent, GamesFilterComponent]
 })
 export class GamesModule {}
