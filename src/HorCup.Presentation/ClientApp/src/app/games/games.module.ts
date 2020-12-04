@@ -16,6 +16,8 @@ import { GamesFilterComponent } from './games-filter/games-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -33,8 +35,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule
   ],
-  declarations: [GamesComponent, GameCardComponent, GamesFilterComponent]
+  declarations: [
+    GamesComponent,
+    GameCardComponent,
+    GamesFilterComponent,
+    AddEditGameDialogComponent
+  ]
 })
 export class GamesModule {}

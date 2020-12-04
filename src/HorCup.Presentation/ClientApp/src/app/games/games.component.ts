@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
 import { GamesFilterComponent } from './games-filter/games-filter.component';
 import { GamesService } from './games.service';
 import { Game } from './models/game';
@@ -13,17 +15,25 @@ import { SearchGamesOptions } from './models/search-games-options';
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  games!: Game[];
+  public games: Game[];
 
-  total!: number;
+  public total: number;
 
   private _searchParamsChangedSubscription!: Subscription;
 
-  private _searchOptions = new SearchGamesOptions(6);
+  private _searchOptions: SearchGamesOptions;
 
-  constructor(private _gamesService: GamesService, private _bottomSheet: MatBottomSheet) {}
+  constructor(
+    private _gamesService: GamesService,
+    private _gamesFilter: MatBottomSheet,
+    private _addEditGameDialog: MatDialog
+  ) {
+    this.games = [];
+    this.total = 0;
+    this._searchOptions = new SearchGamesOptions(6);
+  }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.search();
     this._searchParamsChangedSubscription = this._gamesService.searchParamsChangedSubject.subscribe(
       (options) => {
@@ -32,11 +42,11 @@ export class GamesComponent implements OnInit, OnDestroy {
       }
     );
   }
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this._searchParamsChangedSubscription.unsubscribe();
   }
 
-  pageChangedEvent(event: PageEvent) {
+  public pageChangedEvent(event: PageEvent) {
     this._searchOptions.take = event.pageSize;
     this._searchOptions.skip = event.pageSize * event.pageIndex;
 
@@ -52,8 +62,14 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   public openFilter() {
-    this._bottomSheet.open(GamesFilterComponent, {
+    this._gamesFilter.open(GamesFilterComponent, {
       data: this._searchOptions
+    });
+  }
+
+  public openAddDialog() {
+    this._addEditGameDialog.open(AddEditGameDialogComponent, {
+      disableClose: true
     });
   }
 }
