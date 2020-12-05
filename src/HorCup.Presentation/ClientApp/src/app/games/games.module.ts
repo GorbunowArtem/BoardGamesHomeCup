@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HcCommonModule } from '../common/hc-common.module';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule,
+    HcCommonModule
   ],
   declarations: [
     GamesComponent,

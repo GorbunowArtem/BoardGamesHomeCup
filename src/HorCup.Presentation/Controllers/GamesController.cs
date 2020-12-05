@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
@@ -39,5 +40,9 @@ namespace HorCup.Presentation.Controllers
 
 			return CreatedAtAction(nameof(Add), $"/games/{game.Id}", game);
 		}
+
+		[HttpGet("constraints")]
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		public ActionResult<GamesConstraints> GetConstraints() => Ok(new GamesConstraints());
 	}
 }
