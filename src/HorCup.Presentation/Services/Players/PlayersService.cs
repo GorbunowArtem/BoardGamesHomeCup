@@ -16,8 +16,13 @@ namespace HorCup.Presentation.Services.Players
 
 		public async Task<bool> IsNicknameUniqueAsync(string nickname)
 		{
+			if (string.IsNullOrEmpty(nickname) || string.IsNullOrWhiteSpace(nickname))
+			{
+				return true;
+			}
+			
 			var playerWithSameNickName = await _context.Players.Where(p =>
-				p.Nickname.ToUpper().Contains(nickname.ToUpper()))
+				p.Nickname.ToUpper().Contains(nickname.Trim().ToUpper()))
 				.FirstOrDefaultAsync();
 
 			return playerWithSameNickName == null;

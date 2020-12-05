@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Services.DateTimeService;
+using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.Services.Players;
 using MediatR;
@@ -43,6 +44,7 @@ namespace HorCup.Presentation
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
 			services.AddTransient<IPlayersService, PlayersService>();
+			services.AddTransient<IGamesService, GamesService>();
 			
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}

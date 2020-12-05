@@ -1,0 +1,29 @@
+@import '../../styles.scss';
+
+.games-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 5px;
+}
+
+mat-toolbar {
+  background-color: $bottom-bar-background-color;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.no-result {
+  text-align: center;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

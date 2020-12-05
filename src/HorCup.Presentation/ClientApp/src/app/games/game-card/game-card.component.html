@@ -1,0 +1,22 @@
+<div>
+  <mat-card class="mat-elevation-z4 game-card">
+    <div class="card-nav">
+      <img mat-card-avatar src="../../../assets/images/game-preview.jpg" [alt]="game.title" />
+    </div>
+
+    <div class="game-content">
+      <mat-card-content>
+        <a [routerLink]="['/discipline', game.id]">
+          <mat-card-title>{{ game.title | slice: 0:20 }}</mat-card-title>
+        </a>
+
+        <mat-card-subtitle>Сыграно партий: 1</mat-card-subtitle>
+        <bar-rating [(rate)]="rate" [max]="5" [readOnly]="true"></bar-rating>
+        <span>
+          <mat-icon>people_alt</mat-icon>
+          {{ game.minPlayers }} - {{ game.maxPlayers }}
+        </span>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

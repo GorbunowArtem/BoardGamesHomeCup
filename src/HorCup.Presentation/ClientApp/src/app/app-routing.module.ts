@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./players/players.module').then((m) => m.PlayersModule)
   },
   {
+    path: 'disciplines',
+    loadChildren: () => import('./games/games.module').then((m) => m.GamesModule)
+  },
+  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'

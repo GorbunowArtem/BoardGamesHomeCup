@@ -1,4 +1,5 @@
-﻿using HorCup.Presentation.Players;
+﻿using HorCup.Presentation.Games;
+using HorCup.Presentation.Players;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Presentation.Context
@@ -10,5 +11,7 @@ namespace HorCup.Presentation.Context
 		}
 
 		public DbSet<Player> Players { get; set; }
+
+		public DbSet<Game> Games { get; set; }
 	}
 }

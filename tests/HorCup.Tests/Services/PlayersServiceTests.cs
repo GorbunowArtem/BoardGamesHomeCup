@@ -16,11 +16,13 @@ namespace HorCup.Tests.Services
 			_sut = new PlayersService(Context);
 		}
 
-		[TestCase(PlayersFactory.Player2NickName, false)]
+		[TestCase("player2nick", false)]
 		[TestCase("newnickname", true)]
+		[TestCase("", true)]
+		[TestCase(null, true)]
 		public async Task IsNicknameUniqueAsync(string nickname, bool result)
 		{
-			var isUnique = await _sut.IsNicknameUniqueAsync(nickname.ToLowerInvariant());
+			var isUnique = await _sut.IsNicknameUniqueAsync($"  {nickname}  ");
 
 			isUnique.Should().Be(result);
 		}
