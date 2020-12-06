@@ -4,6 +4,7 @@ using FluentAssertions;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
+using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Tests.Games.Factory;
@@ -31,6 +32,9 @@ namespace HorCup.Tests.Games.Commands
 			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle))
 				.Returns(Task.FromResult(false));
 
+			var dateTimeServiceMock = new Mock<IDateTimeService>();
+			
+			
 			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title))
 				.Returns(Task.FromResult(true));
 
@@ -38,7 +42,8 @@ namespace HorCup.Tests.Games.Commands
 				idGeneratorMock.Object,
 				Mapper,
 				NullLogger<AddGameCommandHandler>.Instance,
-				gamesService.Object);
+				gamesService.Object,
+				dateTimeServiceMock.Object);
 		}
 
 		[Test]

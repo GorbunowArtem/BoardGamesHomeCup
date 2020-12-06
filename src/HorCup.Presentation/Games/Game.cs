@@ -11,5 +11,7 @@ namespace HorCup.Presentation.Games
 		public int MaxPlayers { get; set; }
 
 		public int MinPlayers { get; set; }
+
+		public DateTime Added { get; set; }
 	}
 }

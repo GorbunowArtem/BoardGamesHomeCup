@@ -46,7 +46,7 @@ export class GamesFilterComponent {
   }
 
   private populatePlayersNumberOptions() {
-    for (let i = 2; i <= 12; i++) {
+    for (let i = 2; i <= 24; i++) {
       this.playersNumberOptions.push(i);
     }
   }

@@ -30,4 +30,8 @@ export class GamesService {
       .post<Game>('/games', game)
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
   }
+
+  public get(id: string | null): Observable<any> {
+    return this._httpModule.get<any>(`/games/${id}`);
+  }
 }

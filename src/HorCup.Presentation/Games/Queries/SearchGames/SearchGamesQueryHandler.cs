@@ -58,6 +58,7 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 			}
 
 			var games = await query
+				.OrderByDescending(g => g.Added)
 				.Skip(request.Skip)
 				.Take(request.Take)
 				.ToListAsync(cancellationToken);

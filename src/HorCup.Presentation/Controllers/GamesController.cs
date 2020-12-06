@@ -1,8 +1,9 @@
-﻿using System.Net;
-using System.Net.Mime;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
+using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
@@ -29,6 +30,16 @@ namespace HorCup.Presentation.Controllers
 			var (items, total) = await _sender.Send(query);
 
 			return Ok(new PagedSearchResponse<GameViewModel>(items, total));
+		}
+
+		[HttpGet("{id:Guid}")]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
+		public async Task<ActionResult<GameDetailsViewModel>> GetById(Guid id)
+		{
+			var game = await _sender.Send(new GetGameByIdQuery(id));
+
+			return Ok(game);
 		}
 
 		[HttpPost]

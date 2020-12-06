@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
+using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.ViewModels;
@@ -18,18 +19,21 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 		private readonly ILogger<AddGameCommandHandler> _logger;
 		private readonly IMapper _mapper;
 		private readonly IGamesService _gamesService;
+		private readonly IDateTimeService _dateTimeService;
 
 		public AddGameCommandHandler(IHorCupContext context,
 			IIdGenerator idGenerator,
 			IMapper mapper,
 			ILogger<AddGameCommandHandler> logger,
-			IGamesService gamesService)
+			IGamesService gamesService,
+			IDateTimeService dateTimeService)
 		{
 			_context = context;
 			_idGenerator = idGenerator;
 			_mapper = mapper;
 			_logger = logger;
 			_gamesService = gamesService;
+			_dateTimeService = dateTimeService;
 		}
 
 		public async Task<GameViewModel> Handle(AddGameCommand request, CancellationToken cancellationToken)
@@ -49,7 +53,8 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 				Id = id,
 				Title = request.Title,
 				MaxPlayers = request.MaxPlayers,
-				MinPlayers = request.MinPlayers
+				MinPlayers = request.MinPlayers,
+				Added = _dateTimeService.Now
 			};
 
 			_logger.LogInformation($"Adding game with id {id} title {request.Title}");

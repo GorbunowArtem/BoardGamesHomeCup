@@ -12,6 +12,7 @@ namespace HorCup.Presentation
 			CreateMap<Player, PlayerViewModel>();
 			CreateMap<Player, PlayerDetailsViewModel>();
 			CreateMap<Game, GameViewModel>();
+			CreateMap<Game, GameDetailsViewModel>();
 		}
 	}
 }

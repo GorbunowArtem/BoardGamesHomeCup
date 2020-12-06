@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { max, RequiredField } from 'src/app/common/validation-messages/validation-messages';
 import { GamesService } from '../games.service';
 
@@ -52,7 +51,7 @@ export class AddEditGameDialogComponent implements OnInit {
   }
 
   private populatePlayersNumberOptions() {
-    for (let i = 2; i <= 12; i++) {
+    for (let i = 2; i <= 24; i++) {
       this.playersNumberOptions.push(i);
     }
   }
