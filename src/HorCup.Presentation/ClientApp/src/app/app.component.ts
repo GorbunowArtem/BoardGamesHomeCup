@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonService } from './common/common.service';
 
 @Component({
   selector: 'hc-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'hor-cup';
+
+  public constructor(private _commonService: CommonService) {
+    this._commonService.init();
+  }
 }
