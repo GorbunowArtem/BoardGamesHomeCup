@@ -67,5 +67,7 @@ namespace HorCup.Presentation.Initializer
 					MaxPlayers = i + 2,
 					MinPlayers = ++i
 				}));
+		
+		
 	}
 }
