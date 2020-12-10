@@ -13,7 +13,7 @@ namespace HorCup.Presentation.Plays
 
 			builder.HasOne(p => p.Game)
 				.WithOne(p => p.Play);
-			
+
 			builder.Property(p => p.PlayedDate)
 				.HasColumnType("datetime");
 		}

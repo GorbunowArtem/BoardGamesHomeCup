@@ -11,6 +11,6 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 		public string Notes { get; set; }
 
-		public IEnumerable<PlayerScoreViewModel> PlayerScores { get; set; }
+		public IEnumerable<PlayScoreViewModel> PlayerScores { get; set; }
 	}
 }

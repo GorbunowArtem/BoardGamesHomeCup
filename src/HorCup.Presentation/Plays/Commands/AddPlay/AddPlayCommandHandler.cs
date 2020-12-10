@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Games;
@@ -50,7 +49,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 					Score = s.Score,
 					IsWinner = s.IsWinner,
 					PlayId = playId,
-					PlayerId = s.PlayerId
+					PlayerId = s.Player.Id
 				}), cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);

@@ -14,8 +14,6 @@ namespace HorCup.Presentation.PlayScores
 			builder.HasOne(ps => ps.Player)
 				.WithOne(ps => ps.PlayScore);
 
-			builder.HasOne(ps => ps.Play)
-				.WithMany(ps => ps.PlayerScores);
 		}
 	}
 }

@@ -1,11 +1,9 @@
-using System;
-
 namespace HorCup.Presentation.ViewModels
 {
-	public class PlayerScoreViewModel
+	public class PlayScoreViewModel
 	{
-		public Guid PlayerId { get; set; }
-
+		public IdName Player { get; set; }
+		
 		public int? Score { get; set; }
 
 		public bool IsWinner { get; set; }
