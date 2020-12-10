@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.PlayScores;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +11,10 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 {
 	public class SearchPlaysQueryHandler: IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
 	{
-		private readonly IMapper _mapper;
 		private readonly IHorCupContext _context;
 
-		public SearchPlaysQueryHandler(IMapper mapper, IHorCupContext context)
+		public SearchPlaysQueryHandler(IHorCupContext context)
 		{
-			_mapper = mapper;
 			_context = context;
 		}
 
