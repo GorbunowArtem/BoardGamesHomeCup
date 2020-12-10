@@ -10,5 +10,7 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 		public int MaxPlayers { get; set; }
 	
 		public int MinPlayers { get; set; }
+
+		public bool HasScores { get; set; }
 	}
 }

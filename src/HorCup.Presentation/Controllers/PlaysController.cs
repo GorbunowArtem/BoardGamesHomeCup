@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HorCup.Presentation.Controllers
 {
 	[ApiController]
+	[Route("plays")]
 	public class PlaysController : ControllerBase
 	{
 		private readonly ISender _sender;
@@ -33,9 +34,9 @@ namespace HorCup.Presentation.Controllers
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
 		public async Task<ActionResult<PlayViewModel>> Add([FromBody] AddPlayCommand command)
 		{
-			var play = await _sender.Send(command);
+			var playId = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), new {id = play.Id}, play);
+			return CreatedAtAction(nameof(Add), new {id = playId});
 		}
 	}
 }
