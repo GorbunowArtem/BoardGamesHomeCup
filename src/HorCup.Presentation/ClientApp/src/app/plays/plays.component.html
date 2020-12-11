@@ -1,1 +1,3 @@
-<p>plays works!</p>
+<mat-accordion [multi]="false">
+  <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
+</mat-accordion>

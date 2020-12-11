@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Play } from './models/play';
+import { SearchPlaysOptions } from './models/search-plays-options';
+import { PlaysService } from './plays.service';
 
 @Component({
   selector: 'hc-plays',
@@ -6,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plays.component.scss']
 })
 export class PlaysComponent implements OnInit {
-  constructor() {}
+  public plays: Play[];
 
-  ngOnInit() {}
+  constructor(private playsService: PlaysService) {
+    this.plays = [];
+  }
+
+  ngOnInit() {
+    this.playsService.get(new SearchPlaysOptions()).subscribe((plays) => {
+      this.plays = plays.items;
+    });
+  }
 }

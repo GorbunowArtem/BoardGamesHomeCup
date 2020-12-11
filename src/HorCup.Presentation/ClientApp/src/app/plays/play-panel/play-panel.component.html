@@ -1,0 +1,17 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ play.gameTitle }}</mat-panel-title>
+    <mat-panel-description>
+      {{ winnerName }}
+      {{ play.playedDate | date }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div></div>
+  <div *ngFor="let score of play.playerScores">
+    <p>{{ score.player.name }}</p>
+    <p>
+      {{ score.score }}
+    </p>
+  </div>
+</mat-expansion-panel>
