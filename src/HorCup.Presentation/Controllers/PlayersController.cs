@@ -7,6 +7,7 @@ using HorCup.Presentation.Players.Commands.DeletePlayer;
 using HorCup.Presentation.Players.Queries.GetById;
 using HorCup.Presentation.Players.Queries.SearchPlayers;
 using HorCup.Presentation.Responses;
+using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -20,12 +21,15 @@ namespace HorCup.Presentation.Controllers
 	public class PlayersController : ControllerBase
 	{
 		private readonly ISender _sender;
+		private readonly IIdGenerator _idGenerator;
 		private readonly IPlayersService _playersService;
 
-		public PlayersController(ISender sender, IPlayersService playersService)
+		public PlayersController(ISender sender, IPlayersService playersService,
+			IIdGenerator idGenerator)
 		{
 			_sender = sender;
 			_playersService = playersService;
+			_idGenerator = idGenerator;
 		}
 
 		[HttpGet]
@@ -41,11 +45,13 @@ namespace HorCup.Presentation.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
-		public async Task<ActionResult<PlayerViewModel>> Add(AddPlayerCommand commandHandler)
+		public async Task<ActionResult<Guid>> Add(AddPlayerCommand command)
 		{
-			var player = await _sender.Send(commandHandler);
+			command.Id = _idGenerator.NewGuid();
+			
+			await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), new {id = player.Id}, player);
+			return CreatedAtAction(nameof(Add), command.Id);
 		}
 
 		[HttpGet("constraints")]
@@ -72,13 +78,14 @@ namespace HorCup.Presentation.Controllers
 
 		[HttpGet("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<ActionResult<PlayerViewModel>> Get(Guid id)
 		{
 			return Ok(await _sender.Send(new GetPlayerByIdQuery(id)));
 		}
 
 		[HttpDelete("{id:Guid}")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> Delete(Guid id)
 		{

@@ -1,10 +1,12 @@
-﻿using HorCup.Presentation.ViewModels;
+﻿using System;
 using MediatR;
 
 namespace HorCup.Presentation.Games.Commands.AddGame
 {
-	public class AddGameCommand: IRequest<GameViewModel>
+	public class AddGameCommand: IRequest<Unit>
 	{
+		public Guid Id { get; set; }
+		
 		public string Title { get; set; }
 
 		public int MaxPlayers { get; set; }

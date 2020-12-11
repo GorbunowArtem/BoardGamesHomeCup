@@ -6,7 +6,6 @@ using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Services.DateTimeService;
-using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.Services.Players;
 using HorCup.Tests.Players.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -25,9 +24,6 @@ namespace HorCup.Tests.Players.Commands
 		{
 			_factory = new PlayersFactory();
 
-			var idGeneratorServiceMock = new Mock<IIdGenerator>();
-			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(new Guid());
-
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			dateTimeServiceMock.Setup(dt => dt.Now).Returns(new DateTime());
 
@@ -39,8 +35,6 @@ namespace HorCup.Tests.Players.Commands
 
 			_sut = new AddPlayerCommandHandler(
 				Context,
-				idGeneratorServiceMock.Object,
-				Mapper,
 				new NullLogger<AddPlayerCommandHandler>(),
 				playersServiceMock.Object,
 				dateTimeServiceMock.Object);
@@ -50,11 +44,6 @@ namespace HorCup.Tests.Players.Commands
 		public async Task Handle_PlayerModelCorrect_PlayerAdded()
 		{
 			var player = await _sut.Handle(_factory.Commands.AddPlayer(), CancellationToken.None);
-
-			player.BirthDate.Should().Be(_factory.Player3BirthDate);
-			player.FirstName.Should().Be(PlayersFactory.Player3FirstName.Trim());
-			player.LastName.Should().Be(PlayersFactory.Player3LastName.Trim());
-			player.Nickname.Should().Be(PlayersFactory.Player3NickName.Trim());
 		}
 
 		[Test]

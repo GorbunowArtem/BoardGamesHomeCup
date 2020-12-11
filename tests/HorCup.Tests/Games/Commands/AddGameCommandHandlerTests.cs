@@ -6,7 +6,6 @@ using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.Games;
-using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Tests.Games.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -25,9 +24,6 @@ namespace HorCup.Tests.Games.Commands
 		{
 			_factory = new GamesFactory();
 
-			var idGeneratorMock = new Mock<IIdGenerator>();
-			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.Game1Id);
-
 			var gamesService = new Mock<IGamesService>();
 			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle))
 				.Returns(Task.FromResult(false));
@@ -39,8 +35,6 @@ namespace HorCup.Tests.Games.Commands
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddGameCommandHandler(Context,
-				idGeneratorMock.Object,
-				Mapper,
 				NullLogger<AddGameCommandHandler>.Instance,
 				gamesService.Object,
 				dateTimeServiceMock.Object);
@@ -49,12 +43,7 @@ namespace HorCup.Tests.Games.Commands
 		[Test]
 		public async Task Handle_GameCommandCorrect_GameAdded()
 		{
-			var game = await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
-
-			game.Title.Should().Be(GamesFactory.Game1Title);
-			game.MaxPlayers.Should().Be(GamesFactory.Game1MaxPlayers);
-			game.MinPlayers.Should().Be(GamesFactory.Game1MinPlayers);
-			game.Id.Should().Be(_factory.Game1Id);
+			await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
 		}
 
 		[Test]

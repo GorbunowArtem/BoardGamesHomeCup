@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
 {
-	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Guid>
+	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Unit>
 	{
 		private readonly IIdGenerator _idGenerator;
 		private readonly IDateTimeService _dateTimeService;
@@ -29,15 +29,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 			_context = context;
 		}
 
-		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
+		public async Task<Unit> Handle(AddPlayCommand request, CancellationToken cancellationToken)
 		{
 			await CheckGameExists();
 
-			var playId = _idGenerator.NewGuid();
-
 			await _context.Plays.AddAsync(new Play
 			{
-				Id = playId,
+				Id = request.Id,
 				GameId = request.GameId,
 				Notes = request.Notes,
 				PlayedDate = _dateTimeService.Now,
@@ -48,13 +46,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				{
 					Score = s.Score,
 					IsWinner = s.IsWinner,
-					PlayId = playId,
+					PlayId = request.Id,
 					PlayerId = s.Player.Id
 				}), cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);
 
-			return playId;
+			return Unit.Value;
 			
 			async Task CheckGameExists()
 			{
