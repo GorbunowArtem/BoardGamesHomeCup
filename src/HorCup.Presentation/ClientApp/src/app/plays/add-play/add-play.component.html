@@ -1,0 +1,30 @@
+<mat-vertical-stepper #stepper>
+  <mat-step [stepControl]="gameAndDate">
+    <form [formGroup]="gameAndDate">
+      <ng-template matStepperLabel>Выберите игру и дату партии</ng-template>
+      <div>
+        <button mat-button matStepperNext color="accent">Далее</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [formControl]="players">
+    <form [formGroup]="players">
+      <ng-template matStepperLabel>Выберите игроков и победителя партии</ng-template>
+      <div>
+        <button mat-button matStepperPrevious color="warn">Назад</button>
+        <button mat-button matStepperNext color="accent">Далее</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [formControl]="playNotes">
+    <form [formGroup]="playNotes">
+      <ng-template matStepperLabel>Комментарии</ng-template>
+      <div>
+        <button mat-button matStepperPrevious color="warn">Назад</button
+        ><button mat-button color="primary" (click)="save()">Сохранить</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>

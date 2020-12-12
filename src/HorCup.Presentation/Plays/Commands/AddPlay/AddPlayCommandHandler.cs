@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +5,6 @@ using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.PlayScores;
-using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.IdGenerator;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +14,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Unit>
 	{
 		private readonly IIdGenerator _idGenerator;
-		private readonly IDateTimeService _dateTimeService;
 		private readonly IHorCupContext _context;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
-			IDateTimeService dateTimeService,
 			IHorCupContext context)
 		{
 			_idGenerator = idGenerator;
-			_dateTimeService = dateTimeService;
 			_context = context;
 		}
 
@@ -38,7 +33,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				Id = request.Id,
 				GameId = request.GameId,
 				Notes = request.Notes,
-				PlayedDate = _dateTimeService.Now,
+				PlayedDate = request.PlayedDate,
 			}, cancellationToken);
 
 			await _context.PlayScores.AddRangeAsync(

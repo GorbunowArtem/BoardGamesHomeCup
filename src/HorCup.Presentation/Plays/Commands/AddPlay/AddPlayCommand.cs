@@ -14,5 +14,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 		public string Notes { get; set; }
 
 		public IEnumerable<PlayScoreViewModel> PlayerScores { get; set; }
+
+		public DateTime PlayedDate { get; set; }
 	}
 }

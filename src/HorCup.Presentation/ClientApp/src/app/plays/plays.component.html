@@ -1,3 +1,7 @@
 <mat-accordion [multi]="false">
   <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
 </mat-accordion>
+
+<a
+  ><button mat-fab color="primary" [routerLink]="['/add']"><mat-icon>add</mat-icon></button></a
+>

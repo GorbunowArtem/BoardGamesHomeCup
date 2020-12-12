@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Play } from './models/play';
 import { SearchPlaysOptions } from './models/search-plays-options';
 import { PlaysService } from './plays.service';
