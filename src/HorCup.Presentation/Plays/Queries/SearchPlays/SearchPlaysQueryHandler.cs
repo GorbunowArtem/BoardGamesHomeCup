@@ -37,7 +37,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 					{
 						Score = ps.Score,
 						IsWinner = ps.IsWinner,
-						Player = new IdName(ps.PlayerId, ps.Player.Nickname),
+						Player = new IdName(ps.PlayerId, $"{ps.Player.FirstName} {ps.Player.LastName}"),
 					})  
 				})
 				.OrderByDescending(pl => pl.PlayedDate)

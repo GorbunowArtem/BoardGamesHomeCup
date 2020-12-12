@@ -10,6 +10,8 @@ export class PlayPanelComponent {
   @Input()
   play!: Play;
 
+  displayedColumns: string[] = ['player-name', 'score'];
+
   get winnerName() {
     const winner = this.play.playerScores.find((pl) => {
       return pl.isWinner;

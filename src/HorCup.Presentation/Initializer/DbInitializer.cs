@@ -113,6 +113,7 @@ namespace HorCup.Presentation.Initializer
 				Id = new Guid("77569BE9-BEE9-493C-B9CE-212B42738DE8"),
 				GameId = new Guid("9A178137-5401-4063-8B65-7E005C426AFF"),
 				PlayedDate = DateTime.Now,
+				Notes = "Неплохо сыграли"
 			}
 		};
 
