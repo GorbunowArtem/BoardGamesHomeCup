@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { CommonService } from 'src/app/common/common.service';
+import { GamesService } from 'src/app/games/games.service';
+import { Game } from 'src/app/games/models/game';
+import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 
 @Component({
   selector: 'hc-add-play',
@@ -12,11 +14,12 @@ export class AddPlayComponent implements OnInit {
   public players: FormGroup;
   public playNotes: FormGroup;
 
-  options: string[] = ['One', 'Two', 'Three'];
+  public games: Game[] = [];
+
   myControl = new FormControl();
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, private _gamesService: GamesService) {
     this.gameAndDate = _fb.group({
-      gameId: [''],
+      game: [''],
       playedDate: ['']
     });
 
@@ -29,7 +32,16 @@ export class AddPlayComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._gamesService
+      .search(new SearchGamesOptions())
+      .subscribe((val) => (this.games = val.items));
+  }
 
-  public save() {}
+  public save() {
+    console.log(this.gameAndDate.value);
+  }
+  showGame(game: Game) {
+    return game?.title;
+  }
 }

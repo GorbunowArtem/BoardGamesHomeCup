@@ -1,19 +1,18 @@
 <mat-vertical-stepper #stepper>
-  <mat-step [stepControl]="gameAndDate">
+  <mat-step [stepControl]="gameAndDate" [formGroup]="gameAndDate">
     <form [formGroup]="gameAndDate">
       <ng-template matStepperLabel>Выберите игру и дату партии</ng-template>
       <mat-form-field class="example-full-width">
         <input
           type="text"
-          placeholder="Pick one"
-          aria-label="Number"
+          placeholder="Выберите игру"
           matInput
-          [formControl]="myControl"
+          formControlName="game"
           [matAutocomplete]="auto"
         />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of options">
-            {{ option }}
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="showGame">
+          <mat-option *ngFor="let game of games" [value]="game">
+            {{ game.title }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -22,7 +21,6 @@
       </div>
     </form>
   </mat-step>
-  <!--
   <mat-step [formControl]="players">
     <form [formGroup]="players">
       <ng-template matStepperLabel>Выберите игроков и победителя партии</ng-template>
@@ -41,5 +39,5 @@
         ><button mat-button color="primary" (click)="save()">Сохранить</button>
       </div>
     </form>
-  </mat-step> -->
+  </mat-step>
 </mat-vertical-stepper>

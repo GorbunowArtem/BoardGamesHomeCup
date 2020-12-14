@@ -16,7 +16,7 @@ export class GamesService {
 
   constructor(private _httpModule: HttpClient) {}
 
-  public search(options: SearchGamesOptions): Observable<any> {
+  public search(options: SearchGamesOptions): Observable<PagedSearchResponse<Game>> {
     return this._httpModule.get<PagedSearchResponse<Game>>('/games', {
       params: toHttpParams(options)
     });
