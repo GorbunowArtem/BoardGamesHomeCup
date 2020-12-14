@@ -3,7 +3,7 @@ using HorCup.Presentation.Players;
 
 namespace HorCup.Presentation.ViewModels
 {
-	public class ConstraintsViewModel
+	public record ConstraintsViewModel
 	{
 		public GamesConstraints GamesConstraints => new GamesConstraints();
 

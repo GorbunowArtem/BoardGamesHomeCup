@@ -1,6 +1,6 @@
 namespace HorCup.Presentation.ViewModels
 {
-	public class GameDetailsViewModel
+	public record GameDetailsViewModel
 	{
 	}
 }

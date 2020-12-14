@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/common/common.service';
 
 @Component({
@@ -12,6 +12,8 @@ export class AddPlayComponent implements OnInit {
   public players: FormGroup;
   public playNotes: FormGroup;
 
+  options: string[] = ['One', 'Two', 'Three'];
+  myControl = new FormControl();
   constructor(private _fb: FormBuilder) {
     this.gameAndDate = _fb.group({
       gameId: [''],

@@ -2,7 +2,7 @@
 
 namespace HorCup.Presentation.ViewModels
 {
-	public class PlayerViewModel
+	public record PlayerViewModel
 	{
 		public Guid Id { get; set; }
 

@@ -33,12 +33,13 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 					GameTitle = p.Game.Title,
 					GameId = p.GameId,
 					PlayedDate = p.PlayedDate,
-					PlayerScores = p.PlayerScores.Select(ps => new PlayScoreViewModel
-					{
-						Score = ps.Score,
-						IsWinner = ps.IsWinner,
-						Player = new IdName(ps.PlayerId, $"{ps.Player.FirstName} {ps.Player.LastName}"),
-					})  
+					PlayerScores = p.PlayerScores.Select(ps => new PlayScoreViewModel(
+						new IdName(
+							ps.PlayerId,
+							$"{ps.Player.FirstName} {ps.Player.LastName}"),
+							ps.Score,
+						 ps.IsWinner
+					))  
 				})
 				.OrderByDescending(pl => pl.PlayedDate)
 				.Take(request.Take)
