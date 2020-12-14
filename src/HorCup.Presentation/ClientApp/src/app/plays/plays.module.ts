@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -29,8 +31,12 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatNativeDateModule,
+    MatRippleModule,
+    MatDatepickerModule
   ],
-  declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent]
+  declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })
 export class PlaysModule {}

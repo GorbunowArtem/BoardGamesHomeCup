@@ -17,6 +17,7 @@ export class AddPlayComponent implements OnInit {
 
   public games!: Observable<Game[]>;
   public selectedGame = new FormControl();
+  public selectedDate = new FormControl();
 
   constructor(private _fb: FormBuilder, private _gamesService: GamesService) {
     this.players = _fb.group({
@@ -38,6 +39,7 @@ export class AddPlayComponent implements OnInit {
 
   public save() {
     console.log(this.selectedGame.value);
+    console.log(this.selectedDate.value);
   }
 
   public displayGame(game: Game) {

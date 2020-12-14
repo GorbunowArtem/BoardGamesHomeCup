@@ -1,22 +1,38 @@
 <mat-vertical-stepper #stepper>
   <mat-step>
     <form>
-      <ng-template matStepperLabel>Выберите игру и дату партии</ng-template>
-      <mat-form-field>
-        <input
-          type="text"
-          placeholder="Выберите игру"
-          matInput
-          formControlName="game"
-          [matAutocomplete]="auto"
-          [formControl]="selectedGame"
-        />
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayGame">
-          <mat-option *ngFor="let game of games | async" [value]="game">
-            {{ game.title }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <ng-template matStepLabel>Выберите игру и дату партии</ng-template>
+      <p>
+        <mat-form-field>
+          <input
+            type="text"
+            placeholder="Выберите игру"
+            matInput
+            [matAutocomplete]="auto"
+            [formControl]="selectedGame"
+            required
+          />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayGame">
+            <mat-option *ngFor="let game of games | async" [value]="game">
+              {{ game.title }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Дата партии</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Дата партии"
+            [formControl]="selectedDate"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </p>
       <div>
         <button mat-button matStepperNext color="accent">Далее</button>
       </div>
@@ -24,7 +40,7 @@
   </mat-step>
   <mat-step [formControl]="players">
     <form [formGroup]="players">
-      <ng-template matStepperLabel>Выберите игроков и победителя партии</ng-template>
+      <ng-template matStepLabel>Выберите игроков и победителя партии</ng-template>
       <div>
         <button mat-button matStepperPrevious color="warn">Назад</button>
         <button mat-button matStepperNext color="accent">Далее</button>
@@ -34,7 +50,7 @@
 
   <mat-step [formControl]="playNotes">
     <form [formGroup]="playNotes">
-      <ng-template matStepperLabel>Комментарии</ng-template>
+      <ng-template matStepLabel>Добавить</ng-template>
       <div>
         <button mat-button matStepperPrevious color="warn">Назад</button
         ><button mat-button color="primary" (click)="save()">Сохранить</button>
