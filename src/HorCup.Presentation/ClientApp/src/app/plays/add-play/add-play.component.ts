@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
 import { GamesService } from 'src/app/games/games.service';
 import { Game } from 'src/app/games/models/game';
 import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
@@ -10,19 +12,13 @@ import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
   styleUrls: ['./add-play.component.scss']
 })
 export class AddPlayComponent implements OnInit {
-  public gameAndDate: FormGroup;
   public players: FormGroup;
   public playNotes: FormGroup;
 
-  public games: Game[] = [];
+  public games!: Observable<Game[]>;
+  public selectedGame = new FormControl();
 
-  myControl = new FormControl();
   constructor(private _fb: FormBuilder, private _gamesService: GamesService) {
-    this.gameAndDate = _fb.group({
-      game: [''],
-      playedDate: ['']
-    });
-
     this.players = _fb.group({
       playerScores: []
     });
@@ -33,15 +29,24 @@ export class AddPlayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._gamesService
-      .search(new SearchGamesOptions())
-      .subscribe((val) => (this.games = val.items));
+    this.games = this.selectedGame.valueChanges.pipe(
+      startWith(''),
+      debounceTime(400),
+      switchMap((searchText) => this.filterGames(searchText))
+    );
   }
 
   public save() {
-    console.log(this.gameAndDate.value);
+    console.log(this.selectedGame.value);
   }
-  showGame(game: Game) {
+
+  public displayGame(game: Game) {
     return game?.title;
+  }
+
+  private filterGames(searchText: string) {
+    return this._gamesService
+      .search(new SearchGamesOptions(10, 0, searchText))
+      .pipe(map((resp) => resp.items));
   }
 }
