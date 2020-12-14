@@ -8,6 +8,7 @@ using HorCup.Presentation.PlayScores;
 using HorCup.Presentation.Services.IdGenerator;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
 {
@@ -15,13 +16,16 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 	{
 		private readonly IIdGenerator _idGenerator;
 		private readonly IHorCupContext _context;
+		private readonly ILogger<AddPlayCommandHandler> _logger;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
-			IHorCupContext context)
+			IHorCupContext context,
+			ILogger<AddPlayCommandHandler> logger)
 		{
 			_idGenerator = idGenerator;
 			_context = context;
+			_logger = logger;
 		}
 
 		public async Task<Unit> Handle(AddPlayCommand request, CancellationToken cancellationToken)
@@ -55,6 +59,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 				if (game == null)
 				{
+					_logger.LogError($"Game with id {request.GameId} was not found");
 					throw new NotFoundException(nameof(Game), request.GameId);
 				}
 			}

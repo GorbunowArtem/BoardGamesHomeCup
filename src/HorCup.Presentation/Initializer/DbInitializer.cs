@@ -13,7 +13,9 @@ namespace HorCup.Presentation.Initializer
 	{
 		public static void Initialize(HorCupContext context)
 		{
+#if DEBUG
 			context.Database.EnsureDeleted();
+#endif
 			context.Database.EnsureCreated();
 
 			if (!context.Players.Any())
