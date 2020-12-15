@@ -6,6 +6,7 @@ using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Services.DateTimeService;
 using HorCup.Presentation.Services.Games;
+using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Tests.Games.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -23,6 +24,10 @@ namespace HorCup.Tests.Games.Commands
 		public void SetUp()
 		{
 			_factory = new GamesFactory();
+			
+			var idGeneratorMock = new Mock<IIdGenerator>();
+			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.Game1Id);
+
 
 			var gamesService = new Mock<IGamesService>();
 			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle))
@@ -37,7 +42,8 @@ namespace HorCup.Tests.Games.Commands
 			_sut = new AddGameCommandHandler(Context,
 				NullLogger<AddGameCommandHandler>.Instance,
 				gamesService.Object,
-				dateTimeServiceMock.Object);
+				dateTimeServiceMock.Object,
+				idGeneratorMock.Object);
 		}
 
 		[Test]

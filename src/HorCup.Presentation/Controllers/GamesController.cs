@@ -6,7 +6,6 @@ using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
-using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +17,10 @@ namespace HorCup.Presentation.Controllers
 	public class GamesController : ControllerBase
 	{
 		private readonly ISender _sender;
-		private readonly IIdGenerator _idGenerator;
 
-		public GamesController(ISender sender, IIdGenerator idGenerator)
+		public GamesController(ISender sender)
 		{
 			_sender = sender;
-			_idGenerator = idGenerator;
 		}
 
 		[HttpGet]
@@ -48,13 +45,11 @@ namespace HorCup.Presentation.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add(AddGameCommand command)
+		public async Task<ActionResult<Guid>> Add([FromBody]AddGameCommand command)
 		{
-			command.Id = _idGenerator.NewGuid();
-			
-			await _sender.Send(command);
+			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), command.Id);
+			return CreatedAtAction(nameof(Add), id.ToString());
 		}
 
 		[HttpGet("constraints")]

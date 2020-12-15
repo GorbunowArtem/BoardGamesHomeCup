@@ -5,10 +5,8 @@ using MediatR;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
 {
-	public class AddPlayCommand : IRequest<Unit>
+	public class AddPlayCommand : IRequest<Guid>
 	{
-		public Guid Id { get; set; }
-		
 		public Guid GameId { get; set; }
 
 		public string Notes { get; set; }

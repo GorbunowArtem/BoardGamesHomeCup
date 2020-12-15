@@ -3,10 +3,8 @@ using MediatR;
 
 namespace HorCup.Presentation.Games.Commands.AddGame
 {
-	public class AddGameCommand: IRequest<Unit>
+	public class AddGameCommand: IRequest<Guid>
 	{
-		public Guid Id { get; set; }
-		
 		public string Title { get; set; }
 
 		public int MaxPlayers { get; set; }

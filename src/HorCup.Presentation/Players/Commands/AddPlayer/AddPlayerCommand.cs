@@ -3,10 +3,8 @@ using MediatR;
 
 namespace HorCup.Presentation.Players.Commands.AddPlayer
 {
-	public class AddPlayerCommand : IRequest<Unit>
+	public class AddPlayerCommand : IRequest<Guid>
 	{
-		public Guid Id { get; set; }
-		
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }

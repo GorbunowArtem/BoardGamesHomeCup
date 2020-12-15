@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
 {
-	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Unit>
+	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Guid>
 	{
 		private readonly IIdGenerator _idGenerator;
 		private readonly IHorCupContext _context;
@@ -28,13 +29,15 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 			_logger = logger;
 		}
 
-		public async Task<Unit> Handle(AddPlayCommand request, CancellationToken cancellationToken)
+		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
 		{
 			await CheckGameExists();
 
+			var playId = _idGenerator.NewGuid();
+			
 			await _context.Plays.AddAsync(new Play
 			{
-				Id = request.Id,
+				Id = playId,
 				GameId = request.GameId,
 				Notes = request.Notes,
 				PlayedDate = request.PlayedDate,
@@ -45,13 +48,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				{
 					Score = s.Score,
 					IsWinner = s.IsWinner,
-					PlayId = request.Id,
+					PlayId = playId,
 					PlayerId = s.Player.Id
 				}), cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);
 
-			return Unit.Value;
+			return playId;
 			
 			async Task CheckGameExists()
 			{

@@ -21,15 +21,12 @@ namespace HorCup.Presentation.Controllers
 	public class PlayersController : ControllerBase
 	{
 		private readonly ISender _sender;
-		private readonly IIdGenerator _idGenerator;
 		private readonly IPlayersService _playersService;
 
-		public PlayersController(ISender sender, IPlayersService playersService,
-			IIdGenerator idGenerator)
+		public PlayersController(ISender sender, IPlayersService playersService)
 		{
 			_sender = sender;
 			_playersService = playersService;
-			_idGenerator = idGenerator;
 		}
 
 		[HttpGet]
@@ -45,13 +42,11 @@ namespace HorCup.Presentation.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
-		public async Task<ActionResult<Guid>> Add(AddPlayerCommand command)
+		public async Task<ActionResult<Guid>> Add([FromBody] AddPlayerCommand command)
 		{
-			command.Id = _idGenerator.NewGuid();
-			
-			await _sender.Send(command);
+			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), command.Id);
+			return CreatedAtAction(nameof(Add), id.ToString());
 		}
 
 		[HttpGet("constraints")]
