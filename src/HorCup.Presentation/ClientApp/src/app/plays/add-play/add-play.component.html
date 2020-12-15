@@ -38,9 +38,20 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [formControl]="players">
-    <form [formGroup]="players">
+  <mat-step>
+    <form [formGroup]="participants">
       <ng-template matStepLabel>Выберите игроков и победителя партии</ng-template>
+
+      <div formArrayName="players">
+        <div *ngFor="let alias of players.controls; let i = index">
+          <mat-form-field>
+            <mat-label>Выберите игрока</mat-label>
+            <input matInput [formControlName]="i" />
+          </mat-form-field>
+        </div>
+        <button mat-mini-fab (click)="addPlayer()"><mat-icon>add</mat-icon></button>
+      </div>
+
       <div>
         <button mat-button matStepperPrevious color="warn">Назад</button>
         <button mat-button matStepperNext color="accent">Далее</button>
@@ -48,9 +59,13 @@
     </form>
   </mat-step>
 
-  <mat-step [formControl]="playNotes">
-    <form [formGroup]="playNotes">
+  <mat-step>
+    <form [formGroup]="platNotes">
       <ng-template matStepLabel>Добавить</ng-template>
+      <mat-form-field>
+        <mat-label>Замечания</mat-label>
+        <textarea matInput formControlName="notes"></textarea>
+      </mat-form-field>
       <div>
         <button mat-button matStepperPrevious color="warn">Назад</button
         ><button mat-button color="primary" (click)="save()">Сохранить</button>
