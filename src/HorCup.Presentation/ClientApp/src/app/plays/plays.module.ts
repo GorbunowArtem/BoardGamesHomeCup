@@ -16,6 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatAutocompleteModule,
     MatNativeDateModule,
     MatRippleModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatDividerModule
   ],
   declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]

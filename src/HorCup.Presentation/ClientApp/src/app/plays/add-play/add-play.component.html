@@ -8,11 +8,11 @@
             type="text"
             placeholder="Выберите игру"
             matInput
-            [matAutocomplete]="auto"
+            [matAutocomplete]="gamesAutocomplete"
             [formControl]="selectedGame"
             required
           />
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayGame">
+          <mat-autocomplete #gamesAutocomplete="matAutocomplete" [displayWith]="displayGame">
             <mat-option *ngFor="let game of games | async" [value]="game">
               {{ game.title }}
             </mat-option>
@@ -44,10 +44,25 @@
 
       <div formArrayName="players">
         <div *ngFor="let alias of players.controls; let i = index">
-          <mat-form-field>
-            <mat-label>Выберите игрока</mat-label>
-            <input matInput [formControlName]="i" />
-          </mat-form-field>
+          <p>{{ i + 1 }}-й</p>
+          <p>
+            <mat-form-field>
+              <mat-label>Игрок</mat-label>
+              <input type="text" matInput [matAutocomplete]="playersAuto" [formControlName]="i" />
+            </mat-form-field>
+            <mat-autocomplete #playersAuto="matAutocomplete">
+              <mat-option *ngFor="let pl of playersOption | async">
+                {{ pl.firstName }} {{ pl.lastName }}
+              </mat-option>
+            </mat-autocomplete>
+          </p>
+          <p>
+            <mat-form-field>
+              <mat-label>Очки</mat-label>
+              <input matInput />
+            </mat-form-field>
+          </p>
+          <mat-divider></mat-divider>
         </div>
         <button mat-mini-fab (click)="addPlayer()"><mat-icon>add</mat-icon></button>
       </div>

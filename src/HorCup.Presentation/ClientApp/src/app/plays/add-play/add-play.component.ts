@@ -6,6 +6,7 @@ import { GamesService } from 'src/app/games/games.service';
 import { Game } from 'src/app/games/models/game';
 import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 import { Player } from 'src/app/players/models/player';
+import { SearchPlayersOptions } from 'src/app/players/models/search-players-options';
 import { PlayersService } from 'src/app/players/players.service';
 
 @Component({
@@ -20,7 +21,7 @@ export class AddPlayComponent implements OnInit {
   public platNotes: FormGroup;
 
   public games!: Observable<Game[]>;
-  public pl!: Observable<Player[]>;
+  public playersOption!: Observable<Player[]>;
 
   public selectedGame = new FormControl();
   public selectedDate = new FormControl();
@@ -42,7 +43,9 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterGames(searchText))
     );
 
-    //this.pl = this.
+    this.playersOption = this._playersService
+      .search(new SearchPlayersOptions())
+      .pipe(map((resp) => resp.items));
   }
 
   get players() {
