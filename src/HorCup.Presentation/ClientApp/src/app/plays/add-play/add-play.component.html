@@ -44,10 +44,14 @@
 
       <div formArrayName="players">
         <div *ngFor="let alias of players.controls; let i = index">
-          <p>{{ i + 1 }}-й</p>
+          <p class="player-number">
+            {{ i + 1 }}-й Игрок &nbsp;
+            <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+          </p>
+
           <p>
             <mat-form-field>
-              <mat-label>Игрок</mat-label>
+              <mat-label>Выберите игрока</mat-label>
               <input type="text" matInput [matAutocomplete]="playersAuto" [formControlName]="i" />
             </mat-form-field>
             <mat-autocomplete #playersAuto="matAutocomplete">
@@ -59,7 +63,7 @@
           <p>
             <mat-form-field>
               <mat-label>Очки</mat-label>
-              <input matInput />
+              <input matInput type="number" />
             </mat-form-field>
           </p>
           <mat-divider></mat-divider>
