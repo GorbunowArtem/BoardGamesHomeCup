@@ -15,29 +15,24 @@ import { PlayersService } from 'src/app/players/players.service';
   styleUrls: ['./add-play.component.scss']
 })
 export class AddPlayComponent implements OnInit {
-  public participants: FormGroup = this._fb.group({
+  public addPlayForm = this._fb.group({
+    notes: [''],
+    selectedGame: [''],
+    playedDate: [''],
     players: this._fb.array([this._fb.control('')])
   });
-  public platNotes: FormGroup;
 
-  public games!: Observable<Game[]>;
+  public gamesOptions!: Observable<Game[]>;
   public playersOption!: Observable<Player[]>;
-
-  public selectedGame = new FormControl();
-  public selectedDate = new FormControl();
 
   constructor(
     private _fb: FormBuilder,
     private _gamesService: GamesService,
     private _playersService: PlayersService
-  ) {
-    this.platNotes = _fb.group({
-      notes: ['']
-    });
-  }
+  ) {}
 
   ngOnInit() {
-    this.games = this.selectedGame.valueChanges.pipe(
+    this.gamesOptions = (this.addPlayForm.get('selectedGame') as FormControl).valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap((searchText) => this.filterGames(searchText))
@@ -49,7 +44,7 @@ export class AddPlayComponent implements OnInit {
   }
 
   get players() {
-    return this.participants.get('players') as FormArray;
+    return this.addPlayForm.get('players') as FormArray;
   }
 
   addPlayer() {
@@ -63,9 +58,7 @@ export class AddPlayComponent implements OnInit {
   }
 
   public save() {
-    console.log(this.selectedGame.value);
-    console.log(this.platNotes.value);
-    console.log(this.participants.value);
+    console.log(this.addPlayForm.value);
   }
 
   public displayGame(game: Game) {
