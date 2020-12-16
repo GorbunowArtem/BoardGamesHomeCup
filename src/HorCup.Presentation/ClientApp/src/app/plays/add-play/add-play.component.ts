@@ -56,6 +56,12 @@ export class AddPlayComponent implements OnInit {
     this.players.push(this._fb.control(''));
   }
 
+  removePlayer() {
+    if (this.players.length > 1) {
+      this.players.removeAt(this.players.length - 1);
+    }
+  }
+
   public save() {
     console.log(this.selectedGame.value);
     console.log(this.platNotes.value);
@@ -64,6 +70,10 @@ export class AddPlayComponent implements OnInit {
 
   public displayGame(game: Game) {
     return game?.title;
+  }
+
+  public displayPlayer(player: Player) {
+    return player ? `${player?.firstName} ${player?.lastName}` : '';
   }
 
   private filterGames(searchText: string) {

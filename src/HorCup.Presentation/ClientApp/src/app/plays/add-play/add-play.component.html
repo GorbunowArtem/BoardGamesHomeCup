@@ -44,18 +44,15 @@
 
       <div formArrayName="players">
         <div *ngFor="let alias of players.controls; let i = index">
-          <p class="player-number">
-            {{ i + 1 }}-й Игрок &nbsp;
-            <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
-          </p>
+          <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>
 
           <p>
             <mat-form-field>
               <mat-label>Выберите игрока</mat-label>
               <input type="text" matInput [matAutocomplete]="playersAuto" [formControlName]="i" />
             </mat-form-field>
-            <mat-autocomplete #playersAuto="matAutocomplete">
-              <mat-option *ngFor="let pl of playersOption | async">
+            <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
+              <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
                 {{ pl.firstName }} {{ pl.lastName }}
               </mat-option>
             </mat-autocomplete>
@@ -68,7 +65,12 @@
           </p>
           <mat-divider></mat-divider>
         </div>
-        <button mat-mini-fab (click)="addPlayer()"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button color="accent" (click)="addPlayer()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="players.length > 1" color="warn" (click)="removePlayer()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
       </div>
 
       <div>
