@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
 import { GamesService } from 'src/app/games/games.service';
@@ -19,15 +19,16 @@ import { PlaysService } from '../plays.service';
 export class AddPlayComponent implements OnInit {
   public addPlayForm = this._fb.group({
     notes: [''],
-    selectedGame: [null],
-    playedDate: [new Date()],
+    selectedGame: [null, [Validators.required]],
+    playedDate: [new Date(), [Validators.required]],
     players: this._fb.array([
       this._fb.group({
-        player: [null],
-        score: ['']
+        player: [null, [Validators.required]],
+        score: ['', Validators.required]
       })
     ])
   });
+
   public gamesOptions!: Observable<Game[]>;
   public playersOption!: Observable<Player[]>;
 
@@ -50,6 +51,10 @@ export class AddPlayComponent implements OnInit {
       debounceTime(400),
       switchMap((searchText) => this.filterPlayers(searchText))
     );
+  }
+
+  get selectedGame() {
+    return this.addPlayForm.get('selectedGame')?.value;
   }
 
   get players() {
@@ -77,19 +82,31 @@ export class AddPlayComponent implements OnInit {
     }
   }
 
-  public save() {
-    this._playService.add(this.getModel()).subscribe();
-  }
+  public canAddPlayer(): boolean {
+    if (this.selectedGame === null) {
+      return true;
+    }
 
-  public displayGame(game: Game) {
-    return game?.title;
+    return this.selectedGame.maxPlayers >= this.players.length;
   }
 
   public displayPlayer(player: Player) {
     return player ? `${player?.firstName} ${player?.lastName}` : '';
   }
 
+  public displayGame(game: Game) {
+    return game?.title;
+  }
+
   private filterGames(searchText: string) {
+    this.addPlayForm
+      .get('players')
+      ?.setValue(
+        this.addPlayForm
+          .get('players')
+          ?.value.splice(0, this.selectedGame?.maxPlayers ? this.selectedGame.maxPlayers : 1)
+      );
+
     return this._gamesService
       .search(new SearchGamesOptions(10, 0, searchText))
       .pipe(map((resp) => resp.items));
@@ -103,7 +120,7 @@ export class AddPlayComponent implements OnInit {
     return [];
   }
 
-  private filterPlayers(searchText: string): Observable<Player[]> {
+  private filterPlayers(searchText: string | Player): Observable<Player[]> {
     if (typeof searchText !== 'string') {
       searchText = '';
     }
@@ -112,9 +129,13 @@ export class AddPlayComponent implements OnInit {
       .pipe(map((resp) => resp.items));
   }
 
+  public save() {
+    this._playService.add(this.getModel()).subscribe();
+  }
+
   private getModel(): AddPlay {
     return {
-      gameId: this.addPlayForm.get('selectedGame')?.value.id,
+      gameId: this.selectedGame.id,
       notes: this.addPlayForm.get('notes')?.value,
       playedDate: this.addPlayForm.get('playedDate')?.value,
       playerScores: this.players.value.map((p: any) => {

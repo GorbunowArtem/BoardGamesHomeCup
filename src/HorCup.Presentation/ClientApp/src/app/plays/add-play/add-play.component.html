@@ -51,6 +51,7 @@
                   matInput
                   [matAutocomplete]="playersAuto"
                   formControlName="player"
+                  required
                 />
               </mat-form-field>
               <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
@@ -62,13 +63,13 @@
             <p>
               <mat-form-field>
                 <mat-label>Очки</mat-label>
-                <input matInput type="number" formControlName="score" />
+                <input matInput type="number" formControlName="score" required />
               </mat-form-field>
             </p>
             <mat-divider></mat-divider>
           </ng-container>
         </div>
-        <button mat-icon-button color="accent" (click)="addPlayer()">
+        <button mat-icon-button color="accent" *ngIf="canAddPlayer()" (click)="addPlayer()">
           <mat-icon>add_circle</mat-icon>
         </button>
         <button mat-icon-button *ngIf="players.length > 1" color="warn" (click)="removePlayer()">
@@ -90,7 +91,9 @@
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious color="warn">Назад</button
-        ><button mat-button color="primary" (click)="save()">Сохранить</button>
+        ><button mat-button color="primary" (click)="save()" [disabled]="!addPlayForm.valid">
+          Сохранить
+        </button>
       </div>
     </mat-step>
   </form>
