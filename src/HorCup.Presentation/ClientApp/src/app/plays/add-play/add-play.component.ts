@@ -21,7 +21,7 @@ export class AddPlayComponent implements OnInit {
     notes: [''],
     selectedGame: [null, [Validators.required]],
     playedDate: [new Date(), [Validators.required]],
-    players: this._fb.array([
+    playerScores: this._fb.array([
       this._fb.group({
         player: [null, [Validators.required]],
         score: ['', Validators.required]
@@ -46,8 +46,9 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterGames(searchText))
     );
 
-    // TODO: add logic of removing extra players if newly selected game has less max players than already selected
-    this.playersOption = (this.players.controls[0].get('player') as FormControl).valueChanges.pipe(
+    this.playersOption = (this.playerScores.controls[0].get(
+      'player'
+    ) as FormControl).valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap((searchText) => this.filterPlayers(searchText))
@@ -58,21 +59,20 @@ export class AddPlayComponent implements OnInit {
     return this.addPlayForm.get('selectedGame')?.value;
   }
 
-  get players() {
-    return this.addPlayForm.get('players') as FormArray;
+  get playerScores() {
+    return this.addPlayForm.get('playerScores') as FormArray;
   }
 
   public addPlayer() {
-    this.players.push(
+    this.playerScores.push(
       this._fb.group({
         player: [null],
         score: ['']
       })
     );
 
-    // TODO: this triggers search as many times as items in array
-    const index = this.players.controls.length - 1;
-    this.playersOption = (this.players.controls[index].get(
+    const index = this.playerScores.controls.length - 1;
+    this.playersOption = (this.playerScores.controls[index].get(
       'player'
     ) as FormControl).valueChanges.pipe(
       startWith(''),
@@ -82,8 +82,8 @@ export class AddPlayComponent implements OnInit {
   }
 
   public removePlayer() {
-    if (this.players.length > 1) {
-      this.players.removeAt(this.players.length - 1);
+    if (this.playerScores.length > 1) {
+      this.playerScores.removeAt(this.playerScores.length - 1);
     }
   }
 
@@ -92,7 +92,7 @@ export class AddPlayComponent implements OnInit {
       return true;
     }
 
-    return this.selectedGame.maxPlayers >= this.players.length;
+    return this.selectedGame.maxPlayers >= this.playerScores.length;
   }
 
   public displayPlayer(player: Player) {
@@ -114,8 +114,10 @@ export class AddPlayComponent implements OnInit {
   }
 
   private getSelectedPlayersIds(): string[] {
-    if (this.players) {
-      return this.players.value.filter((p: any) => p.player !== null).map((p: any) => p.player.id);
+    if (this.playerScores) {
+      return this.playerScores.value
+        .filter((p: any) => p.player !== null)
+        .map((p: any) => p.player.id);
     }
 
     return [];
@@ -139,7 +141,7 @@ export class AddPlayComponent implements OnInit {
       gameId: this.selectedGame.id,
       notes: this.addPlayForm.get('notes')?.value,
       playedDate: this.addPlayForm.get('playedDate')?.value,
-      playerScores: this.players.value.map((p: any) => {
+      playerScores: this.playerScores.value.map((p: any) => {
         return {
           player: {
             id: p.player.id

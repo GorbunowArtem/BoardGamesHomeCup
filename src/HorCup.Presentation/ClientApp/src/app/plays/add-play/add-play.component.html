@@ -40,8 +40,8 @@
     <mat-step>
       <ng-template matStepLabel>Выберите участников партии</ng-template>
       <div formArrayName="players">
-        <div *ngFor="let player of players.controls; let i = index">
-          <ng-container [formGroup]="player">
+        <div *ngFor="let playerScore of playerScores.controls; let i = index">
+          <ng-container [formGroup]="playerScore">
             <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>
             <p>
               <mat-form-field>
@@ -72,7 +72,12 @@
         <button mat-icon-button color="accent" *ngIf="canAddPlayer()" (click)="addPlayer()">
           <mat-icon>add_circle</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="players.length > 1" color="warn" (click)="removePlayer()">
+        <button
+          mat-icon-button
+          *ngIf="playerScores.length > 1"
+          color="warn"
+          (click)="removePlayer()"
+        >
           <mat-icon>remove_circle</mat-icon>
         </button>
       </div>
