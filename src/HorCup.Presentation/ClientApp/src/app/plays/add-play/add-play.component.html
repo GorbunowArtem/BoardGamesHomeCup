@@ -40,26 +40,33 @@
     <mat-step>
       <ng-template matStepLabel>Выберите игроков и победителя партии</ng-template>
       <div formArrayName="players">
-        <div *ngFor="let alias of players.controls; let i = index">
-          <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>
-          <p>
-            <mat-form-field>
-              <mat-label>Выберите игрока</mat-label>
-              <input type="text" matInput [matAutocomplete]="playersAuto" [formControlName]="i" />
-            </mat-form-field>
-            <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
-              <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
-                {{ pl.firstName }} {{ pl.lastName }}
-              </mat-option>
-            </mat-autocomplete>
-          </p>
-          <p>
-            <mat-form-field>
-              <mat-label>Очки</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-          </p>
-          <mat-divider></mat-divider>
+        <div *ngFor="let player of players.controls; let i = index">
+          <ng-container [formGroup]="player">
+            <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>
+            <p>
+              <mat-form-field>
+                <mat-label>Выберите игрока</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [matAutocomplete]="playersAuto"
+                  formControlName="player"
+                />
+              </mat-form-field>
+              <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
+                <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
+                  {{ pl.firstName }} {{ pl.lastName }}
+                </mat-option>
+              </mat-autocomplete>
+            </p>
+            <p>
+              <mat-form-field>
+                <mat-label>Очки</mat-label>
+                <input matInput type="number" formControlName="score" />
+              </mat-form-field>
+            </p>
+            <mat-divider></mat-divider>
+          </ng-container>
         </div>
         <button mat-icon-button color="accent" (click)="addPlayer()">
           <mat-icon>add_circle</mat-icon>

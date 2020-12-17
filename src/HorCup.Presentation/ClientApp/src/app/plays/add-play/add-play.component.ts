@@ -8,6 +8,8 @@ import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 import { Player } from 'src/app/players/models/player';
 import { SearchPlayersOptions } from 'src/app/players/models/search-players-options';
 import { PlayersService } from 'src/app/players/players.service';
+import { AddPlay } from '../models/add-play';
+import { PlaysService } from '../plays.service';
 
 @Component({
   selector: 'hc-add-play',
@@ -17,18 +19,23 @@ import { PlayersService } from 'src/app/players/players.service';
 export class AddPlayComponent implements OnInit {
   public addPlayForm = this._fb.group({
     notes: [''],
-    selectedGame: [''],
-    playedDate: [''],
-    players: this._fb.array([this._fb.control('')])
+    selectedGame: [null],
+    playedDate: [new Date()],
+    players: this._fb.array([
+      this._fb.group({
+        player: [null],
+        score: ['']
+      })
+    ])
   });
-
   public gamesOptions!: Observable<Game[]>;
   public playersOption!: Observable<Player[]>;
 
   constructor(
     private _fb: FormBuilder,
     private _gamesService: GamesService,
-    private _playersService: PlayersService
+    private _playersService: PlayersService,
+    private _playService: PlaysService
   ) {}
 
   ngOnInit() {
@@ -49,8 +56,13 @@ export class AddPlayComponent implements OnInit {
     return this.addPlayForm.get('players') as FormArray;
   }
 
-  addPlayer() {
-    this.players.push(this._fb.control(''));
+  public addPlayer() {
+    this.players.push(
+      this._fb.group({
+        player: [null],
+        score: ['']
+      })
+    );
     const index = this.players.controls.length - 1;
     this.playersOption = this.players.controls[index].valueChanges.pipe(
       startWith(''),
@@ -59,14 +71,14 @@ export class AddPlayComponent implements OnInit {
     );
   }
 
-  removePlayer() {
+  public removePlayer() {
     if (this.players.length > 1) {
       this.players.removeAt(this.players.length - 1);
     }
   }
 
   public save() {
-    console.log(this.addPlayForm.value);
+    this._playService.add(this.getModel()).subscribe();
   }
 
   public displayGame(game: Game) {
@@ -85,11 +97,12 @@ export class AddPlayComponent implements OnInit {
 
   private getSelectedPlayersIds(): string[] {
     if (this.players) {
-      return this.players.value.filter((p: any) => typeof p !== 'string').map((p: Player) => p.id);
+      return this.players.value.filter((p: any) => p.player !== null).map((p: any) => p.player.id);
     }
 
     return [];
   }
+
   private filterPlayers(searchText: string): Observable<Player[]> {
     if (typeof searchText !== 'string') {
       searchText = '';
@@ -97,5 +110,21 @@ export class AddPlayComponent implements OnInit {
     return this._playersService
       .search(new SearchPlayersOptions(10, 0, searchText, this.getSelectedPlayersIds()))
       .pipe(map((resp) => resp.items));
+  }
+
+  private getModel(): AddPlay {
+    return {
+      gameId: this.addPlayForm.get('selectedGame')?.value.id,
+      notes: this.addPlayForm.get('notes')?.value,
+      playedDate: this.addPlayForm.get('playedDate')?.value,
+      playerScores: this.players.value.map((p: any) => {
+        return {
+          player: {
+            id: p.player.id
+          },
+          score: p.score
+        };
+      })
+    };
   }
 }
