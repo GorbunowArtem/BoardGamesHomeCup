@@ -46,7 +46,8 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterGames(searchText))
     );
 
-    this.playersOption = this.players.controls[0].valueChanges.pipe(
+    // TODO: add logic of removing extra players if newly selected game has less max players than already selected
+    this.playersOption = (this.players.controls[0].get('player') as FormControl).valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap((searchText) => this.filterPlayers(searchText))
@@ -68,8 +69,12 @@ export class AddPlayComponent implements OnInit {
         score: ['']
       })
     );
+
+    // TODO: this triggers search as many times as items in array
     const index = this.players.controls.length - 1;
-    this.playersOption = this.players.controls[index].valueChanges.pipe(
+    this.playersOption = (this.players.controls[index].get(
+      'player'
+    ) as FormControl).valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap((searchText) => this.filterPlayers(searchText))
@@ -98,14 +103,10 @@ export class AddPlayComponent implements OnInit {
     return game?.title;
   }
 
-  private filterGames(searchText: string) {
-    this.addPlayForm
-      .get('players')
-      ?.setValue(
-        this.addPlayForm
-          .get('players')
-          ?.value.splice(0, this.selectedGame?.maxPlayers ? this.selectedGame.maxPlayers : 1)
-      );
+  private filterGames(searchText: string | Game) {
+    if (typeof searchText !== 'string') {
+      searchText = '';
+    }
 
     return this._gamesService
       .search(new SearchGamesOptions(10, 0, searchText))

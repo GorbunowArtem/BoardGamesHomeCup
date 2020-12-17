@@ -38,7 +38,7 @@
       </div>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Выберите игроков и победителя партии</ng-template>
+      <ng-template matStepLabel>Выберите участников партии</ng-template>
       <div formArrayName="players">
         <div *ngFor="let player of players.controls; let i = index">
           <ng-container [formGroup]="player">

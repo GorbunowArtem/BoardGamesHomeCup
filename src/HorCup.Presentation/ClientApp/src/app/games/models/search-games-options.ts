@@ -4,6 +4,6 @@ export class SearchGamesOptions {
     public skip: number = 0,
     public searchText: string = '',
     public minPlayers: number = 0,
-    public maxPlayers: number = 54
+    public maxPlayers: number = 50
   ) {}
 }
