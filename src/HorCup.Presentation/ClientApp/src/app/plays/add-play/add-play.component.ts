@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
 import { GamesService } from 'src/app/games/games.service';
@@ -46,7 +46,7 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterGames(searchText))
     );
 
-    this.playersOption = (this.playerScores.controls[0].get(
+    this.playersOption = (this.playerScoresControls[0].get(
       'player'
     ) as FormControl).valueChanges.pipe(
       startWith(''),
@@ -63,6 +63,10 @@ export class AddPlayComponent implements OnInit {
     return this.addPlayForm.get('playerScores') as FormArray;
   }
 
+  get playerScoresControls() {
+    return this.playerScores.controls as FormGroup[];
+  }
+
   public addPlayer() {
     this.playerScores.push(
       this._fb.group({
@@ -71,8 +75,8 @@ export class AddPlayComponent implements OnInit {
       })
     );
 
-    const index = this.playerScores.controls.length - 1;
-    this.playersOption = (this.playerScores.controls[index].get(
+    const index = this.playerScoresControls.length - 1;
+    this.playersOption = (this.playerScoresControls[index].get(
       'player'
     ) as FormControl).valueChanges.pipe(
       startWith(''),
