@@ -31,7 +31,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
 		{
-			await CheckGameExists();
+			await ValidateGame(request.PlayerScores.Count());
 
 			var playId = _idGenerator.NewGuid();
 			
@@ -58,7 +58,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 			return playId;
 			
-			async Task CheckGameExists()
+			async Task ValidateGame(int playerScoresCount)
 			{
 				var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
 
@@ -66,6 +66,18 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				{
 					_logger.LogError($"Game with id {request.GameId} was not found");
 					throw new NotFoundException(nameof(Game), request.GameId);
+				}
+
+				if (playerScoresCount > game.MaxPlayers)
+				{
+					_logger.LogError("Players count is bigger than game max players");
+					throw new InvalidOperationException("Players count cannot be bigger than game maximum players");
+				}
+
+				if (game.MinPlayers > playerScoresCount)
+				{
+					_logger.LogError("Players count is less than game min players");
+					throw new InvalidOperationException("Players count cannot be less than game minimum players");
 				}
 			}
 		}
