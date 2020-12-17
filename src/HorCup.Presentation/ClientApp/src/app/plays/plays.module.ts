@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatNativeDateModule,
     MatRippleModule,
     MatDatepickerModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]

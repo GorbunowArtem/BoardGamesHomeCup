@@ -9,7 +9,7 @@ const routes: Routes = [
     component: PlaysComponent
   },
   {
-    path: 'add',
+    path: 'add-play',
     component: AddPlayComponent
   }
 ];
