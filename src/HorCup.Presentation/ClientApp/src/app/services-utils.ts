@@ -7,7 +7,15 @@ export function toHttpParams(options: any) {
     if (Object.prototype.hasOwnProperty.call(options, key)) {
       const element = options[key];
       if (element !== undefined && element !== null) {
-        params = params.set(key, element.toString());
+        if (Array.isArray(element)) {
+          if (element.length > 0) {
+            element.forEach((el) => {
+              params = params.set(key, el);
+            });
+          }
+        } else {
+          params = params.set(key, element.toString());
+        }
       }
     }
   }

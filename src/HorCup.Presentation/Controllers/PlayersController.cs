@@ -7,7 +7,6 @@ using HorCup.Presentation.Players.Commands.DeletePlayer;
 using HorCup.Presentation.Players.Queries.GetById;
 using HorCup.Presentation.Players.Queries.SearchPlayers;
 using HorCup.Presentation.Responses;
-using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Presentation.Services.Players;
 using HorCup.Presentation.ViewModels;
 using MediatR;

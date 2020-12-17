@@ -38,9 +38,11 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterGames(searchText))
     );
 
-    this.playersOption = this._playersService
-      .search(new SearchPlayersOptions())
-      .pipe(map((resp) => resp.items));
+    this.playersOption = this.players.controls[0].valueChanges.pipe(
+      startWith(''),
+      debounceTime(400),
+      switchMap((searchText) => this.filterPlayers(searchText))
+    );
   }
 
   get players() {
@@ -49,6 +51,12 @@ export class AddPlayComponent implements OnInit {
 
   addPlayer() {
     this.players.push(this._fb.control(''));
+    const index = this.players.controls.length - 1;
+    this.playersOption = this.players.controls[index].valueChanges.pipe(
+      startWith(''),
+      debounceTime(400),
+      switchMap((searchText) => this.filterPlayers(searchText))
+    );
   }
 
   removePlayer() {
@@ -72,6 +80,24 @@ export class AddPlayComponent implements OnInit {
   private filterGames(searchText: string) {
     return this._gamesService
       .search(new SearchGamesOptions(10, 0, searchText))
+      .pipe(map((resp) => resp.items));
+  }
+
+  private getSelectedPlayersIds(): string[] {
+    if (this.players) {
+      console.log(this.players.value.filter((p: any) => p !== '').map((p: Player) => p.id));
+
+      return this.players.value.filter((p: any) => p !== '').map((p: Player) => p.id);
+    }
+
+    return [];
+  }
+  private filterPlayers(searchText: string): Observable<Player[]> {
+    if (typeof searchText !== 'string') {
+      searchText = '';
+    }
+    return this._playersService
+      .search(new SearchPlayersOptions(10, 0, searchText, this.getSelectedPlayersIds()))
       .pipe(map((resp) => resp.items));
   }
 }
