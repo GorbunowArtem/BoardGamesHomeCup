@@ -39,7 +39,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Выберите участников партии</ng-template>
-      <div formArrayName="players">
+      <div formArrayName="playerScores">
         <div *ngFor="let playerScore of playerScoresControls; let i = index">
           <ng-container [formGroup]="playerScore">
             <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>

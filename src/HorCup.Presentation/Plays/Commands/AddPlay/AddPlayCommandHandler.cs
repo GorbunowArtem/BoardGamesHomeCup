@@ -43,11 +43,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				PlayedDate = request.PlayedDate,
 			}, cancellationToken);
 
+			var highestScore = request.PlayerScores.Select(s => s.Score).Max();
+			
 			await _context.PlayScores.AddRangeAsync(
 				request.PlayerScores.Select(s => new PlayScore
 				{
 					Score = s.Score,
-					IsWinner = s.IsWinner,
+					IsWinner = highestScore == s.Score,
 					PlayId = playId,
 					PlayerId = s.Player.Id
 				}), cancellationToken);

@@ -45,7 +45,7 @@ namespace HorCup.Presentation.Controllers
 		{
 			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), id.ToString());
+			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
 		[HttpGet("constraints")]

@@ -14,7 +14,7 @@ namespace HorCup.Presentation.Initializer
 		public static void Initialize(HorCupContext context)
 		{
 #if DEBUG
-			context.Database.EnsureDeleted();
+	//		context.Database.EnsureDeleted();
 #endif
 			context.Database.EnsureCreated();
 
@@ -110,7 +110,7 @@ namespace HorCup.Presentation.Initializer
 		private static IEnumerable<Play> GetPlays() =>
 		new List<Play>
 		{
-			new Play
+			new()
 			{
 				Id = new Guid("77569BE9-BEE9-493C-B9CE-212B42738DE8"),
 				GameId = new Guid("9A178137-5401-4063-8B65-7E005C426AFF"),
@@ -127,7 +127,7 @@ namespace HorCup.Presentation.Initializer
 					PlayerId = new Guid("2C55C3B6-94BE-4A80-8B96-39A2361132DC"),
 					Score = 22,
 					IsWinner = false,
-					PlayId =new Guid("77569BE9-BEE9-493C-B9CE-212B42738DE8") 
+					PlayId = new Guid("77569BE9-BEE9-493C-B9CE-212B42738DE8") 
 				},
 				new PlayScore
 				{

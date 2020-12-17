@@ -24,8 +24,9 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames([FromQuery]SearchGamesQuery query)
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames(
+			[FromQuery] SearchGamesQuery query)
 		{
 			var (items, total) = await _sender.Send(query);
 
@@ -33,8 +34,8 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpGet("{id:Guid}")]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		[ProducesResponseType((int)HttpStatusCode.NotFound)]
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		public async Task<ActionResult<GameDetailsViewModel>> GetById(Guid id)
 		{
 			var game = await _sender.Send(new GetGameByIdQuery(id));
@@ -45,11 +46,11 @@ namespace HorCup.Presentation.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody]AddGameCommand command)
+		public async Task<ActionResult<Guid>> Add([FromBody] AddGameCommand command)
 		{
 			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), id.ToString());
+			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
 		[HttpGet("constraints")]

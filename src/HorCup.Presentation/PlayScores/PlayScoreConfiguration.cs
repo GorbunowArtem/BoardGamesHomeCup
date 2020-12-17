@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HorCup.Presentation.PlayScores
 {
-	public class PlayScoreConfiguration: IEntityTypeConfiguration<PlayScore>
+	public class PlayScoreConfiguration : IEntityTypeConfiguration<PlayScore>
 	{
 		public void Configure(EntityTypeBuilder<PlayScore> builder)
 		{
@@ -12,8 +12,8 @@ namespace HorCup.Presentation.PlayScores
 			builder.Property(ps => ps.Id).ValueGeneratedOnAdd();
 
 			builder.HasOne(ps => ps.Player)
-				.WithOne(ps => ps.PlayScore);
-
+				.WithMany(ps => ps.PlayScores)
+				.HasForeignKey(ps => ps.PlayerId);
 		}
 	}
 }

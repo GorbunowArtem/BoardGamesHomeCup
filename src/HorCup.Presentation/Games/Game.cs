@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using HorCup.Presentation.Plays;
 
 namespace HorCup.Presentation.Games
@@ -17,6 +18,6 @@ namespace HorCup.Presentation.Games
 
 		public bool HasScores { get; set; }
 
-		public Play Play { get; set; }
+		public IEnumerable<Play> Plays { get; set; }
 	}
 }
