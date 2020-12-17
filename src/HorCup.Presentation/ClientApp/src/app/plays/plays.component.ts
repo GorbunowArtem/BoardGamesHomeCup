@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Play } from './models/play';
 import { SearchPlaysOptions } from './models/search-plays-options';
 import { PlaysService } from './plays.service';
@@ -10,15 +9,34 @@ import { PlaysService } from './plays.service';
   styleUrls: ['./plays.component.scss']
 })
 export class PlaysComponent implements OnInit {
-  public plays: Play[];
+  private _plays: Play[];
+
+  private take = 10;
+  private total = 0;
 
   constructor(private playsService: PlaysService) {
-    this.plays = [];
+    this._plays = [];
   }
 
   ngOnInit() {
-    this.playsService.get(new SearchPlaysOptions()).subscribe((plays) => {
-      this.plays = plays.items;
+    this.playsService.get(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
+      this._plays = plays.items;
+      this.total = plays.total;
+    });
+  }
+
+  get plays() {
+    return this._plays;
+  }
+
+  get moreAvailable() {
+    return this.total > this.take;
+  }
+
+  public loadMore() {
+    this.take += this.take;
+    this.playsService.get(new SearchPlaysOptions(this.take - 10, this.take)).subscribe((plays) => {
+      this._plays.push(...plays.items);
     });
   }
 }

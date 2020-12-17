@@ -5,3 +5,9 @@
 <a
   ><button mat-fab color="primary" [routerLink]="['/add-play']"><mat-icon>add</mat-icon></button></a
 >
+
+<div class="load-more" *ngIf="moreAvailable">
+  <button mat-raised-button color="accent" layout-align="center center" (click)="loadMore()">
+    Загрузить еще
+  </button>
+</div>
