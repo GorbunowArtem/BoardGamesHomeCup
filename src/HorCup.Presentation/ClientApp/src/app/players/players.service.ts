@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
-import { toHttpParams } from '../services-utils';
 import { Player } from './models/player';
 import { PlayerConstraints } from './models/player-constraints';
 import { PlayerDetails } from './models/player-details';
@@ -34,7 +33,7 @@ export class PlayersService {
 
   public search(options: SearchPlayersOptions) {
     return this._http.get<PagedSearchResponse<Player>>('/players', {
-      params: toHttpParams(options)
+      params: options as any
     });
   }
 

@@ -85,9 +85,7 @@ export class AddPlayComponent implements OnInit {
 
   private getSelectedPlayersIds(): string[] {
     if (this.players) {
-      console.log(this.players.value.filter((p: any) => p !== '').map((p: Player) => p.id));
-
-      return this.players.value.filter((p: any) => p !== '').map((p: Player) => p.id);
+      return this.players.value.filter((p: any) => typeof p !== 'string').map((p: Player) => p.id);
     }
 
     return [];

@@ -36,6 +36,11 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 				                         || p.LastName.ToUpper().Contains(searchTextUpper)
 				                         || p.Nickname.ToUpper().Contains(searchTextUpper));
 			}
+
+			if (request.ExceptIds != null && request.ExceptIds.Any())
+			{
+				query = query.Where(p => !request.ExceptIds.Contains(p.Id));
+			}
 			
 			var players = await query
 				.OrderByDescending(p => p.Added)
