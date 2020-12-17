@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HcCommonModule } from '../common/hc-common.module';
+import { GameDetailsComponent } from './game-details/game-details.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { HcCommonModule } from '../common/hc-common.module';
     GamesComponent,
     GameCardComponent,
     GamesFilterComponent,
-    AddEditGameDialogComponent
+    AddEditGameDialogComponent,
+    GameDetailsComponent
   ]
 })
 export class GamesModule {}

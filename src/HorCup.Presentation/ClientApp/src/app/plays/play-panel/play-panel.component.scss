@@ -1,0 +1,17 @@
+@import '../../../styles.scss';
+
+.mat-table {
+  width: 100%;
+}
+
+.play-winner {
+  background-color: $winner-background;
+}
+
+.play-info {
+  padding: 10px 0 10px 20px;
+}
+
+mat-expansion-panel {
+  margin: 15px;
+}

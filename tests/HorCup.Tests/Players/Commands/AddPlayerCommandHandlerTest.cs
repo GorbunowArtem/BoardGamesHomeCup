@@ -39,22 +39,16 @@ namespace HorCup.Tests.Players.Commands
 
 			_sut = new AddPlayerCommandHandler(
 				Context,
-				idGeneratorServiceMock.Object,
-				Mapper,
 				new NullLogger<AddPlayerCommandHandler>(),
 				playersServiceMock.Object,
-				dateTimeServiceMock.Object);
+				dateTimeServiceMock.Object,
+				idGeneratorServiceMock.Object);
 		}
 
 		[Test]
 		public async Task Handle_PlayerModelCorrect_PlayerAdded()
 		{
 			var player = await _sut.Handle(_factory.Commands.AddPlayer(), CancellationToken.None);
-
-			player.BirthDate.Should().Be(_factory.Player3BirthDate);
-			player.FirstName.Should().Be(PlayersFactory.Player3FirstName.Trim());
-			player.LastName.Should().Be(PlayersFactory.Player3LastName.Trim());
-			player.Nickname.Should().Be(PlayersFactory.Player3NickName.Trim());
 		}
 
 		[Test]

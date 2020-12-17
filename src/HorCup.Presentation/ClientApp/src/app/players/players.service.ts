@@ -32,9 +32,9 @@ export class PlayersService {
   }
 
   public search(options: SearchPlayersOptions) {
-    return this._http.get<PagedSearchResponse<Player>>(
-      `/players?take=${options.take}&skip=${options.skip}&searchText=${options.searchText}`
-    );
+    return this._http.get<PagedSearchResponse<Player>>('/players', {
+      params: options as any
+    });
   }
 
   public delete(id: string | undefined): Observable<any> {

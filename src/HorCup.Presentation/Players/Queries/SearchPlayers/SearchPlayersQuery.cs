@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -11,5 +12,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 		public int Skip { get; set; }
 
 		public string SearchText { get; set; } = string.Empty;
+
+		public Guid[] ExceptIds { get; set; }
 	}
 }
