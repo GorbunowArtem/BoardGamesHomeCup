@@ -10,6 +10,9 @@ export class HeaderCardComponent {
   @Input()
   text: string = '';
 
+  @Input()
+  hideNav: boolean = false;
+
   public constructor(private location: Location) {}
 
   public goBack() {

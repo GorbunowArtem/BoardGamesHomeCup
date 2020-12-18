@@ -1,4 +1,4 @@
-<hc-header-card [text]="'Список последних партий:'"></hc-header-card>
+<hc-header-card [hideNav]="true" [text]="'Список последних партий:'"></hc-header-card>
 
 <mat-accordion [multi]="false">
   <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>

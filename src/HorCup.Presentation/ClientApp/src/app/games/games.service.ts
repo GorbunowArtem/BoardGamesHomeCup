@@ -20,9 +20,6 @@ export class GamesService {
       params: options as any
     });
   }
-  public getConstraints() {
-    return this._httpModule.get<GamesConstraints>('/games/constraints');
-  }
 
   public add(game: Game) {
     return this._httpModule

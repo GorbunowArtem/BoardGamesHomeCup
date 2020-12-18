@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
 import { PlayerCardComponent } from './player-card/player-card.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { PlayerDetailsComponent } from './player-details/player-details.componen
     HttpClientModule,
     MatPaginatorModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatToolbarModule
   ],
   declarations: [
     PlayersComponent,

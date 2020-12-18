@@ -13,9 +13,6 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
-  @Input()
-  searchText: string = '';
-
   players: Player[] = [];
 
   totalItems: number = 0;
@@ -44,9 +41,9 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.search(event.pageSize, event.pageSize * event.pageIndex);
   }
 
-  public search(take: number = 6, skip: number = 0) {
+  public search(take: number = 6, skip: number = 0, searchText = '') {
     this._playersService
-      .search(new SearchPlayersOptions(take, skip, this.searchText))
+      .search(new SearchPlayersOptions(take, skip, searchText))
       .subscribe((result) => {
         this.players = result.items;
         this.totalItems = result.total;
