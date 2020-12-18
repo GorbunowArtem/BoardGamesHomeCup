@@ -1,23 +1,16 @@
-<main>
-  <hc-header-card [text]="'Активные игроки:'"></hc-header-card>
-  <mat-form-field appearance="fill">
-    <input matInput type="text" [(ngModel)]="searchText" placeholder="Поиск игроков" />
-    <mat-label>Поиск игроков</mat-label>
-    <button matSuffix mat-icon-button (click)="search()">
-      <mat-icon matPrefix>search</mat-icon>
-    </button>
-  </mat-form-field>
+<hc-header-card [text]="'Активные игроки:'"></hc-header-card>
+<div class="players-list">
+  <hc-player-card *ngFor="let player of players" [player]="player"></hc-player-card>
+</div>
 
-  <div class="players-list">
-    <div *ngFor="let player of players">
-      <hc-player-card [player]="player"></hc-player-card>
-    </div>
-  </div>
-  <button mat-fab (click)="showDialog()"><mat-icon>add</mat-icon></button>
+<mat-toolbar>
+  <button mat-icon-button (click)="showDialog()"><mat-icon>add</mat-icon></button>
+
+  <span class="spacer"></span>
   <mat-paginator
     [length]="totalItems"
     [pageSize]="6"
     [hidePageSize]="true"
     (page)="pageChangedEvent($event)"
   ></mat-paginator>
-</main>
+</mat-toolbar>

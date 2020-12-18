@@ -10,17 +10,8 @@ hc-game-card {
   width: 350px;
 }
 
-.actions {
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 5px;
-}
-
 mat-toolbar {
   background-color: $bottom-bar-background-color;
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
 }
 
