@@ -8,10 +8,29 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HeaderCardComponent } from './header-card/header-card.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  imports: [CommonModule, MatFormFieldModule, MatDialogModule, MatButtonModule, MatIconModule],
-  declarations: [HcFieldValidationErrorsComponent, HcAvatarComponent, ConfirmationDialogComponent],
-  exports: [HcFieldValidationErrorsComponent, HcAvatarComponent, ConfirmationDialogComponent]
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule
+  ],
+  declarations: [
+    HcFieldValidationErrorsComponent,
+    HcAvatarComponent,
+    ConfirmationDialogComponent,
+    HeaderCardComponent
+  ],
+  exports: [
+    HcFieldValidationErrorsComponent,
+    HcAvatarComponent,
+    ConfirmationDialogComponent,
+    HeaderCardComponent
+  ]
 })
 export class HcCommonModule {}
