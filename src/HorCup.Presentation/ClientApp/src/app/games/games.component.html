@@ -1,3 +1,5 @@
+<hc-header-card [text]="'Доступные игры:'"></hc-header-card>
+
 <ng-container *ngIf="games.length > 0; else elseTemplate">
   <div class="games-list">
     <hc-game-card *ngFor="let game of games" [game]="game"></hc-game-card>
