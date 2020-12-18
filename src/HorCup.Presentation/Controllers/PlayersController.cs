@@ -48,13 +48,6 @@ namespace HorCup.Presentation.Controllers
 			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
-		[HttpGet("constraints")]
-		[ProducesResponseType((int) HttpStatusCode.OK)]
-		public ActionResult<PlayerConstraints> GetConstraints()
-		{
-			return Ok(new PlayerConstraints());
-		}
-
 		[HttpHead]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]

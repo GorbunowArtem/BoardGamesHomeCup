@@ -17,10 +17,6 @@ export class PlayersService {
 
   constructor(private _http: HttpClient) {}
 
-  public getConstraints(): Observable<PlayerConstraints> {
-    return this._http.get<PlayerConstraints>('/players/constraints');
-  }
-
   public isNicknameUnique(nickname: string): Observable<any> {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
   }

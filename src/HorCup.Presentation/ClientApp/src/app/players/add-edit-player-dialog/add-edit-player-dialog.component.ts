@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CommonService } from 'src/app/common/common.service';
 import {
   maxLength,
   NotUnique,
@@ -21,29 +22,29 @@ export class AddEditPlayerDialogComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _playersService: PlayersService,
-    private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>
+    private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit() {
-    this._playersService.getConstraints().subscribe((constr) => {
-      this.playersForm = this._fb.group({
-        firstName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
-        lastName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
-        nickname: [
-          '',
-          { updateOn: 'blur' },
-          [Validators.required, Validators.maxLength(constr.maxNameLength)]
-        ],
-        birthDate: ['', [Validators.required]]
-      });
-
-      this.errorMessages = {
-        firstName: [RequiredField, maxLength(constr.maxNameLength)],
-        lastName: [RequiredField, maxLength(constr.maxNameLength)],
-        nickname: [RequiredField, maxLength(constr.maxNameLength), NotUnique],
-        birthDate: [RequiredField]
-      };
+    const constr = this._commonService.constraints.playerConstraints;
+    this.playersForm = this._fb.group({
+      firstName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
+      lastName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],
+      nickname: [
+        '',
+        { updateOn: 'blur' },
+        [Validators.required, Validators.maxLength(constr.maxNameLength)]
+      ],
+      birthDate: ['', [Validators.required]]
     });
+
+    this.errorMessages = {
+      firstName: [RequiredField, maxLength(constr.maxNameLength)],
+      lastName: [RequiredField, maxLength(constr.maxNameLength)],
+      nickname: [RequiredField, maxLength(constr.maxNameLength), NotUnique],
+      birthDate: [RequiredField]
+    };
   }
 
   public add() {
