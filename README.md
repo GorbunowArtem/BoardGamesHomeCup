@@ -4,7 +4,7 @@ Application for keeping statistic of played games.
 
 ---
 
-[![GitHub Actions status]()
+[![GitHub Actions status](<![HorCup](https://github.com/GorbunowArtem/BoardGamesHomeCup/workflows/HorCup/badge.svg)>)
 
 ## Technologies and libraries used:
 

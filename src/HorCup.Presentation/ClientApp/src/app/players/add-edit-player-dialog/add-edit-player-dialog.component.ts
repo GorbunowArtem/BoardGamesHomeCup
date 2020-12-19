@@ -19,14 +19,14 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
   public errorMessages!: any;
 
-  constructor(
+  public constructor(
     private _fb: FormBuilder,
     private _playersService: PlayersService,
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
     private _commonService: CommonService
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     const constr = this._commonService.constraints.playerConstraints;
     this.playersForm = this._fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(constr.maxNameLength)]],

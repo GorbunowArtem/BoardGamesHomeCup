@@ -10,9 +10,12 @@ import { GamesService } from '../games.service';
 export class GameDetailsComponent implements OnInit {
   public game: any;
 
-  constructor(private _gamesService: GamesService, private _activatedRoute: ActivatedRoute) {}
+  public constructor(
+    private _gamesService: GamesService,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this._activatedRoute.paramMap.subscribe((params) => {
       const gameId = params.get('id');
 

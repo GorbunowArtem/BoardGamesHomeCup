@@ -16,9 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'hc-player-card',
   template: `<div>A</div>`
 })
-class HcPlayerCardComponentMock {
+class HcPlayerCardComponentMockComponent {
   @Input()
-  player!: any;
+  public player!: any;
 }
 
 xdescribe('PlayersComponent', () => {

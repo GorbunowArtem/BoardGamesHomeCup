@@ -15,7 +15,7 @@ import { SearchPlayersOptions } from './models/search-players-options';
 export class PlayersService {
   private _countChangedSubject: Subject<any> = new Subject();
 
-  constructor(private _http: HttpClient) {}
+  public constructor(private _http: HttpClient) {}
 
   public isNicknameUnique(nickname: string): Observable<any> {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });

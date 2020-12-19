@@ -8,8 +8,8 @@ import { Player } from '../models/player';
 import { PlayerCardComponent } from './player-card.component';
 
 @Component({ selector: 'hc-avatar', template: '' })
-class ValidationErrorsComponentStub {
-  @Input() name!: string;
+class ValidationErrorsComponentStubComponent {
+  @Input() public name!: string;
 }
 
 describe('PlayerCardComponent', () => {

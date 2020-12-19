@@ -8,7 +8,7 @@ import { ConfirmationDialogModel } from '../models/confirmation-dialog-model';
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogModel
   ) {}

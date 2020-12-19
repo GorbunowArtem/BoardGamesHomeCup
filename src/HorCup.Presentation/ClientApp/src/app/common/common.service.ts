@@ -12,9 +12,9 @@ export class CommonService {
     return this._constraints;
   }
 
-  constructor(private _httpClient: HttpClient) {}
+  public constructor(private _httpClient: HttpClient) {}
 
-  init() {
+  public init() {
     this._httpClient
       .get<ConstraintsViewModel>('/constraints')
       .subscribe((constraints) => (this._constraints = constraints));

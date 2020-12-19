@@ -26,15 +26,15 @@ import { PagedSearchResponse } from 'src/app/common/paged-search-response';
 import { Player } from '../models/player';
 
 @Component({ selector: 'hc-field-validation-errors', template: '' })
-class ValidationErrorsComponentStub {
-  @Input() messages!: HcValidationMessage[];
+class ValidationErrorsStubComponent {
+  @Input() public messages!: HcValidationMessage[];
 
-  @Input() fieldName!: string;
+  @Input() public fieldName!: string;
 
-  @Input() form!: FormGroup;
+  @Input() public form!: FormGroup;
 }
 @Component({ selector: 'hc-nav-bar', template: '' })
-class NavBarComponentStub {}
+class NavBarStubComponent {}
 
 const validName = 'Name';
 const notValidFirstName = 'NotValid';
@@ -99,8 +99,8 @@ describe('AddEditPlayerDialogComponent', () => {
       declarations: [
         PlayersComponent,
         AddEditPlayerDialogComponent,
-        ValidationErrorsComponentStub,
-        NavBarComponentStub
+        ValidationErrorsStubComponent,
+        NavBarStubComponent
       ],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },

@@ -17,7 +17,7 @@ export class AddEditGameDialogComponent implements OnInit {
 
   public errorMessages!: any;
 
-  constructor(
+  public constructor(
     private _dialogRef: MatDialogRef<AddEditGameDialogComponent>,
     private _fb: FormBuilder,
     private _gamesService: GamesService,
@@ -26,7 +26,7 @@ export class AddEditGameDialogComponent implements OnInit {
     this.populatePlayersNumberOptions();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const constraints = this._commonService.constraints.gamesConstraints;
     this.gameForm = this._fb.group({
       title: ['', [Validators.required, Validators.maxLength(constraints.titleMaxLength)]],

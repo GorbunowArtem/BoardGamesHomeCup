@@ -8,11 +8,11 @@ import { Play } from '../models/play';
 })
 export class PlayPanelComponent {
   @Input()
-  play!: Play;
+  public play!: Play;
 
-  displayedColumns: string[] = ['player-name', 'score'];
+  public displayedColumns: string[] = ['player-name', 'score'];
 
-  get winnerName() {
+  public get winnerName() {
     const winner = this.play.playerScores.find((pl) => {
       return pl.isWinner;
     });

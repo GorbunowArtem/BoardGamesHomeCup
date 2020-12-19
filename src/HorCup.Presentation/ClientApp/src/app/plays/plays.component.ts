@@ -14,22 +14,22 @@ export class PlaysComponent implements OnInit {
   private take = 10;
   private total = 0;
 
-  constructor(private playsService: PlaysService) {
+  public constructor(private playsService: PlaysService) {
     this._plays = [];
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.playsService.get(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
       this._plays = plays.items;
       this.total = plays.total;
     });
   }
 
-  get plays() {
+  public get plays() {
     return this._plays;
   }
 
-  get moreAvailable() {
+  public get moreAvailable() {
     return this.total > this.take;
   }
 

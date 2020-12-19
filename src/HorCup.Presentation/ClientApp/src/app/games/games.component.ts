@@ -23,7 +23,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private _searchOptions: SearchGamesOptions;
 
-  constructor(
+  public constructor(
     private _gamesService: GamesService,
     private _gamesFilter: MatBottomSheet,
     private _addEditGameDialog: MatDialog

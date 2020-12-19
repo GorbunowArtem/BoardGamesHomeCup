@@ -8,10 +8,10 @@ import { Location } from '@angular/common';
 })
 export class HeaderCardComponent {
   @Input()
-  text: string = '';
+  public text = '';
 
   @Input()
-  hideNav: boolean = false;
+  public hideNav = false;
 
   public constructor(private location: Location) {}
 
