@@ -1,0 +1,51 @@
+# GitHub Actions docs
+# https://help.github.com/en/articles/about-github-actions
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+name: HorCup
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.0
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+  frontend:
+    runs-on: ubuntu-18.04
+    env:
+      working-directory: /home/runner/work/BoardGamesShop/BoardGamesShop/src/BoardGamesShop/ClientApp
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: install dependencies
+        working-directory: ${{env.working-directory}}
+        run: npm i
+      - name: lint
+        working-directory: ${{env.working-directory}}
+        run: npm run lint
+      - name: build
+        working-directory: ${{env.working-directory}}
+        run: npm run build
+      - name: test
+        working-directory: ${{env.working-directory}}
+        run: npm test -- --browsers ChromeHeadless --watch=false
