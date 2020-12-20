@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 
 import { HcAvatarComponent } from './hc-avatar.component';
 
-xdescribe('HcAvatarComponent', () => {
+describe('HcAvatarComponent', () => {
   let component: HcAvatarComponent;
   let fixture: ComponentFixture<HcAvatarComponent>;
 
