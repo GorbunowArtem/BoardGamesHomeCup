@@ -1,18 +1,24 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { CommonService } from './common.service';
+import { ConstraintsViewModel } from './models/constraints';
+import { constraints1 } from './test-data/test-constraints';
 
-xdescribe('Service: Common', () => {
-  let commonServiceMock: CommonService;
+describe('Service: Common', () => {
+  let commonService: CommonService;
+  let httpClientMock: any;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [CommonService]
+    httpClientMock = jasmine.createSpyObj(HttpClient, {
+      get: of<ConstraintsViewModel>(constraints1)
     });
+
+    commonService = new CommonService(httpClientMock);
   });
 
-  it('should ...', inject([CommonService], (service: CommonService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should get constraints from server and save them in local variable on "init" call', () => {
+    commonService.init();
+
+    expect(commonService.constraints).toEqual(constraints1);
+  });
 });
