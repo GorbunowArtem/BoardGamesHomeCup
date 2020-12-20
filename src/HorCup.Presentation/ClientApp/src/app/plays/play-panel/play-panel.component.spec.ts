@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { PlayPanelComponent } from './play-panel.component';
 
-describe('PlayPanelComponent', () => {
+xdescribe('PlayPanelComponent', () => {
   let component: PlayPanelComponent;
   let fixture: ComponentFixture<PlayPanelComponent>;
 

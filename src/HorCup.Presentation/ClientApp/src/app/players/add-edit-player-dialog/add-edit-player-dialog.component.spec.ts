@@ -64,7 +64,7 @@ const searchPlayersResponse: PagedSearchResponse<Player> = {
   ],
   total: 1
 };
-describe('AddEditPlayerDialogComponent', () => {
+xdescribe('AddEditPlayerDialogComponent', () => {
   let component: PlayersComponent;
   let fixture: ComponentFixture<PlayersComponent>;
   let rootLoader: HarnessLoader;

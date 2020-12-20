@@ -5,6 +5,6 @@ export interface Play {
   playerScores: PlayScore[];
   gameId: string;
   gameTitle: string;
-  playedDate: string;
+  playedDate: Date;
   notes: string;
 }

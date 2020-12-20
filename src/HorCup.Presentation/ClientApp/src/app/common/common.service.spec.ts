@@ -3,7 +3,9 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { CommonService } from './common.service';
 
-describe('Service: Common', () => {
+xdescribe('Service: Common', () => {
+  let commonServiceMock: CommonService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CommonService]
