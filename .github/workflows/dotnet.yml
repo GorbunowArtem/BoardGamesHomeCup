@@ -30,13 +30,13 @@ jobs:
   frontend:
     runs-on: ubuntu-18.04
     env:
-      working-directory: /home/runner/work/BoardGamesShop/BoardGamesShop/src/BoardGamesShop/ClientApp
+      working-directory: /home/runner/work/HorCup.Presentation/HorCup.Presentation/src/HorCup.Presentation/ClientApp
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: "12.x"
       - name: install dependencies
         working-directory: ${{env.working-directory}}
         run: npm i
