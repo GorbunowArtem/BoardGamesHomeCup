@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
-import { PlayerConstraints } from './models/player-constraints';
 import { PlayerDetails } from './models/player-details';
 import { SearchPlayersOptions } from './models/search-players-options';
 

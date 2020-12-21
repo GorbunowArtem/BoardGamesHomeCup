@@ -3,7 +3,7 @@ import { Player } from './models/player';
 import { SearchPlayersOptions } from './models/search-players-options';
 import { PlayersService } from './players.service';
 
-xdescribe('Service: Players', () => {
+describe('Service: Players', () => {
   let playersService: PlayersService;
   let httpClientMock: any;
 
@@ -42,8 +42,6 @@ xdescribe('Service: Players', () => {
 
     playersService.search(searchOptions);
 
-    expect(httpClientMock.get).toHaveBeenCalledWith(
-      `/players?take=${searchOptions.take}&skip=${searchOptions.skip}&searchText=${searchOptions.searchText}`
-    );
+    expect(httpClientMock.get).toHaveBeenCalledWith('/players', { params: searchOptions });
   });
 });
