@@ -4,5 +4,5 @@ export interface AddPlay {
   gameId: string;
   notes: string;
   playerScores: PlayScore[];
-  playedDate: string;
+  playedDate: Date;
 }

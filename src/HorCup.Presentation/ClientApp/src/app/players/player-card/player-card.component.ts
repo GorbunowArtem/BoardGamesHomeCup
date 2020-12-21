@@ -12,11 +12,11 @@ import { PlayersService } from '../players.service';
 })
 export class PlayerCardComponent {
   @Input()
-  player!: Player;
+  public player!: Player;
 
-  constructor(public dialog: MatDialog, private _playersService: PlayersService) {}
+  public constructor(public dialog: MatDialog, private _playersService: PlayersService) {}
 
-  get fullName() {
+  public get fullName() {
     return `${this.player.firstName} ${this.player.lastName}`;
   }
 

@@ -8,18 +8,12 @@ describe('Service: Players', () => {
   let httpClientMock: any;
 
   beforeEach(() => {
-    httpClientMock = httpClientMock = jasmine.createSpyObj('HttpClient', {
+    httpClientMock = jasmine.createSpyObj('HttpClient', {
       head: of(),
       get: of(),
       post: of()
     });
     playersService = new PlayersService(httpClientMock);
-  });
-
-  it('should get players constraints', () => {
-    playersService.getConstraints().subscribe();
-
-    expect(httpClientMock.get).toHaveBeenCalledWith('/players/constraints');
   });
 
   it('should verify is nickname unique', () => {
@@ -48,8 +42,6 @@ describe('Service: Players', () => {
 
     playersService.search(searchOptions);
 
-    expect(httpClientMock.get).toHaveBeenCalledWith(
-      `/players?take=${searchOptions.take}&skip=${searchOptions.skip}&searchText=${searchOptions.searchText}`
-    );
+    expect(httpClientMock.get).toHaveBeenCalledWith('/players', { params: searchOptions });
   });
 });

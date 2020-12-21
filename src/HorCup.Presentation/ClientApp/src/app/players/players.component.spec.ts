@@ -9,19 +9,25 @@ import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-
 import { PlayersService } from './players.service';
 import { of, Subject } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { Component, Input } from '@angular/core';
+import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SearchPlayersOptions } from './models/search-players-options';
+import { HeaderCardMockComponent } from '../common/test-data/header-card-mock';
+import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { Player } from './models/player';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'hc-player-card',
-  template: `<div>A</div>`
+  template: `<div>Player</div>`
 })
-class HcPlayerCardComponentMock {
+export class PlayerCardMockComponent {
   @Input()
-  player!: any;
+  public player!: Player;
 }
 
-xdescribe('PlayersComponent', () => {
+describe('PlayersComponent', () => {
   let fixture: ComponentFixture<PlayersComponent>;
   let matDialogMock: any;
   let loader: HarnessLoader;
@@ -31,7 +37,7 @@ xdescribe('PlayersComponent', () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       playerAdded: new Subject().asObservable(),
       search: of({
-        total: 1,
+        total: 10,
         items: [
           {
             firstName: 'first',
@@ -40,17 +46,25 @@ xdescribe('PlayersComponent', () => {
             birthDate: new Date('12.12.1989')
           }
         ]
-      })
+      }),
+      countChanged: of()
     });
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
 
     await TestBed.configureTestingModule({
-      declarations: [PlayersComponent],
+      declarations: [PlayersComponent, HeaderCardMockComponent, PlayerCardMockComponent],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: MatDialog, useValue: matDialogMock }
       ],
-      imports: [MatDialogModule, MatButtonModule, MatPaginatorModule, MatFormFieldModule]
+      imports: [
+        MatDialogModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatToolbarModule
+      ]
     }).compileComponents();
   });
 
@@ -67,5 +81,15 @@ xdescribe('PlayersComponent', () => {
     expect(matDialogMock.open).toHaveBeenCalledWith(AddEditPlayerDialogComponent, {
       disableClose: true
     });
+  });
+
+  it('should navigate to next page and load next set of players', async () => {
+    const paginator = await loader.getHarness(MatPaginatorHarness);
+
+    (playersServiceMock.search as any).calls.reset();
+
+    await paginator.goToNextPage();
+
+    expect(playersServiceMock.search).toHaveBeenCalledWith(new SearchPlayersOptions(6, 6));
   });
 });

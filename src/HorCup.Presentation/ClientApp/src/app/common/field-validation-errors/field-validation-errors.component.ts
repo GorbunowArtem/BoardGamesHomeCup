@@ -6,9 +6,9 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './field-validation-errors.component.html'
 })
 export class HcFieldValidationErrorsComponent {
-  @Input() messages!: any;
+  @Input() public messages!: any;
 
-  @Input() fieldName!: any;
+  @Input() public fieldName!: any;
 
-  @Input() form!: FormGroup;
+  @Input() public form!: FormGroup;
 }

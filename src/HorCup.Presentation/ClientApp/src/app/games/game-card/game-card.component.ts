@@ -6,13 +6,9 @@ import { Game } from '../models/game';
   templateUrl: './game-card.component.html',
   styleUrls: ['./game-card.component.scss']
 })
-export class GameCardComponent implements OnInit {
+export class GameCardComponent {
   @Input()
-  game!: Game;
+  public game!: Game;
 
-  constructor() {}
-
-  rate: number = 1;
-
-  ngOnInit() {}
+  public rate = 5;
 }

@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Game } from './models/game';
-import { GamesConstraints } from './models/games-constraints';
 import { SearchGamesOptions } from './models/search-games-options';
 
 @Injectable({
@@ -13,7 +12,7 @@ import { SearchGamesOptions } from './models/search-games-options';
 export class GamesService {
   public searchParamsChangedSubject = new Subject<SearchGamesOptions>();
 
-  constructor(private _httpModule: HttpClient) {}
+  public constructor(private _httpModule: HttpClient) {}
 
   public search(options: SearchGamesOptions): Observable<PagedSearchResponse<Game>> {
     return this._httpModule.get<PagedSearchResponse<Game>>('/games', {

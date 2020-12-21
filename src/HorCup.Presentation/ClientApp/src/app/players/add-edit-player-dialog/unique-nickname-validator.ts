@@ -10,13 +10,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { PlayersService } from '../players.service';
 
 @Directive({
-  selector: '[uniqueNicknameValidator]',
+  selector: '[hcUniqueNicknameValidator]',
   providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: UniqueNicknameValidator, multi: true }]
 })
 export class UniqueNicknameValidator implements AsyncValidator {
-  constructor(private _playerService: PlayersService) {}
+  public constructor(private _playerService: PlayersService) {}
 
-  validate(
+  public validate(
     control: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
     return this._playerService.isNicknameUnique(control.value).pipe(

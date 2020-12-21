@@ -14,7 +14,7 @@ export class GamesFilterComponent {
 
   public gamesFilter: FormGroup;
 
-  constructor(
+  public constructor(
     private _fb: FormBuilder,
     private _gamesService: GamesService,
     private _filterRef: MatBottomSheetRef,

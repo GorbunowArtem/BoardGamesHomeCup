@@ -13,11 +13,11 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
-  players: Player[] = [];
+  public players: Player[] = [];
 
-  totalItems: number = 0;
+  public totalItems = 0;
 
-  playerAddedSubscription!: Subscription;
+  public playerAddedSubscription!: Subscription;
 
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {}
 
@@ -33,7 +33,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
       .subscribe(() => this.search());
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.playerAddedSubscription.unsubscribe();
   }
 

@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
-import { PlayerConstraints } from './models/player-constraints';
 import { PlayerDetails } from './models/player-details';
 import { SearchPlayersOptions } from './models/search-players-options';
 
@@ -15,7 +14,7 @@ import { SearchPlayersOptions } from './models/search-players-options';
 export class PlayersService {
   private _countChangedSubject: Subject<any> = new Subject();
 
-  constructor(private _http: HttpClient) {}
+  public constructor(private _http: HttpClient) {}
 
   public isNicknameUnique(nickname: string): Observable<any> {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });

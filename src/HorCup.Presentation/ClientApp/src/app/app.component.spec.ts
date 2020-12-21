@@ -1,12 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { CommonService } from './common/common.service';
+import { NavBarMockComponent } from './nav-bar/test-data/nav-bar-header-mock';
 
 describe('AppComponent', () => {
+  let commonServiceMock: any;
+
   beforeEach(async () => {
+    commonServiceMock = jasmine.createSpyObj('CommonService', ['init']);
+
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent]
+      declarations: [AppComponent, NavBarMockComponent],
+      providers: [{ provide: CommonService, useValue: commonServiceMock }]
     }).compileComponents();
   });
 

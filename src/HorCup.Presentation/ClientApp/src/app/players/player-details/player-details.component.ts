@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Player } from '../models/player';
 import { PlayerDetails } from '../models/player-details';
 import { PlayersService } from '../players.service';
 
@@ -11,11 +10,14 @@ import { PlayersService } from '../players.service';
 })
 export class PlayerDetailsComponent implements OnInit {
   @Input()
-  player!: PlayerDetails;
+  public player!: PlayerDetails;
 
-  constructor(private _playersService: PlayersService, private _activatedRoute: ActivatedRoute) {}
+  public constructor(
+    private _playersService: PlayersService,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this._activatedRoute.paramMap.subscribe((params) => {
       const playerId = params.get('id');
 

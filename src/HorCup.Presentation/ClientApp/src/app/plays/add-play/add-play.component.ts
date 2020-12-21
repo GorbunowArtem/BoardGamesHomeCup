@@ -30,7 +30,7 @@ export class AddPlayComponent implements OnInit {
   public gamesOptions!: Observable<Game[]>;
   public playersOption!: Observable<Player[]>;
 
-  constructor(
+  public constructor(
     private _fb: FormBuilder,
     private _gamesService: GamesService,
     private _playersService: PlayersService,
@@ -39,7 +39,7 @@ export class AddPlayComponent implements OnInit {
     private _router: Router
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.gamesOptions = (this.addPlayForm.get('selectedGame') as FormControl).valueChanges.pipe(
       startWith(''),
       debounceTime(400),
@@ -55,22 +55,22 @@ export class AddPlayComponent implements OnInit {
     );
   }
 
-  get defaultPlayerScore() {
+  public get defaultPlayerScore() {
     return this._fb.group({
       player: [null, [Validators.required]],
       score: ['', Validators.required]
     });
   }
 
-  get selectedGame() {
+  public get selectedGame() {
     return this.addPlayForm.get('selectedGame')?.value;
   }
 
-  get playerScores() {
+  public get playerScores() {
     return this.addPlayForm.get('playerScores') as FormArray;
   }
 
-  get playerScoresControls() {
+  public get playerScoresControls() {
     return this.playerScores.controls as FormGroup[];
   }
 
