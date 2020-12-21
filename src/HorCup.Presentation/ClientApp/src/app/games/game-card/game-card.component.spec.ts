@@ -56,8 +56,6 @@ describe('GameCardComponent', () => {
   it('should label contain number of players', () => {
     const playersNumber = fixture.debugElement.query(By.css('.players-number'));
 
-    console.log(playersNumber.nativeElement);
-
     expect(playersNumber.nativeElement.textContent).toEqual(
       `people_alt ${testGame1.minPlayers} - ${testGame1.maxPlayers} `
     );

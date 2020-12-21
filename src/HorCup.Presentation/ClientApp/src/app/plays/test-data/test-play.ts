@@ -5,7 +5,7 @@ export const testPlay1: Play = {
   gameTitle: 'test game 1',
   id: 'playId',
   notes: 'Test play note 1',
-  playedDate: new Date(),
+  playedDate: new Date(2020, 2, 2),
   playerScores: [
     {
       isWinner: true,
@@ -14,6 +14,14 @@ export const testPlay1: Play = {
         name: 'Player 1'
       },
       score: 22
+    },
+    {
+      isWinner: false,
+      player: {
+        id: 'player2Id',
+        name: 'Player 2'
+      },
+      score: 11
     }
   ]
 };
