@@ -4,5 +4,5 @@ export const testGame1: Game = {
   id: 'id',
   maxPlayers: 6,
   minPlayers: 7,
-  title: 'Game title'
+  title: 'A very long Game title that will be shortened'
 };
