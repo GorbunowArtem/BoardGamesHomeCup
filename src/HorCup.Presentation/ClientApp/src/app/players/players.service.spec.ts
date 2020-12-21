@@ -8,7 +8,7 @@ describe('Service: Players', () => {
   let httpClientMock: any;
 
   beforeEach(() => {
-    httpClientMock = httpClientMock = jasmine.createSpyObj('HttpClient', {
+    httpClientMock = jasmine.createSpyObj('HttpClient', {
       head: of(),
       get: of(),
       post: of()
