@@ -3,11 +3,14 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatCardHarness } from '@angular/material/card/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { GamesService } from '../games.service';
 import { testGame1 } from '../test-data/test-game';
 import { GameCardComponent } from './game-card.component';
 
@@ -15,8 +18,11 @@ describe('GameCardComponent', () => {
   let component: GameCardComponent;
   let fixture: ComponentFixture<GameCardComponent>;
   let loader: HarnessLoader;
+  let gamesServiceMock: any;
 
   beforeEach(async () => {
+    gamesServiceMock = jasmine.createSpyObj('GamesService', ['delete']);
+
     await TestBed.configureTestingModule({
       declarations: [GameCardComponent],
       imports: [
@@ -24,8 +30,11 @@ describe('GameCardComponent', () => {
         MatCardModule,
         MatIconModule,
         BarRatingModule,
-        AppRoutingModule
-      ]
+        AppRoutingModule,
+        MatDialogModule,
+        MatMenuModule
+      ],
+      providers: [{ provide: GamesService, useValue: gamesServiceMock }]
     }).compileComponents();
   });
 
