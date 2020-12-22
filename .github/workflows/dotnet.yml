@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.0
+          dotnet-version: 5.0.1
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -30,7 +30,7 @@ jobs:
   frontend:
     runs-on: ubuntu-18.04
     env:
-      working-directory: /home/runner/work/HorCup.Presentation/HorCup.Presentation/src/HorCup.Presentation/ClientApp
+      working-directory: /home/runner/work/BoardGamesHomeCup/BoardGamesHomeCup/src/HorCup.Presentation/ClientApp
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node

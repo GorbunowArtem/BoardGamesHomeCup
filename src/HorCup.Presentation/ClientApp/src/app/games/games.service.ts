@@ -29,4 +29,10 @@ export class GamesService {
   public get(id: string | null): Observable<any> {
     return this._httpModule.get<any>(`/games/${id}`);
   }
+
+  public delete(id: string): Observable<any> {
+    return this._httpModule
+      .delete(`/games/${id}`)
+      .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+  }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.AddGame;
+using HorCup.Presentation.Games.Commands.DeleteGame;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
@@ -36,7 +36,7 @@ namespace HorCup.Presentation.Controllers
 		[HttpGet("{id:Guid}")]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
-		public async Task<ActionResult<GameDetailsViewModel>> GetById(Guid id)
+		public async Task<ActionResult<GameDetailsViewModel>> GetById([FromRoute] Guid id)
 		{
 			var game = await _sender.Send(new GetGameByIdQuery(id));
 
@@ -51,6 +51,16 @@ namespace HorCup.Presentation.Controllers
 			var id = await _sender.Send(command);
 
 			return CreatedAtAction(nameof(Add), new {id}, command);
+		}
+
+		[HttpDelete("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Delete([FromRoute] Guid id)
+		{
+			await _sender.Send(new DeleteGameCommand(id));
+			
+			return NoContent();
 		}
 	}
 }

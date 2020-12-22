@@ -21,6 +21,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HcCommonModule } from '../common/hc-common.module';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatToolbarModule,
     MatDialogModule,
     HcCommonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   declarations: [
     GamesComponent,

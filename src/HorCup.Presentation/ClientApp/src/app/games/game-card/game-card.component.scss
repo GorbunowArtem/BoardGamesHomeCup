@@ -7,8 +7,13 @@ a {
 .mat-card {
   display: flex;
   margin: 15px;
+  justify-content: space-between;
 }
 
 .game-content {
   padding-left: 15px;
+}
+
+.menu-opener {
+  text-align: right;
 }
