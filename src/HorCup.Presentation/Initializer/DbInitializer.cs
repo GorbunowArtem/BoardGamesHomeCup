@@ -13,9 +13,7 @@ namespace HorCup.Presentation.Initializer
 	{
 		public static void Initialize(HorCupContext context)
 		{
-#if DEBUG
-	//		context.Database.EnsureDeleted();
-#endif
+			context.Database.EnsureDeleted();
 			context.Database.EnsureCreated();
 
 			if (!context.Players.Any())
@@ -28,11 +26,11 @@ namespace HorCup.Presentation.Initializer
 				context.Games.AddRange(GetGames());
 			}
 
-			if (!context.Plays.Any())
-			{
-				context.Plays.AddRange(GetPlays());
-				context.PlayScores.AddRange(GetPlayScores());
-			}
+			// if (!context.Plays.Any())
+			// {
+			// 	context.Plays.AddRange(GetPlays());
+			// 	context.PlayScores.AddRange(GetPlayScores());
+			// }
 
 			context.SaveChanges();
 		}
@@ -57,18 +55,8 @@ namespace HorCup.Presentation.Initializer
 					BirthDate = new DateTime(2000, 1, 1),
 					FirstName = "Played 2",
 					LastName = "Played 2"
-				}, 
-			}.Union(
-			Enumerable.Range(1, 15)
-				.Select(i => new Player
-				{
-					Id = Guid.NewGuid(),
-					Added = DateTime.Now,
-					Nickname = $"player{i}",
-					BirthDate = new DateTime(1990, 2, i),
-					FirstName = $"Player{i}",
-					LastName = $"Player{i}"
-				}));
+				},
+			};
 
 		private static IEnumerable<Game> GetGames() =>
 			new List<Game>
@@ -97,15 +85,7 @@ namespace HorCup.Presentation.Initializer
 					MaxPlayers = 4,
 					HasScores = true
 				}
-			}.Union(
-			Enumerable.Range(1, 16)
-				.Select(i => new Game
-				{
-					Title = $"Game {i} with title more than 20 symbols",
-					MaxPlayers = i + 2,
-					MinPlayers = ++i,
-					HasScores = false
-				}));
+			};
 		
 		private static IEnumerable<Play> GetPlays() =>
 		new List<Play>

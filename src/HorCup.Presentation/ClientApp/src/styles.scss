@@ -1,7 +1,8 @@
 @import '~ngx-bar-rating/themes/br-default-theme';
 
 html,
-body {
+body,
+.app-container {
   height: 100%;
 }
 body {
