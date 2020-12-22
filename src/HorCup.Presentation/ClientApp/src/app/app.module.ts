@@ -11,6 +11,7 @@ import { PlayersModule } from './players/players.module';
 import { NavBarModule } from './nav-bar/nav-bar.module';
 import { GamesModule } from './games/games.module';
 import { PlaysModule } from './plays/plays.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -23,7 +24,8 @@ registerLocaleData(localeRu, 'ru');
     PlayersModule,
     NavBarModule,
     GamesModule,
-    PlaysModule
+    PlaysModule,
+    FlexLayoutModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'ru' }],
   bootstrap: [AppComponent]

@@ -6,10 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 import { NavBarComponent } from './nav-bar.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [CommonModule, MatToolbarModule, MatButtonModule, RouterModule, MatIconModule],
-  declarations: [NavBarComponent],
-  exports: [NavBarComponent]
+  declarations: [NavBarComponent, FooterComponent],
+  exports: [NavBarComponent, FooterComponent]
 })
 export class NavBarModule {}
