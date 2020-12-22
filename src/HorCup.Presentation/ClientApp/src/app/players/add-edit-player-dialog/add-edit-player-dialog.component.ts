@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from 'src/app/common/common.service';
 import {
   maxLength,
@@ -23,7 +24,8 @@ export class AddEditPlayerDialogComponent implements OnInit {
     private _fb: FormBuilder,
     private _playersService: PlayersService,
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _snackBar: MatSnackBar
   ) {}
 
   public ngOnInit() {
@@ -50,6 +52,9 @@ export class AddEditPlayerDialogComponent implements OnInit {
   public add() {
     this._playersService.add(this.playersForm.value).subscribe(() => {
       this._dialogRef.close();
+      this._snackBar.open('Игрок добавлен', undefined, {
+        duration: 2000
+      });
     });
   }
 }

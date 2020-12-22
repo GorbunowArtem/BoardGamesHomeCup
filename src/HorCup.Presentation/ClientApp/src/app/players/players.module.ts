@@ -21,6 +21,7 @@ import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nicknam
 import { PlayerCardComponent } from './player-card/player-card.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatPaginatorModule,
     MatCardModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSnackBarModule
   ],
   declarations: [
     PlayersComponent,

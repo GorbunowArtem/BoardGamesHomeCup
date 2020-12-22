@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from 'src/app/common/common.service';
 import { max, RequiredField } from 'src/app/common/validation-messages/validation-messages';
 import { GamesService } from '../games.service';
@@ -21,7 +22,8 @@ export class AddEditGameDialogComponent implements OnInit {
     private _dialogRef: MatDialogRef<AddEditGameDialogComponent>,
     private _fb: FormBuilder,
     private _gamesService: GamesService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _snackBar: MatSnackBar
   ) {
     this.populatePlayersNumberOptions();
   }
@@ -48,6 +50,9 @@ export class AddEditGameDialogComponent implements OnInit {
   public save() {
     this._gamesService.add(this.gameForm.value).subscribe(() => {
       this._dialogRef.close();
+      this._snackBar.open('Игра добавлена', undefined, {
+        duration: 2000
+      });
     });
   }
 

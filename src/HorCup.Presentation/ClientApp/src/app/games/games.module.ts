@@ -20,6 +20,7 @@ import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game
 import { MatDialogModule } from '@angular/material/dialog';
 import { HcCommonModule } from '../common/hc-common.module';
 import { GameDetailsComponent } from './game-details/game-details.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { GameDetailsComponent } from './game-details/game-details.component';
     MatSelectModule,
     MatToolbarModule,
     MatDialogModule,
-    HcCommonModule
+    HcCommonModule,
+    MatSnackBarModule
   ],
   declarations: [
     GamesComponent,
