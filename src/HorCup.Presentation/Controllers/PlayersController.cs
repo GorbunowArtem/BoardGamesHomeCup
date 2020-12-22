@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using HorCup.Presentation.Players;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Players.Commands.DeletePlayer;
 using HorCup.Presentation.Players.Queries.GetById;
@@ -66,7 +65,7 @@ namespace HorCup.Presentation.Controllers
 		[HttpGet("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult<PlayerViewModel>> Get(Guid id)
+		public async Task<ActionResult<PlayerViewModel>> Get([FromRoute] Guid id)
 		{
 			return Ok(await _sender.Send(new GetPlayerByIdQuery(id)));
 		}
@@ -74,11 +73,11 @@ namespace HorCup.Presentation.Controllers
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> Delete(Guid id)
+		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			await _sender.Send(new DeletePlayerCommand(id));
 
-			return Ok();
+			return NoContent();
 		}
 	}
 }
