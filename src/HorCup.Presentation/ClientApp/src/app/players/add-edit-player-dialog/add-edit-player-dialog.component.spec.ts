@@ -29,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonService } from 'src/app/common/common.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'hc-player-card',
@@ -119,7 +120,8 @@ describe('AddEditPlayerDialogComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatPaginatorModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatSnackBarModule
       ],
       declarations: [
         PlayersComponent,

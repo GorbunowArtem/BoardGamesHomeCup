@@ -1,12 +1,8 @@
-<div class="app">
-  <header>
-    <hc-nav-bar></hc-nav-bar>
-  </header>
-  <main>
-    <router-outlet></router-outlet>
-    <div></div>
-  </main>
-  <footer>
+<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
+  <div class="header"><hc-nav-bar></hc-nav-bar></div>
+  <div class="body"><router-outlet></router-outlet></div>
+  <div class="helper" fxFlex fxFlexFill></div>
+  <div class="footer">
     <hc-footer></hc-footer>
-  </footer>
+  </div>
 </div>
