@@ -4,13 +4,5 @@ using MediatR;
 
 namespace HorCup.Presentation.Players.Queries.GetById
 {
-	public class GetPlayerByIdQuery: IRequest<PlayerDetailsViewModel>
-	{
-		public GetPlayerByIdQuery(Guid id)
-		{
-			Id = id;
-		}
-		
-		public Guid Id { get; }
-	}
+	public record GetPlayerByIdQuery(Guid Id) : IRequest<PlayerDetailsViewModel>;
 }
