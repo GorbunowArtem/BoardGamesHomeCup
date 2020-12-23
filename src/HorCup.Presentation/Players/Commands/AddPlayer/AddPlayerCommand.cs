@@ -3,7 +3,7 @@ using MediatR;
 
 namespace HorCup.Presentation.Players.Commands.AddPlayer
 {
-	public class AddPlayerCommand : IRequest<Guid>
+	public record AddPlayerCommand : IRequest<Guid>
 	{
 		public string FirstName { get; set; }
 

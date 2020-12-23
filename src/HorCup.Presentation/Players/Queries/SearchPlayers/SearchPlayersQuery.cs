@@ -5,7 +5,7 @@ using MediatR;
 
 namespace HorCup.Presentation.Players.Queries.SearchPlayers
 {
-	public class SearchPlayersQuery: IRequest<(IEnumerable<PlayerViewModel> items, int total)>
+	public record SearchPlayersQuery: IRequest<(IEnumerable<PlayerViewModel> items, int total)>
 	{
 		public int Take { get; set; } = 10;
 
