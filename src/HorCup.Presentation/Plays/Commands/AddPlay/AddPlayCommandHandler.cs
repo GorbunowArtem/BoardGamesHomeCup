@@ -71,13 +71,13 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 				if (playerScoresCount > game.MaxPlayers)
 				{
 					_logger.LogError("Players count is bigger than game max players");
-					throw new InvalidOperationException("Players count cannot be bigger than game maximum players");
+					throw new ArgumentException("Players count cannot be bigger than game maximum players");
 				}
 
 				if (game.MinPlayers > playerScoresCount)
 				{
 					_logger.LogError("Players count is less than game min players");
-					throw new InvalidOperationException("Players count cannot be less than game minimum players");
+					throw new ArgumentException("Players count cannot be less than game minimum players");
 				}
 			}
 		}

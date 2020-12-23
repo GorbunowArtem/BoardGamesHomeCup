@@ -35,7 +35,6 @@ namespace HorCup.Tests.Games.Commands
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			
-			
 			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title))
 				.Returns(Task.FromResult(true));
 
