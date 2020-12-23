@@ -1,10 +1,8 @@
 # Board Games Home Cup
 
-Application for keeping statistic of played games.
-
----
-
 [![HorCup](https://github.com/GorbunowArtem/BoardGamesHomeCup/workflows/HorCup/badge.svg)](https://github.com/GorbunowArtem/BoardGamesHomeCup/actions)
+
+Application for keeping statistic of played games, optimized for mobile view.
 
 ## Technologies and libraries used:
 
