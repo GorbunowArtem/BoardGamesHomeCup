@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonService } from './common/common.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'hc-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'hor-cup';
+  public title = 'hor-cup';
+
+  public constructor(private _commonService: CommonService) {
+    this._commonService.init();
+  }
 }

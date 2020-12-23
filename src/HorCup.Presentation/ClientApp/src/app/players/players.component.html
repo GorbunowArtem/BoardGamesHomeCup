@@ -1,0 +1,16 @@
+<hc-header-card [text]="'Активные игроки:'"></hc-header-card>
+<div class="players-list">
+  <hc-player-card *ngFor="let player of players" [player]="player"></hc-player-card>
+</div>
+
+<mat-toolbar>
+  <button mat-icon-button (click)="showDialog()"><mat-icon>add</mat-icon></button>
+
+  <span class="spacer"></span>
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="6"
+    [hidePageSize]="true"
+    (page)="pageChangedEvent($event)"
+  ></mat-paginator>
+</mat-toolbar>

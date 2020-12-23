@@ -1,10 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~ngx-bar-rating/themes/br-default-theme';
 
 html,
-body {
+body,
+.app-container {
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+$main-text-color: white;
+$bottom-bar-background-color: rgb(66, 66, 66);
+$winner-background: #69f0ae;

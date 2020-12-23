@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Presentation", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72EF4A8D-BEBC-4C3E-96E5-325C211AEFCF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EAF15B9F-EEA8-4F4F-B2EF-BF636B4E34A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Tests", "tests\HorCup.Tests\HorCup.Tests.csproj", "{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,8 +18,13 @@ Global
 		{662BD645-F085-4CA3-AB93-57476D12B9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{662BD645-F085-4CA3-AB93-57476D12B9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{662BD645-F085-4CA3-AB93-57476D12B9CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{662BD645-F085-4CA3-AB93-57476D12B9CA} = {72EF4A8D-BEBC-4C3E-96E5-325C211AEFCF}
+		{6C92C4A4-AEAE-4F47-BA7B-5DD6C4F90D9A} = {EAF15B9F-EEA8-4F4F-B2EF-BF636B4E34A4}
 	EndGlobalSection
 EndGlobal

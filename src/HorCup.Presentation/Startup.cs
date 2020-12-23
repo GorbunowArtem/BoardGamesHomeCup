@@ -1,13 +1,17 @@
 using System.Reflection;
 using AutoMapper;
 using FluentValidation.AspNetCore;
-using HorCup.Presentation.Player.Commands.AddPlayer;
+using HorCup.Presentation.Context;
+using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Services.DateTimeService;
+using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.Services.IdGenerator;
+using HorCup.Presentation.Services.Players;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +29,7 @@ namespace HorCup.Presentation
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<HorCupContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
 			
 			services.AddControllersWithViews().AddFluentValidation(fv =>
 				fv.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>());
@@ -33,9 +38,13 @@ namespace HorCup.Presentation
 
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+			services.AddScoped<IHorCupContext, HorCupContext>();
 			
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
+			services.AddTransient<IPlayersService, PlayersService>();
+			services.AddTransient<IGamesService, GamesService>();
 			
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}
@@ -54,6 +63,7 @@ namespace HorCup.Presentation
 				app.UseHsts();
 			}
 
+			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			

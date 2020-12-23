@@ -1,0 +1,20 @@
+@import '../../styles.scss';
+
+.players-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+hc-player-card {
+  width: 300px;
+}
+
+mat-toolbar {
+  background-color: $bottom-bar-background-color;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

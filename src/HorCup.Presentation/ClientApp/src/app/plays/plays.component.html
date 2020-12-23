@@ -1,0 +1,17 @@
+<hc-header-card [hideNav]="true" [text]="'Список последних партий:'"></hc-header-card>
+
+<mat-accordion [multi]="false">
+  <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
+</mat-accordion>
+
+<a
+  ><button class="add-play" mat-fab color="primary" [routerLink]="['/add-play']">
+    <mat-icon>add</mat-icon>
+  </button></a
+>
+
+<div class="load-more" *ngIf="moreAvailable">
+  <button mat-raised-button color="accent" layout-align="center center" (click)="loadMore()">
+    Загрузить еще
+  </button>
+</div>

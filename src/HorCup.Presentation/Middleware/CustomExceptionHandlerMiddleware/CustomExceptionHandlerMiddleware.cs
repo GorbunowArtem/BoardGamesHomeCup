@@ -43,6 +43,9 @@ namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
 				case NotFoundException _:
 					code = HttpStatusCode.NotFound;
 					break;
+				case EntityExistsException:
+					code = HttpStatusCode.Conflict;
+					break;
 			}
 
 			context.Response.ContentType = "application/json";
