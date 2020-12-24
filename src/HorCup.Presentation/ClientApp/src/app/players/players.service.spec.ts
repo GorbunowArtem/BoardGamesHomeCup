@@ -49,6 +49,6 @@ describe('Service: Players', () => {
   it('should edit player', () => {
     playersService.edit(player).subscribe();
 
-    expect(httpClientMock.patch).toHaveBeenCalledWith('/players', player);
+    expect(httpClientMock.patch).toHaveBeenCalledWith(`/players/${player.id}`, player);
   });
 });

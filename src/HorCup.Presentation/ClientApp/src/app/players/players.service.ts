@@ -30,7 +30,7 @@ export class PlayersService {
 
   public edit(player: Player): Observable<void> {
     return this._http
-      .patch<Player>(`${PlayersUrl}`, player)
+      .patch<Player>(`${PlayersUrl}/${player.id}`, player)
       .pipe(map(() => this._countChangedSubject.next({ edited: player.id })));
   }
 
