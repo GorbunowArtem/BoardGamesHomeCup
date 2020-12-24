@@ -54,7 +54,7 @@ namespace HorCup.Presentation.Players.Commands.EditPlayer
 			{
 				if (!string.Equals(existing.Nickname, request.Nickname, StringComparison.OrdinalIgnoreCase))
 				{
-					var isNicknameUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname);
+					var isNicknameUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname, request.Id);
 
 					_logger.LogInformation($"Checking if nickname {request.Nickname} for {request.Id.ToString()} is unique ");
 

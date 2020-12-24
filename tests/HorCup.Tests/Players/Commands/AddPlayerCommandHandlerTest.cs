@@ -32,9 +32,9 @@ namespace HorCup.Tests.Players.Commands
 			dateTimeServiceMock.Setup(dt => dt.Now).Returns(new DateTime());
 
 			var playersServiceMock = new Mock<IPlayersService>();
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName))
+			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, Guid.Empty))
 				.Returns(Task.FromResult(false));
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName))
+			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName, Guid.Empty))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddPlayerCommandHandler(

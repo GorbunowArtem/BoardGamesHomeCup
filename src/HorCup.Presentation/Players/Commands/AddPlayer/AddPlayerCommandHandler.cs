@@ -35,7 +35,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 
 		public async Task<Guid> Handle(AddPlayerCommand request, CancellationToken cancellationToken)
 		{
-			var isUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname);
+			var isUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname, null);
 
 			if (!isUnique)
 			{

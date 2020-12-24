@@ -25,9 +25,9 @@ describe('Service: Players', () => {
   });
 
   it('should verify is nickname unique', () => {
-    playersService.isNicknameUnique('nick').subscribe();
+    playersService.isNicknameUnique('nick', 'id').subscribe();
 
-    expect(httpClientMock.head).toHaveBeenCalledWith('/players?nickname=nick', {
+    expect(httpClientMock.head).toHaveBeenCalledWith('/players?nickname=nick&id=id', {
       observe: 'response'
     });
   });
