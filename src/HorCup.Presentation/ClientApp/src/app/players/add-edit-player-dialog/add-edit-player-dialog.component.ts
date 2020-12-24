@@ -10,6 +10,8 @@ import {
 } from 'src/app/common/validation-messages/validation-messages';
 import { Player } from '../models/player';
 import { PlayersService } from '../players.service';
+import { IPlayerPersistenceStrategy } from './player-strategy/i-player-persistence-strategy';
+import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
 
 @Component({
   selector: 'hc-add-edit-player-dialog',
@@ -21,51 +23,37 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
   public errorMessages!: any;
 
-  private playerModel: Player;
-
-  private readonly _defaultPLayer: Player;
-
-  private readonly _isEditMode: boolean;
+  private readonly _playerStrategy: IPlayerPersistenceStrategy;
 
   public constructor(
     private _fb: FormBuilder,
-    private _playersService: PlayersService,
+    _playersService: PlayersService,
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
     private _commonService: CommonService,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) private data: Player
+    @Inject(MAT_DIALOG_DATA) data: Player
   ) {
-    this._defaultPLayer = {
-      birthDate: '',
-      firstName: '',
-      lastName: '',
-      nickname: '',
-      id: undefined
-    };
-
-    this._isEditMode = data !== null;
-    this.playerModel = data ?? this._defaultPLayer;
+    this._playerStrategy = new PlayersPersistenceFactory().getStrategy(data, _playersService);
   }
 
   public ngOnInit() {
     const constr = this._commonService.constraints.playerConstraints;
 
+    const model = this._playerStrategy.player;
+
     this.playersForm = this._fb.group({
-      id: [this.playerModel.id],
+      id: [model.id],
       firstName: [
-        this.playerModel.firstName,
+        model.firstName,
         [Validators.required, Validators.maxLength(constr.maxNameLength)]
       ],
-      lastName: [
-        this.playerModel.lastName,
-        [Validators.required, Validators.maxLength(constr.maxNameLength)]
-      ],
+      lastName: [model.lastName, [Validators.required, Validators.maxLength(constr.maxNameLength)]],
       nickname: [
-        this.playerModel.nickname,
+        model.nickname,
         { updateOn: 'blur' },
         [Validators.required, Validators.maxLength(constr.maxNameLength)]
       ],
-      birthDate: [this.playerModel.birthDate, [Validators.required]]
+      birthDate: [model.birthDate, [Validators.required]]
     });
 
     this.errorMessages = {
@@ -77,20 +65,11 @@ export class AddEditPlayerDialogComponent implements OnInit {
   }
 
   public save() {
-    if (this._isEditMode) {
-      this._playersService.edit(this.playersForm.value).subscribe(() => {
-        this._dialogRef.close();
-        this._snackBar.open('Игрок изменен', undefined, {
-          duration: 2000
-        });
+    this._playerStrategy.save(this.playersForm.value).subscribe(() => {
+      this._dialogRef.close();
+      this._snackBar.open(this._playerStrategy.successMessage, undefined, {
+        duration: 2000
       });
-    } else {
-      this._playersService.add(this.playersForm.value).subscribe(() => {
-        this._dialogRef.close();
-        this._snackBar.open('Игрок добавлен', undefined, {
-          duration: 2000
-        });
-      });
-    }
+    });
   }
 }

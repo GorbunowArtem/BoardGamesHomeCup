@@ -7,12 +7,16 @@ describe('Service: Players', () => {
   let playersService: PlayersService;
   let httpClientMock: any;
 
+  const player: Player = {
+    firstName: 'first',
+    lastName: 'last',
+    nickname: 'nick',
+    birthDate: 'Thu Dec 24 2020 20:32:07'
+  };
+
   beforeEach(() => {
-    httpClientMock = jasmine.createSpyObj('HttpClient', {
-      head: of(),
-      get: of(),
-      post: of()
-    });
+    httpClientMock = jasmine.createSpyObj('HttpClient', ['head', 'get', 'post', 'put']);
+
     playersService = new PlayersService(httpClientMock);
   });
 
@@ -25,13 +29,6 @@ describe('Service: Players', () => {
   });
 
   it('should add player', () => {
-    const player: Player = {
-      firstName: 'first',
-      lastName: 'last',
-      nickname: 'nick',
-      birthDate: new Date('12.12.1989')
-    };
-
     playersService.add(player).subscribe();
 
     expect(httpClientMock.post).toHaveBeenCalledWith('players', player);
@@ -43,5 +40,11 @@ describe('Service: Players', () => {
     playersService.search(searchOptions);
 
     expect(httpClientMock.get).toHaveBeenCalledWith('/players', { params: searchOptions });
+  });
+
+  it('should edit player', () => {
+    playersService.edit(player).subscribe();
+
+    expect(httpClientMock.put).toHaveBeenCalledWith('/player', player);
   });
 });
