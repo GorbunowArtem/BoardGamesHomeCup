@@ -20,10 +20,16 @@ export class PlayersService {
     return this._http.head(`/players?nickname=${nickname}`, { observe: 'response' });
   }
 
-  public add(player: Player) {
+  public add(player: Player): Observable<void> {
     return this._http
       .post<Player>('players', player)
       .pipe(map(() => this._countChangedSubject.next({ added: player.id })));
+  }
+
+  public edit(player: Player): Observable<void> {
+    return this._http
+      .patch<Player>('/players', player)
+      .pipe(map(() => this._countChangedSubject.next({ edited: player.id })));
   }
 
   public search(options: SearchPlayersOptions) {

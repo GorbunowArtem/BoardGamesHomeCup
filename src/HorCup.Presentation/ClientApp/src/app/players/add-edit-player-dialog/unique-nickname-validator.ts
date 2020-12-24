@@ -19,6 +19,9 @@ export class UniqueNicknameValidator implements AsyncValidator {
   public validate(
     control: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    if (control.parent?.get('id')?.value) {
+      return of(null);
+    }
     return this._playerService.isNicknameUnique(control.value).pipe(
       map(() => null),
       catchError(() => of({ notUnique: true }))
