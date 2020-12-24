@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Players;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Presentation.Services.Players
@@ -23,22 +22,15 @@ namespace HorCup.Presentation.Services.Players
 				return true;
 			}
 
-			Player player;
+			var query = _context.Players.Where(p =>
+				p.Nickname.ToUpper().Equals(nickname.Trim().ToUpper()));
 
 			if (id.HasValue)
 			{
-				player = await _context.Players.Where(p =>
-						p.Nickname.ToUpper().Contains(nickname.Trim().ToUpper()) && id != p.Id)
-					.FirstOrDefaultAsync();
-			}
-			else
-			{
-				player = await _context.Players.Where(p =>
-						p.Nickname.ToUpper().Contains(nickname.Trim().ToUpper()))
-					.FirstOrDefaultAsync();
+				query = query.Where(p => p.Id != id);
 			}
 
-			return player == null;
+			return await query.SingleOrDefaultAsync() == null;
 		}
 	}
 }
