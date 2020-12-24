@@ -33,7 +33,7 @@ describe('PlayerDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayerDetailsComponent);
     component = fixture.componentInstance;
-    component.player = testPlayer1;
+    //  component.player = testPlayer1;
     fixture.detectChanges();
   });
 
