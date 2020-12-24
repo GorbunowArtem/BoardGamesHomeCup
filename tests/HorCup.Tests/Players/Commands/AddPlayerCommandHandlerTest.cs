@@ -26,15 +26,16 @@ namespace HorCup.Tests.Players.Commands
 			_factory = new PlayersFactory();
 
 			var idGeneratorServiceMock = new Mock<IIdGenerator>();
-			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(new Guid());
+			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(888.Guid());
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			dateTimeServiceMock.Setup(dt => dt.Now).Returns(new DateTime());
 
 			var playersServiceMock = new Mock<IPlayersService>();
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, Guid.Empty))
+			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, null))
 				.Returns(Task.FromResult(false));
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName, Guid.Empty))
+			
+			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName, null))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddPlayerCommandHandler(
@@ -49,6 +50,8 @@ namespace HorCup.Tests.Players.Commands
 		public async Task Handle_PlayerModelCorrect_PlayerAdded()
 		{
 			var player = await _sut.Handle(_factory.Commands.AddPlayer(), CancellationToken.None);
+
+			player.Should().NotBe(Guid.Empty);
 		}
 
 		[Test]
