@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -30,12 +31,12 @@ namespace HorCup.Tests.Games.Commands
 
 
 			var gamesService = new Mock<IGamesService>();
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle, null))
 				.Returns(Task.FromResult(false));
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title, null))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddGameCommandHandler(Context,
@@ -48,7 +49,9 @@ namespace HorCup.Tests.Games.Commands
 		[Test]
 		public async Task Handle_GameCommandCorrect_GameAdded()
 		{
-			await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
+			var id = await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
+
+			id.Should().NotBe(Guid.Empty);
 		}
 
 		[Test]

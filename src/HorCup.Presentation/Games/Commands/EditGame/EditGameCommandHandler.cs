@@ -36,7 +36,7 @@ namespace HorCup.Presentation.Games.Commands.EditGame
 				throw new NotFoundException(nameof(Game), id);
 			}
 
-			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(title);
+			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(title, id);
 
 			if (!isTitleUnique)
 			{
