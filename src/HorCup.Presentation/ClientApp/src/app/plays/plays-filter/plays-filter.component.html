@@ -1,0 +1,24 @@
+<!-- 1. Players participated: multiselect chips
+2. Date from - Date to
+3. Game played: multiselect chips -->
+
+<p>plays filter</p>
+
+<div [formGroup]="">
+  <h5>Поиск</h5>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Игроки</mat-label>
+      <input matInput type="text" formControlName="" />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Игры</mat-label>
+      <input matInput type="text" formControlName="" />
+    </mat-form-field>
+  </p>
+
+  <button mat-button color="accent" (click)="reset()">Сбросить</button>
+  <button mat-button color="primary" (click)="search()">Найти</button>
+</div>

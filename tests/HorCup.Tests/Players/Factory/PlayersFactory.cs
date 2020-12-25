@@ -19,9 +19,11 @@ namespace HorCup.Tests.Players.Factory
 		public const string Player3LastName = "   Player 3 Last   ";
 		public const string Player3NickName = "   Player3Nick  ";
 
-		public readonly DateTime Player1BirthDate = new DateTime(1990, 2, 3);
-		public readonly DateTime Player2BirthDate = new DateTime(1991, 3, 4);
-		public readonly DateTime Player3BirthDate = new DateTime(1992, 4, 5);
+		public readonly DateTime Player1BirthDate = new (1990, 2, 3);
+		public readonly DateTime Player2BirthDate = new (1991, 3, 4);
+		public readonly DateTime Player3BirthDate = new (1992, 4, 5);
+
+		public readonly Guid CreatedPlayerId = 444.Guid();
 
 		public Player[] Players => new[]
 		{
@@ -43,7 +45,7 @@ namespace HorCup.Tests.Players.Factory
 				BirthDate = Player2BirthDate
 			}, 
 		};
-		
+
 		public Commands Commands => new Commands(this);
 	}
 }

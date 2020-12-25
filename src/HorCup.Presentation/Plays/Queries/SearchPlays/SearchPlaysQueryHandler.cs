@@ -6,16 +6,19 @@ using HorCup.Presentation.Context;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Plays.Queries.SearchPlays
 {
 	public class SearchPlaysQueryHandler: IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
 	{
 		private readonly IHorCupContext _context;
+		private readonly ILogger<SearchPlaysQueryHandler> _logger;
 
-		public SearchPlaysQueryHandler(IHorCupContext context)
+		public SearchPlaysQueryHandler(IHorCupContext context, ILogger<SearchPlaysQueryHandler> logger)
 		{
 			_context = context;
+			_logger = logger;
 		}
 
 		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(SearchPlaysQuery request, CancellationToken cancellationToken)

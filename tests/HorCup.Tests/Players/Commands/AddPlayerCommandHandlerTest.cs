@@ -26,7 +26,7 @@ namespace HorCup.Tests.Players.Commands
 			_factory = new PlayersFactory();
 
 			var idGeneratorServiceMock = new Mock<IIdGenerator>();
-			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(888.Guid());
+			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(_factory.CreatedPlayerId);
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			dateTimeServiceMock.Setup(dt => dt.Now).Returns(new DateTime());
@@ -51,7 +51,7 @@ namespace HorCup.Tests.Players.Commands
 		{
 			var player = await _sut.Handle(_factory.Commands.AddPlayer(), CancellationToken.None);
 
-			player.Should().NotBe(Guid.Empty);
+			player.Should().Be(_factory.CreatedPlayerId);
 		}
 
 		[Test]

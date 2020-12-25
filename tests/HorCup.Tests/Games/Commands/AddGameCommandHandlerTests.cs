@@ -51,7 +51,7 @@ namespace HorCup.Tests.Games.Commands
 		{
 			var id = await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
 
-			id.Should().NotBe(Guid.Empty);
+			id.Should().Be(_factory.Game1Id);
 		}
 
 		[Test]

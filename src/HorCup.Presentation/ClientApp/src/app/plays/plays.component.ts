@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Play } from './models/play';
 import { SearchPlaysOptions } from './models/search-plays-options';
+import { PlaysFilterComponent } from './plays-filter/plays-filter.component';
 import { PlaysService } from './plays.service';
 
 @Component({
@@ -14,12 +16,12 @@ export class PlaysComponent implements OnInit {
   private take = 10;
   private total = 0;
 
-  public constructor(private playsService: PlaysService) {
+  public constructor(private _playsService: PlaysService, private _bottomSheet: MatBottomSheet) {
     this._plays = [];
   }
 
   public ngOnInit() {
-    this.playsService.get(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
+    this._playsService.get(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
       this._plays = plays.items;
       this.total = plays.total;
     });
@@ -35,8 +37,12 @@ export class PlaysComponent implements OnInit {
 
   public loadMore() {
     this.take += this.take;
-    this.playsService.get(new SearchPlaysOptions(this.take - 10, this.take)).subscribe((plays) => {
+    this._playsService.get(new SearchPlaysOptions(this.take - 10, this.take)).subscribe((plays) => {
       this._plays.push(...plays.items);
     });
+  }
+
+  public openFilter() {
+    this._bottomSheet.open(PlaysFilterComponent);
   }
 }
