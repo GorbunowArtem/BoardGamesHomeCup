@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Commands.DeleteGame;
+using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
@@ -53,6 +54,16 @@ namespace HorCup.Presentation.Controllers
 			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
+		[HttpPatch("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody]EditGameCommand command)
+		{
+			await _sender.Send(command);
+
+			return NoContent();
+		}
+		
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]

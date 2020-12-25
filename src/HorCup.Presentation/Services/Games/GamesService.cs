@@ -23,7 +23,7 @@ namespace HorCup.Presentation.Services.Games
 
 			var gameWithSameTitleCount =
 				await _context.Games.CountAsync(g => g.Title.ToUpper()
-					.Contains(title.Trim().ToUpper()));
+					.Equals(title.Trim().ToUpper()));
 
 			return gameWithSameTitleCount == 0;
 		}
