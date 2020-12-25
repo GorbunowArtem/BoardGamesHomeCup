@@ -34,13 +34,13 @@ export class GamesService {
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
   }
 
-  public get(id: string | null): Observable<any> {
-    return this._httpModule.get<any>(`/games/${id}`);
+  public get(id: string | null | undefined): Observable<any> {
+    return this._httpModule.get<any>(`${gamesUrl}/${id}`);
   }
 
   public delete(id: string | undefined): Observable<any> {
     return this._httpModule
-      .delete(`/games/${id}`)
+      .delete(`${gamesUrl}/${id}`)
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
   }
 }

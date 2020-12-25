@@ -22,6 +22,6 @@ describe('EditPlayerStrategy', () => {
   });
 
   it('should return player', () => {
-    expect(sut.player).toEqual(testPlayer1);
+    expect(sut.model).toEqual(testPlayer1);
   });
 });
