@@ -6,6 +6,8 @@ import { PagedSearchResponse } from '../common/paged-search-response';
 import { Game } from './models/game';
 import { SearchGamesOptions } from './models/search-games-options';
 
+const gamesUrl = '/games';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,14 +17,20 @@ export class GamesService {
   public constructor(private _httpModule: HttpClient) {}
 
   public search(options: SearchGamesOptions): Observable<PagedSearchResponse<Game>> {
-    return this._httpModule.get<PagedSearchResponse<Game>>('/games', {
+    return this._httpModule.get<PagedSearchResponse<Game>>(`${gamesUrl}`, {
       params: options as any
     });
   }
 
   public add(game: Game) {
     return this._httpModule
-      .post<Game>('/games', game)
+      .post<Game>(`${gamesUrl}`, game)
+      .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+  }
+
+  public edit(model: Game): Observable<void> {
+    return this._httpModule
+      .patch<Game>(`${gamesUrl}/${model.id}`, model)
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
   }
 
@@ -30,7 +38,7 @@ export class GamesService {
     return this._httpModule.get<any>(`/games/${id}`);
   }
 
-  public delete(id: string): Observable<any> {
+  public delete(id: string | undefined): Observable<any> {
     return this._httpModule
       .delete(`/games/${id}`)
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));

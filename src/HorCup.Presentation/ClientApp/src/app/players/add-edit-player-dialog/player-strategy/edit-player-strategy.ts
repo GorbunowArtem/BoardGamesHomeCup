@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { Player } from '../../models/player';
 import { PlayersService } from '../../players.service';
-import { IPlayerPersistenceStrategy } from './i-player-persistence-strategy';
+import { IFormPersistenceStrategy } from '../../../common/models/i-form-persistence-strategy';
 
-export class EditPlayerStrategy implements IPlayerPersistenceStrategy {
+export class EditPlayerStrategy implements IFormPersistenceStrategy<Player> {
   public constructor(private _player: Player, private _playersService: PlayersService) {}
 
   public save(player: Player): Observable<void> {
@@ -14,7 +14,7 @@ export class EditPlayerStrategy implements IPlayerPersistenceStrategy {
     return 'Изменения сохранены';
   }
 
-  public get player(): Player {
+  public get model(): Player {
     return this._player;
   }
 }

@@ -59,7 +59,7 @@ namespace HorCup.Presentation.Controllers
 		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			await _sender.Send(new DeleteGameCommand(id));
-			
+
 			return NoContent();
 		}
 	}

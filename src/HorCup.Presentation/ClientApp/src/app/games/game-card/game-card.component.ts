@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/common/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogModel } from 'src/app/common/models/confirmation-dialog-model';
+import { AddEditGameDialogComponent } from '../add-edit-game-dialog/add-edit-game-dialog.component';
 import { GamesService } from '../games.service';
 import { Game } from '../models/game';
 
@@ -28,6 +29,13 @@ export class GameCardComponent {
       if (result) {
         this._gamesService.delete(this.game.id).subscribe();
       }
+    });
+  }
+
+  public edit() {
+    this.dialog.open(AddEditGameDialogComponent, {
+      disableClose: true,
+      data: this.game
     });
   }
 }

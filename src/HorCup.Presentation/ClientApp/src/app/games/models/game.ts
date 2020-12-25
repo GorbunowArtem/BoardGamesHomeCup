@@ -1,6 +1,6 @@
 export interface Game {
-  id: string;
+  id: string | undefined;
   title: string;
-  maxPlayers: number;
-  minPlayers: number;
+  maxPlayers: number | string;
+  minPlayers: number | string;
 }

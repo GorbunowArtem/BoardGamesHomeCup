@@ -30,6 +30,6 @@ describe('AddPlayerStrategy', () => {
       id: undefined
     };
 
-    expect(sut.player).toEqual(emptyPlayer);
+    expect(sut.model).toEqual(emptyPlayer);
   });
 });

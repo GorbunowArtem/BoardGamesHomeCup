@@ -10,7 +10,7 @@ import {
 } from 'src/app/common/validation-messages/validation-messages';
 import { Player } from '../models/player';
 import { PlayersService } from '../players.service';
-import { IPlayerPersistenceStrategy } from './player-strategy/i-player-persistence-strategy';
+import { IFormPersistenceStrategy } from '../../common/models/i-form-persistence-strategy';
 import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
 
 @Component({
@@ -23,7 +23,7 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
   public errorMessages!: any;
 
-  private readonly _playerStrategy: IPlayerPersistenceStrategy;
+  private readonly _playerStrategy: IFormPersistenceStrategy<Player>;
 
   public constructor(
     private _fb: FormBuilder,
@@ -39,7 +39,7 @@ export class AddEditPlayerDialogComponent implements OnInit {
   public ngOnInit() {
     const constr = this._commonService.constraints.playerConstraints;
 
-    const model = this._playerStrategy.player;
+    const model = this._playerStrategy.model;
 
     this.playersForm = this._fb.group({
       id: [model.id],
