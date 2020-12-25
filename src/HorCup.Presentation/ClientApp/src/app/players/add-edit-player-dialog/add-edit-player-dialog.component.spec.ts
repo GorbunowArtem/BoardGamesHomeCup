@@ -255,7 +255,7 @@ describe('AddEditPlayerDialogComponent', () => {
   async function getSaveButton() {
     return await rootLoader.getHarness(
       MatButtonHarness.with({
-        text: 'Добавить'
+        text: 'Сохранить'
       })
     );
   }

@@ -14,6 +14,7 @@ namespace HorCup.Tests.Games.Factory
 		public const string Game2Title = "Game 2";
 		public const string Game3Title = "Game 3";
 		public const string Game4Title = "Game 4";
+		public const string UpdatedTitle = "Updated title";
 		public const string NotUniqueGameTitle = "Not unique";
 		
 		public const int Game1MinPlayers = 2;

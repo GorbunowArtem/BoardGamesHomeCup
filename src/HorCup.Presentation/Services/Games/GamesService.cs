@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +15,22 @@ namespace HorCup.Presentation.Services.Games
 			_context = context;
 		}
 
-		public async Task<bool> IsTitleUniqueAsync(string title)
+		public async Task<bool> IsTitleUniqueAsync(string title, Guid? id)
 		{
 			if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title))
 			{
 				return true;
 			}
 
-			var gameWithSameTitleCount =
-				await _context.Games.CountAsync(g => g.Title.ToUpper()
-					.Contains(title.Trim().ToUpper()));
+			var query = _context.Games.Where(g => g.Title.ToUpper()
+				.Equals(title.Trim().ToUpper()));
 
-			return gameWithSameTitleCount == 0;
+			if (id.HasValue)
+			{
+				query = query.Where(g => g.Id != id);
+			}
+
+			return !await query.AnyAsync();
 		}
 	}
 }

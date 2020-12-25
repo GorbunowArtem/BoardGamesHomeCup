@@ -11,6 +11,18 @@ namespace HorCup.Tests
 			return new Guid(bytes);
 		}
 
+		public static Guid? Guid(this int? id)
+		{
+			if (id == null)
+			{
+				return null;
+			}
+			
+			var bytes = new byte[16];
+			BitConverter.GetBytes(id.Value).CopyTo(bytes, 0);
+			return new Guid(bytes);
+		}
+
 		public static DateTime ToDateTime(
 			int year,
 			int month,

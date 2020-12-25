@@ -16,13 +16,15 @@ namespace HorCup.Tests.Services
 			_sut = new GamesService(Context);
 		}
 
-		[TestCase("game 2", false)]
-		[TestCase("unique title", true)]
-		[TestCase("", true)]
-		[TestCase(null, true)]
-		public async Task IsTitleUniqueAsync(string title, bool result)
+		[TestCase("game 2", 324, false)]
+		[TestCase("game 2", 2, true)]
+		[TestCase("game 2", null, false)]
+		[TestCase("unique title", null, true)]
+		[TestCase("", null, true)]
+		[TestCase(null, null, true)]
+		public async Task IsTitleUniqueAsync(string title, int id, bool result)
 		{
-			var isUnique = await _sut.IsTitleUniqueAsync($"   {title}   ");
+			var isUnique = await _sut.IsTitleUniqueAsync($"   {title}   ", id.Guid());
 
 			isUnique.Should().Be(result);
 		}
