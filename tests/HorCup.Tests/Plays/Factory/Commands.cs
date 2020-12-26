@@ -11,7 +11,7 @@ namespace HorCup.Tests.Plays.Factory
 			_factory = factory;
 		}
 
-		public AddPlayCommand AddPlayCommand => new AddPlayCommand
+		public AddPlayCommand AddPlayCommand => new()
 		{
 			GameId = _factory.Games.Game2Id,
 			Notes = PlaysFactory.Notes1,

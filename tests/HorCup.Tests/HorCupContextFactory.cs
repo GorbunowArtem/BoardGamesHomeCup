@@ -2,6 +2,7 @@ using System;
 using HorCup.Presentation.Context;
 using HorCup.Tests.Games.Factory;
 using HorCup.Tests.Players.Factory;
+using HorCup.Tests.Plays.Factory;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Tests
@@ -23,6 +24,10 @@ namespace HorCup.Tests
 
 			var gamesFactory = new GamesFactory();
 			context.Games.AddRange(gamesFactory.Games);
+
+			var playsFactory = new PlaysFactory();
+			context.Plays.AddRange(playsFactory.Plays);
+			context.PlayScores.AddRange(playsFactory.PlayScores);
 			
 			context.SaveChanges();
 

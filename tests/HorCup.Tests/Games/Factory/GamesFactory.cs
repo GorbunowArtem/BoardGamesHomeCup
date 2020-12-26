@@ -5,11 +5,13 @@ namespace HorCup.Tests.Games.Factory
 {
 	public class GamesFactory
 	{
-		public readonly Guid Game1Id = 1.Guid();
+		public readonly Guid CreatedGameId = 1.Guid();
+		public readonly Guid Game1Id = 11.Guid();
 		public readonly Guid Game2Id = 2.Guid();
 		public readonly Guid Game3Id = 3.Guid();
 		public readonly Guid Game4Id = 4.Guid();
 		
+		public const string CreatedGameTitle = "Created Game";
 		public const string Game1Title = "Game 1";
 		public const string Game2Title = "Game 2";
 		public const string Game3Title = "Game 3";
@@ -17,33 +19,42 @@ namespace HorCup.Tests.Games.Factory
 		public const string UpdatedTitle = "Updated title";
 		public const string NotUniqueGameTitle = "Not unique";
 		
-		public const int Game1MinPlayers = 2;
+		public const int CreatedGameMinPlayers = 2;
+		public const int Game1MinPlayers = 3;
 		public const int Game2MinPlayers = 3;
 		public const int Game3MinPlayers = 4;
 		public const int Game4MinPlayers = 5;
 
-		public const int Game1MaxPlayers = 4;
+		public const int CreatedGameMaxPlayers = 4;
+		public const int Game1MaxPlayers = 5;
 		public const int Game2MaxPlayers = 5;
 		public const int Game3MaxPlayers = 6;
 		public const int Game4MaxPlayers = 8;
 
-		public Game[] Games => new[]
+		public Game[] Games => new Game[]
 		{
-			new Game
+			new()
+			{
+				Id = Game1Id,
+				Title = Game1Title,
+				MinPlayers = Game1MinPlayers,
+				MaxPlayers = Game1MaxPlayers
+			},
+			new()
 			{
 				Id = Game2Id,
 				Title = Game2Title,
 				MinPlayers = Game2MinPlayers,
 				MaxPlayers = Game2MaxPlayers
 			},
-			new Game
+			new()
 			{
 				Id = Game3Id,
 				Title = Game3Title,
 				MinPlayers = Game3MinPlayers,
 				MaxPlayers = Game3MaxPlayers
 			},
-			new Game
+			new()
 			{
 				Id = Game4Id,
 				Title = Game4Title,

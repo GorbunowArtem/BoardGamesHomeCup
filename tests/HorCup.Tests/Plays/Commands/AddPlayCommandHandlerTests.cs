@@ -25,7 +25,7 @@ namespace HorCup.Tests.Plays.Commands
 			_factory = new PlaysFactory();
 
 			var iidGeneratorMock = new Mock<IIdGenerator>();
-			iidGeneratorMock.Setup(g => g.NewGuid()).Returns(_factory.Play1Id);
+			iidGeneratorMock.Setup(g => g.NewGuid()).Returns(_factory.CreatedPlay1Id);
 
 			_sut = new AddPlayCommandHandler(iidGeneratorMock.Object, Context,
 				NullLogger<AddPlayCommandHandler>.Instance);
@@ -36,7 +36,7 @@ namespace HorCup.Tests.Plays.Commands
 		{
 			var id = await _sut.Handle(_factory.Commands.AddPlayCommand, CancellationToken.None);
 
-			id.Should().Be(_factory.Play1Id);
+			id.Should().Be(_factory.CreatedPlay1Id);
 		}
 
 		[Test]

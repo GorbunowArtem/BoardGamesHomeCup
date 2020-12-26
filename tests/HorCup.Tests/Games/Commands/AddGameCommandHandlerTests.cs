@@ -27,7 +27,7 @@ namespace HorCup.Tests.Games.Commands
 			_factory = new GamesFactory();
 			
 			var idGeneratorMock = new Mock<IIdGenerator>();
-			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.Game1Id);
+			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.CreatedGameId);
 
 
 			var gamesService = new Mock<IGamesService>();
@@ -36,7 +36,7 @@ namespace HorCup.Tests.Games.Commands
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title, null))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.CreatedGameTitle, null))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddGameCommandHandler(Context,
@@ -51,7 +51,7 @@ namespace HorCup.Tests.Games.Commands
 		{
 			var id = await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
 
-			id.Should().Be(_factory.Game1Id);
+			id.Should().Be(_factory.CreatedGameId);
 		}
 
 		[Test]

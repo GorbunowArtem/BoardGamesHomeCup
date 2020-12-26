@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HorCup.Tests
 {
@@ -23,6 +25,11 @@ namespace HorCup.Tests
 			return new Guid(bytes);
 		}
 
+		public static Guid[] ToGuidArray(this IEnumerable<int> ids)
+		{
+			return ids.Select(id => id.Guid()).ToArray();
+		}
+		
 		public static DateTime ToDateTime(
 			int year,
 			int month,
