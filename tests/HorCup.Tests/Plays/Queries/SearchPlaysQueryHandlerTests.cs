@@ -77,6 +77,23 @@ namespace HorCup.Tests.Plays.Queries
 		}
 
 		[Test]
+		public async Task SearchWithAllParameters()
+		{
+			var (items, _) = await _sut.Handle(new SearchPlaysQuery
+			{
+				DateFrom = TestExtensions.ToDateTime(2020, 3, 4),
+				DateTo = TestExtensions.ToDateTime(2020, 5, 4),
+				GamesIds = new[] {_factory.Games.Game4Id},
+				PlayersIds = new[] {22.Guid()}
+			}, CancellationToken.None);
+
+			items.First()
+				.Id
+				.Should()
+				.Be(_factory.Play4Id);
+		}
+
+		[Test]
 		public async Task Search_TakeAndSkip()
 		{
 			var (items, total) = await _sut.Handle(new SearchPlaysQuery

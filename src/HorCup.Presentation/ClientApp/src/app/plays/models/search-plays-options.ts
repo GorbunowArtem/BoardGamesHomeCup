@@ -4,7 +4,7 @@ export class SearchPlaysOptions {
     public take = 10,
     public gamesIds: string[] = [],
     public playersIds: string[] = [],
-    public dateFrom: Date | null = null,
-    public dateTo: Date | null = null
+    public dateFrom: Date | string = '',
+    public dateTo: Date | string = ''
   ) {}
 }
