@@ -2,18 +2,33 @@
 2. Date from - Date to
 3. Game played: multiselect chips -->
 
-<p>plays filter</p>
-
 <form [formGroup]="playsFilter">
   <h5>Поиск</h5>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Игроки</mat-label>
-      <mat-chip-list #playersList>
-        <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)"> {{ fruit }}</mat-chip>
-        <mat-icon matChipRemove>cancel</mat-icon>
+      <mat-chip-list #playersList aria-label="Players selection">
+        <mat-chip *ngFor="let selected of selectedPlayers" (removed)="remove(selected)">
+          {{ displayPlayer(selected) }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Игрок"
+          #fruitInput
+          [formControl]="playersCtrl"
+          [matAutocomplete]="playersSelection"
+          [matChipInputFor]="playersList"
+        />
       </mat-chip-list>
-      <input matInput type="text" [matChipInputFor]="playersList" formControlName="playersIds" />
+      <mat-autocomplete
+        #playersSelection="matAutocomplete"
+        (optionSelected)="selected($event)"
+        [displayWith]="displayPlayer"
+      >
+        <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
+          {{ displayPlayer(pl) }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </p>
   <p>
