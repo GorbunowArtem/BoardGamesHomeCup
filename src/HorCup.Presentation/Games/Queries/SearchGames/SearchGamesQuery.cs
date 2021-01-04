@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -15,5 +16,7 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 		public int? MinPlayers { get; set; }
 
 		public int? MaxPlayers { get; set; }
+
+		public IEnumerable<Guid> ExceptIds { get; set; }
 	}
 }

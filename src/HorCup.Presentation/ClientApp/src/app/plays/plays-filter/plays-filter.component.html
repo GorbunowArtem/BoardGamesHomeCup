@@ -8,7 +8,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Игроки</mat-label>
       <mat-chip-list #playersList aria-label="Players selection">
-        <mat-chip *ngFor="let selected of selectedPlayers" (removed)="remove(selected)">
+        <mat-chip *ngFor="let selected of selectedPlayers" (removed)="removePlayer(selected)">
           {{ displayPlayer(selected) }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
@@ -22,7 +22,7 @@
       </mat-chip-list>
       <mat-autocomplete
         #playersSelection="matAutocomplete"
-        (optionSelected)="selected($event)"
+        (optionSelected)="onPlayerSelected($event)"
         [displayWith]="displayPlayer"
       >
         <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
@@ -34,7 +34,24 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Игры</mat-label>
-      <input matInput type="text" formControlName="gamesIds" />
+      <mat-chip-list #gamesList aria-label="Games selection">
+        <mat-chip *ngFor="let selected of selectedGames" (removed)="removeGame(selected)">
+          {{ selected.title }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Игра"
+          #fruitInput
+          [formControl]="gamesCtrl"
+          [matAutocomplete]="gamesSelection"
+          [matChipInputFor]="gamesList"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #gamesSelection="matAutocomplete" (optionSelected)="onGameSelected($event)">
+        <mat-option *ngFor="let gm of gamesOption | async" [value]="gm">
+          {{ gm.title }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </p>
 

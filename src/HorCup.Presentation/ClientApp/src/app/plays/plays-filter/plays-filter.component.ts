@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { PlayersService } from 'src/app/players/players.service';
 import { Player } from 'src/app/players/models/player';
 import { SearchPlayersOptions } from 'src/app/players/models/search-players-options';
+import { GamesService } from 'src/app/games/games.service';
+import { Game } from 'src/app/games/models/game';
+import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 
 @Component({
   selector: 'hc-plays-filter',
@@ -14,11 +17,21 @@ import { SearchPlayersOptions } from 'src/app/players/models/search-players-opti
 })
 export class PlaysFilterComponent implements OnInit {
   public playsFilter: FormGroup;
-  public playersCtrl = new FormControl();
-  public selectedPlayers: Set<Player> = new Set<Player>();
-  public playersOption!: Observable<Player[]>;
 
-  public constructor(private _fb: FormBuilder, private _playersService: PlayersService) {
+  public playersCtrl = new FormControl();
+  public gamesCtrl = new FormControl();
+
+  public selectedPlayers: Set<Player> = new Set<Player>();
+  public selectedGames: Set<Game> = new Set<Game>();
+
+  public playersOption!: Observable<Player[]>;
+  public gamesOption!: Observable<Game[]>;
+
+  public constructor(
+    private _fb: FormBuilder,
+    private _playersService: PlayersService,
+    private _gamesService: GamesService
+  ) {
     this.playsFilter = this._fb.group({
       playersIds: [''],
       gamesIds: [''],
@@ -33,6 +46,12 @@ export class PlaysFilterComponent implements OnInit {
       debounceTime(400),
       switchMap((searchText) => this.filterPlayers(searchText))
     );
+
+    this.gamesOption = this.gamesCtrl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(400),
+      switchMap((searchText) => this.filterGames(searchText))
+    );
   }
 
   public reset() {}
@@ -41,13 +60,22 @@ export class PlaysFilterComponent implements OnInit {
     console.log(this.selectedPlayers);
   }
 
-  public remove(player: Player): void {
+  public removePlayer(player: Player): void {
     this.selectedPlayers.delete(player);
   }
 
-  public selected(event: MatAutocompleteSelectedEvent): void {
+  public removeGame(game: Game): void {
+    this.selectedGames.delete(game);
+  }
+
+  public onPlayerSelected(event: MatAutocompleteSelectedEvent): void {
     this.selectedPlayers.add(event.option.value);
     this.playersCtrl.setValue(null);
+  }
+
+  public onGameSelected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedGames.add(event.option.value);
+    this.gamesCtrl.setValue(null);
   }
 
   public displayPlayer(player: Player) {
@@ -64,12 +92,31 @@ export class PlaysFilterComponent implements OnInit {
     return ids;
   }
 
+  public get selectedGamesIds(): string[] {
+    const ids: any[] = [];
+
+    this.selectedGames.forEach((g: Game) => {
+      ids.push(g.id);
+    });
+
+    return ids;
+  }
+
   private filterPlayers(searchText: string | Player): Observable<Player[]> {
     if (typeof searchText !== 'string') {
       searchText = '';
     }
     return this._playersService
       .search(new SearchPlayersOptions(10, 0, searchText, this.selectedPlayersIds))
+      .pipe(map((resp) => resp.items));
+  }
+
+  private filterGames(searchText: string | Player): Observable<Game[]> {
+    if (typeof searchText !== 'string') {
+      searchText = '';
+    }
+    return this._gamesService
+      .search(new SearchGamesOptions(10, 0, searchText, 0, 50, this.selectedGamesIds))
       .pipe(map((resp) => resp.items));
   }
 }

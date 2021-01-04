@@ -43,6 +43,17 @@ namespace HorCup.Tests.Games.Queries
 		}
 
 		[Test]
+		public async Task Handle_ExceptIdsSearch()
+		{
+			var result = await _sut.Handle(new SearchGamesQuery
+			{
+				ExceptIds = new []{2.Guid(), 3.Guid()}
+			}, CancellationToken.None);
+
+			result.items.Select(g => g.Id).Should().BeEquivalentTo(new [] {11.Guid(), 4.Guid()});
+		}
+		
+		[Test]
 		public async Task Handle_SkipAndTake()
 		{
 			var (items, total) = await _sut.Handle(new SearchGamesQuery
