@@ -58,6 +58,7 @@ export class PlaysFilterComponent implements OnInit {
   public search() {
     console.log(this.playersCtrl.value);
     console.log(this.selectedPlayers);
+    console.log(this.playsFilter.value);
   }
 
   public removePlayer(player: Player): void {

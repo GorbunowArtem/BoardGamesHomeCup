@@ -18,11 +18,5 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 		public DateTime? DateFrom { get; set; }
 
 		public DateTime? DateTo { get; set; }
-
-		public SearchPlaysQuery()
-		{
-			GamesIds = Array.Empty<Guid>();
-			PlayersIds = Array.Empty<Guid>();
-		}
 	}
 }

@@ -55,6 +55,23 @@
     </mat-form-field>
   </p>
 
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Дата от</mat-label>
+      <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" placeholder="Дата от" />
+      <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+      <mat-datepicker #dateFrom></mat-datepicker>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Дата до</mat-label>
+      <input matInput [matDatepicker]="dateTo" formControlName="dateTo" placeholder="Дата до" />
+      <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+      <mat-datepicker #dateTo></mat-datepicker>
+    </mat-form-field>
+  </p>
+
   <button mat-button color="accent" (click)="reset()">Сбросить</button>
   <button mat-button color="primary" (click)="search()">Найти</button>
 </form>

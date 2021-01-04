@@ -62,7 +62,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 
 		private static IQueryable<Play> ApplyGamesFilter(SearchPlaysQuery request, IQueryable<Play> query)
 		{
-			if (request.GamesIds.Any())
+			if (request.GamesIds != null && request.GamesIds.Any())
 			{
 				query = query.Where(p => request.GamesIds.Contains(p.GameId));
 			}
@@ -72,7 +72,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 
 		private static IQueryable<Play> ApplyPlayersFilter(SearchPlaysQuery request, IQueryable<Play> query)
 		{
-			if (request.PlayersIds.Any())
+			if (request.PlayersIds != null && request.PlayersIds.Any())
 			{
 				query = query.Where(p => p.PlayerScores.Any(ps => request.PlayersIds.Contains(ps.PlayerId)));
 			}
