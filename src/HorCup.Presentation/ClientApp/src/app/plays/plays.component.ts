@@ -21,7 +21,7 @@ export class PlaysComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this._playsService.get(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
+    this._playsService.search(new SearchPlaysOptions(0, this.take)).subscribe((plays) => {
       this._plays = plays.items;
       this.total = plays.total;
     });
@@ -37,9 +37,11 @@ export class PlaysComponent implements OnInit {
 
   public loadMore() {
     this.take += this.take;
-    this._playsService.get(new SearchPlaysOptions(this.take - 10, this.take)).subscribe((plays) => {
-      this._plays.push(...plays.items);
-    });
+    this._playsService
+      .search(new SearchPlaysOptions(this.take - 10, this.take))
+      .subscribe((plays) => {
+        this._plays.push(...plays.items);
+      });
   }
 
   public openFilter() {

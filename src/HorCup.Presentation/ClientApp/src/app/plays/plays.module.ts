@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PlaysFilterComponent } from './plays-filter/plays-filter.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatDividerModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCardModule
   ],
   declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent, PlaysFilterComponent],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]

@@ -12,7 +12,7 @@ import { SearchPlaysOptions } from './models/search-plays-options';
 export class PlaysService {
   public constructor(private _http: HttpClient) {}
 
-  public get(options: SearchPlaysOptions): Observable<PagedSearchResponse<Play>> {
+  public search(options: SearchPlaysOptions): Observable<PagedSearchResponse<Play>> {
     return this._http.get<PagedSearchResponse<Play>>('/plays', {
       params: options as any
     });

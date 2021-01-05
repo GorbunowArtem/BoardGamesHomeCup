@@ -16,7 +16,7 @@ describe('Service: Play', () => {
 
   beforeEach(() => {
     httpClientMock = jasmine.createSpyObj(HttpClient, {
-      get: of<PagedSearchResponse<Play>>(testResponse),
+      search: of<PagedSearchResponse<Play>>(testResponse),
       post: of({})
     });
 
@@ -26,7 +26,7 @@ describe('Service: Play', () => {
   it('should return plays', (done) => {
     const options = new SearchPlaysOptions(15, 10);
 
-    service.get(options).subscribe((res) => {
+    service.search(options).subscribe((res) => {
       expect(res).toEqual(testResponse);
       done();
     });
