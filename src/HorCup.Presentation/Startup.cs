@@ -60,6 +60,7 @@ namespace HorCup.Presentation
 			else
 			{
 				app.UseExceptionHandler("/Error");
+				app.UseSpaStaticFiles();
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
@@ -71,11 +72,6 @@ namespace HorCup.Presentation
 			
 			app.UseSwagger();
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
-			
-			if (!env.IsDevelopment())
-			{
-				app.UseSpaStaticFiles();
-			}
 
 			app.UseRouting();
 

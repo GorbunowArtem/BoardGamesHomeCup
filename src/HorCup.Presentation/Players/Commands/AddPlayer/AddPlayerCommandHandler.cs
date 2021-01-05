@@ -39,7 +39,6 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 
 			if (!isUnique)
 			{
-				_logger.LogError($"Player with nickname {request.Nickname} already exists");
 				throw new EntityExistsException(nameof(Player), request.Nickname);
 			}
 
