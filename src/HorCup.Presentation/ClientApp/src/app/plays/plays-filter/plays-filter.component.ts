@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { Game } from 'src/app/games/models/game';
 import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 import { PlaysService } from '../plays.service';
 import { SearchPlaysOptions } from '../models/search-plays-options';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'hc-plays-filter',
@@ -30,7 +31,8 @@ export class PlaysFilterComponent implements OnInit {
     private _fb: FormBuilder,
     private _playersService: PlayersService,
     private _gamesService: GamesService,
-    private _playsService: PlaysService
+    private _playsService: PlaysService,
+    private _filterRef: MatBottomSheetRef
   ) {
     this.playsFilter = this._fb.group({
       playersIds: [''],
@@ -66,18 +68,17 @@ export class PlaysFilterComponent implements OnInit {
   }
 
   public search() {
-    this._playsService
-      .search(
-        new SearchPlaysOptions(
-          0,
-          10,
-          this.selectedGamesIds,
-          this.selectedPlayersIds,
-          this.getFormDate('dateFrom'),
-          this.getFormDate('dateTo')
-        )
+    this._playsService.searchParamsChangedSubject.next(
+      new SearchPlaysOptions(
+        0,
+        10,
+        this.selectedGamesIds,
+        this.selectedPlayersIds,
+        this.getFormDate('dateFrom'),
+        this.getFormDate('dateTo')
       )
-      .subscribe();
+    );
+    this._filterRef.dismiss();
   }
 
   public removePlayer(player: Player): void {
