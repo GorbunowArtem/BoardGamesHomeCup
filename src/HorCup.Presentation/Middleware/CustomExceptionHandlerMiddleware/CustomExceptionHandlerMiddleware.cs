@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
@@ -10,10 +11,12 @@ namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
 	public class CustomExceptionHandlerMiddleware
 	{
 		private readonly RequestDelegate _next;
+		private readonly ILogger _logger;
 
-		public CustomExceptionHandlerMiddleware(RequestDelegate next)
+		public CustomExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 		{
 			_next = next;
+			_logger = loggerFactory.CreateLogger<CustomExceptionHandlerMiddleware>();
 		}
 
 		public async Task InvokeAsync(HttpContext context)
@@ -28,7 +31,7 @@ namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
 			}
 		}
 
-		private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+		private Task HandleExceptionAsync(HttpContext context, Exception exception)
 		{
 			var code = HttpStatusCode.InternalServerError;
 
@@ -51,6 +54,8 @@ namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = (int) code;
 
+			_logger.LogError(exception.Message);
+			
 			if (result == string.Empty)
 			{
 				result = JsonConvert.SerializeObject(new {error = exception.Message});
