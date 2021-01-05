@@ -16,7 +16,7 @@ describe('Service: Play', () => {
 
   beforeEach(() => {
     httpClientMock = jasmine.createSpyObj(HttpClient, {
-      search: of<PagedSearchResponse<Play>>(testResponse),
+      get: of<PagedSearchResponse<Play>>(testResponse),
       post: of({})
     });
 
