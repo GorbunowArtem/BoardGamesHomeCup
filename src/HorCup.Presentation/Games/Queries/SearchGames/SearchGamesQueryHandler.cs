@@ -34,13 +34,32 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 		{
 			var query = _context.Games.Where(t => true);
 
-			if (!string.IsNullOrEmpty(request.SearchText))
-			{
-				var searchText = request.SearchText.Trim().ToUpper();
+			query = ApplySearchTextFilter(request, query);
 
-				query = query.Where(g => g.Title.ToUpper().Contains(searchText));
+			query = ApplyPlayersCountFilter(request, query);
+
+			query = ApplyExceptIdsFilter(request, query);
+			
+			var games = await query
+				.OrderByDescending(g => g.Added)
+				.Skip(request.Skip)
+				.Take(request.Take)
+				.ToListAsync(cancellationToken);
+			return (_mapper.Map<IEnumerable<GameViewModel>>(games), await query.CountAsync(CancellationToken.None));
+		}
+
+		private static IQueryable<Game> ApplyExceptIdsFilter(SearchGamesQuery request, IQueryable<Game> query)
+		{
+			if (request.ExceptIds != null && request.ExceptIds.Any())
+			{
+				query = query.Where(g => !request.ExceptIds.Contains(g.Id));
 			}
 
+			return query;
+		}
+
+		private static IQueryable<Game> ApplyPlayersCountFilter(SearchGamesQuery request, IQueryable<Game> query)
+		{
 			if (request.MaxPlayers.HasValue && request.MinPlayers.HasValue)
 			{
 				query = query.Where(g => g.MinPlayers >= request.MinPlayers && g.MaxPlayers <= request.MaxPlayers);
@@ -57,12 +76,19 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 				}
 			}
 
-			var games = await query
-				.OrderByDescending(g => g.Added)
-				.Skip(request.Skip)
-				.Take(request.Take)
-				.ToListAsync(cancellationToken);
-			return (_mapper.Map<IEnumerable<GameViewModel>>(games), await query.CountAsync(CancellationToken.None));
+			return query;
+		}
+
+		private static IQueryable<Game> ApplySearchTextFilter(SearchGamesQuery request, IQueryable<Game> query)
+		{
+			if (!string.IsNullOrEmpty(request.SearchText))
+			{
+				var searchText = request.SearchText.Trim().ToUpper();
+
+				query = query.Where(g => g.Title.ToUpper().Contains(searchText));
+			}
+
+			return query;
 		}
 	}
 }

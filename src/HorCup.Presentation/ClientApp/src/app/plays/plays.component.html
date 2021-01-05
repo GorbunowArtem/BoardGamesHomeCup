@@ -11,7 +11,6 @@
 >
 
 <div class="load-more" *ngIf="moreAvailable">
-  <button mat-raised-button color="accent" layout-align="center center" (click)="loadMore()">
-    Загрузить еще
-  </button>
+  <button mat-raised-button color="accent" (click)="loadMore()">Загрузить еще</button>
 </div>
+<button mat-raised-button color="primary" (click)="openFilter()">Фильтр</button>

@@ -54,6 +54,7 @@ describe('GamesFilterComponent', () => {
       maxPlayers: 2,
       minPlayers: 3,
       searchText: '',
+      exceptIds: [],
       skip: 3,
       take: 4
     };

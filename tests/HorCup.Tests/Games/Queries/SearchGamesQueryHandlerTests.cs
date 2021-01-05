@@ -25,7 +25,7 @@ namespace HorCup.Tests.Games.Queries
 		[TestCase("   AME 4   ", null, null, new[] {4})]
 		[TestCase(null, 4, 8, new[] {3, 4})]
 		[TestCase(null, 4, null, new[] {3, 4})]
-		[TestCase(null, null, 6, new[] {2, 3})]
+		[TestCase(null, null, 6, new[] {2, 3, 11})]
 		public async Task Handle_SearchByParameters(
 			string searchText,
 			int? minPlayers,
@@ -43,6 +43,17 @@ namespace HorCup.Tests.Games.Queries
 		}
 
 		[Test]
+		public async Task Handle_ExceptIdsSearch()
+		{
+			var result = await _sut.Handle(new SearchGamesQuery
+			{
+				ExceptIds = new []{2.Guid(), 3.Guid()}
+			}, CancellationToken.None);
+
+			result.items.Select(g => g.Id).Should().BeEquivalentTo(new [] {11.Guid(), 4.Guid()});
+		}
+		
+		[Test]
 		public async Task Handle_SkipAndTake()
 		{
 			var (items, total) = await _sut.Handle(new SearchGamesQuery
@@ -51,8 +62,8 @@ namespace HorCup.Tests.Games.Queries
 				Take = 1
 			}, CancellationToken.None);
 
-			total.Should().Be(3);
-			items.First().Id.Should().Be(_factory.Game3Id);
+			total.Should().Be(4);
+			items.First().Id.Should().Be(_factory.Game2Id);
 		}
 	}
 }

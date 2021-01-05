@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -9,5 +10,13 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 		public int Take { get; set; } = 10;
 
 		public int Skip { get; set; }
+
+		public IEnumerable<Guid> GamesIds { get; set; }
+		
+		public IEnumerable<Guid> PlayersIds { get; set; }
+
+		public DateTime? DateFrom { get; set; }
+
+		public DateTime? DateTo { get; set; }
 	}
 }
