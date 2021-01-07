@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Presentation.GamesStatistic.Commands.GamePlayed
 {
-	public class GamePlayedNotificationHandler : INotificationHandler<GamePlayedNotification>
+	public class GamePlayedHandler : INotificationHandler<GamePlayedNotification>
 	{
 		private readonly IHorCupContext _context;
 
-		public GamePlayedNotificationHandler(IHorCupContext context)
+		public GamePlayedHandler(IHorCupContext context)
 		{
 			_context = context;
 		}

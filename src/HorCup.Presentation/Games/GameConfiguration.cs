@@ -1,3 +1,4 @@
+using HorCup.Presentation.GamesStatistic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,6 +20,10 @@ namespace HorCup.Presentation.Games
 
 			builder.Property(g => g.MaxPlayers)
 				.IsRequired();
+
+			builder.HasOne(g => g.GameStatistic)
+				.WithOne(gs => gs.Game)
+				.HasForeignKey<GameStatistic>(gs => gs.GameId);
 		}
 	}
 }
