@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Games;
+using HorCup.Presentation.GamesStatistic.Commands.GamePlayed;
 using HorCup.Presentation.PlayScores;
 using HorCup.Presentation.Services.IdGenerator;
 using MediatR;
@@ -18,15 +19,18 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 		private readonly IIdGenerator _idGenerator;
 		private readonly IHorCupContext _context;
 		private readonly ILogger<AddPlayCommandHandler> _logger;
+		private readonly IPublisher _publisher;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
 			IHorCupContext context,
-			ILogger<AddPlayCommandHandler> logger)
+			ILogger<AddPlayCommandHandler> logger,
+			IPublisher publisher)
 		{
 			_idGenerator = idGenerator;
 			_context = context;
 			_logger = logger;
+			_publisher = publisher;
 		}
 
 		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
@@ -34,7 +38,7 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 			await ValidateGame(request.PlayerScores.Count());
 
 			var playId = _idGenerator.NewGuid();
-			
+
 			await _context.Plays.AddAsync(new Play
 			{
 				Id = playId,
@@ -44,20 +48,27 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 			}, cancellationToken);
 
 			var highestScore = request.PlayerScores.Select(s => s.Score).Max();
+
+			var playScores = request.PlayerScores.Select(s => new PlayScore
+			{
+				Score = s.Score,
+				IsWinner = highestScore == s.Score,
+				PlayId = playId,
+				PlayerId = s.Player.Id
+			}).ToArray();
 			
-			await _context.PlayScores.AddRangeAsync(
-				request.PlayerScores.Select(s => new PlayScore
-				{
-					Score = s.Score,
-					IsWinner = highestScore == s.Score,
-					PlayId = playId,
-					PlayerId = s.Player.Id
-				}), cancellationToken);
+			await _context.PlayScores.AddRangeAsync(playScores, cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);
 
+			await _publisher.Publish(new GamePlayedNotification(
+				request.GameId,
+				request.PlayerScores.Average(p => p.Score),
+				request.PlayedDate,
+				playScores), cancellationToken);
+
 			return playId;
-			
+
 			async Task ValidateGame(int playerScoresCount)
 			{
 				var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);

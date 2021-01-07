@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.PlayScores;
 
 namespace HorCup.Presentation.Players
@@ -19,5 +20,7 @@ namespace HorCup.Presentation.Players
 		public DateTime Added { get; set; }
 
 		public IEnumerable<PlayScore> PlayScores { get; set; }
+
+		public IEnumerable<PlayerStatistic> PlayerStatistic { get; set; }
 	}
 }
