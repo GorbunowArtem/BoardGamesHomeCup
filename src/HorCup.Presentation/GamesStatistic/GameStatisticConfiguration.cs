@@ -7,8 +7,10 @@ namespace HorCup.Presentation.GamesStatistic
 	{
 		public void Configure(EntityTypeBuilder<GameStatistic> builder)
 		{
-			builder.HasKey(gs => gs.GameId);
+			builder.HasKey(gs => gs.Id);
 
+			builder.Property(p => p.Id).ValueGeneratedOnAdd();
+			
 			builder.Property(gs => gs.LastPlayedDate)
 				.HasColumnType("datetime");
 		}

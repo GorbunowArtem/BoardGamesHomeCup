@@ -22,7 +22,7 @@ namespace HorCup.Presentation.Context
 		
 		public DbSet<PlayScore> PlayScores { get; set; }
 		
-		public DbSet<GameStatistic> GamesStatistic { get; set; }
+		public DbSet<GameStatistic> GamesStatistics { get; set; }
 		
 		public DbSet<PlayerStatistic> PlayersStatistics { get; set; }
 	}

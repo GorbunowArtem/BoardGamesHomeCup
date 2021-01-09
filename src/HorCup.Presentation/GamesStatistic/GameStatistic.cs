@@ -5,6 +5,8 @@ namespace HorCup.Presentation.GamesStatistic
 {
 	public class GameStatistic
 	{
+		public Guid Id { get; set; }
+		
 		public Guid GameId { get; set; }
 
 		public Game Game { get; set; }

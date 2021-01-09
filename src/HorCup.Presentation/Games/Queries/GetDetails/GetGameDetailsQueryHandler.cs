@@ -31,7 +31,7 @@ namespace HorCup.Presentation.Games.Queries.GetDetails
 			var game = await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
 
 			var gameStats =
-				await _context.GamesStatistic.FirstOrDefaultAsync(gs => gs.GameId == request.Id, cancellationToken);
+				await _context.GamesStatistics.FirstOrDefaultAsync(gs => gs.GameId == request.Id, cancellationToken);
 
 
 			if (gameStats != null)
