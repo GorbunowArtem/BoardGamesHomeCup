@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HorCup.Presentation.Games;
-using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.Players;
 using HorCup.Presentation.Plays;
 using HorCup.Presentation.PlayScores;
@@ -14,8 +13,8 @@ namespace HorCup.Presentation
 		{
 			CreateMap<Player, PlayerViewModel>();
 			CreateMap<Player, PlayerDetailsViewModel>();
-			CreateMap<Game, GameViewModel>();
-			CreateMap<Game, GameDetailsViewModel>();
+			CreateMap<Game, GameViewModel>()
+				.ForMember(g => g.TimesPlayed, op => op.MapFrom(g => g.GameStatistic.TimesPlayed));
 			CreateMap<Play, PlayViewModel>();
 			CreateMap<PlayScore, PlayScoreViewModel>();
 			CreateMap<Game, GameDetailsViewModel>()
