@@ -1,6 +1,24 @@
 <ng-container *ngIf="gameDetails">
   <hc-header-card [text]="gameDetails.title"></hc-header-card>
-  <p>Количество сыгранных партий: {{ gameDetails.timesPlayed }}</p>
-  <p>Дата последней партии: {{ gameDetails.lastPlayedDate | date }}</p>
-  <p>Средний результат: {{ gameDetails.averageScore }}</p>
+  <mat-card>
+    <mat-card-subtitle
+      >Детали
+      <mat-divider></mat-divider>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <p>Количество игроков: {{ gameDetails.minPlayers }} - {{ gameDetails.maxPlayers }}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-subtitle
+      >Статистика
+      <mat-divider></mat-divider>
+    </mat-card-subtitle>
+
+    <mat-card-content>
+      <p>Партий сыграно: {{ gameDetails.timesPlayed }}</p>
+      <p>Дата последней партии: {{ gameDetails.lastPlayedDate | date }}</p>
+      <p>Средний результат: {{ gameDetails.averageScore }}</p>
+    </mat-card-content>
+  </mat-card>
 </ng-container>
