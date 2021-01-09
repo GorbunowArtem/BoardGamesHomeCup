@@ -1,12 +1,56 @@
 using System;
+using HorCup.Presentation.GamesStatistic;
+using HorCup.Tests.Games.Factory;
 
 namespace HorCup.Tests.GamesStatistic.Factory
 {
 	public class GamesStatisticsFactory
 	{
+		public readonly GamesFactory GamesFactory = new();
+
 		public readonly Guid Game1StatId = 123.Guid();
 		public readonly Guid Game2StatId = 124.Guid();
 		public readonly Guid Game3StatId = 125.Guid();
+
+		public const double Game1AvgScore = 11.3d; 
+		public const double Game2AvgScore = 22.5d; 
+		public const double Game3AvgScore = 44.53d;
+
+		public const int Game1TimesPlayed = 2; 
+		public const int Game2TimesPlayed = 4; 
+		public const int Game3TimesPlayed = 16;
+
+		public readonly DateTime Game1LastPlayedDate = TestExtensions.ToDateTime(2020, 5, 5); 
+		public readonly DateTime Game2LastPlayedDate = TestExtensions.ToDateTime(2020, 6, 6);
+		public readonly DateTime Game3LastPlayedDate = TestExtensions.ToDateTime(2020, 7, 7);
 		
+		public GameStatistic[] GameStatistics =>
+			new GameStatistic[]
+			{
+				new()
+				{
+					Id = Game1StatId,
+					GameId = GamesFactory.Game1Id,
+					AverageScore = Game1AvgScore,
+					TimesPlayed = Game1TimesPlayed,
+					LastPlayedDate = Game1LastPlayedDate
+				},
+				new()
+				{
+					Id = Game2StatId,
+					GameId = GamesFactory.Game2Id,
+					AverageScore = Game2AvgScore,
+					TimesPlayed = Game2TimesPlayed,
+					LastPlayedDate = Game2LastPlayedDate
+				},
+				new()
+				{
+					Id = Game3StatId,
+					GameId = GamesFactory.Game3Id,
+					AverageScore = Game3AvgScore,
+					TimesPlayed = Game3TimesPlayed,
+					LastPlayedDate = Game3LastPlayedDate
+				}
+			};
 	}
 }

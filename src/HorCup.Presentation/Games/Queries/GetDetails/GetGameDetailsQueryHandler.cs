@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
@@ -32,7 +31,6 @@ namespace HorCup.Presentation.Games.Queries.GetDetails
 
 			var gameStats =
 				await _context.GamesStatistics.FirstOrDefaultAsync(gs => gs.GameId == request.Id, cancellationToken);
-
 
 			if (gameStats != null)
 			{
