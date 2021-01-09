@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
+using HorCup.Presentation.Exceptions;
+using HorCup.Presentation.Games;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Presentation.Services.Games
@@ -31,6 +34,18 @@ namespace HorCup.Presentation.Services.Games
 			}
 
 			return !await query.AnyAsync();
+		}
+
+		public async Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken)
+		{
+			var game = await _context.Games.Where(g => g.Id == id).FirstOrDefaultAsync(cancellationToken);
+
+			if (game == null)
+			{
+				throw new NotFoundException(nameof(Game), id);
+			}
+
+			return game;
 		}
 	}
 }

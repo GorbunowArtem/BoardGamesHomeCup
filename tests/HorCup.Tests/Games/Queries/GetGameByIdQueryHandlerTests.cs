@@ -19,7 +19,7 @@ namespace HorCup.Tests.Games.Queries
 		[SetUp]
 		public void SetUp()
 		{
-			_sut = new GetGameByIdQueryHandler(Context, NullLogger<GetGameByIdQueryHandler>.Instance, Mapper);
+			_sut = new GetGameByIdQueryHandler(Context, NullLogger<GetGameByIdQueryHandler>.Instance, Mapper, null);
 		}
 
 		[Test]
