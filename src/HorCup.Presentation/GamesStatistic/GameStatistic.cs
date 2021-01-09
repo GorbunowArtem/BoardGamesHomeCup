@@ -15,6 +15,6 @@ namespace HorCup.Presentation.GamesStatistic
 
 		public double? AverageScore { get; set; }
 
-		public DateTime LastPlayedDate { get; set; }
+		public DateTime? LastPlayedDate { get; set; }
 	}
 }

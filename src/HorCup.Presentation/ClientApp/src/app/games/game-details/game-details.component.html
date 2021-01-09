@@ -1,1 +1,6 @@
-<p>game-details works!</p>
+<ng-container *ngIf="gameDetails">
+  <hc-header-card [text]="gameDetails.title"></hc-header-card>
+  <p>Количество сыгранных партий: {{ gameDetails.timesPlayed }}</p>
+  <p>Дата последней партии: {{ gameDetails.lastPlayedDate | date }}</p>
+  <p>Средний результат: {{ gameDetails.averageScore }}</p>
+</ng-container>

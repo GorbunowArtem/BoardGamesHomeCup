@@ -56,7 +56,7 @@ namespace HorCup.Presentation.Games.Queries.GetDetails
 				MinPlayers = game.MinPlayers,
 				AverageScore = 0d,
 				TimesPlayed = 0,
-				LastPlayedDate = DateTime.MinValue
+				LastPlayedDate = null
 			};
 		}
 	}

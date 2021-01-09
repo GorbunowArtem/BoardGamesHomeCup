@@ -8,6 +8,6 @@ namespace HorCup.Presentation.ViewModels
 
 		public double? AverageScore { get; set; }
 
-		public DateTime LastPlayedDate { get; set; }
+		public DateTime? LastPlayedDate { get; set; }
 	}
 }

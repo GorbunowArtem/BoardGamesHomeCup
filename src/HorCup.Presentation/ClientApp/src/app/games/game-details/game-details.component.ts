@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games.service';
+import { GameDetails } from '../models/game-details';
 
 @Component({
   selector: 'hc-game-details',
@@ -8,7 +9,7 @@ import { GamesService } from '../games.service';
   styleUrls: ['./game-details.component.scss']
 })
 export class GameDetailsComponent implements OnInit {
-  public game: any;
+  public gameDetails!: GameDetails;
 
   public constructor(
     private _gamesService: GamesService,
@@ -19,7 +20,7 @@ export class GameDetailsComponent implements OnInit {
     this._activatedRoute.paramMap.subscribe((params) => {
       const gameId = params.get('id');
 
-      this._gamesService.get(gameId).subscribe((game) => (this.game = game));
+      this._gamesService.getDetails(gameId).subscribe((game) => (this.gameDetails = game));
     });
   }
 }

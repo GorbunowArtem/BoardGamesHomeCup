@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Game } from './models/game';
+import { GameDetails } from './models/game-details';
 import { SearchGamesOptions } from './models/search-games-options';
 
 const gamesUrl = '/games';
@@ -36,6 +37,10 @@ export class GamesService {
 
   public get(id: string | null | undefined): Observable<any> {
     return this._httpModule.get<any>(`${gamesUrl}/${id}`);
+  }
+
+  public getDetails(id: string | null): Observable<GameDetails> {
+    return this._httpModule.get<any>(`${gamesUrl}/details/${id}`);
   }
 
   public delete(id: string | undefined): Observable<any> {
