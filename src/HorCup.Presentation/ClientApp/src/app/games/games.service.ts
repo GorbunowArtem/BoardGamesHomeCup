@@ -35,12 +35,8 @@ export class GamesService {
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
   }
 
-  public get(id: string | null | undefined): Observable<any> {
+  public get(id: string | null | undefined): Observable<GameDetails> {
     return this._httpModule.get<any>(`${gamesUrl}/${id}`);
-  }
-
-  public getDetails(id: string | null): Observable<GameDetails> {
-    return this._httpModule.get<any>(`${gamesUrl}/details/${id}`);
   }
 
   public delete(id: string | undefined): Observable<any> {

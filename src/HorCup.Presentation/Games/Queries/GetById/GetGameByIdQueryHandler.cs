@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -5,6 +6,7 @@ using HorCup.Presentation.Context;
 using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.ViewModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Games.Queries.GetById
@@ -28,8 +30,12 @@ namespace HorCup.Presentation.Games.Queries.GetById
 
 		public async Task<GameDetailsViewModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
 		{
-			var game = await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
+			await _gamesService.ThrowIfNotExists(request.Id, cancellationToken);
 			
+			var game = await _context.Games.Where(g => g.Id == request.Id)
+				.Include(gs => gs.GameStatistic)
+				.SingleAsync(cancellationToken);
+
 			return _mapper.Map<GameDetailsViewModel>(game);
 		}
 	}

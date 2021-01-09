@@ -20,7 +20,7 @@ export class GameDetailsComponent implements OnInit {
     this._activatedRoute.paramMap.subscribe((params) => {
       const gameId = params.get('id');
 
-      this._gamesService.getDetails(gameId).subscribe((game) => (this.gameDetails = game));
+      this._gamesService.get(gameId).subscribe((game) => (this.gameDetails = game));
     });
   }
 }

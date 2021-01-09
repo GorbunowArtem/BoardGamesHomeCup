@@ -5,7 +5,6 @@ using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Commands.DeleteGame;
 using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Games.Queries.GetById;
-using HorCup.Presentation.Games.Queries.GetDetails;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
@@ -74,16 +73,5 @@ namespace HorCup.Presentation.Controllers
 
 			return NoContent();
 		}
-
-		[HttpGet("details/{id:Guid}")]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		[ProducesResponseType((int)HttpStatusCode.NotFound)]
-		public async Task<ActionResult<GameDetailsViewModel>> GetDetails([FromRoute] Guid id)
-		{
-			var gameDetails = await _sender.Send(new GetGameDetailsQuery(id));
-
-			return Ok(gameDetails);
-		}
-		
 	}
 }
