@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.ViewModels;
@@ -14,48 +16,29 @@ namespace HorCup.Presentation.Games.Queries.GetDetails
 		private readonly IHorCupContext _context;
 		private readonly ILogger<GetGameDetailsQueryHandler> _logger;
 		private readonly IGamesService _gamesService;
+		private readonly IMapper _mapper;
 
 		public GetGameDetailsQueryHandler(
 			IHorCupContext context,
 			ILogger<GetGameDetailsQueryHandler> logger,
-			IGamesService gamesService)
+			IGamesService gamesService,
+			IMapper mapper)
 		{
 			_context = context;
 			_logger = logger;
 			_gamesService = gamesService;
+			_mapper = mapper;
 		}
 
 		public async Task<GameDetailsViewModel> Handle(GetGameDetailsQuery request, CancellationToken cancellationToken)
 		{
-			var game = await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
+			await _gamesService.ThrowIfNotExists(request.Id, cancellationToken);
+			
+			var game = await _context.Games.Where(g => g.Id == request.Id)
+				.Include(gs => gs.GameStatistic)
+				.SingleAsync(cancellationToken);
 
-			var gameStats =
-				await _context.GamesStatistics.FirstOrDefaultAsync(gs => gs.GameId == request.Id, cancellationToken);
-
-			if (gameStats != null)
-			{
-				return new GameDetailsViewModel
-				{
-					Id = game.Id,
-					Title = game.Title,
-					MaxPlayers = game.MaxPlayers,
-					MinPlayers = game.MinPlayers,
-					AverageScore = gameStats.AverageScore,
-					TimesPlayed = gameStats.TimesPlayed,
-					LastPlayedDate = gameStats.LastPlayedDate
-				};
-			}
-
-			return new GameDetailsViewModel
-			{
-				Id = game.Id,
-				Title = game.Title,
-				MaxPlayers = game.MaxPlayers,
-				MinPlayers = game.MinPlayers,
-				AverageScore = 0d,
-				TimesPlayed = 0,
-				LastPlayedDate = null
-			};
+			return _mapper.Map<GameDetailsViewModel>(game);
 		}
 	}
 }

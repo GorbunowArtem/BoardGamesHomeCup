@@ -22,5 +22,10 @@ namespace HorCup.Presentation.Games
 		public IEnumerable<Play> Plays { get; set; }
 
 		public GameStatistic GameStatistic { get; set; }
+
+		public Game()
+		{
+			GameStatistic ??= new GameStatistic();
+		}
 	}
 }

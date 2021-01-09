@@ -21,17 +21,12 @@ namespace HorCup.Tests.Games.Queries
 		public void SetUp()
 		{
 			var gameServiceMock = new Mock<IGamesService>();
-			gameServiceMock.Setup(gs => gs.TryGetGameAsync(_factory.GamesFactory.NotExistingGameId, default))
+			gameServiceMock.Setup(gs => gs.ThrowIfNotExists(_factory.GamesFactory.NotExistingGameId, default))
 				.Throws<NotFoundException>();
 
-			gameServiceMock.Setup(gs => gs.TryGetGameAsync(_factory.GamesFactory.Game4Id, default))
-				.Returns(Task.FromResult(_factory.GamesFactory.Games.First(g => g.Id == _factory.GamesFactory.Game4Id)));
-
-			gameServiceMock.Setup(gs => gs.TryGetGameAsync(_factory.GamesFactory.Game1Id, default))
-				.Returns(Task.FromResult(_factory.GamesFactory.Games.First(g => g.Id == _factory.GamesFactory.Game1Id)));
-			
 			_sut = new GetGameDetailsQueryHandler(Context, NullLogger<GetGameDetailsQueryHandler>.Instance,
-				gameServiceMock.Object);
+				gameServiceMock.Object,
+				Mapper);
 		}
 
 		[Test]
@@ -48,7 +43,7 @@ namespace HorCup.Tests.Games.Queries
 		{
 			var details = await _sut.Handle(new GetGameDetailsQuery(_factory.GamesFactory.Game4Id), default);
 
-			details.AverageScore.Should().Be(0);
+			details.AverageScore.Should().BeNull();
 			details.TimesPlayed.Should().Be(0);
 			details.LastPlayedDate.Should().BeNull();
 			details.Id.Should().Be(_factory.GamesFactory.Game4Id);

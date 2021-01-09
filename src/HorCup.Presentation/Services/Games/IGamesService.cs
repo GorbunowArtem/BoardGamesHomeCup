@@ -10,5 +10,7 @@ namespace HorCup.Presentation.Services.Games
 		Task<bool> IsTitleUniqueAsync(string title, Guid? id);
 		
 		Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken);
+
+		Task ThrowIfNotExists(Guid id, CancellationToken cancellationToken);
 	}
 }
