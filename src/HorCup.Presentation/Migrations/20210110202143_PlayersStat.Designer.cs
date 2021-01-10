@@ -4,14 +4,16 @@ using HorCup.Presentation.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HorCup.Presentation.Migrations
 {
     [DbContext(typeof(HorCupContext))]
-    partial class HorCupContextModelSnapshot : ModelSnapshot
+    [Migration("20210110202143_PlayersStat")]
+    partial class PlayersStat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -25,5 +25,10 @@ namespace HorCup.Presentation.Context
 		public DbSet<GameStatistic> GamesStatistics { get; set; }
 		
 		public DbSet<PlayerStatistic> PlayersStatistics { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(HorCupContext).Assembly);
+		}
 	}
 }

@@ -91,7 +91,7 @@ namespace HorCup.Tests.GamesStatistic.Factory
 			new ()
 			{
 				Score = Player1Game2Score,
-				IsWinner = true,
+				IsWinner = false,
 				PlayerId = PlayersFactory.Player1Id
 			},
 			new ()
