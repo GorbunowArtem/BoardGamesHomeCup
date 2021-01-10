@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.PlayScores;
 using HorCup.Tests.Games.Factory;
+using HorCup.Tests.Players.Factory;
 
 namespace HorCup.Tests.GamesStatistic.Factory
 {
 	public class GamesStatisticsFactory
 	{
 		public readonly GamesFactory GamesFactory = new();
+		public readonly PlayersFactory PlayersFactory = new();
 
 		public readonly Guid CreatedGameStatisticId = 4434.Guid();
 		public readonly Guid Game1StatId = 123.Guid();
@@ -24,6 +26,13 @@ namespace HorCup.Tests.GamesStatistic.Factory
 		public const int Game1TimesPlayed = 2;
 		public const int Game2TimesPlayed = 4;
 		public const int Game3TimesPlayed = 16;
+
+		
+		public const int Player1Game1Score = 11;
+		public const int Player2Game1Score = 22;
+		
+		public const int Player1Game2Score = 33;
+		public const int Player2Game2Score = 56;
 
 		public readonly DateTime CreatedGameLastPlayedDate = TestExtensions.ToDateTime(2020, 3, 3);
 		public readonly DateTime Game1LastPlayedDate = TestExtensions.ToDateTime(2020, 5, 5);
@@ -61,6 +70,36 @@ namespace HorCup.Tests.GamesStatistic.Factory
 				}
 			};
 
-		public IEnumerable<PlayScore> CreatedGamePlayerScores => Array.Empty<PlayScore>();
+		public IEnumerable<PlayScore> CreatedGamePlayerScores => new PlayScore[]
+		{
+			new ()
+			{
+				Score = Player1Game1Score,
+				IsWinner = false,
+				PlayerId = PlayersFactory.Player1Id
+			},
+			new ()
+			{
+				Score = Player2Game1Score,
+				IsWinner = true,
+				PlayerId = PlayersFactory.Player2Id
+			}
+		};
+
+		public IEnumerable<PlayScore> UpdatedGamePlayerScores1 => new PlayScore[]
+		{
+			new ()
+			{
+				Score = Player1Game2Score,
+				IsWinner = true,
+				PlayerId = PlayersFactory.Player1Id
+			},
+			new ()
+			{
+				Score = Player2Game2Score,
+				IsWinner = true,
+				PlayerId = PlayersFactory.Player2Id
+			}
+		};
 	}
 }

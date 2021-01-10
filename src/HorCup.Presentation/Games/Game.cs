@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HorCup.Presentation.GamesStatistic;
+using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
 
 namespace HorCup.Presentation.Games
@@ -22,6 +23,8 @@ namespace HorCup.Presentation.Games
 		public IEnumerable<Play> Plays { get; set; }
 
 		public GameStatistic GameStatistic { get; set; }
+		
+		public PlayerStatistic PlayerStatistic { get; set; }
 
 		public Game()
 		{
