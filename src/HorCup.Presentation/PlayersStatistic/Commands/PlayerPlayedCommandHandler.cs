@@ -6,11 +6,11 @@ using MediatR;
 
 namespace HorCup.Presentation.PlayersStatistic.Commands
 {
-	public class PlayerPlayedNotificationHandler : INotificationHandler<GamePlayedNotification>
+	public class PlayerPlayedCommandHandler : INotificationHandler<GamePlayedNotification>
 	{
 		private readonly IHorCupContext _context;
 
-		public PlayerPlayedNotificationHandler(IHorCupContext context)
+		public PlayerPlayedCommandHandler(IHorCupContext context)
 		{
 			_context = context;
 		}

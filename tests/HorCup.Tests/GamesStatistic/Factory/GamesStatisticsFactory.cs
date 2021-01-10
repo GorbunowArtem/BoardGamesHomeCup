@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using HorCup.Presentation.GamesStatistic;
+using HorCup.Presentation.PlayScores;
 using HorCup.Tests.Games.Factory;
 
 namespace HorCup.Tests.GamesStatistic.Factory
@@ -8,22 +10,28 @@ namespace HorCup.Tests.GamesStatistic.Factory
 	{
 		public readonly GamesFactory GamesFactory = new();
 
+		public readonly Guid CreatedGameStatisticId = 4434.Guid();
 		public readonly Guid Game1StatId = 123.Guid();
 		public readonly Guid Game2StatId = 124.Guid();
 		public readonly Guid Game3StatId = 125.Guid();
 
-		public const double Game1AvgScore = 11.3d; 
-		public const double Game2AvgScore = 22.5d; 
+		public const double CreatedGameAvgScore = 9.3d;
+		public const double Game1AvgScore = 11.3d;
+		public const double Game2AvgScore = 22.5d;
 		public const double Game3AvgScore = 44.53d;
 
-		public const int Game1TimesPlayed = 2; 
-		public const int Game2TimesPlayed = 4; 
+		public const int CreatedGameTimesPlayed = 4;
+		public const int Game1TimesPlayed = 2;
+		public const int Game2TimesPlayed = 4;
 		public const int Game3TimesPlayed = 16;
 
-		public readonly DateTime Game1LastPlayedDate = TestExtensions.ToDateTime(2020, 5, 5); 
+		public readonly DateTime CreatedGameLastPlayedDate = TestExtensions.ToDateTime(2020, 3, 3);
+		public readonly DateTime Game1LastPlayedDate = TestExtensions.ToDateTime(2020, 5, 5);
 		public readonly DateTime Game2LastPlayedDate = TestExtensions.ToDateTime(2020, 6, 6);
 		public readonly DateTime Game3LastPlayedDate = TestExtensions.ToDateTime(2020, 7, 7);
-		
+
+		public Commands Commands => new(this);
+
 		public GameStatistic[] GameStatistics =>
 			new GameStatistic[]
 			{
@@ -52,5 +60,7 @@ namespace HorCup.Tests.GamesStatistic.Factory
 					LastPlayedDate = Game3LastPlayedDate
 				}
 			};
+
+		public IEnumerable<PlayScore> CreatedGamePlayerScores => Array.Empty<PlayScore>();
 	}
 }

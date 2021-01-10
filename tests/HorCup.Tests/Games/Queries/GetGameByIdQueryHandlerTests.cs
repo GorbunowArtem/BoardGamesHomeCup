@@ -1,13 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HorCup.Presentation.Exceptions;
-using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Services.Games;
-using HorCup.Presentation.ViewModels;
 using HorCup.Tests.Games.Factory;
 using HorCup.Tests.GamesStatistic.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
