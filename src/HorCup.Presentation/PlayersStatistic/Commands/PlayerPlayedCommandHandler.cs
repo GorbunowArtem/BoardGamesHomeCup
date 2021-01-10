@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
@@ -24,11 +23,16 @@ namespace HorCup.Presentation.PlayersStatistic.Commands
 		{
 			foreach (var playerScore in notification.PlayerScore)
 			{
+				_logger.LogInformation(
+					$"Getting statistic for player {playerScore.PlayerId.ToString()} and game {notification.GameId.ToString()}");
+
 				var score = await _context.PlayersStatistics.FirstOrDefaultAsync(
 					ps => ps.GameId == notification.GameId && ps.PlayerId == playerScore.PlayerId, cancellationToken);
 
 				if (score == null)
 				{
+					_logger.LogInformation(
+						$"Player {playerScore.PlayerId.ToString()} has no statistic for game {notification.GameId.ToString()}. Adding new...");
 					await _context.PlayersStatistics.AddAsync(new PlayerStatistic
 					{
 						Wins = playerScore.IsWinner ? 1 : 0,
@@ -40,6 +44,8 @@ namespace HorCup.Presentation.PlayersStatistic.Commands
 				}
 				else
 				{
+					_logger.LogInformation(
+						$"Player {playerScore.PlayerId.ToString()} has statistic for game {notification.GameId.ToString()}. Updating values...");
 					score.Wins = playerScore.IsWinner ? ++score.Wins : score.Wins;
 					score.AverageScore = (score.AverageScore + playerScore.Score) / 2;
 					score.PlayedTotal += 1;

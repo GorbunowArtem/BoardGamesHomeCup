@@ -41,7 +41,7 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 				_ => query.OrderByDescending(p => p.PlayedTotal)
 			};
 
-			var stats = await query.Include(p => p.Player)
+			var stats = await query.Include(p => p.Players)
 				.Skip(request.Skip)
 				.Take(request.Take)
 				.ToListAsync(cancellationToken);

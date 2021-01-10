@@ -37,12 +37,20 @@ namespace HorCup.Presentation.Migrations
                     b.Property<int>("MinPlayers")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("PlayerStatisticGameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PlayerStatisticPlayerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerStatisticGameId", "PlayerStatisticPlayerId");
 
                     b.ToTable("Games");
                 });
@@ -151,11 +159,6 @@ namespace HorCup.Presentation.Migrations
 
                     b.HasKey("GameId", "PlayerId");
 
-                    b.HasIndex("GameId")
-                        .IsUnique();
-
-                    b.HasIndex("PlayerId");
-
                     b.ToTable("PlayersStatistics");
                 });
 
@@ -179,6 +182,33 @@ namespace HorCup.Presentation.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("Plays");
+                });
+
+            modelBuilder.Entity("PlayerPlayerStatistic", b =>
+                {
+                    b.Property<Guid>("PlayersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerStatisticGameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerStatisticPlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PlayersId", "PlayerStatisticGameId", "PlayerStatisticPlayerId");
+
+                    b.HasIndex("PlayerStatisticGameId", "PlayerStatisticPlayerId");
+
+                    b.ToTable("PlayerPlayerStatistic");
+                });
+
+            modelBuilder.Entity("HorCup.Presentation.Games.Game", b =>
+                {
+                    b.HasOne("HorCup.Presentation.PlayersStatistic.PlayerStatistic", "PlayerStatistic")
+                        .WithMany("Games")
+                        .HasForeignKey("PlayerStatisticGameId", "PlayerStatisticPlayerId");
+
+                    b.Navigation("PlayerStatistic");
                 });
 
             modelBuilder.Entity("HorCup.Presentation.GamesStatistic.GameStatistic", b =>
@@ -209,25 +239,6 @@ namespace HorCup.Presentation.Migrations
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("HorCup.Presentation.PlayersStatistic.PlayerStatistic", b =>
-                {
-                    b.HasOne("HorCup.Presentation.Games.Game", "Game")
-                        .WithOne("PlayerStatistic")
-                        .HasForeignKey("HorCup.Presentation.PlayersStatistic.PlayerStatistic", "GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HorCup.Presentation.Players.Player", "Player")
-                        .WithMany("PlayerStatistic")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Player");
-                });
-
             modelBuilder.Entity("HorCup.Presentation.Plays.Play", b =>
                 {
                     b.HasOne("HorCup.Presentation.Games.Game", "Game")
@@ -239,20 +250,36 @@ namespace HorCup.Presentation.Migrations
                     b.Navigation("Game");
                 });
 
+            modelBuilder.Entity("PlayerPlayerStatistic", b =>
+                {
+                    b.HasOne("HorCup.Presentation.Players.Player", null)
+                        .WithMany()
+                        .HasForeignKey("PlayersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HorCup.Presentation.PlayersStatistic.PlayerStatistic", null)
+                        .WithMany()
+                        .HasForeignKey("PlayerStatisticGameId", "PlayerStatisticPlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HorCup.Presentation.Games.Game", b =>
                 {
                     b.Navigation("GameStatistic");
-
-                    b.Navigation("PlayerStatistic");
 
                     b.Navigation("Plays");
                 });
 
             modelBuilder.Entity("HorCup.Presentation.Players.Player", b =>
                 {
-                    b.Navigation("PlayerStatistic");
-
                     b.Navigation("PlayScores");
+                });
+
+            modelBuilder.Entity("HorCup.Presentation.PlayersStatistic.PlayerStatistic", b =>
+                {
+                    b.Navigation("Games");
                 });
 
             modelBuilder.Entity("HorCup.Presentation.Plays.Play", b =>

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HorCup.Presentation.Migrations
 {
     [DbContext(typeof(HorCupContext))]
-    [Migration("20210109151419_Initial")]
+    [Migration("20210110213355_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,9 @@ namespace HorCup.Presentation.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -59,8 +61,8 @@ namespace HorCup.Presentation.Migrations
                     b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("LastPlayedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("LastPlayedDate")
+                        .HasColumnType("datetime");
 
                     b.Property<int>("TimesPlayed")
                         .HasColumnType("int");
@@ -107,19 +109,25 @@ namespace HorCup.Presentation.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Added")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -149,7 +157,8 @@ namespace HorCup.Presentation.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("GameId")
+                        .IsUnique();
 
                     b.HasIndex("PlayerId");
 
@@ -169,7 +178,7 @@ namespace HorCup.Presentation.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PlayedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -209,8 +218,8 @@ namespace HorCup.Presentation.Migrations
             modelBuilder.Entity("HorCup.Presentation.PlayersStatistic.PlayerStatistic", b =>
                 {
                     b.HasOne("HorCup.Presentation.Games.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
+                        .WithOne("PlayerStatistic")
+                        .HasForeignKey("HorCup.Presentation.PlayersStatistic.PlayerStatistic", "GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -239,6 +248,8 @@ namespace HorCup.Presentation.Migrations
             modelBuilder.Entity("HorCup.Presentation.Games.Game", b =>
                 {
                     b.Navigation("GameStatistic");
+
+                    b.Navigation("PlayerStatistic");
 
                     b.Navigation("Plays");
                 });

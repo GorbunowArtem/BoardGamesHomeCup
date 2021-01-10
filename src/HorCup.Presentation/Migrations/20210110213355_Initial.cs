@@ -12,7 +12,7 @@ namespace HorCup.Presentation.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MaxPlayers = table.Column<int>(type: "int", nullable: false),
                     MinPlayers = table.Column<int>(type: "int", nullable: false),
                     Added = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -28,11 +28,11 @@ namespace HorCup.Presentation.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Added = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Added = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +47,7 @@ namespace HorCup.Presentation.Migrations
                     GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TimesPlayed = table.Column<int>(type: "int", nullable: false),
                     AverageScore = table.Column<double>(type: "float", nullable: true),
-                    LastPlayedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastPlayedDate = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,7 +66,7 @@ namespace HorCup.Presentation.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PlayedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -144,7 +144,8 @@ namespace HorCup.Presentation.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PlayersStatistics_GameId",
                 table: "PlayersStatistics",
-                column: "GameId");
+                column: "GameId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayersStatistics_PlayerId",
