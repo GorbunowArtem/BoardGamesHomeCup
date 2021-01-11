@@ -14,5 +14,10 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 		public int Take { get; set; }
 
 		public int Skip { get; set; }
+
+		public SearchPlayerStatsQuery()
+		{
+			Take = 5;
+		}
 	}
 }

@@ -19,8 +19,8 @@ namespace HorCup.Presentation.Players
 
 		public DateTime Added { get; set; }
 
-		public IEnumerable<PlayScore> PlayScores { get; set; }
+		public ICollection<PlayScore> PlayScores { get; set; }
 
-		public IEnumerable<PlayerStatistic> PlayerStatistic { get; set; }
+		public ICollection<PlayerStatistic> PlayerStatistic { get; set; }
 	}
 }

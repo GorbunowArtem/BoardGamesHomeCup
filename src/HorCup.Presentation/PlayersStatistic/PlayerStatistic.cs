@@ -9,11 +9,11 @@ namespace HorCup.Presentation.PlayersStatistic
 	{
 		public Guid PlayerId { get; set; }
 
-		public IEnumerable<Player> Players { get; set; }
+		public Player Player { get; set; }
 		
 		public Guid GameId { get; set; }
 
-		public IEnumerable<Game> Games { get; set; }
+		public Game Game { get; set; }
 		
 		public int PlayedTotal { get; set; }
 
