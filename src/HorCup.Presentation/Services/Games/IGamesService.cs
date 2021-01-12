@@ -13,7 +13,5 @@ namespace HorCup.Presentation.Services.Games
 			CancellationToken cancellationToken);
 		
 		Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken);
-
-		Task ThrowIfNotExists(Guid id, CancellationToken cancellationToken);
 	}
 }

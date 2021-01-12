@@ -50,15 +50,5 @@ namespace HorCup.Presentation.Services.Games
 
 			return game;
 		}
-
-		public async Task ThrowIfNotExists(Guid id, CancellationToken cancellationToken)
-		{
-			var gameExists = await _context.Games.AnyAsync(g => g.Id == id, cancellationToken);
-
-			if (!gameExists)
-			{
-				throw new NotFoundException(nameof(Game), id);
-			}
-		}
 	}
 }

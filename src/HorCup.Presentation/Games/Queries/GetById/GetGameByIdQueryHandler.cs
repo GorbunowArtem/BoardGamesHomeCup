@@ -30,7 +30,7 @@ namespace HorCup.Presentation.Games.Queries.GetById
 
 		public async Task<GameDetailsViewModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
 		{
-			await _gamesService.ThrowIfNotExists(request.Id, cancellationToken);
+			await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
 			
 			var game = await _context.Games.Where(g => g.Id == request.Id)
 				.Include(gs => gs.GameStatistic)

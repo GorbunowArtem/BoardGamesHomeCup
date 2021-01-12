@@ -4,7 +4,6 @@ using HorCup.Presentation.Context;
 using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Services.Games;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Games.Commands.EditGame
@@ -31,8 +30,6 @@ namespace HorCup.Presentation.Games.Commands.EditGame
 			
 			_logger.LogInformation($"Getting game {request.Title} with id {request.Id.ToString()}");
 
-			var all = await _context.Games.AsNoTracking().ToListAsync(cancellationToken);
-			
 			var game = await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
 
 			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(title, id, cancellationToken);
