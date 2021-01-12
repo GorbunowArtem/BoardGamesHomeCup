@@ -10,7 +10,8 @@ describe('Service: Games', () => {
   beforeEach(() => {
     httpClientMock = jasmine.createSpyObj('HttpClient', {
       get: of(),
-      post: of()
+      post: of(),
+      head: of()
     });
 
     gamesService = new GamesService(httpClientMock);
@@ -34,5 +35,16 @@ describe('Service: Games', () => {
     gamesService.get(testGame1.id);
 
     expect(httpClientMock.get).toHaveBeenCalledWith(`/games/${testGame1.id}`);
+  });
+
+  it('should check if title is unique', () => {
+    gamesService.isTitleUnique(testGame1.title, testGame1.id);
+
+    expect(httpClientMock.head).toHaveBeenCalledWith(
+      `/games?title=${testGame1.title}&id=${testGame1.id}`,
+      {
+        observe: 'response'
+      }
+    );
   });
 });

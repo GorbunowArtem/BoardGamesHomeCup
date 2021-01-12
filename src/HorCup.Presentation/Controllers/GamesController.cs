@@ -78,7 +78,7 @@ namespace HorCup.Presentation.Controllers
 		[HttpHead]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.Conflict)]
-		public async Task<IActionResult> IsTitleUnique([FromRoute] string title, Guid? id)
+		public async Task<IActionResult> IsTitleUnique(string title, Guid? id)
 		{
 			var isUnique = await _sender.Send(new IsTitleUniqueQuery(title, id));
 
