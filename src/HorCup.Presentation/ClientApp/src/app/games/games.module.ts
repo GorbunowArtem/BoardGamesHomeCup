@@ -23,6 +23,7 @@ import { GameDetailsComponent } from './game-details/game-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { TopPlayersStatsComponent } from './game-details/top-players-stats/top-players-stats.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { MatDividerModule } from '@angular/material/divider';
     GameCardComponent,
     GamesFilterComponent,
     AddEditGameDialogComponent,
-    GameDetailsComponent
+    GameDetailsComponent,
+    TopPlayersStatsComponent
   ]
 })
 export class GamesModule {}

@@ -15,7 +15,7 @@ namespace HorCup.Presentation
 			CreateMap<Player, PlayerViewModel>();
 			CreateMap<Player, PlayerDetailsViewModel>();
 			CreateMap<PlayerStatistic, PlayerStatisticViewModel>();
-				
+
 			CreateMap<Game, GameViewModel>()
 				.ForMember(g => g.TimesPlayed, op => op.MapFrom(g => g.GameStatistic.TimesPlayed));
 			CreateMap<Game, GameDetailsViewModel>()
@@ -25,7 +25,7 @@ namespace HorCup.Presentation
 					opt => opt.MapFrom(g => g.GameStatistic.TimesPlayed))
 				.ForMember(gd => gd.LastPlayedDate,
 					opt => opt.MapFrom(g => g.GameStatistic.LastPlayedDate));
-			
+
 			CreateMap<PlayScore, PlayScoreViewModel>();
 			CreateMap<Play, PlayViewModel>();
 		}

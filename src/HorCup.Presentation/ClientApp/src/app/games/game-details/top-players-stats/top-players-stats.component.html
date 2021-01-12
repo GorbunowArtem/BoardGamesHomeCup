@@ -1,0 +1,8 @@
+<mat-card>
+  <mat-card-subtitle> {{ title }}</mat-card-subtitle>
+  <mat-card-content *ngIf="playersStats.length > 0">
+    <div *ngFor="let pl of playersStats">
+      <p>{{ pl.player.firstName }} {{ pl.player.lastName }} {{ getValue(pl) }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

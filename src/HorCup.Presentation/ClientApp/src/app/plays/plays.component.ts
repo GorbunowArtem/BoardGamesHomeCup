@@ -42,7 +42,7 @@ export class PlaysComponent implements OnInit, OnDestroy {
 
   public search() {
     this._playsService.search(this._searchOptions).subscribe((result) => {
-      this._plays = result.items;
+      this._plays = result.items.$values;
       this.total = result.total;
       window.scrollTo(0, 0);
     });
@@ -60,7 +60,7 @@ export class PlaysComponent implements OnInit, OnDestroy {
     this._playsService
       .search(new SearchPlaysOptions(this.take - 10, this.take))
       .subscribe((plays) => {
-        this._plays.push(...plays.items);
+        this._plays.push(...plays.items.$values);
       });
   }
 

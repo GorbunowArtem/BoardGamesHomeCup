@@ -1,4 +1,6 @@
 export interface PagedSearchResponse<T> {
   total: number;
-  items: T[];
+  items: {
+    $values: T[];
+  };
 }
