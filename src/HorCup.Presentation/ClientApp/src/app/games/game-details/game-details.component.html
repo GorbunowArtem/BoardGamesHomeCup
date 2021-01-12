@@ -18,7 +18,7 @@
     <mat-card-content>
       <p>Партий сыграно: {{ gameDetails.timesPlayed }}</p>
       <p>Дата последней партии: {{ gameDetails.lastPlayedDate | date }}</p>
-      <p>Средний результат: {{ gameDetails.averageScore }}</p>
+      <p>Средний результат: {{ gameDetails.averageScore | number }}</p>
     </mat-card-content>
   </mat-card>
 
@@ -37,7 +37,7 @@
   </hc-top-players-stats>
 
   <hc-top-players-stats
-    [title]="'Топ игроков по проценту побед:'"
+    [title]="'Топ игроков по среднему результату:'"
     [playersStats]="topAverageScore"
     [propertyName]="'averageScore'"
   >

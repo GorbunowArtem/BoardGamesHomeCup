@@ -10,7 +10,9 @@
   </button></a
 >
 
-<div class="load-more" *ngIf="moreAvailable">
-  <button mat-raised-button color="accent" (click)="loadMore()">Загрузить еще</button>
+<div class="actions">
+  <button mat-raised-button color="accent" (click)="loadMore()" *ngIf="moreAvailable">
+    Загрузить еще
+  </button>
+  <button mat-raised-button color="primary" (click)="openFilter()">Фильтр</button>
 </div>
-<button mat-raised-button color="primary" (click)="openFilter()">Фильтр</button>

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
@@ -41,7 +42,7 @@ namespace HorCup.Presentation.GamesStatistic.Commands.GamePlayed
 			{
 				_logger.LogInformation(
 					$"Game {notification.GameId.ToString()} has playing history. Updating values...");
-				gameStat.AverageScore = (gameStat.AverageScore + notification.AverageScore) / 2;
+				gameStat.AverageScore = new [] {gameStat.AverageScore + notification.AverageScore}.Average();
 				gameStat.TimesPlayed++;
 				gameStat.LastPlayedDate = notification.LastPlayedDate;
 

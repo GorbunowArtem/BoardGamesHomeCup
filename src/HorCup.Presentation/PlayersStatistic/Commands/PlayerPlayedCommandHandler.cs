@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Presentation.Context;
@@ -47,7 +49,7 @@ namespace HorCup.Presentation.PlayersStatistic.Commands
 					_logger.LogInformation(
 						$"Player {playerScore.PlayerId.ToString()} has statistic for game {notification.GameId.ToString()}. Updating values...");
 					score.Wins = playerScore.IsWinner ? ++score.Wins : score.Wins;
-					score.AverageScore = (score.AverageScore + playerScore.Score) / 2;
+					score.AverageScore = new []{score.AverageScore, playerScore.Score}.Average();
 					score.PlayedTotal += 1;
 
 					_context.PlayersStatistics.Update(score);
