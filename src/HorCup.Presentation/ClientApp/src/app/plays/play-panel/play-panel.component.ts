@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Play } from '../models/play';
+import { PlayScore } from '../models/play-score';
 
 @Component({
   selector: 'hc-play-panel',
@@ -13,7 +14,7 @@ export class PlayPanelComponent {
   public displayedColumns: string[] = ['player-name', 'score'];
 
   public get winnerName() {
-    const winner = this.play.playerScores.find((pl) => {
+    const winner = this.play.playerScores.$values.find((pl: PlayScore) => {
       return pl.isWinner;
     });
 

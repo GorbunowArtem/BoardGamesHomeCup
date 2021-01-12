@@ -24,7 +24,7 @@ namespace HorCup.Presentation.Games
 
 		public GameStatistic GameStatistic { get; set; }
 		
-		public PlayerStatistic PlayerStatistic { get; set; }
+		public IEnumerable<PlayerStatistic> PlayerStatistics { get; set; }
 
 		public Game()
 		{

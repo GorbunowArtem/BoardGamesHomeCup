@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Player } from 'src/app/players/models/player';
-import { PlayerDetails } from 'src/app/players/models/player-details';
+import { Component, Input } from '@angular/core';
 import { PlayerStatistic } from 'src/app/players/models/player-statistic';
 
 @Component({
@@ -17,6 +15,8 @@ export class TopPlayersStatsComponent {
 
   @Input()
   public propertyName: string;
+
+  public displayedColumns: string[] = ['player-name', 'stat'];
 
   public constructor() {
     this.playersStats = [];

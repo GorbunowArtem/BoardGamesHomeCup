@@ -31,12 +31,15 @@ export class GameDetailsComponent implements OnInit {
       const gameId = params.get('id');
 
       this._gamesService.get(gameId).subscribe((game) => (this.gameDetails = game));
+
       this._playersService
         .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.TotalPlayed))
         .subscribe((stats) => (this.topPlayedPlayers = stats.items.$values));
+
       this._playersService
         .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.TotalWins))
         .subscribe((stats) => (this.topWinnersPlayers = stats.items.$values));
+
       this._playersService
         .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.AverageScore))
         .subscribe((stats) => (this.topAverageScore = stats.items.$values));

@@ -7,6 +7,7 @@ using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
 using HorCup.Presentation.PlayScores;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HorCup.Presentation.Context
 {
@@ -25,5 +26,7 @@ namespace HorCup.Presentation.Context
 		DbSet<PlayerStatistic> PlayersStatistics { get; set; }
 		
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+		
+		DatabaseFacade Database { get; }
 	}
 }

@@ -151,9 +151,6 @@ namespace HorCup.Presentation.Migrations
 
                     b.HasKey("GameId", "PlayerId");
 
-                    b.HasIndex("GameId")
-                        .IsUnique();
-
                     b.HasIndex("PlayerId");
 
                     b.ToTable("PlayersStatistics");
@@ -211,9 +208,9 @@ namespace HorCup.Presentation.Migrations
 
             modelBuilder.Entity("HorCup.Presentation.PlayersStatistic.PlayerStatistic", b =>
                 {
-                    b.HasOne("HorCup.Presentation.Games.Game", null)
-                        .WithOne("PlayerStatistic")
-                        .HasForeignKey("HorCup.Presentation.PlayersStatistic.PlayerStatistic", "GameId")
+                    b.HasOne("HorCup.Presentation.Games.Game", "Game")
+                        .WithMany("PlayerStatistics")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -222,6 +219,8 @@ namespace HorCup.Presentation.Migrations
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Game");
 
                     b.Navigation("Player");
                 });
@@ -241,7 +240,7 @@ namespace HorCup.Presentation.Migrations
                 {
                     b.Navigation("GameStatistic");
 
-                    b.Navigation("PlayerStatistic");
+                    b.Navigation("PlayerStatistics");
 
                     b.Navigation("Plays");
                 });

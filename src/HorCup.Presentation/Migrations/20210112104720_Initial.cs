@@ -84,7 +84,6 @@ namespace HorCup.Presentation.Migrations
                 name: "PlayersStatistics",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PlayedTotal = table.Column<int>(type: "int", nullable: false),
@@ -93,7 +92,7 @@ namespace HorCup.Presentation.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayersStatistics", x => x.Id);
+                    table.PrimaryKey("PK_PlayersStatistics", x => new { x.GameId, x.PlayerId });
                     table.ForeignKey(
                         name: "FK_PlayersStatistics_Games_GameId",
                         column: x => x.GameId,
@@ -138,12 +137,6 @@ namespace HorCup.Presentation.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_GamesStatistics_GameId",
                 table: "GamesStatistics",
-                column: "GameId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayersStatistics_GameId",
-                table: "PlayersStatistics",
                 column: "GameId",
                 unique: true);
 

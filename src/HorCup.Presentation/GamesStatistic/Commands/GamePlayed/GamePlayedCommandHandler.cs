@@ -21,12 +21,12 @@ namespace HorCup.Presentation.GamesStatistic.Commands.GamePlayed
 		public async Task Handle(GamePlayedNotification notification, CancellationToken cancellationToken)
 		{
 			_logger.LogInformation($"Getting statistic for game {notification.GameId.ToString()}");
-			
+
 			var gameStat =
 				await _context.GamesStatistics.FirstOrDefaultAsync(g => g.GameId == notification.GameId,
 					cancellationToken);
 
-			if (gameStat == null)
+			if (gameStat == null || gameStat.TimesPlayed == 0)
 			{
 				_logger.LogInformation($"Game {notification.GameId.ToString()} has no playing history. Adding new...");
 				await _context.GamesStatistics.AddAsync(new GameStatistic
@@ -39,7 +39,8 @@ namespace HorCup.Presentation.GamesStatistic.Commands.GamePlayed
 			}
 			else
 			{
-				_logger.LogInformation($"Game {notification.GameId.ToString()} has playing history. Updating values...");
+				_logger.LogInformation(
+					$"Game {notification.GameId.ToString()} has playing history. Updating values...");
 				gameStat.AverageScore = (gameStat.AverageScore + notification.AverageScore) / 2;
 				gameStat.TimesPlayed++;
 				gameStat.LastPlayedDate = notification.LastPlayedDate;
