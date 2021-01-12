@@ -55,7 +55,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   public search() {
     this._gamesService.search(this._searchOptions).subscribe((result) => {
-      this.games = result.items;
+      this.games = result.items.$values;
       this.total = result.total;
       window.scrollTo(0, 0);
     });

@@ -45,7 +45,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this._playersService
       .search(new SearchPlayersOptions(take, skip, searchText))
       .subscribe((result) => {
-        this.players = result.items;
+        this.players = result.items.$values;
         this.totalItems = result.total;
       });
   }

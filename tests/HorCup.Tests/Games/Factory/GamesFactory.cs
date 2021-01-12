@@ -5,6 +5,7 @@ namespace HorCup.Tests.Games.Factory
 {
 	public class GamesFactory
 	{
+		public readonly Guid NotExistingGameId = 13252323.Guid();
 		public readonly Guid CreatedGameId = 1.Guid();
 		public readonly Guid Game1Id = 11.Guid();
 		public readonly Guid Game2Id = 2.Guid();

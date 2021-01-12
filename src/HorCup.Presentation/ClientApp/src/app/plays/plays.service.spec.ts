@@ -10,7 +10,7 @@ describe('Service: Play', () => {
   let service: PlaysService;
   let httpClientMock: any;
   const testResponse = {
-    items: [testPlay1],
+    items: { $values: [testPlay1] },
     total: 1
   };
 
@@ -37,7 +37,7 @@ describe('Service: Play', () => {
   });
 
   it('should add play', () => {
-    service.add(testPlay1);
+    service.add(testPlay1 as any);
 
     expect(httpClientMock.post).toHaveBeenCalledWith('/plays', testPlay1);
   });

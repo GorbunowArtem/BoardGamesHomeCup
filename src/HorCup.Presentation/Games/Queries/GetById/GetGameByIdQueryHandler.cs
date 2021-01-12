@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Exceptions;
+using HorCup.Presentation.Services.Games;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,24 +16,25 @@ namespace HorCup.Presentation.Games.Queries.GetById
 		private readonly IHorCupContext _context;
 		private readonly ILogger<GetGameByIdQueryHandler> _logger;
 		private readonly IMapper _mapper;
+		private readonly IGamesService _gamesService;
 
 		public GetGameByIdQueryHandler(IHorCupContext context, ILogger<GetGameByIdQueryHandler> logger,
-			IMapper mapper)
+			IMapper mapper,
+			IGamesService gamesService)
 		{
 			_context = context;
 			_logger = logger;
 			_mapper = mapper;
+			_gamesService = gamesService;
 		}
 
 		public async Task<GameDetailsViewModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
 		{
-			var game = await _context.Games.Where(g => g.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
-
-			if (game == null)
-			{
-				_logger.LogError($"Game with id {request.Id} was not found");
-				throw new NotFoundException(nameof(Game), request.Id);
-			}
+			await _gamesService.ThrowIfNotExists(request.Id, cancellationToken);
+			
+			var game = await _context.Games.Where(g => g.Id == request.Id)
+				.Include(gs => gs.GameStatistic)
+				.SingleAsync(cancellationToken);
 
 			return _mapper.Map<GameDetailsViewModel>(game);
 		}

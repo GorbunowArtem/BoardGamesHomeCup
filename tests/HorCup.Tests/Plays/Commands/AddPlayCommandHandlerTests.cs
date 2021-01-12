@@ -8,6 +8,7 @@ using HorCup.Presentation.Games;
 using HorCup.Presentation.Plays.Commands.AddPlay;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Tests.Plays.Factory;
+using MediatR;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
@@ -28,7 +29,8 @@ namespace HorCup.Tests.Plays.Commands
 			iidGeneratorMock.Setup(g => g.NewGuid()).Returns(_factory.CreatedPlay1Id);
 
 			_sut = new AddPlayCommandHandler(iidGeneratorMock.Object, Context,
-				NullLogger<AddPlayCommandHandler>.Instance);
+				NullLogger<AddPlayCommandHandler>.Instance,
+				new Mock<IPublisher>().Object);
 		}
 
 		[Test]

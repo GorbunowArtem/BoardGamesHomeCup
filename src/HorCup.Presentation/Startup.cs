@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using HorCup.Presentation.Context;
@@ -30,28 +31,38 @@ namespace HorCup.Presentation
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<HorCupContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
-			
-			services.AddControllersWithViews().AddFluentValidation(fv =>
-				fv.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>());
-            
+			services.AddDbContext<HorCupContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
+
+			services.AddControllersWithViews()
+				.AddFluentValidation(fv =>
+					fv.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>())
+				.AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+				});
+
 			services.AddSwaggerGen();
 
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 			services.AddScoped<IHorCupContext, HorCupContext>();
-			
+
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
 			services.AddTransient<IPlayersService, PlayersService>();
 			services.AddTransient<IGamesService, GamesService>();
-			
+
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(
+			IApplicationBuilder app,
+			IWebHostEnvironment env,
+			ILoggerFactory loggerFactory)
 		{
 			if (env.IsDevelopment())
 			{
@@ -66,10 +77,10 @@ namespace HorCup.Presentation
 			}
 
 			loggerFactory.AddFile("Logs/hor-cup-log.txt");
-				
+
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-			
+
 			app.UseSwagger();
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
 

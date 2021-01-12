@@ -1,5 +1,7 @@
 ﻿using HorCup.Presentation.Games;
+using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.Players;
+using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
 using HorCup.Presentation.PlayScores;
 using Microsoft.EntityFrameworkCore;
@@ -19,5 +21,14 @@ namespace HorCup.Presentation.Context
 		public DbSet<Play> Plays { get; set; }
 		
 		public DbSet<PlayScore> PlayScores { get; set; }
+		
+		public DbSet<GameStatistic> GamesStatistics { get; set; }
+		
+		public DbSet<PlayerStatistic> PlayersStatistics { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(HorCupContext).Assembly);
+		}
 	}
 }

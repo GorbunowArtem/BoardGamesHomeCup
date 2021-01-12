@@ -6,9 +6,12 @@ import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
 import { PlayerDetails } from './models/player-details';
+import { PlayerStatistic } from './models/player-statistic';
+import { SearchPlayerStatsOptions } from './models/search-player-stats-options';
 import { SearchPlayersOptions } from './models/search-players-options';
 
 const PlayersUrl = '/players';
+const PlayersStatsUrl = '/players-statistic';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +55,13 @@ export class PlayersService {
 
   public get(id: string | null): Observable<PlayerDetails> {
     return this._http.get<PlayerDetails>(`${PlayersUrl}/${id}`);
+  }
+
+  public getStats(
+    options: SearchPlayerStatsOptions
+  ): Observable<PagedSearchResponse<PlayerStatistic>> {
+    return this._http.get<PagedSearchResponse<PlayerStatistic>>(`${PlayersStatsUrl}`, {
+      params: options as any
+    });
   }
 }

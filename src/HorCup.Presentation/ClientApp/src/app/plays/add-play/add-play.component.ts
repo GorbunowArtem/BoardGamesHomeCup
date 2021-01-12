@@ -107,7 +107,7 @@ export class AddPlayComponent implements OnInit {
 
     return this._gamesService
       .search(new SearchGamesOptions(10, 0, searchText))
-      .pipe(map((resp) => resp.items));
+      .pipe(map((resp) => resp.items.$values));
   }
 
   private getSelectedPlayersIds(): string[] {
@@ -126,7 +126,7 @@ export class AddPlayComponent implements OnInit {
     }
     return this._playersService
       .search(new SearchPlayersOptions(10, 0, searchText, this.getSelectedPlayersIds()))
-      .pipe(map((resp) => resp.items));
+      .pipe(map((resp) => resp.items.$values));
   }
 
   public save() {

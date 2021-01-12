@@ -11,7 +11,7 @@
       <p>Дата: {{ play.playedDate | date: 'short':'ru-Ru' }}</p>
       <p *ngIf="play.notes !== ''">Заметки: {{ play.notes }}</p>
     </div>
-    <table mat-table [dataSource]="play.playerScores">
+    <table mat-table [dataSource]="play.playerScores.$values">
       <ng-container matColumnDef="player-name">
         <th mat-header-cell *matHeaderCellDef>Имя игрока</th>
         <td mat-cell *matCellDef="let row">{{ row.player.name }}</td>

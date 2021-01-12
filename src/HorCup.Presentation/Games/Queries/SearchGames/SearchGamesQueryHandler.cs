@@ -41,6 +41,7 @@ namespace HorCup.Presentation.Games.Queries.SearchGames
 			query = ApplyExceptIdsFilter(request, query);
 			
 			var games = await query
+				.Include(g => g.GameStatistic)
 				.OrderByDescending(g => g.Added)
 				.Skip(request.Skip)
 				.Take(request.Take)
