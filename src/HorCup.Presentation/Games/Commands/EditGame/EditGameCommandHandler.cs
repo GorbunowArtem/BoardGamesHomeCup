@@ -29,20 +29,21 @@ namespace HorCup.Presentation.Games.Commands.EditGame
 		{
 			var (id, title, maxPlayers, minPlayers, _) = request;
 			
-			var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+			_logger.LogInformation($"Getting game {request.Title} with id {request.Id.ToString()}");
 
-			if (game == null)
-			{
-				throw new NotFoundException(nameof(Game), id);
-			}
+			var all = await _context.Games.AsNoTracking().ToListAsync(cancellationToken);
+			
+			var game = await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
 
-			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(title, id);
+			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(title, id, cancellationToken);
+			_logger.LogInformation($"Checking if {request.Title} is unique");
 
 			if (!isTitleUnique)
 			{
 				throw new EntityExistsException(nameof(Game), id);
 			}
 
+			_logger.LogInformation("Updating game...");
 			game.Title = title;
 			game.MaxPlayers = maxPlayers;
 			game.MinPlayers = minPlayers;

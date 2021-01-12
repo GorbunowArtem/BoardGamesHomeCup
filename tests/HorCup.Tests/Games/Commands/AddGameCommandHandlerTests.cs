@@ -31,12 +31,12 @@ namespace HorCup.Tests.Games.Commands
 
 
 			var gamesService = new Mock<IGamesService>();
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle, null))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle, null, default))
 				.Returns(Task.FromResult(false));
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.CreatedGameTitle, null))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.CreatedGameTitle, null, default))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddGameCommandHandler(Context,

@@ -24,7 +24,7 @@ namespace HorCup.Tests.Services
 		[TestCase(null, null, true)]
 		public async Task IsTitleUniqueAsync(string title, int id, bool result)
 		{
-			var isUnique = await _sut.IsTitleUniqueAsync($"   {title}   ", id.Guid());
+			var isUnique = await _sut.IsTitleUniqueAsync($"   {title}   ", id.Guid(), default);
 
 			isUnique.Should().Be(result);
 		}

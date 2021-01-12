@@ -18,7 +18,10 @@ namespace HorCup.Presentation.Services.Games
 			_context = context;
 		}
 
-		public async Task<bool> IsTitleUniqueAsync(string title, Guid? id)
+		public async Task<bool> IsTitleUniqueAsync(
+			string title,
+			Guid? id,
+			CancellationToken cancellationToken)
 		{
 			if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title))
 			{
@@ -33,7 +36,7 @@ namespace HorCup.Presentation.Services.Games
 				query = query.Where(g => g.Id != id);
 			}
 
-			return !await query.AnyAsync();
+			return !await query.AnyAsync(cancellationToken);
 		}
 
 		public async Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken)

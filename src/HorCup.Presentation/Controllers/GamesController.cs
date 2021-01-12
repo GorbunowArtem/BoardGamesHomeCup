@@ -5,6 +5,7 @@ using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Commands.DeleteGame;
 using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Games.Queries.GetById;
+using HorCup.Presentation.Games.Queries.IsTitleUnique;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
@@ -72,6 +73,21 @@ namespace HorCup.Presentation.Controllers
 			await _sender.Send(new DeleteGameCommand(id));
 
 			return NoContent();
+		}
+
+		[HttpHead]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.Conflict)]
+		public async Task<IActionResult> IsTitleUnique([FromRoute] string title, Guid? id)
+		{
+			var isUnique = await _sender.Send(new IsTitleUniqueQuery(title, id));
+
+			if (!isUnique)
+			{
+				return Conflict("Title is not unique.");
+			}
+
+			return Ok();
 		}
 	}
 }
