@@ -66,14 +66,16 @@ const playerConstraints: PlayerConstraints = {
 };
 
 const searchPlayersResponse: PagedSearchResponse<Player> = {
-  items: [
-    {
-      birthDate: new Date('1995-12-17T03:24:00'),
-      firstName: 'Test',
-      lastName: 'Player',
-      nickname: 'Test P'
-    }
-  ],
+  items: {
+    $values: [
+      {
+        birthDate: new Date('1995-12-17T03:24:00'),
+        firstName: 'Test',
+        lastName: 'Player',
+        nickname: 'Test P'
+      }
+    ]
+  },
   total: 1
 };
 describe('AddEditPlayerDialogComponent', () => {

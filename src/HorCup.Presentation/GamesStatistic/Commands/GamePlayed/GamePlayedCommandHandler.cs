@@ -42,7 +42,7 @@ namespace HorCup.Presentation.GamesStatistic.Commands.GamePlayed
 			{
 				_logger.LogInformation(
 					$"Game {notification.GameId.ToString()} has playing history. Updating values...");
-				gameStat.AverageScore = new [] {gameStat.AverageScore + notification.AverageScore}.Average();
+				gameStat.AverageScore = new [] {gameStat.AverageScore, notification.AverageScore}.Average();
 				gameStat.TimesPlayed++;
 				gameStat.LastPlayedDate = notification.LastPlayedDate;
 
