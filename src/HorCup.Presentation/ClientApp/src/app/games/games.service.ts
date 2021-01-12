@@ -17,6 +17,10 @@ export class GamesService {
 
   public constructor(private _httpModule: HttpClient) {}
 
+  public isTitleUnique(title: string, id: string | undefined): Observable<any> {
+    return this._httpModule.head(`${gamesUrl}?title=${title}&id=${id}`, { observe: 'response' });
+  }
+
   public search(options: SearchGamesOptions): Observable<PagedSearchResponse<Game>> {
     return this._httpModule.get<PagedSearchResponse<Game>>(`${gamesUrl}`, {
       params: options as any

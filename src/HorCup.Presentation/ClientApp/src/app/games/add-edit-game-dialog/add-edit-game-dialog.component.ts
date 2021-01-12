@@ -4,7 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from 'src/app/common/common.service';
 import { IFormPersistenceStrategy } from 'src/app/common/models/i-form-persistence-strategy';
-import { max, RequiredField } from 'src/app/common/validation-messages/validation-messages';
+import {
+  max,
+  NotUnique,
+  RequiredField
+} from 'src/app/common/validation-messages/validation-messages';
 import { GamesService } from '../games.service';
 import { Game } from '../models/game';
 import { GamesPersistenceFactory } from './games-strategy/games-persistence-factory';
@@ -42,13 +46,17 @@ export class AddEditGameDialogComponent implements OnInit {
 
     this.gameForm = this._fb.group({
       id: [model.id],
-      title: [model.title, [Validators.required, Validators.maxLength(constraints.titleMaxLength)]],
+      title: [
+        model.title,
+        { updateOn: 'blur' },
+        [Validators.required, Validators.maxLength(constraints.titleMaxLength)]
+      ],
       minPlayers: [model.minPlayers, [Validators.required, Validators.max(constraints.minPlayers)]],
       maxPlayers: [model.maxPlayers, [Validators.required, Validators.max(constraints.maxPlayers)]]
     });
 
     this.errorMessages = {
-      title: [RequiredField, max(constraints.titleMaxLength)],
+      title: [RequiredField, max(constraints.titleMaxLength), NotUnique],
       minPlayers: [RequiredField, max(constraints.minPlayers)],
       maxPlayers: [RequiredField, max(constraints.maxPlayers)]
     };

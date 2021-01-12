@@ -20,7 +20,7 @@ namespace HorCup.Tests.Games.Queries
 		public void SetUp()
 		{
 			var gameServiceMock = new Mock<IGamesService>();
-			gameServiceMock.Setup(gs => gs.ThrowIfNotExists(_factory.GamesFactory.NotExistingGameId, default))
+			gameServiceMock.Setup(gs => gs.TryGetGameAsync(_factory.GamesFactory.NotExistingGameId, default))
 				.Throws<NotFoundException>();
 
 			_sut = new GetGameByIdQueryHandler(Context, NullLogger<GetGameByIdQueryHandler>.Instance,

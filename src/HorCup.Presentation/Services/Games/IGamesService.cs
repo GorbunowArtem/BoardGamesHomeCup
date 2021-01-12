@@ -7,10 +7,11 @@ namespace HorCup.Presentation.Services.Games
 {
 	public interface IGamesService
 	{
-		Task<bool> IsTitleUniqueAsync(string title, Guid? id);
+		Task<bool> IsTitleUniqueAsync(
+			string title,
+			Guid? id,
+			CancellationToken cancellationToken);
 		
 		Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken);
-
-		Task ThrowIfNotExists(Guid id, CancellationToken cancellationToken);
 	}
 }
