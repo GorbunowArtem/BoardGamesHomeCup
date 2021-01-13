@@ -33,6 +33,11 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 				query = query.Where(p => p.GameId == request.GameId);
 			}
 
+			if (request.PlayerId.HasValue)
+			{
+				query = query.Where(p => p.PlayerId == request.PlayerId);
+			}
+
 			query = request.SortBy switch
 			{
 				PlayerStatsSortBy.TotalPlayed => query.OrderByDescending(p => p.PlayedTotal),
@@ -42,6 +47,7 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 			};
 
 			var stats = await query.Include(p => p.Player)
+				.Include(g => g.Game)
 				.Skip(request.Skip)
 				.Take(request.Take)
 				.ToListAsync(cancellationToken);

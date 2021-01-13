@@ -1,5 +1,4 @@
 using System;
-using HorCup.Presentation.Players;
 
 namespace HorCup.Presentation.ViewModels
 {
@@ -7,15 +6,16 @@ namespace HorCup.Presentation.ViewModels
 	{
 		public Guid PlayerId { get; set; }
 
-		public Player Player { get; set; }
+		public PlayerViewModel Player { get; set; }
 		
 		public Guid GameId { get; set; }
 
+		public GameViewModel Game { get; set; }
+		
 		public int PlayedTotal { get; set; }
 
 		public int Wins { get; set; }
 
 		public double? AverageScore { get; set; }
-
 	}
 }

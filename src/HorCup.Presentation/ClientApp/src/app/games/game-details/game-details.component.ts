@@ -33,15 +33,27 @@ export class GameDetailsComponent implements OnInit {
       this._gamesService.get(gameId).subscribe((game) => (this.gameDetails = game));
 
       this._playersService
-        .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.TotalPlayed))
+        .getStats({
+          sortBy: PlayerStatsSortBy.TotalPlayed,
+          take: 3,
+          gameId: gameId
+        })
         .subscribe((stats) => (this.topPlayedPlayers = stats.items.$values));
 
       this._playersService
-        .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.TotalWins))
+        .getStats({
+          sortBy: PlayerStatsSortBy.TotalWins,
+          take: 3,
+          gameId: gameId
+        })
         .subscribe((stats) => (this.topWinnersPlayers = stats.items.$values));
 
       this._playersService
-        .getStats(new SearchPlayerStatsOptions(3, 0, gameId, PlayerStatsSortBy.AverageScore))
+        .getStats({
+          sortBy: PlayerStatsSortBy.AverageScore,
+          take: 3,
+          gameId: gameId
+        })
         .subscribe((stats) => (this.topAverageScore = stats.items.$values));
     });
   }
