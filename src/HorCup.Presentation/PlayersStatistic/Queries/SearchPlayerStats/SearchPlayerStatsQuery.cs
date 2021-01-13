@@ -15,6 +15,8 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 
 		public int Skip { get; set; }
 
+		public Guid? PlayerId { get; set; }
+		
 		public SearchPlayerStatsQuery()
 		{
 			Take = 5;

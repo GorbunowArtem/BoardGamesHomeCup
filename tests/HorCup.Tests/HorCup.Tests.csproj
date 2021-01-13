@@ -20,4 +20,8 @@
       <ProjectReference Include="..\..\src\HorCup.Presentation\HorCup.Presentation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="PlayersStatistic\Factory" />
+    </ItemGroup>
+
 </Project>

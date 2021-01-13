@@ -14,7 +14,12 @@ describe('PlayerDetailsComponent', () => {
 
   beforeEach(async () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
-      get: of(testPlayer1)
+      get: of(testPlayer1),
+      getStats: of({
+        items: {
+          $values: []
+        }
+      })
     });
     activatedRouteMock = jasmine.createSpyObj(ActivatedRoute, {
       paramMap: of({ id: 'playerId' })

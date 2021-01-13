@@ -3,6 +3,7 @@ using HorCup.Presentation.Context;
 using HorCup.Tests.Games.Factory;
 using HorCup.Tests.GamesStatistic.Factory;
 using HorCup.Tests.Players.Factory;
+using HorCup.Tests.PlayersStatistic.Queries;
 using HorCup.Tests.Plays.Factory;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +33,10 @@ namespace HorCup.Tests
 
 			var gameStatFactory = new GamesStatisticsFactory();
 			context.GamesStatistics.AddRange(gameStatFactory.GameStatistics);
-			
+
+			var playerStatsFactory = new PlayersStatisticFactory();
+			context.PlayersStatistics.AddRange(playerStatsFactory.PlayerStatistics);
+
 			context.SaveChanges();
 
 			return context;
