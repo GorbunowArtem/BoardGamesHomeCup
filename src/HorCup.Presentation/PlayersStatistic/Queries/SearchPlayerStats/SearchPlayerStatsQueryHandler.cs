@@ -7,6 +7,7 @@ using HorCup.Presentation.Context;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 {
@@ -15,11 +16,14 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 	{
 		private readonly IHorCupContext _context;
 		private readonly IMapper _mapper;
+		private readonly ILogger<SearchPlayerStatsQueryHandler> _logger;
 
-		public SearchPlayerStatsQueryHandler(IHorCupContext context, IMapper mapper)
+		public SearchPlayerStatsQueryHandler(IHorCupContext context, IMapper mapper,
+			ILogger<SearchPlayerStatsQueryHandler> logger)
 		{
 			_context = context;
 			_mapper = mapper;
+			_logger = logger;
 		}
 
 		public async Task<(IEnumerable<PlayerStatisticViewModel> items, int total)> Handle(
@@ -28,23 +32,11 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 		{
 			var query = _context.PlayersStatistics.AsQueryable();
 
-			if (request.GameId.HasValue)
-			{
-				query = query.Where(p => p.GameId == request.GameId);
-			}
+			query = ApplyGameIdFilter(request, query);
 
-			if (request.PlayerId.HasValue)
-			{
-				query = query.Where(p => p.PlayerId == request.PlayerId);
-			}
+			query = ApplyPlayerIdFilter(request, query);
 
-			query = request.SortBy switch
-			{
-				PlayerStatsSortBy.TotalPlayed => query.OrderByDescending(p => p.PlayedTotal),
-				PlayerStatsSortBy.TotalWins => query.OrderByDescending(p => p.Wins),
-				PlayerStatsSortBy.AverageScore => query.OrderByDescending(p => p.AverageScore),
-				_ => query.OrderByDescending(p => p.PlayedTotal)
-			};
+			query = ApplySortOrder(request, query);
 
 			var stats = await query.Include(p => p.Player)
 				.Include(g => g.Game)
@@ -55,6 +47,41 @@ namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
 			var total = await query.CountAsync(cancellationToken);
 
 			return (_mapper.Map<IEnumerable<PlayerStatisticViewModel>>(stats), total);
+		}
+
+		private IQueryable<PlayerStatistic> ApplySortOrder(SearchPlayerStatsQuery request, IQueryable<PlayerStatistic> query)
+		{
+			_logger.LogInformation($"Applying sort order {request.SortBy.ToString()} filter.");
+			query = request.SortBy switch
+			{
+				PlayerStatsSortBy.TotalPlayed => query.OrderByDescending(p => p.PlayedTotal),
+				PlayerStatsSortBy.TotalWins => query.OrderByDescending(p => p.Wins),
+				PlayerStatsSortBy.AverageScore => query.OrderByDescending(p => p.AverageScore),
+				_ => query.OrderByDescending(p => p.PlayedTotal)
+			};
+			return query;
+		}
+
+		private IQueryable<PlayerStatistic> ApplyPlayerIdFilter(SearchPlayerStatsQuery request, IQueryable<PlayerStatistic> query)
+		{
+			if (request.PlayerId.HasValue)
+			{
+				_logger.LogInformation($"Applying playerId {request.PlayerId.ToString()} filter.");
+				query = query.Where(p => p.PlayerId == request.PlayerId);
+			}
+
+			return query;
+		}
+
+		private IQueryable<PlayerStatistic> ApplyGameIdFilter(SearchPlayerStatsQuery request, IQueryable<PlayerStatistic> query)
+		{
+			if (request.GameId.HasValue)
+			{
+				_logger.LogInformation($"Applying gameId {request.GameId.ToString()} filter.");
+				query = query.Where(p => p.GameId == request.GameId);
+			}
+
+			return query;
 		}
 	}
 }
