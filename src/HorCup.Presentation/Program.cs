@@ -1,6 +1,7 @@
 using System;
 using HorCup.Presentation.Context;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,7 @@ namespace HorCup.Presentation
 			{
 				var context = services.GetRequiredService<HorCupContext>();
 				context.Database.EnsureCreated();
+				context.Database.Migrate();
 			}
 			catch (Exception ex)
 			{
