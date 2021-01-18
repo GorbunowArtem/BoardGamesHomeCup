@@ -242,3 +242,4 @@ dist
 coverage
 /.idea
 Logs
+coveragereport
