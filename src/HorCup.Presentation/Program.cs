@@ -27,7 +27,7 @@ namespace HorCup.Presentation
 			{
 				var context = services.GetRequiredService<HorCupContext>();
 				context.Database.EnsureCreated();
-				// context.Database.Migrate();
+				context.Database.Migrate();
 			}
 			catch (Exception ex)
 			{

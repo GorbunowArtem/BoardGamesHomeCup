@@ -11,7 +11,7 @@
         <!-- Set this to true if you enable server-side prerendering -->
         <BuildServerSideRenderer>false</BuildServerSideRenderer>
         <UserSecretsId>ea084d7e-f8fc-48b5-b317-f092f5bc030f</UserSecretsId>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
     </PropertyGroup>
 
@@ -27,7 +27,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
         <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
