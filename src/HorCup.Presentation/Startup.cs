@@ -32,7 +32,8 @@ namespace HorCup.Presentation
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<HorCupContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
+				options.UseInMemoryDatabase("HorCupContext"));
+				// options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
 
 			services.AddControllersWithViews()
 				.AddFluentValidation(fv =>
