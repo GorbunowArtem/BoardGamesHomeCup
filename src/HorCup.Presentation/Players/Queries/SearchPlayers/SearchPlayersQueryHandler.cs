@@ -29,18 +29,9 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 		{
 			var query = _context.Players.Where(p => true);
 
-			if (!string.IsNullOrEmpty(request.SearchText))
-			{
-				var searchTextUpper = request.SearchText.Trim().ToUpperInvariant();
-				query = query.Where(p => p.FirstName.ToUpper().Contains(searchTextUpper)
-				                         || p.LastName.ToUpper().Contains(searchTextUpper)
-				                         || p.Nickname.ToUpper().Contains(searchTextUpper));
-			}
+			query = ApplySearchTextFilter(request, query);
 
-			if (request.ExceptIds != null && request.ExceptIds.Any())
-			{
-				query = query.Where(p => !request.ExceptIds.Contains(p.Id));
-			}
+			query = ApplyExceptIdsFilter(request, query);
 			
 			var players = await query
 				.OrderByDescending(p => p.Added)
@@ -50,6 +41,29 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 
 			
 			return (_mapper.Map<IEnumerable<PlayerViewModel>>(players), query.Count());
+		}
+
+		private static IQueryable<Player> ApplyExceptIdsFilter(SearchPlayersQuery request, IQueryable<Player> query)
+		{
+			if (request.ExceptIds != null && request.ExceptIds.Any())
+			{
+				query = query.Where(p => !request.ExceptIds.Contains(p.Id));
+			}
+
+			return query;
+		}
+
+		private static IQueryable<Player> ApplySearchTextFilter(SearchPlayersQuery request, IQueryable<Player> query)
+		{
+			if (!string.IsNullOrEmpty(request.SearchText))
+			{
+				var searchTextUpper = request.SearchText.Trim().ToUpperInvariant();
+				query = query.Where(p => p.FirstName.ToUpper().Contains(searchTextUpper)
+				                         || p.LastName.ToUpper().Contains(searchTextUpper)
+				                         || p.Nickname.ToUpper().Contains(searchTextUpper));
+			}
+
+			return query;
 		}
 	}
 }

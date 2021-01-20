@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Exceptions;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace HorCup.Presentation.Middleware.CustomExceptionHandlerMiddleware
 {
+	[ExcludeFromCodeCoverage]
 	public class CustomExceptionHandlerMiddleware
 	{
 		private readonly RequestDelegate _next;
