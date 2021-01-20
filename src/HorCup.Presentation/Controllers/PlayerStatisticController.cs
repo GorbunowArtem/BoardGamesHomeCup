@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
 {
+	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("players-statistic")]
 	public class PlayerStatisticController : ControllerBase

@@ -7,12 +7,12 @@ namespace HorCup.Tests.Games.Commands.AddGame
 	[TestFixture]
 	public class AddGameValidatorTests
 	{
-		private AddGameCommandValidator _sut;
+		private AddGameCommandValidator _validator;
 
 		[SetUp]
 		public void SetUp()
 		{
-			_sut = new AddGameCommandValidator();
+			_validator = new AddGameCommandValidator();
 		}
 
 		[TestCase(null ,"'Title' must not be empty.")]
@@ -25,7 +25,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				Title = title
 			};
 			
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 			
 			result.ShouldHaveValidationErrorFor(g => g.Title)
 				.WithErrorMessage(errorMessage);
@@ -41,7 +41,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				Title = title
 			};
 			
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 
 			result.ShouldNotHaveValidationErrorFor(g => g.Title);
 		}
@@ -57,7 +57,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				MaxPlayers = maxPlayers
 			};
 
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 
 			result.ShouldHaveValidationErrorFor(g => g.MaxPlayers)
 				.WithErrorMessage(errorMessage);
@@ -74,7 +74,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				MinPlayers = minPlayers
 			};
 
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 
 			result.ShouldNotHaveValidationErrorFor(g => g.MaxPlayers);
 		}
@@ -90,7 +90,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				MaxPlayers = maxPlayers
 			};
 
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 
 			result.ShouldHaveValidationErrorFor(g => g.MinPlayers)
 				.WithErrorMessage(errorMessage);
@@ -107,7 +107,7 @@ namespace HorCup.Tests.Games.Commands.AddGame
 				MaxPlayers = maxPlayers
 			};
 
-			var result = _sut.TestValidate(model);
+			var result = _validator.TestValidate(model);
 
 			result.ShouldNotHaveValidationErrorFor(g => g.MinPlayers);
 		}

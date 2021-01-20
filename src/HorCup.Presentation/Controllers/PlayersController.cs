@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Players.Commands.AddPlayer;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
 {
+	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("players")]
 	public class PlayersController : ControllerBase
