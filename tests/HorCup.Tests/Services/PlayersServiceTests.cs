@@ -20,6 +20,7 @@ namespace HorCup.Tests.Services
 		[TestCase("player2nick", null, false)]
 		[TestCase("newnickname", null, true)]
 		[TestCase("", null, true)]
+		[TestCase(" ", null, true)]
 		[TestCase(null, null, true)]
 		public async Task IsNicknameUniqueAsync(string nickname, int? id, bool result)
 		{
