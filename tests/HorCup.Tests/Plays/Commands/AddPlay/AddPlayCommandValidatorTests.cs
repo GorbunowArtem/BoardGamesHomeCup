@@ -58,8 +58,7 @@ namespace HorCup.Tests.Plays.Commands.AddPlay
 
 			var result = _validator.TestValidate(model);
 
-			result.ShouldHaveValidationErrorFor(pd => pd.PlayedDate)
-				.WithErrorMessage("'Played Date' must be greater than '1/1/2015 12:00:00 AM'.");
+			result.ShouldHaveValidationErrorFor(pd => pd.PlayedDate);
 		}
 
 		[Test]

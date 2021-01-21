@@ -124,8 +124,7 @@ namespace HorCup.Tests.Players.Commands.AddPlayer
 
 			var result = _validator.TestValidate(model);
 
-			result.ShouldHaveValidationErrorFor(p => p.BirthDate)
-				.WithErrorMessage("'Birth Date' must be greater than '1/1/1900 12:00:00 AM'.");
+			result.ShouldHaveValidationErrorFor(p => p.BirthDate);
 		}
 
 		[Test]
@@ -138,8 +137,7 @@ namespace HorCup.Tests.Players.Commands.AddPlayer
 
 			var result = _validator.TestValidate(model);
 
-			result.ShouldHaveValidationErrorFor(p => p.BirthDate)
-				.WithErrorMessage("'Birth Date' must be less than '1/1/2016 12:00:00 AM'.");
+			result.ShouldHaveValidationErrorFor(p => p.BirthDate);
 		}
 
 		[Test]
