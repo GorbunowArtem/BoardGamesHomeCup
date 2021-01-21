@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Plays.Commands
+namespace HorCup.Tests.Plays.Commands.AddPlay
 {
 	public class AddPlayCommandHandlerTests : TestFixtureBase
 	{

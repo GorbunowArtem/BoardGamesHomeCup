@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using HorCup.Presentation.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation
 {
+	[ExcludeFromCodeCoverage]
 	public class Program
 	{
 		public static void Main(string[] args)

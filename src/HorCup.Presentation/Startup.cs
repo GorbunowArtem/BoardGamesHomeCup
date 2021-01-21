@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using AutoMapper;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation
 {
+	[ExcludeFromCodeCoverage]
 	public class Startup
 	{
 		public Startup(IConfiguration configuration)

@@ -27,6 +27,7 @@ namespace HorCup.Tests.Services
 		[TestCase("game 2", null, false)]
 		[TestCase("unique title", null, true)]
 		[TestCase("", null, true)]
+		[TestCase(" ", null, true)]
 		[TestCase(null, null, true)]
 		public async Task IsTitleUniqueAsync(string title, int id, bool result)
 		{

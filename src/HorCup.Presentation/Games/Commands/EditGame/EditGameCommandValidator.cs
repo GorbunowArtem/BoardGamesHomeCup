@@ -20,13 +20,12 @@ namespace HorCup.Presentation.Games.Commands.EditGame
 			RuleFor(g => g.MaxPlayers)
 				.GreaterThanOrEqualTo(1)
 				.LessThanOrEqualTo(constraints.MaxPlayers)
-				.GreaterThan(p => p.MinPlayers);
+				.GreaterThanOrEqualTo(p => p.MinPlayers);
 			
 			RuleFor(g => g.MinPlayers)
 				.GreaterThanOrEqualTo(1)
 				.LessThanOrEqualTo(constraints.MinPlayers)
-				.LessThan(p => p.MaxPlayers);
-
+				.LessThanOrEqualTo(p => p.MaxPlayers);
 		}
 	}
 }

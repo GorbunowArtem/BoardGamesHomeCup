@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Games.Commands
+namespace HorCup.Tests.Games.Commands.AddGame
 {
 	[TestFixture]
 	public class AddGameCommandHandlerTests : TestFixtureBase
