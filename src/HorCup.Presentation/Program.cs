@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using HorCup.Presentation.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -28,8 +29,8 @@ namespace HorCup.Presentation
 			try
 			{
 				var context = services.GetRequiredService<HorCupContext>();
-				context.Database.EnsureCreated();
 				context.Database.Migrate();
+				context.Database.EnsureCreated();
 			}
 			catch (Exception ex)
 			{
@@ -40,6 +41,14 @@ namespace HorCup.Presentation
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.ConfigureAppConfiguration((hostingContext, config) =>
+				{
+					config.Sources.Clear();
+
+					var env = hostingContext.HostingEnvironment;
+
+					config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
+				})
 				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 	}
 }
