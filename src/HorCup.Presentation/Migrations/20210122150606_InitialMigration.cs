@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HorCup.Presentation.Migrations
 {
     [ExcludeFromCodeCoverage]
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,9 +30,9 @@ namespace HorCup.Presentation.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Added = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
