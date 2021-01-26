@@ -41,6 +41,12 @@ namespace HorCup.Presentation
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.ConfigureLogging((hostingContext, logging) =>
+				{
+					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+					logging.AddConsole();
+					logging.AddDebug();
+				})
 				.ConfigureAppConfiguration((hostingContext, config) =>
 				{
 					config.Sources.Clear();
