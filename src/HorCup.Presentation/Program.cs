@@ -49,11 +49,11 @@ namespace HorCup.Presentation
 				})
 				.ConfigureAppConfiguration((hostingContext, config) =>
 				{
-					config.Sources.Clear();
-
 					var env = hostingContext.HostingEnvironment;
+				
+					config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+						.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-					config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
 				})
 				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 	}
