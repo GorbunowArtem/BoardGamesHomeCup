@@ -34,7 +34,7 @@ namespace HorCup.Presentation.Games.Commands.AddGame
 
 		public async Task<Guid> Handle(AddGameCommand request, CancellationToken cancellationToken)
 		{
-			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(request.Title);
+			var isTitleUnique = await _gamesService.IsTitleUniqueAsync(request.Title, null, cancellationToken);
 			
 			if (!isTitleUnique)
 			{

@@ -22,6 +22,9 @@ import { HcCommonModule } from '../common/hc-common.module';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { TopPlayersStatsComponent } from './game-details/top-players-stats/top-players-stats.component';
+import { UniqueGameTitleValidator } from './add-edit-game-dialog/unique-game-title-validator';
 
 @NgModule({
   imports: [
@@ -43,14 +46,17 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDialogModule,
     HcCommonModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ],
   declarations: [
     GamesComponent,
     GameCardComponent,
     GamesFilterComponent,
     AddEditGameDialogComponent,
-    GameDetailsComponent
+    GameDetailsComponent,
+    TopPlayersStatsComponent,
+    UniqueGameTitleValidator
   ]
 })
 export class GamesModule {}

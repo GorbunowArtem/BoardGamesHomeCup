@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Games.Commands
+namespace HorCup.Tests.Games.Commands.AddGame
 {
 	[TestFixture]
 	public class AddGameCommandHandlerTests : TestFixtureBase
@@ -26,16 +26,16 @@ namespace HorCup.Tests.Games.Commands
 			_factory = new GamesFactory();
 			
 			var idGeneratorMock = new Mock<IIdGenerator>();
-			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.Game1Id);
+			idGeneratorMock.Setup(id => id.NewGuid()).Returns(_factory.CreatedGameId);
 
 
 			var gamesService = new Mock<IGamesService>();
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.NotUniqueGameTitle, null, default))
 				.Returns(Task.FromResult(false));
 
 			var dateTimeServiceMock = new Mock<IDateTimeService>();
 			
-			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.Game1Title))
+			gamesService.Setup(gs => gs.IsTitleUniqueAsync(GamesFactory.CreatedGameTitle, null, default))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddGameCommandHandler(Context,
@@ -48,7 +48,9 @@ namespace HorCup.Tests.Games.Commands
 		[Test]
 		public async Task Handle_GameCommandCorrect_GameAdded()
 		{
-			await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
+			var id = await _sut.Handle(_factory.Commands.AddGameCommand(), CancellationToken.None);
+
+			id.Should().Be(_factory.CreatedGameId);
 		}
 
 		[Test]

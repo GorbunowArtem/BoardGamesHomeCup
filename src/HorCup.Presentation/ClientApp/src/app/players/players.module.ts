@@ -22,6 +22,8 @@ import { PlayerCardComponent } from './player-card/player-card.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { TopGamesStatsComponent } from './player-details/top-games-stats/top-games-stats.component';
 
 @NgModule({
   imports: [
@@ -43,14 +45,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatMenuModule,
     MatToolbarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule
   ],
   declarations: [
     PlayersComponent,
     AddEditPlayerDialogComponent,
     UniqueNicknameValidator,
     PlayerCardComponent,
-    PlayerDetailsComponent
+    PlayerDetailsComponent,
+    TopGamesStatsComponent
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })

@@ -1,9 +1,17 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
+using HorCup.Presentation.Games;
 
 namespace HorCup.Presentation.Services.Games
 {
 	public interface IGamesService
 	{
-		Task<bool> IsTitleUniqueAsync(string title);
+		Task<bool> IsTitleUniqueAsync(
+			string title,
+			Guid? id,
+			CancellationToken cancellationToken);
+		
+		Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken);
 	}
 }

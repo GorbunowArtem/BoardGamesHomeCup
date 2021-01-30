@@ -8,11 +8,12 @@ using HorCup.Presentation.Games;
 using HorCup.Presentation.Plays.Commands.AddPlay;
 using HorCup.Presentation.Services.IdGenerator;
 using HorCup.Tests.Plays.Factory;
+using MediatR;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Plays.Commands
+namespace HorCup.Tests.Plays.Commands.AddPlay
 {
 	public class AddPlayCommandHandlerTests : TestFixtureBase
 	{
@@ -25,10 +26,11 @@ namespace HorCup.Tests.Plays.Commands
 			_factory = new PlaysFactory();
 
 			var iidGeneratorMock = new Mock<IIdGenerator>();
-			iidGeneratorMock.Setup(g => g.NewGuid()).Returns(_factory.Play1Id);
+			iidGeneratorMock.Setup(g => g.NewGuid()).Returns(_factory.CreatedPlay1Id);
 
 			_sut = new AddPlayCommandHandler(iidGeneratorMock.Object, Context,
-				NullLogger<AddPlayCommandHandler>.Instance);
+				NullLogger<AddPlayCommandHandler>.Instance,
+				new Mock<IPublisher>().Object);
 		}
 
 		[Test]
@@ -36,7 +38,7 @@ namespace HorCup.Tests.Plays.Commands
 		{
 			var id = await _sut.Handle(_factory.Commands.AddPlayCommand, CancellationToken.None);
 
-			id.Should().Be(_factory.Play1Id);
+			id.Should().Be(_factory.CreatedPlay1Id);
 		}
 
 		[Test]

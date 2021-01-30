@@ -7,15 +7,17 @@ using HorCup.Tests.Players.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Players.Queries
+namespace HorCup.Tests.Players.Queries.SearchPlayers
 {
 	public class SearchPlayersQueryHandlerTests: TestFixtureBase
 	{
 		private SearchPlayersQueryHandler _sut;
+		private PlayersFactory _factory;
 
 		[SetUp]
 		public void SetUp()
 		{
+			_factory = new PlayersFactory();
 			_sut = new SearchPlayersQueryHandler(Context, NullLogger<SearchPlayersQueryHandler>.Instance, Mapper);
 		}
 		
@@ -32,6 +34,23 @@ namespace HorCup.Tests.Players.Queries
 			}, CancellationToken.None);
 
 			items.First().FirstName.Should().Be(resultName);
+			total.Should().Be(1);
+		}
+
+		[Test]
+		public async Task Handle_ExceptIds()
+		{
+			var (items, total) = await _sut.Handle(new SearchPlayersQuery
+			{
+				Skip = 0,
+				Take = 10,
+				ExceptIds = new []
+				{
+					_factory.Player1Id
+				} 
+			}, CancellationToken.None);
+
+			items.First().Id.Should().Be(_factory.Player2Id);
 			total.Should().Be(1);
 		}
 

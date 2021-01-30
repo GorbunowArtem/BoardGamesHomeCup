@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using HorCup.Presentation.GamesStatistic;
+using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
 
 namespace HorCup.Presentation.Games
@@ -19,5 +21,14 @@ namespace HorCup.Presentation.Games
 		public bool HasScores { get; set; }
 
 		public IEnumerable<Play> Plays { get; set; }
+
+		public GameStatistic GameStatistic { get; set; }
+		
+		public IEnumerable<PlayerStatistic> PlayerStatistics { get; set; }
+
+		public Game()
+		{
+			GameStatistic ??= new GameStatistic();
+		}
 	}
 }

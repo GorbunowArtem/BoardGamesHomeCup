@@ -9,7 +9,7 @@
         <mat-card-title>{{ game.title | slice: 0:20 }}</mat-card-title>
       </a>
 
-      <mat-card-subtitle>Сыграно партий: 1</mat-card-subtitle>
+      <mat-card-subtitle>Сыграно партий: {{ game.timesPlayed }}</mat-card-subtitle>
       <bar-rating [(rate)]="rate" [max]="5" [readOnly]="true"></bar-rating>
       <span class="players-number">
         <mat-icon>people_alt</mat-icon>
@@ -23,8 +23,11 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="delete()">
+      <button *ngIf="false" mat-menu-item (click)="delete()">
         <mat-icon>delete</mat-icon><span>Удалить</span>
+      </button>
+      <button mat-menu-item (click)="edit()">
+        <mat-icon>edit</mat-icon><span>Редактировать</span>
       </button>
     </mat-menu>
   </div>

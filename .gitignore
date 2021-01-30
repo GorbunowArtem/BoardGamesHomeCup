@@ -241,3 +241,5 @@ node_modules
 dist
 coverage
 /.idea
+Logs
+coveragereport

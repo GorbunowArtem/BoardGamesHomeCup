@@ -1,11 +1,11 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
+using HorCup.Presentation.Services.DateTimeService;
 
 namespace HorCup.Presentation.Players.Commands.AddPlayer
 {
 	public class AddPlayerCommandValidator : AbstractValidator<AddPlayerCommand>
 	{
-		public AddPlayerCommandValidator()
+		public AddPlayerCommandValidator(IDateTimeService dateTimeService)
 		{
 			var playerConstraints = new PlayerConstraints();
 
@@ -26,7 +26,7 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 			
 			RuleFor(p => p.BirthDate)
 				.GreaterThan(playerConstraints.MinBirthDate)
-				.LessThan(DateTime.UtcNow);
+				.LessThan(dateTimeService.Now.AddYears(-2));
 		}
 	}
 }

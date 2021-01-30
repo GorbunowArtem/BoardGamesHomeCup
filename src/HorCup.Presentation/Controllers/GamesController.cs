@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Commands.DeleteGame;
+using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Games.Queries.GetById;
+using HorCup.Presentation.Games.Queries.IsTitleUnique;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
@@ -12,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
 {
+	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("games")]
 	public class GamesController : ControllerBase
@@ -53,14 +57,39 @@ namespace HorCup.Presentation.Controllers
 			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
+		[HttpPatch("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody]EditGameCommand command)
+		{
+			await _sender.Send(command);
+
+			return NoContent();
+		}
+		
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			await _sender.Send(new DeleteGameCommand(id));
-			
+
 			return NoContent();
+		}
+
+		[HttpHead]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.Conflict)]
+		public async Task<IActionResult> IsTitleUnique(string title, Guid? id)
+		{
+			var isUnique = await _sender.Send(new IsTitleUniqueQuery(title, id));
+
+			if (!isUnique)
+			{
+				return Conflict("Title is not unique.");
+			}
+
+			return Ok();
 		}
 	}
 }

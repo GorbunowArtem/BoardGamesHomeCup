@@ -11,5 +11,7 @@ namespace HorCup.Presentation.ViewModels
 		public int MaxPlayers { get; set; }
 		
 		public int MinPlayers { get; set; }
+
+		public int TimesPlayed { get; set; }
 	}
 }

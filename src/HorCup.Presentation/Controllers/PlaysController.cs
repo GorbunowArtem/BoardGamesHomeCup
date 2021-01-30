@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Plays.Commands.AddPlay;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
 {
+	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("plays")]
 	public class PlaysController : ControllerBase

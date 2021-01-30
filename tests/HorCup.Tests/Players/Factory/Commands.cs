@@ -12,7 +12,7 @@ namespace HorCup.Tests.Players.Factory
 		}
 
 		public AddPlayerCommand AddPlayer(string nickname = null) =>
-			new AddPlayerCommand
+			new()
 			{
 				BirthDate = _factory.Player3BirthDate,
 				FirstName = PlayersFactory.Player3FirstName,

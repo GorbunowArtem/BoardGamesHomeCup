@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Players.Commands.DeletePlayer;
+using HorCup.Presentation.Players.Commands.EditPlayer;
 using HorCup.Presentation.Players.Queries.GetById;
 using HorCup.Presentation.Players.Queries.SearchPlayers;
 using HorCup.Presentation.Responses;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Presentation.Controllers
 {
+	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("players")]
 	public class PlayersController : ControllerBase
@@ -47,12 +50,23 @@ namespace HorCup.Presentation.Controllers
 			return CreatedAtAction(nameof(Add), new {id}, command);
 		}
 
+		[HttpPatch("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.Conflict)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] EditPlayerCommand command)
+		{
+			await _sender.Send(command);
+
+			return NoContent();
+		}
+
 		[HttpHead]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<IActionResult> IsNicknameUnique(string nickname)
+		public async Task<IActionResult> IsNicknameUnique(string nickname, Guid? id)
 		{
-			var isUnique = await _playersService.IsNicknameUniqueAsync(nickname);
+			var isUnique = await _playersService.IsNicknameUniqueAsync(nickname, id);
 
 			if (isUnique)
 			{

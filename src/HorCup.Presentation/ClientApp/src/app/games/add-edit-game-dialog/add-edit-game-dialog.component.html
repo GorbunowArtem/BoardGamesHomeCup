@@ -3,7 +3,14 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Название</mat-label>
-      <input matInput type="text" formControlName="title" placeholder="Название" required />
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="Название"
+        required
+        hcUniqueGameTitleValidator
+      />
       <hc-field-validation-errors
         [fieldName]="'title'"
         [messages]="errorMessages"

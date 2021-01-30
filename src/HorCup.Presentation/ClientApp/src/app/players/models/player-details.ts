@@ -4,4 +4,5 @@ export interface PlayerDetails {
   nickname: string;
   birthDate: Date;
   id?: string;
+  added: Date;
 }

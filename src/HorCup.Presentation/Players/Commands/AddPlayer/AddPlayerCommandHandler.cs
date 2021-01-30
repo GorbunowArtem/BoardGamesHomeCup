@@ -35,11 +35,10 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 
 		public async Task<Guid> Handle(AddPlayerCommand request, CancellationToken cancellationToken)
 		{
-			var isUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname);
+			var isUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname, null);
 
 			if (!isUnique)
 			{
-				_logger.LogError($"Player with nickname {request.Nickname} already exists");
 				throw new EntityExistsException(nameof(Player), request.Nickname);
 			}
 

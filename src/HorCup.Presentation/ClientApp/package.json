@@ -1,6 +1,9 @@
 {
   "name": "hor-cup",
-  "version": "0.0.0",
+  "description": "Simple application for tracking home board games collection and played games",
+  "version": "0.0.1",
+  "repository": "https://github.com/GorbunowArtem/BoardGamesHomeCup",
+  "license": "MIT License",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
