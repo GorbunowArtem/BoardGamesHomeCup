@@ -2,7 +2,8 @@
 
 [![HorCup](https://github.com/GorbunowArtem/BoardGamesHomeCup/workflows/HorCup/badge.svg)](https://github.com/GorbunowArtem/BoardGamesHomeCup/actions)
 [![Build status](https://dev.azure.com/artem-horbunov/hor-cup/_apis/build/status/hor-cup-Docker%20container-CI)](https://dev.azure.com/artem-horbunov/hor-cup/_build/latest?definitionId=1)
-###Application for keeping statistic of played board games, optimized for mobile view.
+
+Application for keeping statistic of played board games, optimized for mobile view.
 
 ## Technologies and libraries used:
 
