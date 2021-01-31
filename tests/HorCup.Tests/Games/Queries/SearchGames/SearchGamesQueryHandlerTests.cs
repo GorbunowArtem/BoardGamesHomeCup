@@ -7,7 +7,7 @@ using HorCup.Tests.Games.Factory;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Games.Queries
+namespace HorCup.Tests.Games.Queries.SearchGames
 {
 	[TestFixture]
 	public class SearchGamesQueryHandlerTests : TestFixtureBase
