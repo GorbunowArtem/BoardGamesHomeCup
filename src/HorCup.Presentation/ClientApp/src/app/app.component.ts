@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, HostBinding } from '@angular/core';
 import { CommonService } from './common/common.service';
 
 @Component({
@@ -9,7 +10,18 @@ import { CommonService } from './common/common.service';
 export class AppComponent {
   public title = 'hor-cup';
 
-  public constructor(private _commonService: CommonService) {
+  @HostBinding('class')
+  public componentCssClass!: any;
+
+  public constructor(
+    private _commonService: CommonService,
+    public overlayContainer: OverlayContainer
+  ) {
     this._commonService.init();
+  }
+
+  public onSetTheme(theme: any) {
+    this.overlayContainer.getContainerElement().classList.add(theme);
+    this.componentCssClass = theme;
   }
 }
