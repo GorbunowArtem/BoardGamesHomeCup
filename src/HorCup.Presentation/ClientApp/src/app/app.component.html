@@ -1,11 +1,9 @@
-<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
-  <div class="header"><hc-nav-bar></hc-nav-bar></div>
-  <div class="body"><router-outlet></router-outlet></div>
-  <div class="helper" fxFlex fxFlexFill></div>
-  <div class="footer">
-    <hc-footer></hc-footer>
+<div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+  <div class="app-container mat-app-background">
+    <div class="header"><hc-nav-bar></hc-nav-bar></div>
+    <div class="body"><router-outlet></router-outlet></div>
+    <div class="footer">
+      <hc-footer></hc-footer>
+    </div>
   </div>
-  <button mat-button color="primary" (click)="onSetTheme('default-theme')">Default</button>
-  <button mat-button color="primary" (click)="onSetTheme('dark-theme')">Dark</button>
-  <button mat-button color="primary" (click)="onSetTheme('light-theme')">Light</button>
 </div>

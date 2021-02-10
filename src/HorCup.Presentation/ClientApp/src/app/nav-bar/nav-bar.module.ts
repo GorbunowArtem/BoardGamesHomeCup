@@ -7,9 +7,17 @@ import { RouterModule } from '@angular/router';
 
 import { NavBarComponent } from './nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, RouterModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    RouterModule,
+    MatIconModule,
+    MatSlideToggleModule
+  ],
   declarations: [NavBarComponent, FooterComponent],
   exports: [NavBarComponent, FooterComponent]
 })
