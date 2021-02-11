@@ -1,9 +1,9 @@
-<div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
-  <div class="app-container mat-app-background">
-    <div class="header"><hc-nav-bar></hc-nav-bar></div>
+<div class="app-container" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+  <div class="header"><hc-nav-bar></hc-nav-bar></div>
+  <div class="mat-app-background">
     <div class="body"><router-outlet></router-outlet></div>
-    <div class="footer">
-      <hc-footer></hc-footer>
-    </div>
+  </div>
+  <div class="footer">
+    <hc-footer></hc-footer>
   </div>
 </div>
