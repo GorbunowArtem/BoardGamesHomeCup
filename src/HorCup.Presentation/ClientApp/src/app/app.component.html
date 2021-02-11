@@ -1,7 +1,8 @@
-<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
+<div class="app-container" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="header"><hc-nav-bar></hc-nav-bar></div>
-  <div class="body"><router-outlet></router-outlet></div>
-  <div class="helper" fxFlex fxFlexFill></div>
+  <div class="mat-app-background">
+    <div class="body"><router-outlet></router-outlet></div>
+  </div>
   <div class="footer">
     <hc-footer></hc-footer>
   </div>
