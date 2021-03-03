@@ -15,6 +15,7 @@ import { PlaysModule } from './plays/plays.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
+import { AccountModule } from './account/account.module';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -31,7 +32,8 @@ registerLocaleData(localeRu, 'ru');
     FlexLayoutModule,
     OverlayModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    AccountModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'ru' }],
   bootstrap: [AppComponent]
