@@ -59,7 +59,8 @@ namespace HorCup.IdentityServer
 				// not recommended for production - you need to store your key material somewhere secure
 				.AddDeveloperSigningCredential();
 
-			
+			services.AddSwaggerGen();
+
 			// services.AddAuthentication()
 			// 	.AddGoogle(options =>
 			// 	{
@@ -86,6 +87,10 @@ namespace HorCup.IdentityServer
 			app.UseRouting();
 			app.UseIdentityServer();
 			app.UseAuthorization();
+
+			app.UseSwagger();
+			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
+
 			app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
 		}
 	}

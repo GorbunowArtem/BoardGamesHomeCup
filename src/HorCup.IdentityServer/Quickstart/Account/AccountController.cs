@@ -16,7 +16,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using HorCup.IdentityServer.Data;
+using HorCup.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -29,6 +33,7 @@ namespace IdentityServerHost.Quickstart.UI
 	[AllowAnonymous]
 	public class AccountController : Controller
 	{
+		private readonly UserManager<AppUser> _userManager;
 		private readonly TestUserStore _users;
 		private readonly IIdentityServerInteractionService _interaction;
 		private readonly IClientStore _clientStore;
@@ -40,6 +45,7 @@ namespace IdentityServerHost.Quickstart.UI
 			IClientStore clientStore,
 			IAuthenticationSchemeProvider schemeProvider,
 			IEventService events,
+			UserManager<AppUser> userManager,
 			TestUserStore users = null)
 		{
 			// if the TestUserStore is not in DI, then we'll just use the global users collection
@@ -50,6 +56,7 @@ namespace IdentityServerHost.Quickstart.UI
 			_clientStore = clientStore;
 			_schemeProvider = schemeProvider;
 			_events = events;
+			_userManager = userManager;
 		}
 
 		/// <summary>
@@ -370,6 +377,30 @@ namespace IdentityServerHost.Quickstart.UI
 			}
 
 			return vm;
+		}
+
+		[HttpPost]
+		[Route("api/account")]
+		public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)
+		{
+			var user = new AppUser
+			{
+				Email = model.Email,
+				UserName = model.Email,
+				Name = model.Name
+			};
+			
+			await _userManager.CreateAsync(user, model.Password);
+
+			await _userManager.AddClaimsAsync(user, new Claim[]
+			{
+				new("userName", user.Name),
+				new("name", user.Name),
+				new("email", user.Email),
+				new("role", "Consumer")
+			});
+
+			return Ok(user);
 		}
 	}
 }
