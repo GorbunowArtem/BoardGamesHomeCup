@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Регистрация</h2>
+<mat-dialog-content [formGroup]="registerForm">
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput type="text" formControlName="name" placeholder="Имя" />
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Эл. почта</mat-label>
+      <input matInput type="text" formControlName="email" placeholder="Эл. почта" />
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Пароль</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+  </p>
+
+  <mat-dialog-actions>
+    <button mat-button color="accent" (click)="cancel()">Отмена</button>
+    <button mat-button color="primary" (click)="register()">Сохранить</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

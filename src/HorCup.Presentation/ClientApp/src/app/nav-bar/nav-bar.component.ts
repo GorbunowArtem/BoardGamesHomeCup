@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { RegisterDialogComponent } from '../account/register/register-dialog.component';
 import { ThemeService } from './theme.service';
 
 @Component({
@@ -10,13 +12,17 @@ import { ThemeService } from './theme.service';
 export class NavBarComponent implements OnInit {
   public isDarkTheme!: Observable<boolean>;
 
-  public constructor(private themeService: ThemeService) {}
+  public constructor(private _themeService: ThemeService, private _registerDialog: MatDialog) {}
 
   public ngOnInit() {
-    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme = this._themeService.isDarkTheme;
   }
 
   public toggleDarkTheme(checked: boolean) {
-    this.themeService.setDarkTheme(checked);
+    this._themeService.setDarkTheme(checked);
+  }
+
+  public showRegisterDialog() {
+    this._registerDialog.open(RegisterDialogComponent, { disableClose: true });
   }
 }
