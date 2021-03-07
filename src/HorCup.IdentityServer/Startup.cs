@@ -35,7 +35,7 @@ namespace HorCup.IdentityServer
 
 			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 			
-			services.AddIdentityServer(options =>
+			var builder = services.AddIdentityServer(options =>
 				{
 					options.Events.RaiseErrorEvents = true;
 					options.Events.RaiseInformationEvents = true;
@@ -45,25 +45,10 @@ namespace HorCup.IdentityServer
 					// see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
 					options.EmitStaticAudienceClaim = true;
 				})
-				.AddTestUsers(TestUsers.Users)
-				// this adds the config data from DB (clients, resources, CORS)
-				.AddConfigurationStore(options =>
-				{
-					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-				})
-				// this adds the operational data from DB (codes, tokens, consents)
-				.AddOperationalStore(options =>
-				{
-					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-					;
-
-					// this enables automatic token cleanup. this is optional.
-					options.EnableTokenCleanup = true;
-				})
-				// not recommended for production - you need to store your key material somewhere secure
-				.AddDeveloperSigningCredential();
+				.AddInMemoryIdentityResources(Config.IdentityResources)
+				.AddInMemoryApiScopes(Config.ApiScopes)
+				.AddInMemoryClients(Config.Clients)
+				.AddAspNetIdentity<AppUser>();
 
 			services.AddSwaggerGen();
 
