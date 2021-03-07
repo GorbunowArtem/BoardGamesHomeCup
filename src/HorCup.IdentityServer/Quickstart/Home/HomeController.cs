@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using HorCup.IdentityServer.Quickstart;
+using HorCup.IdentityServer.Quickstart.Home;
 
 namespace IdentityServerHost.Quickstart.UI
 {
