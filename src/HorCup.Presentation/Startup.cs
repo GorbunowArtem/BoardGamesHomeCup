@@ -48,7 +48,7 @@ namespace HorCup.Presentation
 			services.AddSwaggerGen();
 
 			services.AddMediatR(Assembly.GetExecutingAssembly());
-			services.AddAutoMapper(Assembly.GetExecutingAssembly());                                              
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 			services.AddScoped<IHorCupContext, HorCupContext>();
 

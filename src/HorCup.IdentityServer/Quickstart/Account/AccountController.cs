@@ -18,7 +18,6 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using HorCup.IdentityServer.Constants;
 using HorCup.IdentityServer.Data;
 using HorCup.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
@@ -398,7 +397,7 @@ namespace IdentityServerHost.Quickstart.UI
 				new("userName", user.Name),
 				new("name", user.Name),
 				new("email", user.Email),
-				new("role", Roles.Reader)
+				new("role", "Consumer")
 			});
 
 			return Ok(user);
