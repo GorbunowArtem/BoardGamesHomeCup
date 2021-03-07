@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4;
+using HorCup.IdentityServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using IdentityServerHost.Quickstart.UI;
+using Microsoft.AspNetCore.Identity;
 
 namespace HorCup.IdentityServer
 {
@@ -28,8 +29,15 @@ namespace HorCup.IdentityServer
 		{
 			services.AddControllersWithViews();
 
-			var connectionString = Configuration.GetConnectionString("DefaultConnection");
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+			services.AddIdentity<AppUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
+
+			var connectionString = Configuration.GetConnectionString("DefaultConnection");
+			
 			services.AddIdentityServer(options =>
 				{
 					options.Events.RaiseErrorEvents = true;
@@ -51,7 +59,8 @@ namespace HorCup.IdentityServer
 				.AddOperationalStore(options =>
 				{
 					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));;
+						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+					;
 
 					// this enables automatic token cleanup. this is optional.
 					options.EnableTokenCleanup = true;
