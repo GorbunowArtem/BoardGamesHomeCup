@@ -52,6 +52,14 @@ namespace HorCup.IdentityServer
 
 			services.AddSwaggerGen();
 
+			
+			services.AddCors(options => options.AddPolicy("AllowAll", p =>
+			{
+				p.AllowAnyOrigin()
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+				
+			}));
 			// services.AddAuthentication()
 			// 	.AddGoogle(options =>
 			// 	{
@@ -78,6 +86,7 @@ namespace HorCup.IdentityServer
 			app.UseRouting();
 			app.UseIdentityServer();
 			app.UseAuthorization();
+			app.UseCors("AllowAll");
 
 			app.UseSwagger();
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });

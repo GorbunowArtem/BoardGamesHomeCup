@@ -50,6 +50,7 @@ namespace HorCup.Presentation
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+
 			services.AddScoped<IHorCupContext, HorCupContext>();
 
 			services.AddTransient<IIdGenerator, IdGenerator>();

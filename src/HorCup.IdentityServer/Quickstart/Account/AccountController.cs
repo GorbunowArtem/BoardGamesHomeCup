@@ -383,16 +383,15 @@ namespace HorCup.IdentityServer.Quickstart.Account
 			var user = new AppUser
 			{
 				Email = model.Email,
-				UserName = model.Email,
+				UserName = model.Name,
 				Name = model.Name
 			};
 			
-			await _userManager.CreateAsync(user, model.Password);
+			var userResult = await _userManager.CreateAsync(user, model.Password);
 
-			await _userManager.AddClaimsAsync(user, new Claim[]
+			var claimsResult = await _userManager.AddClaimsAsync(user, new Claim[]
 			{
 				new("userName", user.Name),
-				new("name", user.Name),
 				new("email", user.Email),
 				new("role", "Consumer")
 			});

@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   public register(userRegistration: any) {
-    return this._http.post('http://localhost:5001/api/account', userRegistration).pipe();
+    return this._http.post('https://localhost:5001/api/account', userRegistration).pipe();
   }
 
   public isAuthenticated(): boolean {
@@ -55,15 +55,11 @@ export class AuthService {
 
 export function getClientSettings(): UserManagerSettings {
   return {
-    authority: 'http://localhost:5000',
-    client_id: 'angular_spa',
-    redirect_uri: 'http://localhost:4200/auth-callback',
-    post_logout_redirect_uri: 'http://localhost:4200/',
-    response_type: 'id_token token',
-    scope: 'openid profile email api.read',
-    filterProtocolClaims: true,
-    loadUserInfo: true,
-    automaticSilentRenew: true,
-    silent_redirect_uri: 'http://localhost:4200/silent-refresh.html'
+    authority: 'https://localhost:5001',
+    client_id: 'HorCup.SPA',
+    redirect_uri: 'https://localhost:5002/auth-callback',
+    post_logout_redirect_uri: 'https://localhost:5002/',
+    response_type: 'code',
+    scope: 'openid profile scope1'
   };
 }
