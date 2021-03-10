@@ -1,4 +1,5 @@
-﻿using IdentityServer4withASP.NETCoreIdentity.Data;
+﻿using HorCup.Infrastructure.Filters;
+using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +24,7 @@ namespace HorCup.IdentityServer
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
+			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); });
 
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -33,7 +34,7 @@ namespace HorCup.IdentityServer
 				.AddDefaultTokenProviders();
 
 			var connectionString = Configuration.GetConnectionString("DefaultConnection");
-			
+
 			var builder = services.AddIdentityServer(options =>
 				{
 					options.Events.RaiseErrorEvents = true;
@@ -48,18 +49,17 @@ namespace HorCup.IdentityServer
 				.AddInMemoryApiScopes(Config.ApiScopes)
 				.AddInMemoryClients(Config.Clients)
 				.AddAspNetIdentity<ApplicationUser>();
-			
+
 			builder.AddDeveloperSigningCredential();
-			
+
 			services.AddSwaggerGen();
 
-			
+
 			services.AddCors(options => options.AddPolicy("AllowAll", p =>
 			{
 				p.AllowAnyOrigin()
 					.AllowAnyHeader()
 					.AllowAnyMethod();
-				
 			}));
 			// services.AddAuthentication()
 			// 	.AddGoogle(options =>

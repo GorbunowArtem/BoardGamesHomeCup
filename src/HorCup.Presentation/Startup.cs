@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using HorCup.Infrastructure.Filters;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Services.DateTimeService;
@@ -36,7 +37,7 @@ namespace HorCup.Presentation
 			services.AddDbContext<HorCupContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
 
-			services.AddControllersWithViews()
+			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
 				.AddFluentValidation(fv =>
 					fv.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>())
 				.AddJsonOptions(options =>
@@ -52,9 +53,8 @@ namespace HorCup.Presentation
 				p.AllowAnyOrigin()
 					.AllowAnyHeader()
 					.AllowAnyMethod();
-				
 			}));
-			
+
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -105,7 +105,7 @@ namespace HorCup.Presentation
 			});
 
 			app.UseCors("AllowAll");
-			
+
 			app.UseSpa(spa =>
 			{
 				// To learn more about options for serving an Angular SPA from ASP.NET Core,
