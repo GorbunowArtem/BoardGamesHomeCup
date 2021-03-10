@@ -17,6 +17,7 @@ namespace HorCup.IdentityServer
 			{
 				new("scope1"),
 				new("scope2"),
+				new("api.read"),
 			};
 
 		public static IEnumerable<Client> Clients =>
@@ -41,12 +42,24 @@ namespace HorCup.IdentityServer
 				{
 					ClientId = "HorCup.SPA",
 					ClientName = "HorCup SPA",
-					AllowedGrantTypes = GrantTypes.Code,
+					AllowedGrantTypes = GrantTypes.Implicit,
 					RequireClientSecret = false,
-					AllowedScopes = {"openid", "profile", "scope1"},
+					AllowedScopes = {"openid", "profile"},
 					RedirectUris = {"https://localhost:5002/auth-callback"},
 					PostLogoutRedirectUris = {"https://localhost:5002/"},
 					AllowedCorsOrigins = {"https://localhost:5002/"},
+					AllowAccessTokensViaBrowser = true,
+					AccessTokenLifetime = 3600
+				},
+				new()
+				{
+					ClientId = "angular_spa",
+					ClientName = "Angular SPA",
+					AllowedGrantTypes = GrantTypes.Implicit,
+					AllowedScopes = {"openid", "profile"},
+					RedirectUris = {"https://localhost:5002/auth-callback"},
+					PostLogoutRedirectUris = {"https://localhost:5002/"},
+					AllowedCorsOrigins = {"https://localhost:5002"},
 					AllowAccessTokensViaBrowser = true,
 					AccessTokenLifetime = 3600
 				}

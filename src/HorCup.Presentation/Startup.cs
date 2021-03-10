@@ -47,6 +47,14 @@ namespace HorCup.Presentation
 
 			services.AddSwaggerGen();
 
+			services.AddCors(options => options.AddPolicy("AllowAll", p =>
+			{
+				p.AllowAnyOrigin()
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+				
+			}));
+			
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -96,6 +104,8 @@ namespace HorCup.Presentation
 					pattern: "{controller}/{action=Index}/{id?}");
 			});
 
+			app.UseCors("AllowAll");
+			
 			app.UseSpa(spa =>
 			{
 				// To learn more about options for serving an Angular SPA from ASP.NET Core,

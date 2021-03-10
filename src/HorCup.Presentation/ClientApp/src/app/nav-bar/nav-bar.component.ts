@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { LoginComponent } from '../account/login/login.component';
+import { Observable, Subscription } from 'rxjs';
 import { RegisterDialogComponent } from '../account/register/register-dialog.component';
+import { AuthService } from '../core/authentication/auth.service';
 import { ThemeService } from './theme.service';
 
 @Component({
@@ -10,13 +10,25 @@ import { ThemeService } from './theme.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
   public isDarkTheme!: Observable<boolean>;
 
-  public constructor(private _themeService: ThemeService, private _matDialog: MatDialog) {}
+  public name!: string | undefined;
+  public authenticated!: boolean;
+  public subscription!: Subscription;
+
+  public constructor(
+    private _themeService: ThemeService,
+    private _matDialog: MatDialog,
+    private _authService: AuthService
+  ) {}
 
   public ngOnInit() {
     this.isDarkTheme = this._themeService.isDarkTheme;
+    this.subscription = this._authService.authNavStatus$.subscribe(
+      (status) => (this.authenticated = status)
+    );
+    this.name = this._authService.name;
   }
 
   public toggleDarkTheme(checked: boolean) {
@@ -28,6 +40,15 @@ export class NavBarComponent implements OnInit {
   }
 
   public showLoginDialog() {
-    this._matDialog.open(LoginComponent, { disableClose: true });
+    this._authService.login();
+  }
+
+  public async signout() {
+    await this._authService.signout();
+  }
+
+  public ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.subscription.unsubscribe();
   }
 }

@@ -1,12 +1,11 @@
-﻿using HorCup.IdentityServer.Data;
-using HorCup.IdentityServer.Quickstart;
+﻿using IdentityServer4withASP.NETCoreIdentity.Data;
+using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Identity;
 
 namespace HorCup.IdentityServer
@@ -29,7 +28,7 @@ namespace HorCup.IdentityServer
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddIdentity<AppUser, IdentityRole>()
+			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders();
 
@@ -48,8 +47,10 @@ namespace HorCup.IdentityServer
 				.AddInMemoryIdentityResources(Config.IdentityResources)
 				.AddInMemoryApiScopes(Config.ApiScopes)
 				.AddInMemoryClients(Config.Clients)
-				.AddAspNetIdentity<AppUser>();
-
+				.AddAspNetIdentity<ApplicationUser>();
+			
+			builder.AddDeveloperSigningCredential();
+			
 			services.AddSwaggerGen();
 
 			

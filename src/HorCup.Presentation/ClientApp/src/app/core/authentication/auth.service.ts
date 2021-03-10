@@ -56,10 +56,14 @@ export class AuthService {
 export function getClientSettings(): UserManagerSettings {
   return {
     authority: 'https://localhost:5001',
-    client_id: 'HorCup.SPA',
-    redirect_uri: 'https://localhost:5002/auth-callback',
+    client_id: 'angular_spa',
     post_logout_redirect_uri: 'https://localhost:5002/',
-    response_type: 'code',
-    scope: 'openid profile scope1'
+    redirect_uri: 'https://localhost:5002/auth-callback',
+    response_type: 'id_token token',
+    scope: 'openid profile',
+    filterProtocolClaims: true,
+    loadUserInfo: true,
+    automaticSilentRenew: true,
+    silent_redirect_uri: 'https://localhost:5002/silent-refresh.html'
   };
 }

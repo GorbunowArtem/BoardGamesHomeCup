@@ -5,6 +5,13 @@
   <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)"
     ><mat-icon>brightness_2</mat-icon></mat-slide-toggle
   >
-  <button mat-button (click)="showRegisterDialog()">Регистрация</button>
-  <button mat-button (click)="showLoginDialog()">Войти</button>
+
+  <div *ngIf="!authenticated">
+    <button mat-button (click)="showRegisterDialog()">Регистрация</button>
+    <button mat-button (click)="showLoginDialog()">Войти</button>
+  </div>
+  <div *ngIf="authenticated">
+    <button mat-button>Привет, {{ name }}</button>
+    <button mat-button (click)="signout()">Выйти</button>
+  </div>
 </mat-toolbar>
