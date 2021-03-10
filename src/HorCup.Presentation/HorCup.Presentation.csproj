@@ -18,8 +18,8 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-        <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.2" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.2" />
         <PackageReference Include="MediatR" Version="9.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.2" />
@@ -42,7 +42,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Exceptions" />
       <Folder Include="Logs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

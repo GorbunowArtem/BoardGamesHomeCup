@@ -24,4 +24,8 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

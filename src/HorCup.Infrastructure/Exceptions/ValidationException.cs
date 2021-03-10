@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentValidation.Results;
 
-namespace HorCup.Presentation.Exceptions
+namespace HorCup.Infrastructure.Exceptions
 {
 	[ExcludeFromCodeCoverage]
 	public class ValidationException: Exception
@@ -20,14 +20,14 @@ namespace HorCup.Presentation.Exceptions
 		{
 			var propertyNames = failures
 				.Select(e => e.PropertyName)
-				.Distinct();
+				.Distinct<string>();
 
 			foreach (var propertyName in propertyNames)
 			{
 				var propertyFailures = failures
 					.Where(e => e.PropertyName == propertyName)
 					.Select(e => e.ErrorMessage)
-					.ToArray();
+					.ToArray<string>();
 
 				Failures.Add(propertyName, propertyFailures);
 			}

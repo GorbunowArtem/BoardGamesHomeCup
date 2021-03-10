@@ -1,6 +1,6 @@
 using System;
 
-namespace HorCup.Presentation.Exceptions
+namespace HorCup.Infrastructure.Exceptions
 {
 	public class EntityExistsException: Exception
 	{

@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using HorCup.IdentityServer.Models;
 using HorCup.IdentityServer.Models.Account;
+using HorCup.Infrastructure.Exceptions;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -212,6 +213,8 @@ namespace HorCup.IdentityServer.Controllers
 		[Route("api/account")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)
 		{
+			await ValidateEmail(model.Email);
+			
 			var user = new ApplicationUser
 			{
 				Email = model.Email,
@@ -220,7 +223,12 @@ namespace HorCup.IdentityServer.Controllers
 			
 			var userResult = await _userManager.CreateAsync(user, model.Password);
 
-			var claimsResult = await _userManager.AddClaimsAsync(user, new Claim[]
+			if (userResult.Errors.Select(e => e.Code).Contains("DuplicateUserName"))
+			{
+				return Conflict();
+			}
+			
+			await _userManager.AddClaimsAsync(user, new Claim[]
 			{
 				new("email", user.Email),
 				new("role", "Consumer")
@@ -229,6 +237,24 @@ namespace HorCup.IdentityServer.Controllers
 			return Ok(user);
 		}
 
+		[HttpHead]
+		[Route("api/account/email")]
+		public async Task<IActionResult> UserEmailUnique(string email)
+		{
+			await ValidateEmail(email);
+
+			return Ok();
+		}
+
+		private async Task ValidateEmail(string email)
+		{
+			var user = await _userManager.FindByEmailAsync(email);
+
+			if (user != null)
+			{
+				throw new EntityExistsException(nameof(ApplicationUser), email);
+			}
+		}
 
 		/*****************************************/
 		/* helper APIs for the AccountController */
