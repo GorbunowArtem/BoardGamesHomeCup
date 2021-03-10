@@ -20,9 +20,10 @@
       <input matInput type="password" formControlName="password" placeholder="Пароль" />
     </mat-form-field>
   </p>
-
-  <mat-dialog-actions>
-    <button mat-button color="accent" (click)="cancel()">Отмена</button>
-    <button mat-button color="primary" (click)="register()">Сохранить</button>
-  </mat-dialog-actions>
 </mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="accent" (click)="cancel()">Отмена</button>
+  <button mat-button color="primary" (click)="register()" [disabled]="!registerForm.valid">
+    Сохранить
+  </button>
+</mat-dialog-actions>

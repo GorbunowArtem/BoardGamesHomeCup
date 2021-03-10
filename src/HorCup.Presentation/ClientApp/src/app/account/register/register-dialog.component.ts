@@ -46,6 +46,7 @@ export class RegisterDialogComponent {
         (result) => {
           if (result) {
             this.success = true;
+            this._matDialogRef.close();
           }
         },
         (error) => {
