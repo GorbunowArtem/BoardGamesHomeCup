@@ -213,7 +213,8 @@ namespace HorCup.IdentityServer.Controllers
 		[Route("api/account")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)
 		{
-			await ValidateEmail(model.Email);
+			await ValidateEmailAsync(model.Email);
+			await ValidateNameAsync(model.Name);
 			
 			var user = new ApplicationUser
 			{
@@ -221,12 +222,7 @@ namespace HorCup.IdentityServer.Controllers
 				UserName = model.Name,
 			};
 			
-			var userResult = await _userManager.CreateAsync(user, model.Password);
-
-			if (userResult.Errors.Select(e => e.Code).Contains("DuplicateUserName"))
-			{
-				return Conflict();
-			}
+			await _userManager.CreateAsync(user, model.Password);
 			
 			await _userManager.AddClaimsAsync(user, new Claim[]
 			{
@@ -241,18 +237,37 @@ namespace HorCup.IdentityServer.Controllers
 		[Route("api/account/email")]
 		public async Task<IActionResult> UserEmailUnique(string email)
 		{
-			await ValidateEmail(email);
+			await ValidateEmailAsync(email);
 
 			return Ok();
 		}
 
-		private async Task ValidateEmail(string email)
+		[HttpHead]
+		[Route("api/account/name")]
+		public async Task<IActionResult> UserNameUnique(string name)
+		{
+			await ValidateNameAsync(name);
+
+			return Ok();
+		}
+
+		private async Task ValidateEmailAsync(string email)
 		{
 			var user = await _userManager.FindByEmailAsync(email);
 
 			if (user != null)
 			{
 				throw new EntityExistsException(nameof(ApplicationUser), email);
+			}
+		}
+
+		private async Task ValidateNameAsync(string name)
+		{
+			var user = await _userManager.FindByNameAsync(name);
+
+			if (user != null)
+			{
+				throw new EntityExistsException(nameof(ApplicationUser), name);
 			}
 		}
 
