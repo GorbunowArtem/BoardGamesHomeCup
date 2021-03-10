@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { UserRegistration } from 'src/app/common/models/user-registration';
-import { AuthService } from 'src/app/core/authentication/auth.service';
+import { AuthService } from 'src/app/common/auth.service';
 
 @Component({
   selector: 'hc-app-register',
@@ -22,9 +22,9 @@ export class RegisterDialogComponent {
     private _matDialogRef: MatDialogRef<RegisterDialogComponent>
   ) {
     this.registerForm = _fb.group({
-      name: [''],
-      email: ['', [Validators.email]],
-      password: ['']
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

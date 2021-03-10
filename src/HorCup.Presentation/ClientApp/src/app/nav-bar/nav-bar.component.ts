@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
 import { RegisterDialogComponent } from '../account/register/register-dialog.component';
-import { AuthService } from '../core/authentication/auth.service';
+import { AuthService } from '../common/auth.service';
 import { ThemeService } from './theme.service';
 
 @Component({
@@ -13,22 +13,20 @@ import { ThemeService } from './theme.service';
 export class NavBarComponent implements OnInit, OnDestroy {
   public isDarkTheme!: Observable<boolean>;
 
-  public name!: string | undefined;
   public authenticated!: boolean;
   public subscription!: Subscription;
 
   public constructor(
     private _themeService: ThemeService,
     private _matDialog: MatDialog,
-    private _authService: AuthService
+    public authService: AuthService
   ) {}
 
   public ngOnInit() {
     this.isDarkTheme = this._themeService.isDarkTheme;
-    this.subscription = this._authService.authNavStatus$.subscribe(
+    this.subscription = this.authService.authNavStatus$.subscribe(
       (status) => (this.authenticated = status)
     );
-    this.name = this._authService.name;
   }
 
   public toggleDarkTheme(checked: boolean) {
@@ -40,11 +38,11 @@ export class NavBarComponent implements OnInit, OnDestroy {
   }
 
   public showLoginDialog() {
-    this._authService.login();
+    this.authService.login();
   }
 
   public async signout() {
-    await this._authService.signout();
+    await this.authService.signout();
   }
 
   public ngOnDestroy() {

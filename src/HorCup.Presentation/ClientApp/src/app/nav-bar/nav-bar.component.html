@@ -11,7 +11,7 @@
     <button mat-button (click)="showLoginDialog()">Войти</button>
   </div>
   <div *ngIf="authenticated">
-    <button mat-button>Привет, {{ name }}</button>
+    <button mat-button>Привет, {{ authService.name }}</button>
     <button mat-button (click)="signout()">Выйти</button>
   </div>
 </mat-toolbar>

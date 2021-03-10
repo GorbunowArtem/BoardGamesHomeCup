@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/authentication/auth.service';
+import { AuthService } from 'src/app/common/auth.service';
 
 @Component({
   selector: 'hc-auth-callback',
