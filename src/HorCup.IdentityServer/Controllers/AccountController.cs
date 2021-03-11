@@ -209,6 +209,7 @@ namespace HorCup.IdentityServer.Controllers
 		{
 			return View();
 		}
+		
 		[HttpPost]
 		[Route("api/account")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)

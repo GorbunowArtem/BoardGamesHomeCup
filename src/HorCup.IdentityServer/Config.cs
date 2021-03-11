@@ -58,7 +58,8 @@ namespace HorCup.IdentityServer
 					AllowedGrantTypes = GrantTypes.Implicit,
 					AllowedScopes = {"openid", "profile"},
 					RedirectUris = {"https://localhost:5002/auth-callback"},
-					PostLogoutRedirectUris = {"https://localhost:5002/"},
+					PostLogoutRedirectUris = {"https://localhost:5002"},
+					
 					AllowedCorsOrigins = {"https://localhost:5002"},
 					AllowAccessTokensViaBrowser = true,
 					AccessTokenLifetime = 3600
