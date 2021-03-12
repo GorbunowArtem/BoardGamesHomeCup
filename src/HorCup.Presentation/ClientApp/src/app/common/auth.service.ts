@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User, UserManager, UserManagerSettings } from 'oidc-client';
-import { BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,7 @@ export class AuthService {
   // Observable navItem stream
   public authNavStatus$ = this._authNavStatusSource.asObservable();
 
+  private _identityServerUrl = 'https://localhost:5001/api';
   private manager = new UserManager(getClientSettings());
   private user!: User | null;
 
@@ -33,7 +33,19 @@ export class AuthService {
   }
 
   public register(userRegistration: any) {
-    return this._http.post('https://localhost:5001/api/account', userRegistration).pipe();
+    return this._http.post(`${this._identityServerUrl}/account`, userRegistration).pipe();
+  }
+
+  public isLoginUnique(value: any): Observable<any> {
+    return this._http.head(`${this._identityServerUrl}/account/name?name=${value}`, {
+      observe: 'response'
+    });
+  }
+
+  public isEmailUnique(value: any): Observable<any> {
+    return this._http.head(`${this._identityServerUrl}/account/email?email=${value}`, {
+      observe: 'response'
+    });
   }
 
   public isAuthenticated(): boolean {

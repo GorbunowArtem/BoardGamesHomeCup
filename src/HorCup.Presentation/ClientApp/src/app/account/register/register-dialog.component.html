@@ -3,21 +3,50 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Имя</mat-label>
-      <input matInput type="text" formControlName="name" placeholder="Имя" />
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder="Имя"
+        required
+        hcUniqueLoginValidator
+      />
+      <hc-field-validation-errors
+        [fieldName]="'name'"
+        [messages]="errorMessages"
+        [form]="registerForm"
+      ></hc-field-validation-errors>
     </mat-form-field>
   </p>
 
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Эл. почта</mat-label>
-      <input matInput type="text" formControlName="email" placeholder="Эл. почта" />
+      <input
+        matInput
+        type="text"
+        formControlName="email"
+        placeholder="Эл. почта"
+        required
+        hcUniqueEmailValidator
+      />
+      <hc-field-validation-errors
+        [fieldName]="'email'"
+        [messages]="errorMessages"
+        [form]="registerForm"
+      ></hc-field-validation-errors>
     </mat-form-field>
   </p>
 
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Пароль</mat-label>
-      <input matInput type="password" formControlName="password" placeholder="Пароль" />
+      <input matInput type="password" formControlName="password" placeholder="Пароль" required />
+      <hc-field-validation-errors
+        [fieldName]="'password'"
+        [messages]="errorMessages"
+        [form]="registerForm"
+      ></hc-field-validation-errors>
     </mat-form-field>
   </p>
 </mat-dialog-content>

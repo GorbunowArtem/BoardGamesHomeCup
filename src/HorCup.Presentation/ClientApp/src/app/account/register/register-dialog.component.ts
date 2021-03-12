@@ -2,8 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
-import { UserRegistration } from 'src/app/common/models/user-registration';
 import { AuthService } from 'src/app/common/auth.service';
+import {
+  min,
+  NotUnique,
+  RequiredField
+} from 'src/app/common/validation-messages/validation-messages';
 
 @Component({
   selector: 'hc-app-register',
@@ -15,6 +19,7 @@ export class RegisterDialogComponent {
   public success!: boolean;
   public error!: string;
   public submitted: any = false;
+  public errorMessages: any;
 
   public constructor(
     private _authService: AuthService,
@@ -22,10 +27,16 @@ export class RegisterDialogComponent {
     private _matDialogRef: MatDialogRef<RegisterDialogComponent>
   ) {
     this.registerForm = _fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      name: ['', { updateOn: 'blur' }, [Validators.required]],
+      email: ['', { updateOn: 'blur' }, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+
+    this.errorMessages = {
+      name: [RequiredField, NotUnique],
+      email: [RequiredField, NotUnique],
+      password: [RequiredField, min(6)]
+    };
   }
 
   public cancel() {
