@@ -89,6 +89,8 @@ namespace HorCup.Presentation
 
 			loggerFactory.AddFile("Logs/hor-cup-log.txt");
 
+			app.UseCors("AllowAll");
+			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
@@ -104,7 +106,7 @@ namespace HorCup.Presentation
 					pattern: "{controller}/{action=Index}/{id?}");
 			});
 
-			app.UseCors("AllowAll");
+			
 
 			app.UseSpa(spa =>
 			{

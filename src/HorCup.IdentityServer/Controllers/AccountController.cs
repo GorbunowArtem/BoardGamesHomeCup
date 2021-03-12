@@ -223,14 +223,16 @@ namespace HorCup.IdentityServer.Controllers
 				UserName = model.Name,
 			};
 			
-			await _userManager.CreateAsync(user, model.Password);
-			
-			await _userManager.AddClaimsAsync(user, new Claim[]
-			{
-				new("email", user.Email),
-				new("role", "Consumer")
-			});
+			var createUserResult = await _userManager.CreateAsync(user, model.Password);
 
+			if (!createUserResult.Succeeded)
+			{
+				return BadRequest(ModelState);
+			}
+
+			// await _userManager.AddClaimAsync(user, new Claim("email", user.Email));
+			// await _userManager.AddClaimAsync(user, new Claim("role", "Consumer"));
+			
 			return Ok(user);
 		}
 

@@ -81,13 +81,14 @@ namespace HorCup.IdentityServer
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
 			}
-
+			
+			app.UseCors("AllowAll");
 			app.UseStaticFiles();
 
 			app.UseRouting();
 			app.UseIdentityServer();
 			app.UseAuthorization();
-			app.UseCors("AllowAll");
+		
 
 			app.UseSwagger();
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
