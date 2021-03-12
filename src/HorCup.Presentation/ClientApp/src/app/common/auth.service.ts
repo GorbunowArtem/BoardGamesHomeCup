@@ -68,7 +68,7 @@ export class AuthService {
 export function getClientSettings(): UserManagerSettings {
   return {
     authority: 'https://localhost:5001',
-    client_id: 'angular_spa',
+    client_id: 'HorCup.SPA',
     post_logout_redirect_uri: 'https://localhost:5002',
     popup_post_logout_redirect_uri: 'https://localhost:5002',
     redirect_uri: 'https://localhost:5002/auth-callback',

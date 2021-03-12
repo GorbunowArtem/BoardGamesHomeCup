@@ -23,18 +23,14 @@ namespace HorCup.IdentityServer
 		public static IEnumerable<Client> Clients =>
 			new Client[]
 			{
-				// interactive client using code flow + pkce
 				new()
 				{
 					ClientId = "HorCup.PKCE",
 					ClientSecrets = {new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256())},
-
 					AllowedGrantTypes = GrantTypes.Code,
-
 					RedirectUris = {"https://localhost:5002/signin-oidc"},
 					FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
 					PostLogoutRedirectUris = {"https://localhost:5002/signout-callback-oidc"},
-
 					AllowOfflineAccess = true,
 					AllowedScopes = {"openid", "profile"}
 				},
@@ -43,23 +39,9 @@ namespace HorCup.IdentityServer
 					ClientId = "HorCup.SPA",
 					ClientName = "HorCup SPA",
 					AllowedGrantTypes = GrantTypes.Implicit,
-					RequireClientSecret = false,
-					AllowedScopes = {"openid", "profile"},
-					RedirectUris = {"https://localhost:5002/auth-callback"},
-					PostLogoutRedirectUris = {"https://localhost:5002/"},
-					AllowedCorsOrigins = {"https://localhost:5002/"},
-					AllowAccessTokensViaBrowser = true,
-					AccessTokenLifetime = 3600
-				},
-				new()
-				{
-					ClientId = "angular_spa",
-					ClientName = "Angular SPA",
-					AllowedGrantTypes = GrantTypes.Implicit,
 					AllowedScopes = {"openid", "profile"},
 					RedirectUris = {"https://localhost:5002/auth-callback"},
 					PostLogoutRedirectUris = {"https://localhost:5002"},
-					
 					AllowedCorsOrigins = {"https://localhost:5002"},
 					AllowAccessTokensViaBrowser = true,
 					AccessTokenLifetime = 3600
