@@ -8,8 +8,14 @@ namespace HorCup.IdentityServer.Models.Account
 {
 	public class LoginInputModel
 	{
-		[Required] public string Username { get; set; }
-		[Required] public string Password { get; set; }
+		[Required(ErrorMessage = "Поле \"Логин\" обязательное")]
+		[Display(Name = "Логин")]
+		public string Username { get; set; }
+		
+		[Required(ErrorMessage = "Поле \"Пароль\" обязательное")]
+		
+		[Display(Name = "Пароль")]
+		public string Password { get; set; }
 		public bool RememberLogin { get; set; }
 		public string ReturnUrl { get; set; }
 	}
