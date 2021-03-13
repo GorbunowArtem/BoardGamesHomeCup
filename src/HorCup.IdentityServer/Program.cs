@@ -50,6 +50,7 @@ namespace HorCup.IdentityServer
 					var config = host.Services.GetRequiredService<IConfiguration>();
 					var connectionString = config.GetConnectionString("DefaultConnection");
 					SeedData.EnsureSeedData(connectionString);
+					SeedData.EnsureSeedClients(connectionString);
 					Log.Information("Done seeding database.");
 					return 0;
 				}

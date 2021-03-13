@@ -45,11 +45,26 @@ namespace HorCup.IdentityServer
 					// see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
 					options.EmitStaticAudienceClaim = true;
 				})
-				.AddInMemoryIdentityResources(Config.IdentityResources)
-				.AddInMemoryApiScopes(Config.ApiScopes)
-				.AddInMemoryClients(Config.Clients)
+				.AddConfigurationStore(options =>
+				{
+					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+				})
+				// this adds the operational data from DB (codes, tokens, consents)
+				.AddOperationalStore(options =>
+				{
+					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));;
+
+					// this enables automatic token cleanup. this is optional.
+					options.EnableTokenCleanup = true;
+				})
+				// .AddInMemoryIdentityResources(Config.IdentityResources)
+				// .AddInMemoryApiScopes(Config.ApiScopes)
+				// .AddInMemoryClients(Config.Clients)
 				.AddAspNetIdentity<ApplicationUser>();
 
+			// TODO: Change to actual certificate
 			builder.AddDeveloperSigningCredential();
 
 			services.AddSwaggerGen();
