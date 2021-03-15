@@ -5,14 +5,24 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace HorCup.IdentityServer
 {
 	public class Program
 	{
-		public static int Main(string[] args)
+		public static void Main(string[] args)
+		{
+			var host = CreateHostBuilder(args).Build();
+
+			CreateLogger();
+			
+			CreateDbIfNotExists(host);
+
+			host.Run();
+		}
+
+		private static void CreateLogger()
 		{
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
@@ -33,45 +43,33 @@ namespace HorCup.IdentityServer
 					"[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
 					theme: AnsiConsoleTheme.Code)
 				.CreateLogger();
+		}
 
-			try
-			{
-				var seed = args.Contains("/seed");
-				if (seed)
-				{
-					args = args.Except(new[] {"/seed"}).ToArray();
-				}
-
-				var host = CreateHostBuilder(args).Build();
-
-				if (seed)
-				{
-					Log.Information("Seeding database...");
-					var config = host.Services.GetRequiredService<IConfiguration>();
-					var connectionString = config.GetConnectionString("DefaultConnection");
-					SeedData.EnsureSeedData(connectionString);
-					SeedData.EnsureSeedClients(connectionString);
-					Log.Information("Done seeding database.");
-					return 0;
-				}
-
-				Log.Information("Starting host...");
-				host.Run();
-				return 0;
-			}
-			catch (Exception ex)
-			{
-				Log.Fatal(ex, "Host terminated unexpectedly.");
-				return 1;
-			}
-			finally
-			{
-				Log.CloseAndFlush();
-			}
+		private static void CreateDbIfNotExists(IHost host)
+		{
+			Log.Information("Seeding database...");
+			using var scope = host.Services.CreateScope();
+			
+			var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+			
+			var config = host.Services.GetRequiredService<IConfiguration>();
+			var connectionString = config.GetConnectionString("DefaultConnection");
+			
+			SeedData.EnsureSeedData(connectionString);
+			
+			SeedData.EnsureSeedClients(connectionString);
+			logger.LogInformation("Done seeding database.");
+			logger.LogInformation("Starting host...");
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.ConfigureLogging((hostingContext, logging) =>
+				{
+					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+					logging.AddConsole();
+					logging.AddDebug();
+				})
 				.UseSerilog()
 				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 	}

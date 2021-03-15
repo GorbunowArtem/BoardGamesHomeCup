@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using System.Security.Claims;
-using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.EntityFramework.Storage;
@@ -20,6 +18,7 @@ namespace HorCup.IdentityServer
 		{
 			var services = new ServiceCollection();
 			services.AddLogging();
+			
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(connectionString));
 
@@ -34,77 +33,24 @@ namespace HorCup.IdentityServer
 			context.Database.Migrate();
 
 			var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			var alice = userMgr.FindByNameAsync("alice").Result;
-			if (alice == null)
+			
+			var artem = userMgr.FindByNameAsync("artem").Result;
+			if (artem == null)
 			{
-				alice = new ApplicationUser
+				artem = new ApplicationUser
 				{
 					Id = Guid.NewGuid().ToString(),
-					UserName = "alice",
-					Email = "AliceSmith@email.com",
-					EmailConfirmed = true,
-				};
-				var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-
-				result = userMgr.AddClaimsAsync(alice, new Claim[]
-					{
-						new(JwtClaimTypes.Name, "Alice Smith"),
-						new(JwtClaimTypes.GivenName, "Alice"),
-						new(JwtClaimTypes.FamilyName, "Smith"),
-						new(JwtClaimTypes.WebSite, "http://alice.com"),
-					})
-					.Result;
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-
-				Log.Debug("alice created");
-			}
-			else
-			{
-				Log.Debug("alice already exists");
-			}
-
-			var bob = userMgr.FindByNameAsync("bob").Result;
-			if (bob == null)
-			{
-				bob = new ApplicationUser
-				{
-					Id = Guid.NewGuid().ToString(),
-					UserName = "bob",
-					Email = "BobSmith@email.com",
+					UserName = "artem",
+					Email = "artem@email.com",
 					EmailConfirmed = true
 				};
-				var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+				var result = userMgr.CreateAsync(artem, "Pass123$").Result;
 				if (!result.Succeeded)
 				{
 					throw new Exception(result.Errors.First().Description);
 				}
 
-				result = userMgr.AddClaimsAsync(bob, new Claim[]
-					{
-						new(JwtClaimTypes.Name, "Bob Smith"),
-						new(JwtClaimTypes.GivenName, "Bob"),
-						new(JwtClaimTypes.FamilyName, "Smith"),
-						new(JwtClaimTypes.WebSite, "http://bob.com"),
-						new("location", "somewhere")
-					})
-					.Result;
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-
-				Log.Debug("bob created");
-			}
-			else
-			{
-				Log.Debug("bob already exists");
+				context.SaveChanges();
 			}
 		}
 
@@ -144,14 +90,7 @@ namespace HorCup.IdentityServer
 				}
 
 				context.SaveChanges();
-			}
-			else
-			{
-				Log.Debug("Clients already populated");
-			}
-
-			if (!context.IdentityResources.Any())
-			{
+				
 				Log.Debug("IdentityResources being populated");
 				foreach (var resource in Config.IdentityResources.ToList())
 				{
@@ -159,14 +98,7 @@ namespace HorCup.IdentityServer
 				}
 
 				context.SaveChanges();
-			}
-			else
-			{
-				Log.Debug("IdentityResources already populated");
-			}
-
-			if (!context.ApiResources.Any())
-			{
+				
 				Log.Debug("ApiScopes being populated");
 				foreach (var resource in Config.ApiScopes.ToList())
 				{
@@ -174,10 +106,6 @@ namespace HorCup.IdentityServer
 				}
 
 				context.SaveChanges();
-			}
-			else
-			{
-				Log.Debug("ApiScopes already populated");
 			}
 		}
 	}

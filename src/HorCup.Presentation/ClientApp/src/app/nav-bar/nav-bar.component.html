@@ -12,9 +12,6 @@
   ></mat-slide-toggle>
 
   <div *ngIf="!authenticated">
-    <button mat-icon-button (click)="showRegisterDialog()">
-      <mat-icon>account_circle</mat-icon>
-    </button>
     <button mat-icon-button (click)="showLoginDialog()"><mat-icon>login</mat-icon></button>
   </div>
   <div *ngIf="authenticated">

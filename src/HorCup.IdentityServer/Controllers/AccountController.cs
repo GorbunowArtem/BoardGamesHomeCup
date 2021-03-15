@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using HorCup.IdentityServer.Models;
 using HorCup.IdentityServer.Models.Account;
@@ -54,12 +53,6 @@ namespace HorCup.IdentityServer.Controllers
 		{
 			// build a model so we know what to show on the login page
 			var vm = await BuildLoginViewModelAsync(returnUrl);
-
-			if (vm.IsExternalLoginOnly)
-			{
-				// we only have one option for logging in and it's an external provider
-				return RedirectToAction("Challenge", "External", new {scheme = vm.ExternalLoginScheme, returnUrl});
-			}
 
 			return View(vm);
 		}
@@ -211,6 +204,7 @@ namespace HorCup.IdentityServer.Controllers
 		}
 		
 		[HttpPost]
+		[Authorize]
 		[Route("api/account")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)
 		{
@@ -230,9 +224,6 @@ namespace HorCup.IdentityServer.Controllers
 				return BadRequest(ModelState);
 			}
 
-			// await _userManager.AddClaimAsync(user, new Claim("email", user.Email));
-			// await _userManager.AddClaimAsync(user, new Claim("role", "Consumer"));
-			
 			return Ok(user);
 		}
 
