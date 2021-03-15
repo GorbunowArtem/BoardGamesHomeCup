@@ -1,4 +1,5 @@
 ﻿using HorCup.Infrastructure.Filters;
+using IdentityServer4;
 using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
@@ -41,8 +42,6 @@ namespace HorCup.IdentityServer
 					options.Events.RaiseInformationEvents = true;
 					options.Events.RaiseFailureEvents = true;
 					options.Events.RaiseSuccessEvents = true;
-
-					// see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
 					options.EmitStaticAudienceClaim = true;
 				})
 				.AddConfigurationStore(options =>
@@ -50,18 +49,14 @@ namespace HorCup.IdentityServer
 					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
 						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
 				})
-				// this adds the operational data from DB (codes, tokens, consents)
 				.AddOperationalStore(options =>
 				{
 					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
 						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));;
 
-					// this enables automatic token cleanup. this is optional.
 					options.EnableTokenCleanup = true;
 				})
-				// .AddInMemoryIdentityResources(Config.IdentityResources)
-				// .AddInMemoryApiScopes(Config.ApiScopes)
-				// .AddInMemoryClients(Config.Clients)
+				
 				.AddAspNetIdentity<ApplicationUser>();
 
 			// TODO: Change to actual certificate
@@ -84,8 +79,8 @@ namespace HorCup.IdentityServer
 			// 		// register your IdentityServer with Google at https://console.developers.google.com
 			// 		// enable the Google+ API
 			// 		// set the redirect URI to https://localhost:5001/signin-google
-			// 		options.ClientId = "";
-			// 		options.ClientSecret = "";
+			// 		options.ClientId = "793492861346-sdrjdndb2l74lco74663t0d3lpmv6b9n.apps.googleusercontent.com";
+			// 		options.ClientSecret = "zen3DWvxCk0PxyaOQFXM01gh";
 			// 	});
 		}
 

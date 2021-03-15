@@ -28,4 +28,13 @@
       <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Device\Success.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Device\UserCodeCapture.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Device\UserCodeConfirmation.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Grants\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Diagnostics\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Consent\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
