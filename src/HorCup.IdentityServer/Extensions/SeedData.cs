@@ -1,18 +1,17 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.EntityFramework.Storage;
 using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace HorCup.IdentityServer
+namespace HorCup.IdentityServer.Extensions
 {
 	public static class SeedData
 	{
@@ -69,10 +68,7 @@ namespace HorCup.IdentityServer
 		{
 			var appContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-			if (appContext.Database.GetPendingMigrations().Any())
-			{
-				appContext.Database.Migrate();
-			}
+			appContext.Database.Migrate();
 
 			var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 

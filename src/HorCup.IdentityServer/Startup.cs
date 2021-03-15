@@ -1,5 +1,5 @@
-﻿using HorCup.Infrastructure.Filters;
-using IdentityServer4;
+﻿using HorCup.IdentityServer.Extensions;
+using HorCup.Infrastructure.Filters;
 using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace HorCup.IdentityServer
 {
@@ -26,7 +27,7 @@ namespace HorCup.IdentityServer
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); });
-			
+
 			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 			services.AddDbContext<ApplicationDbContext>(options =>
@@ -52,11 +53,11 @@ namespace HorCup.IdentityServer
 				.AddOperationalStore(options =>
 				{
 					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));;
+						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+					;
 
 					options.EnableTokenCleanup = true;
 				})
-				
 				.AddAspNetIdentity<ApplicationUser>();
 
 			// TODO: Change to actual certificate
@@ -79,18 +80,22 @@ namespace HorCup.IdentityServer
 			// 		// register your IdentityServer with Google at https://console.developers.google.com
 			// 		// enable the Google+ API
 			// 		// set the redirect URI to https://localhost:5001/signin-google
-			// 		options.ClientId = "793492861346-sdrjdndb2l74lco74663t0d3lpmv6b9n.apps.googleusercontent.com";
-			// 		options.ClientSecret = "zen3DWvxCk0PxyaOQFXM01gh";
+			// 		options.ClientId = "";
+			// 		options.ClientSecret = "";
 			// 	});
 		}
 
-		public void Configure(IApplicationBuilder app)
+		public void Configure(
+			IApplicationBuilder app,
+			ILoggerFactory loggerFactory)
 		{
 			if (Environment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
 			}
+
+			loggerFactory.AddFile("Logs/identity-serever-log.txt");
 
 			app.MigrateAndSeedDb(Configuration);
 			app.UseCors("AllowAll");
@@ -99,7 +104,7 @@ namespace HorCup.IdentityServer
 			app.UseRouting();
 			app.UseIdentityServer();
 			app.UseAuthorization();
-		
+
 
 			app.UseSwagger();
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
