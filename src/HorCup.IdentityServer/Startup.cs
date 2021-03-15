@@ -26,15 +26,15 @@ namespace HorCup.IdentityServer
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); });
+			
+			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+				options.UseSqlServer(connectionString));
 
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders();
-
-			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 			var builder = services.AddIdentityServer(options =>
 				{
@@ -91,7 +91,8 @@ namespace HorCup.IdentityServer
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
 			}
-			
+
+			app.MigrateAndSeedDb(Configuration);
 			app.UseCors("AllowAll");
 			app.UseStaticFiles();
 

@@ -7,33 +7,75 @@ using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.EntityFramework.Storage;
 using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace HorCup.IdentityServer
 {
-	public class SeedData
+	public static class SeedData
 	{
-		public static void EnsureSeedData(string connectionString)
+		public static void MigrateAndSeedDb(this IApplicationBuilder builder, IConfiguration configuration)
 		{
-			var services = new ServiceCollection();
-			services.AddLogging();
-			
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(connectionString));
+			using var scope = builder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+			MigrateAndSeedApplicationDb(configuration, scope);
 
-			using var serviceProvider = services.BuildServiceProvider();
-			using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-			var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+			MigrateAndSeedPersistedGrantDb(scope);
 
+			MigrateAndSeedConfigurationDb(scope);
+		}
+
+		private static void MigrateAndSeedConfigurationDb(IServiceScope scope)
+		{
+			var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
 			context.Database.Migrate();
 
+			if (!context.Clients.Any())
+			{
+				Log.Debug("Clients being populated");
+				foreach (var client in Config.Clients.ToList())
+				{
+					context.Clients.Add(client.ToEntity());
+				}
+
+				context.SaveChanges();
+
+				Log.Debug("IdentityResources being populated");
+				foreach (var resource in Config.IdentityResources.ToList())
+				{
+					context.IdentityResources.Add(resource.ToEntity());
+				}
+
+				context.SaveChanges();
+
+				Log.Debug("ApiScopes being populated");
+				foreach (var resource in Config.ApiScopes.ToList())
+				{
+					context.ApiScopes.Add(resource.ToEntity());
+				}
+
+				context.SaveChanges();
+			}
+		}
+
+		private static void MigrateAndSeedPersistedGrantDb(IServiceScope scope)
+		{
+			scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.Migrate();
+		}
+
+		private static void MigrateAndSeedApplicationDb(IConfiguration configuration, IServiceScope scope)
+		{
+			var appContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+			if (appContext.Database.GetPendingMigrations().Any())
+			{
+				appContext.Database.Migrate();
+			}
+
 			var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			
+
 			var artem = userMgr.FindByNameAsync("artem").Result;
 			if (artem == null)
 			{
@@ -44,68 +86,14 @@ namespace HorCup.IdentityServer
 					Email = "artem@email.com",
 					EmailConfirmed = true
 				};
-				var result = userMgr.CreateAsync(artem, "Pass123$").Result;
+
+				var result = userMgr.CreateAsync(artem, configuration["DefaultUser:Password"]).Result;
 				if (!result.Succeeded)
 				{
 					throw new Exception(result.Errors.First().Description);
 				}
 
-				context.SaveChanges();
-			}
-		}
-
-
-		public static void EnsureSeedClients(string connectionString)
-		{
-			var services = new ServiceCollection();
-			services.AddOperationalDbContext(options =>
-			{
-				options.ConfigureDbContext = db => db.UseSqlServer(connectionString,
-					sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-			});
-			services.AddConfigurationDbContext(options =>
-			{
-				options.ConfigureDbContext = db => db.UseSqlServer(connectionString,
-					sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-			});
-
-			var serviceProvider = services.BuildServiceProvider();
-
-			using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-			scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.Migrate();
-
-			var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
-			context.Database.Migrate();
-			EnsureSeedData(context);
-		}
-
-		private static void EnsureSeedData(ConfigurationDbContext context)
-		{
-			if (!context.Clients.Any())
-			{
-				Log.Debug("Clients being populated");
-				foreach (var client in Config.Clients.ToList())
-				{
-					context.Clients.Add(client.ToEntity());
-				}
-
-				context.SaveChanges();
-				
-				Log.Debug("IdentityResources being populated");
-				foreach (var resource in Config.IdentityResources.ToList())
-				{
-					context.IdentityResources.Add(resource.ToEntity());
-				}
-
-				context.SaveChanges();
-				
-				Log.Debug("ApiScopes being populated");
-				foreach (var resource in Config.ApiScopes.ToList())
-				{
-					context.ApiScopes.Add(resource.ToEntity());
-				}
-
-				context.SaveChanges();
+				appContext.SaveChanges();
 			}
 		}
 	}
