@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthCallbackComponent } from './account/auth-callback/auth-callback.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     path: 'disciplines',
     loadChildren: () => import('./games/games.module').then((m) => m.GamesModule)
   },
+  { path: 'auth-callback', component: AuthCallbackComponent },
   {
     path: '',
     redirectTo: '',

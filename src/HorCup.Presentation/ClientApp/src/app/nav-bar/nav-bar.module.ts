@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { NavBarComponent } from './nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AccountModule } from '../account/account.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatButtonModule,
     RouterModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    AccountModule
   ],
   declarations: [NavBarComponent, FooterComponent],
   exports: [NavBarComponent, FooterComponent]

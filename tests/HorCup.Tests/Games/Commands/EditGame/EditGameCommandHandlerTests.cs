@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HorCup.Presentation.Exceptions;
+using HorCup.Infrastructure.Exceptions;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Services.Games;

@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HorCup.Infrastructure.Exceptions;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Exceptions;
 using HorCup.Presentation.Services.Players;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

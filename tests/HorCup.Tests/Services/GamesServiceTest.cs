@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HorCup.Presentation.Exceptions;
+using HorCup.Infrastructure.Exceptions;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.Services.Games;
 using HorCup.Tests.Games.Factory;
