@@ -56,33 +56,11 @@ namespace HorCup.IdentityServer
 				{
 					options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
 						sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
-					;
-
 					options.EnableTokenCleanup = true;
 				})
 				.AddAspNetIdentity<ApplicationUser>();
 
-			X509Certificate2 cert = null;
-			using (var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-			{
-				certStore.Open(OpenFlags.ReadOnly);
-				var certCollection = certStore.Certificates.Find(
-					X509FindType.FindByThumbprint,
-					Configuration["Certificates:HorCupSigning:Thumbprint"],
-					false);
-
-				if (certCollection.Count > 0)
-				{
-					cert = certCollection[0];
-				}
-			}
-
-			if (cert == null)
-			{
-				cert = new X509Certificate2("D:\\horcup.pfx", Configuration["Certificates:HorCupSigning:Password"]);
-			}
-
-			builder.AddSigningCredential(cert);
+			AddCertificate(builder);
 
 			services.AddSwaggerGen();
 
@@ -104,6 +82,8 @@ namespace HorCup.IdentityServer
 					options.ClientSecret = Configuration["ExternalClients:Google:ClientSecret"];
 				});
 		}
+
+		
 
 		public void Configure(
 			IApplicationBuilder app,
@@ -130,6 +110,31 @@ namespace HorCup.IdentityServer
 			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
 
 			app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
+		}
+		
+		private void AddCertificate(IIdentityServerBuilder builder)
+		{
+			X509Certificate2 cert = null;
+			using (var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+			{
+				certStore.Open(OpenFlags.ReadOnly);
+				var certCollection = certStore.Certificates.Find(
+					X509FindType.FindByThumbprint,
+					Configuration["Certificates:HorCupSigning:Thumbprint"],
+					false);
+
+				if (certCollection.Count > 0)
+				{
+					cert = certCollection[0];
+				}
+			}
+
+			if (cert == null)
+			{
+				cert = new X509Certificate2("D:\\cert\\hor-cup.pfx", Configuration["Certificates:HorCupSigning:Password"]);
+			}
+
+			builder.AddSigningCredential(cert);
 		}
 	}
 }

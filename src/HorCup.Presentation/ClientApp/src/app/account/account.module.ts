@@ -8,11 +8,12 @@ import { RegisterDialogComponent } from './register/register-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { UniqueLoginValidatorDirective } from './register/unique-login-validator.directive';
 import { UniqueEmailValidatorDirective } from './register/unique-email-validator.directive';
-import { HcFieldValidationErrorsComponent } from '../common/field-validation-errors/field-validation-errors.component';
 import { HcCommonModule } from '../common/hc-common.module';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 
 @NgModule({
   declarations: [
+    AuthCallbackComponent,
     RegisterDialogComponent,
     UniqueLoginValidatorDirective,
     UniqueEmailValidatorDirective

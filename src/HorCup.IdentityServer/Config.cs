@@ -1,5 +1,6 @@
 ﻿using IdentityServer4.Models;
 using System.Collections.Generic;
+using IdentityServer4;
 
 namespace HorCup.IdentityServer
 {
@@ -17,7 +18,7 @@ namespace HorCup.IdentityServer
 			{
 				new("scope1"),
 				new("scope2"),
-				new("api.read"),
+				new("api.admin"),
 			};
 
 		public static IEnumerable<Client> Clients =>
@@ -32,18 +33,32 @@ namespace HorCup.IdentityServer
 					FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
 					PostLogoutRedirectUris = {"https://localhost:5002/signout-callback-oidc"},
 					AllowOfflineAccess = true,
-					AllowedScopes = {"openid", "profile"}
+					AllowedScopes =
+					{
+						IdentityServerConstants.StandardScopes.OpenId,
+						IdentityServerConstants.StandardScopes.Profile,
+						"api.admin"
+					}
 				},
 				new()
 				{
 					ClientId = "HorCup.SPA",
 					ClientName = "HorCup SPA",
-					AllowedGrantTypes = GrantTypes.Implicit,
-					AllowedScopes = {"openid", "profile"},
+					RequireConsent = false,
+					RequireClientSecret = false,
+					AllowAccessTokensViaBrowser = true,
+					AllowOfflineAccess = true,
+					AllowedGrantTypes = GrantTypes.Code,
+					RequirePkce = true,
+					AllowedScopes =
+					{
+						IdentityServerConstants.StandardScopes.OpenId,
+						IdentityServerConstants.StandardScopes.Profile,
+						"api.admin"
+					},
 					RedirectUris = {"https://localhost:5002/auth-callback"},
 					PostLogoutRedirectUris = {"https://localhost:5002"},
 					AllowedCorsOrigins = {"https://localhost:5002"},
-					AllowAccessTokensViaBrowser = true,
 					AccessTokenLifetime = 3600
 				}
 			};
