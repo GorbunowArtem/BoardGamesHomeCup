@@ -78,3 +78,11 @@ reportgenerator "-reports:{path to test result folder}\coverage.cobertura.xml" "
 ```js
 npm run test:coverage
 ```
+
+For storing sensitive data during local development Secret Manager is used. To setup:
+
+```c#
+ dotnet user-secrets init
+
+ dotnet user-secrets set "ExternalClients:Google:ClientId" "12345"
+```

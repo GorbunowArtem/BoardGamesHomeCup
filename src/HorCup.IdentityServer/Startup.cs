@@ -1,5 +1,7 @@
-﻿using HorCup.IdentityServer.Extensions;
+﻿using System.Security.Cryptography.X509Certificates;
+using HorCup.IdentityServer.Extensions;
 using HorCup.Infrastructure.Filters;
+using IdentityServer4;
 using IdentityServer4withASP.NETCoreIdentity.Data;
 using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
@@ -60,11 +62,29 @@ namespace HorCup.IdentityServer
 				})
 				.AddAspNetIdentity<ApplicationUser>();
 
-			// TODO: Change to actual certificate
-			builder.AddDeveloperSigningCredential();
+			X509Certificate2 cert = null;
+			using (var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+			{
+				certStore.Open(OpenFlags.ReadOnly);
+				var certCollection = certStore.Certificates.Find(
+					X509FindType.FindByThumbprint,
+					Configuration["Certificates:HorCupSigning:Thumbprint"],
+					false);
+
+				if (certCollection.Count > 0)
+				{
+					cert = certCollection[0];
+				}
+			}
+
+			if (cert == null)
+			{
+				cert = new X509Certificate2("D:\\horcup.pfx", Configuration["Certificates:HorCupSigning:Password"]);
+			}
+
+			builder.AddSigningCredential(cert);
 
 			services.AddSwaggerGen();
-
 
 			services.AddCors(options => options.AddPolicy("AllowAll", p =>
 			{
@@ -72,17 +92,17 @@ namespace HorCup.IdentityServer
 					.AllowAnyHeader()
 					.AllowAnyMethod();
 			}));
-			// services.AddAuthentication()
-			// 	.AddGoogle(options =>
-			// 	{
-			// 		options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-			//
-			// 		// register your IdentityServer with Google at https://console.developers.google.com
-			// 		// enable the Google+ API
-			// 		// set the redirect URI to https://localhost:5001/signin-google
-			// 		options.ClientId = "";
-			// 		options.ClientSecret = "";
-			// 	});
+			services.AddAuthentication()
+				.AddGoogle(options =>
+				{
+					options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+					// register your IdentityServer with Google at https://console.developers.google.com
+					// enable the Google+ API
+					// set the redirect URI to https://localhost:5001/signin-google
+					options.ClientId = Configuration["ExternalClients:Google:ClientId"];
+					options.ClientSecret = Configuration["ExternalClients:Google:ClientSecret"];
+				});
 		}
 
 		public void Configure(

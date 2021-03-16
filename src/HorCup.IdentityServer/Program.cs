@@ -29,6 +29,10 @@ namespace HorCup.IdentityServer
 					config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 						.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
+					if (hostingContext.HostingEnvironment.IsDevelopment())
+					{
+						config.AddUserSecrets<Program>();
+					}
 				})
 				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 	}
