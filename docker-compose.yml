@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  horcup.identityserver:
+    image: ${DOCKER_REGISTRY-}horcupidentityserver
+    build:
+      context: .
+      dockerfile: src/HorCup.IdentityServer/Dockerfile
+
+  horcup.presentation:
+    image: ${DOCKER_REGISTRY-}horcuppresentation
+    build:
+      context: .
+      dockerfile: src/HorCup.Presentation/Dockerfile
+
