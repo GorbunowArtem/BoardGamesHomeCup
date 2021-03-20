@@ -16,7 +16,7 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     env:
-      working-directory: /home/runner/work/BoardGamesHomeCup/BoardGamesHomeCup/src/HorCup.Presentation
+      working-directory: /home/runner/work/BoardGamesHomeCup/BoardGamesHomeCup
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core
@@ -24,17 +24,11 @@ jobs:
         with:
           dotnet-version: 5.0.100
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore HorCup.sln
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build HorCup.sln --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
-        with:
-          working-directory: /home/runner/work/BoardGamesHomeCup/BoardGamesHomeCup/src/HorCup.Presentation
-      - name: Install Identity
-        run: dotnet restore
-      - name: Build Identity
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet test HorCup.sln --no-restore --verbosity normal
   frontend:
     runs-on: ubuntu-18.04
     env:
