@@ -114,27 +114,29 @@ namespace HorCup.IdentityServer
 		
 		private void AddCertificate(IIdentityServerBuilder builder)
 		{
-			X509Certificate2 cert = null;
-			using (var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+			if (Environment.IsDevelopment())
 			{
-				certStore.Open(OpenFlags.ReadOnly);
-				var certCollection = certStore.Certificates.Find(
-					X509FindType.FindByThumbprint,
-					Configuration["Certificates:HorCupSigning:Thumbprint"],
-					false);
-
-				if (certCollection.Count > 0)
+				builder.AddDeveloperSigningCredential();
+			}
+			else
+			{
+				X509Certificate2 cert = null;
+				using (var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
 				{
-					cert = certCollection[0];
-				}
-			}
+					certStore.Open(OpenFlags.ReadOnly);
+					var certCollection = certStore.Certificates.Find(
+						X509FindType.FindByThumbprint,
+						Configuration["Certificates:HorCupSigning:Thumbprint"],
+						false);
 
-			if (cert == null)
-			{
-				cert = new X509Certificate2("D:\\cert\\hor-cup.pfx", Configuration["Certificates:HorCupSigning:Password"]);
-			}
+					if (certCollection.Count > 0)
+					{
+						cert = certCollection[0];
+					}
+				}           
 
-			builder.AddSigningCredential(cert);
+				builder.AddSigningCredential(cert);
+			}
 		}
 	}
 }
