@@ -10,8 +10,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlayersModule } from './players/players.module';
 import { NavBarModule } from './nav-bar/nav-bar.module';
 import { GamesModule } from './games/games.module';
+import { FormsModule } from '@angular/forms';
 import { PlaysModule } from './plays/plays.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatButtonModule } from '@angular/material/button';
+import { AccountModule } from './account/account.module';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -25,7 +29,11 @@ registerLocaleData(localeRu, 'ru');
     NavBarModule,
     GamesModule,
     PlaysModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    OverlayModule,
+    MatButtonModule,
+    FormsModule,
+    AccountModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'ru' }],
   bootstrap: [AppComponent]

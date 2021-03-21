@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using HorCup.Presentation.Exceptions;
+using HorCup.Infrastructure.Exceptions;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Services.Games;
 using HorCup.Tests.Games.Factory;

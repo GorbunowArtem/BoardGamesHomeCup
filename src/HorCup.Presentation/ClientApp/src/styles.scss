@@ -1,4 +1,5 @@
 @import '~ngx-bar-rating/themes/br-default-theme';
+@import './material-theme';
 
 html,
 body,
@@ -10,7 +11,9 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-$main-text-color: white;
-$bottom-bar-background-color: rgb(66, 66, 66);
-$winner-background: #69f0ae;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 $details-card-margin: 15px;

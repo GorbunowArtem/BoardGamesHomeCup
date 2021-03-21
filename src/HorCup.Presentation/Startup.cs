@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using HorCup.Infrastructure.Filters;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Presentation.Services.DateTimeService;
@@ -36,7 +37,7 @@ namespace HorCup.Presentation
 			services.AddDbContext<HorCupContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
 
-			services.AddControllersWithViews()
+			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
 				.AddFluentValidation(fv =>
 					fv.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>())
 				.AddJsonOptions(options =>
@@ -47,8 +48,16 @@ namespace HorCup.Presentation
 
 			services.AddSwaggerGen();
 
+			services.AddCors(options => options.AddPolicy("AllowAll", p =>
+			{
+				p.AllowAnyOrigin()
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+			}));
+
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 
 			services.AddScoped<IHorCupContext, HorCupContext>();
 
@@ -80,6 +89,8 @@ namespace HorCup.Presentation
 
 			loggerFactory.AddFile("Logs/hor-cup-log.txt");
 
+			app.UseCors("AllowAll");
+			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
@@ -94,6 +105,8 @@ namespace HorCup.Presentation
 					name: "default",
 					pattern: "{controller}/{action=Index}/{id?}");
 			});
+
+			
 
 			app.UseSpa(spa =>
 			{

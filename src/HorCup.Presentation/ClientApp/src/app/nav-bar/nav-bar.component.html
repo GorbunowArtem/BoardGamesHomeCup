@@ -2,4 +2,20 @@
   <a mat-button routerLink="/">Кубок<mat-icon>emoji_events</mat-icon></a>
   <a mat-button routerLink="/disciplines">Игры</a>
   <a mat-button routerLink="/participants">Участники</a>
+
+  <span class="spacer"></span>
+
+  <mat-icon>dark_mode</mat-icon>
+  <mat-slide-toggle
+    [checked]="isDarkTheme | async"
+    (change)="toggleDarkTheme($event.checked)"
+  ></mat-slide-toggle>
+
+  <div *ngIf="!authenticated">
+    <button mat-icon-button (click)="showLoginDialog()"><mat-icon>login</mat-icon></button>
+  </div>
+  <div *ngIf="authenticated">
+    <button mat-button>Привет, {{ authService.name }}</button>
+    <button mat-icon-button (click)="signout()"><mat-icon>logout</mat-icon></button>
+  </div>
 </mat-toolbar>

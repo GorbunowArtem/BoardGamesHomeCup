@@ -243,3 +243,4 @@ coverage
 /.idea
 Logs
 coveragereport
+*.jwk
