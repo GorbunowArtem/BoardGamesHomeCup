@@ -141,7 +141,7 @@ export class PlaysFilterComponent implements OnInit {
       searchText = '';
     }
     return this._gamesService
-      .search(new SearchGamesOptions(10, 0, searchText, 0, 50, this.selectedGamesIds))
+      .search(new SearchGamesOptions(10, 0, searchText, 1, 24, this.selectedGamesIds))
       .pipe(map((resp) => resp.items.$values));
   }
 }

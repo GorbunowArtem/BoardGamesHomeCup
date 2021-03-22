@@ -12,18 +12,25 @@ import { PlaysService } from './plays.service';
   styleUrls: ['./plays.component.scss']
 })
 export class PlaysComponent implements OnInit, OnDestroy {
+  public total = 0;
+
   private _plays: Play[];
 
-  private take = 10;
-  private total = 0;
+  private _take = 10;
 
   private _searchOptions: SearchPlaysOptions;
 
   private _searchParamsChangedSubscription!: Subscription;
 
+  public viewMode: boolean;
+
+  public searchText: string;
+
   public constructor(private _playsService: PlaysService, private _playsFilter: MatBottomSheet) {
     this._plays = [];
+    this.viewMode = true;
     this._searchOptions = new SearchPlaysOptions(0, 10);
+    this.searchText = '';
   }
 
   public ngOnInit() {
@@ -52,13 +59,13 @@ export class PlaysComponent implements OnInit, OnDestroy {
   }
 
   public get moreAvailable() {
-    return this.total > this.take;
+    return this.total > this._take;
   }
 
   public loadMore() {
-    this.take += this.take;
+    this._take += this._take;
     this._playsService
-      .search(new SearchPlaysOptions(this.take - 10, this.take))
+      .search(new SearchPlaysOptions(this._take - 10, this._take))
       .subscribe((plays) => {
         this._plays.push(...plays.items.$values);
       });
@@ -68,5 +75,10 @@ export class PlaysComponent implements OnInit, OnDestroy {
     this._playsFilter.open(PlaysFilterComponent, {
       data: this._searchOptions
     });
+  }
+
+  public toggleViewMode() {
+    this.searchText = '';
+    this.viewMode = !this.viewMode;
   }
 }

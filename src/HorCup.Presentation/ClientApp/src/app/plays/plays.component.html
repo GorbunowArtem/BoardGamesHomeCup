@@ -1,4 +1,31 @@
-<hc-header-card [hideNav]="true" [text]="'Список последних партий:'"></hc-header-card>
+<!-- <hc-header-card [hideNav]="true" [text]="'Список последних партий:'"></hc-header-card> -->
+<mat-toolbar class="mat-elevation-z8" color="primary">
+  <ng-container *ngIf="viewMode; else searchView">
+    <button mat-icon-button><mat-icon>menu</mat-icon></button>
+    <span>Последние партии</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="toggleViewMode()"><mat-icon>search</mat-icon></button>
+    <button mat-icon-button (click)="openFilter()"><mat-icon>filter_list</mat-icon></button>
+  </ng-container>
+
+  <ng-template #searchView>
+    <button mat-icon-button (click)="toggleViewMode()"><mat-icon>arrow_back</mat-icon></button>
+    <mat-form-field>
+      <input matInput type="text" [(ngModel)]="searchText" />
+      <button
+        mat-button
+        *ngIf="searchText"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="searchText = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-icon>search</mat-icon>
+  </ng-template>
+</mat-toolbar>
 
 <mat-accordion [multi]="false">
   <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
@@ -14,5 +41,4 @@
   <button mat-raised-button color="accent" (click)="loadMore()" *ngIf="moreAvailable">
     Загрузить еще
   </button>
-  <button mat-raised-button color="primary" (click)="openFilter()">Фильтр</button>
 </div>
