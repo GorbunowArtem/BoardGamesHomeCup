@@ -68,16 +68,15 @@ export class PlaysFilterComponent implements OnInit {
   }
 
   public search() {
-    this._playsService.searchParamsChangedSubject.next(
-      new SearchPlaysOptions(
-        0,
-        10,
-        this.selectedGamesIds,
-        this.selectedPlayersIds,
-        this.getFormDate('dateFrom'),
-        this.getFormDate('dateTo')
-      )
-    );
+    let searchOptions = new SearchPlaysOptions();
+    (searchOptions.skip = 0),
+      (searchOptions.take = 10),
+      (searchOptions.gamesIds = this.selectedGamesIds),
+      (searchOptions.playersIds = this.selectedPlayersIds),
+      (searchOptions.dateFrom = this.getFormDate('dateFrom')),
+      (searchOptions.dateTo = this.getFormDate('dateTo'));
+
+    this._playsService.searchParamsChangedSubject.next(searchOptions);
     this._filterRef.dismiss();
   }
 
