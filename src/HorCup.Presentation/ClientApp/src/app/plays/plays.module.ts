@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { PlaysNavBarComponent } from './plays-nav-bar/plays-nav-bar.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatCardModule,
     MatToolbarModule
   ],
-  declarations: [PlaysComponent, PlayPanelComponent, AddPlayComponent, PlaysFilterComponent],
+  declarations: [
+    PlaysComponent,
+    PlayPanelComponent,
+    AddPlayComponent,
+    PlaysFilterComponent,
+    PlaysNavBarComponent
+  ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })
 export class PlaysModule {}

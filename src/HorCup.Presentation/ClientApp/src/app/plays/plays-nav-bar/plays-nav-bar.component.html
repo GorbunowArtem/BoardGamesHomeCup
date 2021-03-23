@@ -1,0 +1,32 @@
+<mat-toolbar class="mat-elevation-z8" color="primary">
+  <ng-container *ngIf="viewMode; else searchView">
+    <button mat-icon-button><mat-icon>menu</mat-icon></button>
+    <span>Последние партии</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="toggleViewMode()"><mat-icon>search</mat-icon></button>
+    <button mat-icon-button (click)="openFilter()"><mat-icon>filter_list</mat-icon></button>
+  </ng-container>
+
+  <ng-template #searchView>
+    <button mat-icon-button (click)="toggleViewMode()"><mat-icon>arrow_back</mat-icon></button>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchOptions.searchText"
+        (ngModelChange)="textChanged($event)"
+      />
+      <button
+        mat-button
+        *ngIf="searchOptions.searchText"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="searchOptions.searchText = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-icon>search</mat-icon>
+  </ng-template>
+</mat-toolbar>
