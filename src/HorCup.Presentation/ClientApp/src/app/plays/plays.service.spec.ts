@@ -24,7 +24,7 @@ describe('Service: Play', () => {
   });
 
   it('should return plays', (done) => {
-    const options = new SearchPlaysOptions(15, 10);
+    const options = new SearchPlaysOptions();
 
     service.search(options).subscribe((res) => {
       expect(res).toEqual(testResponse);

@@ -1,36 +1,34 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Play } from './models/play';
 import { SearchPlaysOptions } from './models/search-plays-options';
-import { PlaysFilterComponent } from './plays-filter/plays-filter.component';
 import { PlaysService } from './plays.service';
-
 @Component({
   selector: 'hc-plays',
   templateUrl: './plays.component.html',
   styleUrls: ['./plays.component.scss']
 })
 export class PlaysComponent implements OnInit, OnDestroy {
+  public total = 0;
+
   private _plays: Play[];
 
-  private take = 10;
-  private total = 0;
-
-  private _searchOptions: SearchPlaysOptions;
+  public searchOptions: SearchPlaysOptions;
 
   private _searchParamsChangedSubscription!: Subscription;
 
-  public constructor(private _playsService: PlaysService, private _playsFilter: MatBottomSheet) {
+  private _searchTextChanged: Subject<string> = new Subject<string>();
+
+  public constructor(private _playsService: PlaysService) {
     this._plays = [];
-    this._searchOptions = new SearchPlaysOptions(0, 10);
+    this.searchOptions = new SearchPlaysOptions();
   }
 
   public ngOnInit() {
     this.search();
     this._searchParamsChangedSubscription = this._playsService.searchParamsChangedSubject.subscribe(
       (options) => {
-        this._searchOptions = options;
+        this.searchOptions = options;
         this.search();
       }
     );
@@ -41,7 +39,7 @@ export class PlaysComponent implements OnInit, OnDestroy {
   }
 
   public search() {
-    this._playsService.search(this._searchOptions).subscribe((result) => {
+    this._playsService.search(this.searchOptions).subscribe((result) => {
       this._plays = result.items.$values;
       this.total = result.total;
       window.scrollTo(0, 0);
@@ -52,21 +50,15 @@ export class PlaysComponent implements OnInit, OnDestroy {
   }
 
   public get moreAvailable() {
-    return this.total > this.take;
+    return this.total > this.searchOptions.take;
   }
 
   public loadMore() {
-    this.take += this.take;
-    this._playsService
-      .search(new SearchPlaysOptions(this.take - 10, this.take))
-      .subscribe((plays) => {
-        this._plays.push(...plays.items.$values);
-      });
-  }
+    this.searchOptions.take += this.searchOptions.take;
+    this.searchOptions.skip = this.searchOptions.take - 10;
 
-  public openFilter() {
-    this._playsFilter.open(PlaysFilterComponent, {
-      data: this._searchOptions
+    this._playsService.search(this.searchOptions).subscribe((plays) => {
+      this._plays.push(...plays.items.$values);
     });
   }
 }

@@ -52,7 +52,7 @@ docker run hor-cup-image --port=80
 
 ## To check unit tests coverage:
 
-#### for BE:
+#### backend:
 
 - navigate to `tests\HorCup.Tests` and execute:
 
@@ -70,7 +70,7 @@ reportgenerator "-reports:{path to test result folder}\coverage.cobertura.xml" "
 
 - report will e generated at `tests\HorCup.Tests\coveragereport`, open `index.html` file
 
-### for FE:
+### frontend:
 
 - navigate to `src\HorCup.Presentation\ClientApp`
 - open command prompt and run:
@@ -79,7 +79,19 @@ reportgenerator "-reports:{path to test result folder}\coverage.cobertura.xml" "
 npm run test:coverage
 ```
 
-For storing sensitive data during local development Secret Manager is used. To setup:
+- to run one test:
+
+```js
+fit("should....");
+```
+
+- to ignore test:
+
+```js
+xit("should....");
+```
+
+##For storing sensitive data during local development Secret Manager is used. To setup:
 
 ```c#
  dotnet user-secrets init

@@ -68,16 +68,15 @@ export class PlaysFilterComponent implements OnInit {
   }
 
   public search() {
-    this._playsService.searchParamsChangedSubject.next(
-      new SearchPlaysOptions(
-        0,
-        10,
-        this.selectedGamesIds,
-        this.selectedPlayersIds,
-        this.getFormDate('dateFrom'),
-        this.getFormDate('dateTo')
-      )
-    );
+    let searchOptions = new SearchPlaysOptions();
+    (searchOptions.skip = 0),
+      (searchOptions.take = 10),
+      (searchOptions.gamesIds = this.selectedGamesIds),
+      (searchOptions.playersIds = this.selectedPlayersIds),
+      (searchOptions.dateFrom = this.getFormDate('dateFrom')),
+      (searchOptions.dateTo = this.getFormDate('dateTo'));
+
+    this._playsService.searchParamsChangedSubject.next(searchOptions);
     this._filterRef.dismiss();
   }
 
@@ -141,7 +140,7 @@ export class PlaysFilterComponent implements OnInit {
       searchText = '';
     }
     return this._gamesService
-      .search(new SearchGamesOptions(10, 0, searchText, 0, 50, this.selectedGamesIds))
+      .search(new SearchGamesOptions(10, 0, searchText, 1, 24, this.selectedGamesIds))
       .pipe(map((resp) => resp.items.$values));
   }
 }

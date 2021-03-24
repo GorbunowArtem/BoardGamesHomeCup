@@ -31,7 +31,7 @@ namespace HorCup.Tests.Plays.Queries
 			var result = await _sut.Handle(new SearchPlaysQuery
 			{
 				PlayersIds = playerIds.ToGuidArray()
-			}, CancellationToken.None);
+			}, default);
 
 			result.items.Select(p => p.Id)
 				.Should()
@@ -46,7 +46,7 @@ namespace HorCup.Tests.Plays.Queries
 			var result = await _sut.Handle(new SearchPlaysQuery
 			{
 				GamesIds = gameIds.ToGuidArray()
-			}, CancellationToken.None);
+			}, default);
 
 			result.items.Select(p => p.Id)
 				.Should()
@@ -76,6 +76,19 @@ namespace HorCup.Tests.Plays.Queries
 				.BeEquivalentTo(resultIds.ToGuidArray());
 		}
 
+		[TestCase("Game 4", new[] {16, 17})]
+		public async Task SearchByText(string searchText, int[] resultIds)
+		{
+			var (items, _) = await _sut.Handle(new SearchPlaysQuery
+			{
+				SearchText = searchText
+			}, default);
+
+			items.Select(p => p.Id)
+				.Should()
+				.BeEquivalentTo(resultIds.ToGuidArray());
+		}
+
 		[Test]
 		public async Task SearchWithAllParameters()
 		{
@@ -85,7 +98,7 @@ namespace HorCup.Tests.Plays.Queries
 				DateTo = TestExtensions.ToDateTime(2020, 5, 4),
 				GamesIds = new[] {_factory.Games.Game4Id},
 				PlayersIds = new[] {22.Guid()}
-			}, CancellationToken.None);
+			}, default);
 
 			items.First()
 				.Id

@@ -1,5 +1,4 @@
-<hc-header-card [hideNav]="true" [text]="'Список последних партий:'"></hc-header-card>
-
+<hc-plays-nav-bar></hc-plays-nav-bar>
 <mat-accordion [multi]="false">
   <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
 </mat-accordion>
@@ -14,5 +13,4 @@
   <button mat-raised-button color="accent" (click)="loadMore()" *ngIf="moreAvailable">
     Загрузить еще
   </button>
-  <button mat-raised-button color="primary" (click)="openFilter()">Фильтр</button>
 </div>
