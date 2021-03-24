@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Plays.Queries.SearchPlays
 {
-	public class SearchPlaysQueryHandler: IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
+	public class
+		SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
 	{
 		private readonly IHorCupContext _context;
 		private readonly ILogger<SearchPlaysQueryHandler> _logger;
@@ -21,7 +22,9 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 			_logger = logger;
 		}
 
-		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(SearchPlaysQuery request, CancellationToken cancellationToken)
+		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(
+			SearchPlaysQuery request,
+			CancellationToken cancellationToken)
 		{
 			var query = _context.Plays.AsQueryable();
 
@@ -30,7 +33,9 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 			query = ApplyPlayersFilter(request, query);
 
 			query = ApplyDatesFilter(request, query);
-			
+
+			query = ApplySearchTextFilter(request, query);
+		
 			var plays = await query
 				.Include(p => p.Game)
 				.Include(p => p.PlayerScores)
@@ -46,9 +51,9 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 						new IdName(
 							ps.PlayerId,
 							$"{ps.Player.FirstName} {ps.Player.LastName}"),
-							ps.Score,
-						 ps.IsWinner
-					))  
+						ps.Score,
+						ps.IsWinner
+					))
 				})
 				.OrderByDescending(pl => pl.PlayedDate)
 				.Skip(request.Skip)
@@ -56,8 +61,20 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 				.ToListAsync(cancellationToken);
 
 			var total = await query.CountAsync(cancellationToken);
-			
+
 			return (plays, total);
+		}
+
+		private static IQueryable<Play> ApplySearchTextFilter(SearchPlaysQuery request, IQueryable<Play> query)
+		{
+			if (!string.IsNullOrEmpty(request.SearchText))
+			{
+				query = query.Where(p => p.Game.Title.Contains(request.SearchText)
+				                         || p.PlayerScores.Any(ps => ps.Player.FirstName.Contains(request.SearchText) 
+				                                                     || ps.Player.LastName.Contains(request.SearchText)));
+			}
+
+			return query;
 		}
 
 		private static IQueryable<Play> ApplyGamesFilter(SearchPlaysQuery request, IQueryable<Play> query)

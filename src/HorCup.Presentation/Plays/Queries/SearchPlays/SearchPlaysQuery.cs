@@ -15,5 +15,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 		public DateTime? DateFrom { get; set; }
 
 		public DateTime? DateTo { get; set; }
+
+		public string SearchText { get; set; }
 	}
 }
