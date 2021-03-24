@@ -1,6 +1,7 @@
-import { HarnessLoader, parallel } from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -11,7 +12,6 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatToolbarHarness } from '@angular/material/toolbar/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Subject } from 'rxjs';
 import { SearchPlaysOptions } from '../models/search-plays-options';
 import { PlaysFilterComponent } from '../plays-filter/plays-filter.component';
 import { PlaysService } from '../plays.service';
@@ -20,7 +20,7 @@ import { PlaysNavBarComponent } from './plays-nav-bar.component';
 describe('PlaysNavBarComponent', () => {
   let fixture: ComponentFixture<PlaysNavBarComponent>;
   let loader: HarnessLoader;
-  let playsServiceMock;
+  let playsServiceMock: any;
   let bottomSheetMock: any;
   let toolbar: MatToolbarHarness;
 
@@ -28,16 +28,7 @@ describe('PlaysNavBarComponent', () => {
     bottomSheetMock = jasmine.createSpyObj(['open']);
 
     playsServiceMock = {
-      searchParamsChangedSubject: new Subject(),
-      search: jasmine.createSpy().and.returnValue({
-        subscribe: () => {
-          return {
-            items: [],
-            total: 1
-          };
-        }
-      }),
-      add: jasmine.createSpy()
+      searchParamsChangedSubject: jasmine.createSpyObj(['next'])
     };
 
     await TestBed.configureTestingModule({
@@ -47,7 +38,8 @@ describe('PlaysNavBarComponent', () => {
         MatIconModule,
         MatInputModule,
         MatBottomSheetModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        FormsModule
       ],
       declarations: [PlaysNavBarComponent],
       providers: [
@@ -107,6 +99,12 @@ describe('PlaysNavBarComponent', () => {
       const searchButton = await toolbar.getHarness(MatButtonHarness.with({ text: 'search' }));
 
       await searchButton.click();
+
+      jasmine.clock().install();
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
     });
 
     it('should have back button', async () => {
@@ -117,12 +115,65 @@ describe('PlaysNavBarComponent', () => {
       expect(backButtons.length).toBe(1);
     });
 
+    it('should change to view mode', async () => {
+      const backButton = await toolbar.getHarness(MatButtonHarness.with({ text: 'arrow_back' }));
+
+      await backButton.click();
+
+      const menu = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'menu' }));
+
+      expect(menu.length).toBe(1);
+    });
+
     it('should have search icon', async () => {
       const icons = await loader.getAllHarnesses(MatIconHarness);
 
       const name = await icons[1].getName();
 
       expect(name).toEqual('search');
+    });
+
+    it('should not search if search field has not changed', async () => {
+      const backButton = await toolbar.getHarness(MatButtonHarness.with({ text: 'arrow_back' }));
+
+      await backButton.click();
+
+      expect(playsServiceMock.searchParamsChangedSubject.next).not.toHaveBeenCalled();
+    });
+
+    it('should search plays', async () => {
+      const searchText = 'search text';
+
+      const input = await loader.getHarness(MatInputHarness);
+
+      await input.setValue(searchText);
+
+      jasmine.clock().tick(500);
+
+      const searchOptions = new SearchPlaysOptions();
+      searchOptions.searchText = searchText;
+
+      expect(playsServiceMock.searchParamsChangedSubject.next).toHaveBeenCalledWith(searchOptions);
+    });
+
+    it('should reset search', async () => {
+      const input = await loader.getHarness(MatInputHarness);
+
+      await input.setValue('search text');
+
+      jasmine.clock().tick(500);
+
+      playsServiceMock.searchParamsChangedSubject.next.calls.reset();
+
+      const backButton = await loader.getHarness(MatButtonHarness.with({ text: 'arrow_back' }));
+
+      await backButton.click();
+
+      jasmine.clock().tick(500);
+
+      expect(playsServiceMock.searchParamsChangedSubject.next).toHaveBeenCalledWith(
+        new SearchPlaysOptions()
+      );
     });
   });
 });
