@@ -1,8 +1,14 @@
-<hc-header-card [text]="'Активные игроки:'"></hc-header-card>
-<button mat-icon-button (click)="showDialog()"><mat-icon>add</mat-icon></button>
+<hc-players-nav-bar></hc-players-nav-bar>
+
 <div class="players-list">
   <hc-player-card *ngFor="let player of players" [player]="player"></hc-player-card>
 </div>
+
+<a
+  ><button class="add-player" (click)="showDialog()" mat-fab color="primary">
+    <mat-icon>add</mat-icon>
+  </button></a
+>
 
 <mat-paginator
   [length]="totalItems"

@@ -24,6 +24,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { TopGamesStatsComponent } from './player-details/top-games-stats/top-games-stats.component';
+import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { TopGamesStatsComponent } from './player-details/top-games-stats/top-gam
     MatMenuModule,
     MatToolbarModule,
     MatSnackBarModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule
   ],
   declarations: [
     PlayersComponent,
@@ -54,7 +56,8 @@ import { TopGamesStatsComponent } from './player-details/top-games-stats/top-gam
     UniqueNicknameValidator,
     PlayerCardComponent,
     PlayerDetailsComponent,
-    TopGamesStatsComponent
+    TopGamesStatsComponent,
+    PlayersNavBarComponent
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
 })
