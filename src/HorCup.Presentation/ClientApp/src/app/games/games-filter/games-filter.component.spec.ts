@@ -21,6 +21,7 @@ import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import { Subject } from 'rxjs';
 import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
 import { NavBarMockComponent } from 'src/app/nav-bar/test-data/nav-bar-header-mock';
+import { GamesNavBarComponent } from '../games-nav-bar/games-nav-bar.component';
 import { GamesComponent } from '../games.component';
 import { GamesService } from '../games.service';
 import { SearchGamesOptions } from '../models/search-games-options';
@@ -28,8 +29,8 @@ import { GameCardMockComponent } from '../test-data/game-card-mock';
 import { GamesFilterComponent } from './games-filter.component';
 
 describe('GamesFilterComponent', () => {
-  let component: GamesComponent;
-  let fixture: ComponentFixture<GamesComponent>;
+  let component: GamesNavBarComponent;
+  let fixture: ComponentFixture<GamesNavBarComponent>;
   let rootLoader: HarnessLoader;
   let overlayContainer: OverlayContainer;
   let gamesServiceMock: any;
@@ -95,7 +96,7 @@ describe('GamesFilterComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GamesComponent);
+    fixture = TestBed.createComponent(GamesNavBarComponent);
     component = fixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 

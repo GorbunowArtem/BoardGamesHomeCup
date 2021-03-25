@@ -23,11 +23,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private _searchOptions: SearchGamesOptions;
 
-  public constructor(
-    private _gamesService: GamesService,
-    private _gamesFilter: MatBottomSheet,
-    private _addEditGameDialog: MatDialog
-  ) {
+  public constructor(private _gamesService: GamesService, private _addEditGameDialog: MatDialog) {
     this.games = [];
     this.total = 0;
     this._searchOptions = new SearchGamesOptions(6);
@@ -58,12 +54,6 @@ export class GamesComponent implements OnInit, OnDestroy {
       this.games = result.items.$values;
       this.total = result.total;
       window.scrollTo(0, 0);
-    });
-  }
-
-  public openFilter() {
-    this._gamesFilter.open(GamesFilterComponent, {
-      data: this._searchOptions
     });
   }
 
