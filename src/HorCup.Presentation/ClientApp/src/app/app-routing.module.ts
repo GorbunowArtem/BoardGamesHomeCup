@@ -4,7 +4,7 @@ import { AuthCallbackComponent } from './account/auth-callback/auth-callback.com
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     loadChildren: () => import('./plays/plays.module').then((m) => m.PlaysModule)
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
   {
     path: '',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];
