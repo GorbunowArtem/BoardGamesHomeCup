@@ -3,11 +3,7 @@
   <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
 </mat-accordion>
 
-<a
-  ><button class="add-play" mat-fab color="primary" [routerLink]="['/add-play']">
-    <mat-icon>add</mat-icon>
-  </button></a
->
+<hc-add-item [routerLink]="['/add-play']"></hc-add-item>
 
 <div class="actions">
   <button mat-raised-button color="accent" (click)="loadMore()" *ngIf="moreAvailable">

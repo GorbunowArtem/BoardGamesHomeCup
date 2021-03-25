@@ -25,6 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { TopPlayersStatsComponent } from './game-details/top-players-stats/top-players-stats.component';
 import { UniqueGameTitleValidator } from './add-edit-game-dialog/unique-game-title-validator';
+import { GamesNavBarComponent } from './games-nav-bar/games-nav-bar.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { UniqueGameTitleValidator } from './add-edit-game-dialog/unique-game-tit
     AddEditGameDialogComponent,
     GameDetailsComponent,
     TopPlayersStatsComponent,
-    UniqueGameTitleValidator
+    UniqueGameTitleValidator,
+    GamesNavBarComponent
   ]
 })
 export class GamesModule {}

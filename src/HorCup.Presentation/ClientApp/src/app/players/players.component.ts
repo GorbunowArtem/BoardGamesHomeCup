@@ -21,7 +21,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {}
 
-  public showDialog() {
+  public addPlayer() {
     this._dialog.open(AddEditPlayerDialogComponent, {
       disableClose: true
     });
