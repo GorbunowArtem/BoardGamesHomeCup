@@ -14,10 +14,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SearchPlayersOptions } from './models/search-players-options';
 import { HeaderCardMockComponent } from '../common/test-data/header-card-mock';
 import { MatIconModule } from '@angular/material/icon';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Player } from './models/player';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { By } from '@angular/platform-browser';
 
+@Component({
+  selector: 'hc-players-nav-bar',
+  template: `<div>NavBar</div>`
+})
+export class PlayerNavBarMockComponent {}
 @Component({
   selector: 'hc-player-card',
   template: `<div>Player</div>`
@@ -25,6 +31,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 export class PlayerCardMockComponent {
   @Input()
   public player!: Player;
+}
+
+@Component({
+  selector: 'hc-add-item',
+  template: `<div>Add Item</div>`
+})
+export class AddItemMockComponent {
+  @Output() public showAddDialog = new EventEmitter();
 }
 
 describe('PlayersComponent', () => {
@@ -52,7 +66,13 @@ describe('PlayersComponent', () => {
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
 
     await TestBed.configureTestingModule({
-      declarations: [PlayersComponent, HeaderCardMockComponent, PlayerCardMockComponent],
+      declarations: [
+        PlayersComponent,
+        HeaderCardMockComponent,
+        PlayerCardMockComponent,
+        AddItemMockComponent,
+        PlayerNavBarMockComponent
+      ],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: MatDialog, useValue: matDialogMock }
@@ -74,9 +94,11 @@ describe('PlayersComponent', () => {
   });
 
   it('should display dialog when user clicks on "plus" icon', async () => {
-    const plusButton = await loader.getHarness(MatButtonHarness);
+    const childEl: AddItemMockComponent = fixture.debugElement.query(
+      By.directive(AddItemMockComponent)
+    ).componentInstance;
 
-    await plusButton.click();
+    childEl.showAddDialog.emit();
 
     expect(matDialogMock.open).toHaveBeenCalledWith(AddEditPlayerDialogComponent, {
       disableClose: true

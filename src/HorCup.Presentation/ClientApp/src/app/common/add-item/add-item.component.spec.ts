@@ -1,27 +1,36 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddItemComponent } from './add-item.component';
 
 describe('AddItemBtnComponent', () => {
-  let component: AddItemComponent;
   let fixture: ComponentFixture<AddItemComponent>;
+  let loader: HarnessLoader;
+  let component: AddItemComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MatButtonModule, BrowserAnimationsModule, MatIconModule],
       declarations: [AddItemComponent]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AddItemComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    component = fixture.componentInstance;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should emit showAddDialog', async () => {
+    spyOn(component.showAddDialog, 'emit');
+
+    const addBtn = await loader.getHarness(MatButtonHarness.with({ text: 'add' }));
+
+    await addBtn.click();
+
+    expect(component.showAddDialog.emit).toHaveBeenCalled();
   });
 });
