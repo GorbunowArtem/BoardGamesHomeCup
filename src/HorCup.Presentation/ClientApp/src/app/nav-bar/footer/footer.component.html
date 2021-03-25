@@ -1,5 +1,20 @@
 <mat-toolbar class="mat-elevation-z8" color="primary">
-  <a mat-button routerLink="/"><mat-icon>emoji_events</mat-icon>Кубок</a>
-  <a mat-button routerLink="/disciplines"><mat-icon>extension</mat-icon> Игры</a>
-  <a mat-button routerLink="/participants"><mat-icon>people_alt</mat-icon> Участники</a>
+  <div class="bottom-nav">
+    <nav class="bottom-nav__list">
+      <span class="bottom-nav__list-item" routerLink="/">
+        <mat-icon>emoji_events</mat-icon>
+        <span class="bottom-nav__list-item__text">Кубок</span>
+      </span>
+
+      <span class="bottom-nav__list-item" routerLink="/disciplines">
+        <mat-icon>extension</mat-icon>
+        <span class="bottom-nav__list-item__text">Игры</span>
+      </span>
+
+      <span class="bottom-nav__list-item" routerLink="/participants">
+        <mat-icon>people_alt</mat-icon>
+        <span class="bottom-nav__list-item__text">Участники</span>
+      </span>
+    </nav>
+  </div>
 </mat-toolbar>
