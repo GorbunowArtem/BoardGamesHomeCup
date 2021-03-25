@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/internal/Subject';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
