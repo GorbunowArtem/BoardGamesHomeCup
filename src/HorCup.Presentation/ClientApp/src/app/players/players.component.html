@@ -4,11 +4,7 @@
   <hc-player-card *ngFor="let player of players" [player]="player"></hc-player-card>
 </div>
 
-<a
-  ><button class="add-player" (click)="showDialog()" mat-fab color="primary">
-    <mat-icon>add</mat-icon>
-  </button></a
->
+<hc-add-item (showAddDialog)="addPlayer()"></hc-add-item>
 
 <mat-paginator
   [length]="totalItems"

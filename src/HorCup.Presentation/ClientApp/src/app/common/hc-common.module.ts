@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HeaderCardComponent } from './header-card/header-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AddItemComponent } from './add-item/add-item.component';
 
 @NgModule({
   imports: [
@@ -26,13 +27,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     HcFieldValidationErrorsComponent,
     HcAvatarComponent,
     ConfirmationDialogComponent,
-    HeaderCardComponent
+    HeaderCardComponent,
+    AddItemComponent
   ],
   exports: [
     HcFieldValidationErrorsComponent,
     HcAvatarComponent,
     ConfirmationDialogComponent,
-    HeaderCardComponent
+    HeaderCardComponent,
+    AddItemComponent
   ]
 })
 export class HcCommonModule {}

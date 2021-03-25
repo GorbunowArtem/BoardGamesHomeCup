@@ -11,11 +11,7 @@
   </mat-card>
 </ng-template>
 
-<a
-  ><button class="add-game" (click)="openAddDialog()" mat-fab color="primary">
-    <mat-icon>add</mat-icon>
-  </button></a
->
+<hc-add-item (showAddDialog)="openAddDialog()"></hc-add-item>
 
 <mat-paginator
   [length]="total"

@@ -154,7 +154,7 @@ describe('AddEditPlayerDialogComponent', () => {
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     overlayContainer = TestBed.inject(OverlayContainer);
 
-    component.showDialog();
+    component.addPlayer();
 
     fixture.detectChanges();
   });
