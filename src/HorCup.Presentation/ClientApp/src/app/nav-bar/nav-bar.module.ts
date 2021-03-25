@@ -6,9 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 import { NavBarComponent } from './nav-bar.component';
-import { FooterComponent } from './footer/footer.component';
+import { BottomNavComponent } from './bottom-nav/bottom-nav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AccountModule } from '../account/account.module';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -18,9 +19,10 @@ import { AccountModule } from '../account/account.module';
     RouterModule,
     MatIconModule,
     MatSlideToggleModule,
-    AccountModule
+    AccountModule,
+    MatRippleModule
   ],
-  declarations: [NavBarComponent, FooterComponent],
-  exports: [NavBarComponent, FooterComponent]
+  declarations: [NavBarComponent, BottomNavComponent],
+  exports: [NavBarComponent, BottomNavComponent]
 })
 export class NavBarModule {}
