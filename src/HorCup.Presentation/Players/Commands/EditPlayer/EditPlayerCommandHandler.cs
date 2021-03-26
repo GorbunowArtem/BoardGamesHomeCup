@@ -38,9 +38,6 @@ namespace HorCup.Presentation.Players.Commands.EditPlayer
 			await ValidateNickname();
 
 			existing.Nickname = request.Nickname;
-			existing.FirstName = request.FirstName;
-			existing.LastName = request.LastName;
-			existing.BirthDate = request.BirthDate;
 			
 			_context.Players.Update(existing);
 			

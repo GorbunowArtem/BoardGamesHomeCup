@@ -17,10 +17,6 @@ export class PlayerCardComponent {
 
   public constructor(public dialog: MatDialog, private _playersService: PlayersService) {}
 
-  public get fullName() {
-    return `${this.player.firstName} ${this.player.lastName}`;
-  }
-
   public delete() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: true,

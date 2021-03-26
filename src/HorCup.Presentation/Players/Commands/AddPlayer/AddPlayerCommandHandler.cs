@@ -47,9 +47,6 @@ namespace HorCup.Presentation.Players.Commands.AddPlayer
 			var player = new Player
 			{
 				Id = id,
-				FirstName = request.FirstName.Trim(),
-				LastName = request.LastName.Trim(),
-				BirthDate = request.BirthDate,
 				Nickname = request.Nickname.Trim(),
 				Added = _dateTimeService.Now
 			};

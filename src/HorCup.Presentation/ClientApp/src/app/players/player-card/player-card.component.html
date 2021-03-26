@@ -2,7 +2,7 @@
   <mat-card-header>
     <div mat-card-avatar [routerLink]="['/participants', player.id]">
       <a [routerLink]="['/participants', player.id]">
-        <hc-avatar [name]="fullName"></hc-avatar>
+        <hc-avatar [name]="player.nickname"></hc-avatar>
       </a>
     </div>
 
@@ -17,8 +17,7 @@
     </mat-menu>
 
     <mat-card-title>
-      <a [routerLink]="['/participants', player.id]">{{ fullName }}</a>
+      <a [routerLink]="['/participants', player.id]">{{ player.nickname }}</a>
     </mat-card-title>
-    <mat-card-subtitle>{{ player.nickname }}</mat-card-subtitle>
   </mat-card-header>
 </mat-card>

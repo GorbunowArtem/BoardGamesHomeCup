@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace HorCup.Presentation.Players
 {
@@ -7,7 +6,5 @@ namespace HorCup.Presentation.Players
 	public class PlayerConstraints
 	{
 		public int MaxNameLength => 20;
-		
-		public DateTime MinBirthDate => new(1900, 1, 1);
 	}
 }

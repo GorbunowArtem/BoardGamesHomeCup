@@ -8,7 +8,6 @@ import { AddEditPlayerDialogComponent } from './add-edit-player-dialog.component
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PlayersService } from '../players.service';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -18,7 +17,7 @@ import { of, Subject } from 'rxjs';
 import { PlayerConstraints } from '../models/player-constraints';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
-import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
@@ -48,17 +47,8 @@ class ValidationErrorsStubComponent {
 
   @Input() public form!: FormGroup;
 }
-const validName = 'Name';
-const notValidFirstName = 'NotValid';
-
-const validLastName = 'Last';
-const notValidLastName = 'Notvalidlast';
-
 const validNickname = 'Nick';
 const notValidNickname = 'Nickkkk';
-
-const validDate = '1997-12-17';
-const notValidDate = '1995-12-16T03:24:00';
 
 const playerConstraints: PlayerConstraints = {
   maxNameLength: 5,
@@ -69,9 +59,6 @@ const searchPlayersResponse: PagedSearchResponse<Player> = {
   items: {
     $values: [
       {
-        birthDate: new Date('1995-12-17T03:24:00'),
-        firstName: 'Test',
-        lastName: 'Player',
         nickname: 'Test P'
       }
     ]
@@ -112,11 +99,9 @@ describe('AddEditPlayerDialogComponent', () => {
         BrowserAnimationsModule,
         MatDialogModule,
         MatButtonModule,
-        MatDatepickerModule,
         MatFormFieldModule,
         MatIconModule,
         MatRippleModule,
-        MatNativeDateModule,
         ReactiveFormsModule,
         FormsModule,
         MatFormFieldModule,
@@ -167,32 +152,6 @@ describe('AddEditPlayerDialogComponent', () => {
   });
 
   describe('Form validation', () => {
-    it('should "Добавить" button be disabled if form is invalid', async () => {
-      const firstNameField = await getFirstNameField();
-
-      firstNameField.setValue(notValidFirstName);
-
-      const saveBtn = await getSaveButton();
-
-      expect(saveBtn.isDisabled()).toBeTruthy();
-    });
-
-    it('should first name field to be required', async () => {
-      const firstNameField = await getFirstNameField();
-
-      const isRequired = await firstNameField.isRequired();
-
-      expect(isRequired).toEqual(true);
-    });
-
-    it('should last name field to be required', async () => {
-      const lastNameField = await getLastNameField();
-
-      const isRequired = await lastNameField.isRequired();
-
-      expect(isRequired).toEqual(true);
-    });
-
     it('should nickname field to be required', async () => {
       const nicknameField = await getNicknameField();
 
@@ -200,42 +159,19 @@ describe('AddEditPlayerDialogComponent', () => {
 
       expect(isRequired).toEqual(true);
     });
-
-    it('should birth date field to be required', async () => {
-      const birthDateField = await getBirthDateField();
-
-      const isRequired = await birthDateField.isRequired();
-
-      expect(isRequired).toEqual(true);
-    });
   });
 
   xit('should add player if all inputs are valid', async () => {
-    const firstNameField = await getFirstNameField();
-
-    await firstNameField.setValue(validName);
-
-    const lastNameField = await getLastNameField();
-
-    await lastNameField.setValue(validLastName);
-
     const nickNameField = await getNicknameField();
 
     await nickNameField.setValue(validNickname);
-
-    const birthDateField = await getBirthDateField();
-
-    await birthDateField.setValue(validDate);
 
     const saveBtn = await getSaveButton();
 
     await saveBtn.click();
 
     expect(playersServiceMock.add).toHaveBeenCalledWith({
-      firstName: validName,
-      lastName: validLastName,
-      nickname: validNickname,
-      birthDate: new Date(validDate)
+      nickname: validNickname
     });
   });
 
@@ -262,31 +198,7 @@ describe('AddEditPlayerDialogComponent', () => {
     );
   }
 
-  async function getBirthDateField() {
-    return await rootLoader.getHarness(
-      MatInputHarness.with({
-        placeholder: 'Дата рождения'
-      })
-    );
-  }
-
   async function getNicknameField() {
     return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Ник' }));
-  }
-
-  async function getLastNameField() {
-    return await rootLoader.getHarness(
-      MatInputHarness.with({
-        placeholder: 'Фамилия'
-      })
-    );
-  }
-
-  async function getFirstNameField() {
-    return await rootLoader.getHarness(
-      MatInputHarness.with({
-        placeholder: 'Имя'
-      })
-    );
   }
 });

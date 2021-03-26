@@ -97,7 +97,7 @@ export class PlaysFilterComponent implements OnInit {
   }
 
   public displayPlayer(player: Player) {
-    return player ? `${player?.firstName} ${player?.lastName}` : '';
+    return player ? `${player?.nickname}` : '';
   }
 
   public get selectedPlayersIds(): string[] {
