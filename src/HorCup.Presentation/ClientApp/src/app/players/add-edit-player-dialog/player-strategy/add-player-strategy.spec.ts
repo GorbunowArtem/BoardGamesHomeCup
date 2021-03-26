@@ -23,9 +23,6 @@ describe('AddPlayerStrategy', () => {
 
   it('should return player with all empty values', () => {
     const emptyPlayer = {
-      birthDate: '',
-      firstName: '',
-      lastName: '',
       nickname: '',
       id: undefined
     };

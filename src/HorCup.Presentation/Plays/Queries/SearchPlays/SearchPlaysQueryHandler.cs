@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -50,7 +51,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 					PlayerScores = p.PlayerScores.Select(ps => new PlayScoreViewModel(
 						new IdName(
 							ps.PlayerId,
-							$"{ps.Player.FirstName} {ps.Player.LastName}"),
+							ps.Player.Nickname),
 						ps.Score,
 						ps.IsWinner
 					))
@@ -69,9 +70,8 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 		{
 			if (!string.IsNullOrEmpty(request.SearchText))
 			{
-				query = query.Where(p => p.Game.Title.Contains(request.SearchText)
-				                         || p.PlayerScores.Any(ps => ps.Player.FirstName.Contains(request.SearchText) 
-				                                                     || ps.Player.LastName.Contains(request.SearchText)));
+				query = query.Where(p => p.Game.Title.Contains(request.SearchText, StringComparison.OrdinalIgnoreCase)
+				                         || p.PlayerScores.Any(ps => ps.Player.Nickname.Contains(request.SearchText, StringComparison.OrdinalIgnoreCase)));
 			}
 
 			return query;

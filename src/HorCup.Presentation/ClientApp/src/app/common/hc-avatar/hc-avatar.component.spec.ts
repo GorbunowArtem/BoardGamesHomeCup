@@ -16,13 +16,29 @@ describe('HcAvatarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HcAvatarComponent);
     component = fixture.componentInstance;
-    component.name = 'Test Name';
-    fixture.detectChanges();
   });
 
   it('should initials to equal T N', () => {
+    component.name = 'Test Name';
+    fixture.detectChanges();
+
     const initials = fixture.debugElement.query(By.css('.initials'));
 
     expect(initials.nativeElement.textContent).toBe(' TN ');
+  });
+
+  it('should initials to be "PL"', () => {
+    component.name = 'Player';
+    fixture.detectChanges();
+
+    const initals = fixture.debugElement.query(By.css('.initials'));
+
+    expect(initals.nativeElement.textContent).toBe(' PL ');
+  });
+
+  it('should initials to be empty string', () => {
+    const initals = fixture.debugElement.query(By.css('.initials'));
+
+    expect(initals.nativeElement.textContent).toBe('');
   });
 });

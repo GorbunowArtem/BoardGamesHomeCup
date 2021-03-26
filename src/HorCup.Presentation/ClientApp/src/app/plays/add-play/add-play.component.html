@@ -57,7 +57,7 @@
               </mat-form-field>
               <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
                 <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
-                  {{ pl.firstName }} {{ pl.lastName }}
+                  {{ pl.nickname }}
                 </mat-option>
               </mat-autocomplete>
             </p>

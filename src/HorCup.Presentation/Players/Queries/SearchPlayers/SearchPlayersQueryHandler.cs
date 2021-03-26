@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -58,9 +59,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 			if (!string.IsNullOrEmpty(request.SearchText))
 			{
 				var searchTextUpper = request.SearchText.Trim().ToUpperInvariant();
-				query = query.Where(p => p.FirstName.ToUpper().Contains(searchTextUpper)
-				                         || p.LastName.ToUpper().Contains(searchTextUpper)
-				                         || p.Nickname.ToUpper().Contains(searchTextUpper));
+				query = query.Where(p => p.Nickname.Contains(searchTextUpper, StringComparison.OrdinalIgnoreCase));
 			}
 
 			return query;

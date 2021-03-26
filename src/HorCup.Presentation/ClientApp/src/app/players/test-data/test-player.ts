@@ -1,8 +1,6 @@
 import { Player } from '../models/player';
 
 export const testPlayer1: Player = {
-  birthDate: new Date(),
-  firstName: 'First',
-  lastName: 'Second',
+  id: '1234',
   nickname: 'Mick'
 };

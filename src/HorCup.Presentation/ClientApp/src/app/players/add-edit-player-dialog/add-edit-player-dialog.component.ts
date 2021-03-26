@@ -43,24 +43,11 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
     this.playersForm = this._fb.group({
       id: [model.id],
-      firstName: [
-        model.firstName,
-        [Validators.required, Validators.maxLength(constr.maxNameLength)]
-      ],
-      lastName: [model.lastName, [Validators.required, Validators.maxLength(constr.maxNameLength)]],
-      nickname: [
-        model.nickname,
-        { updateOn: 'blur' },
-        [Validators.required, Validators.maxLength(constr.maxNameLength)]
-      ],
-      birthDate: [model.birthDate, [Validators.required]]
+      nickname: [model.nickname, [Validators.required, Validators.maxLength(constr.maxNameLength)]]
     });
 
     this.errorMessages = {
-      firstName: [RequiredField, maxLength(constr.maxNameLength)],
-      lastName: [RequiredField, maxLength(constr.maxNameLength)],
-      nickname: [RequiredField, maxLength(constr.maxNameLength), NotUnique],
-      birthDate: [RequiredField]
+      nickname: [RequiredField, maxLength(constr.maxNameLength), NotUnique]
     };
   }
 

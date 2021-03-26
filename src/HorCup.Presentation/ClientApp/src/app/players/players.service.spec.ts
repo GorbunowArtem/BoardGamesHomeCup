@@ -1,18 +1,11 @@
 import { of } from 'rxjs';
-import { Player } from './models/player';
 import { SearchPlayersOptions } from './models/search-players-options';
 import { PlayersService } from './players.service';
+import { testPlayer1 } from './test-data/test-player';
 
 describe('Service: Players', () => {
   let playersService: PlayersService;
   let httpClientMock: any;
-
-  const player: Player = {
-    firstName: 'first',
-    lastName: 'last',
-    nickname: 'nick',
-    birthDate: new Date('12.12.1989')
-  };
 
   beforeEach(() => {
     httpClientMock = jasmine.createSpyObj('HttpClient', {
@@ -33,9 +26,9 @@ describe('Service: Players', () => {
   });
 
   it('should add player', () => {
-    playersService.add(player).subscribe();
+    playersService.add(testPlayer1).subscribe();
 
-    expect(httpClientMock.post).toHaveBeenCalledWith('/players', player);
+    expect(httpClientMock.post).toHaveBeenCalledWith('/players', testPlayer1);
   });
 
   it('should search players', () => {
@@ -47,8 +40,8 @@ describe('Service: Players', () => {
   });
 
   it('should edit player', () => {
-    playersService.edit(player).subscribe();
+    playersService.edit(testPlayer1).subscribe();
 
-    expect(httpClientMock.patch).toHaveBeenCalledWith(`/players/${player.id}`, player);
+    expect(httpClientMock.patch).toHaveBeenCalledWith(`/players/${testPlayer1.id}`, testPlayer1);
   });
 });

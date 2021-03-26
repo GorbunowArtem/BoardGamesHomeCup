@@ -92,7 +92,6 @@ namespace HorCup.IdentityServer
 			if (Environment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
 			}
 
 			loggerFactory.AddFile("Logs/identity-serever-log.txt");

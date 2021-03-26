@@ -15,9 +15,6 @@ export class AddPlayerStrategy implements IFormPersistenceStrategy<Player> {
 
   public get model(): Player {
     return {
-      birthDate: '',
-      firstName: '',
-      lastName: '',
       nickname: '',
       id: undefined
     };

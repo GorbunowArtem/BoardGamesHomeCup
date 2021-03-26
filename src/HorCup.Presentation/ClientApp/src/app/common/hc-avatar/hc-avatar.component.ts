@@ -19,8 +19,16 @@ export class HcAvatarComponent implements OnInit {
   }
 
   public get initials(): string {
-    const [firstName, lastName] = this.name.split(' ');
+    if (this.name) {
+      const [firstName, lastName] = this.name.split(' ');
 
-    return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
+      if (lastName) {
+        return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
+      }
+
+      return firstName.substring(0, 2).toUpperCase();
+    }
+
+    return '';
   }
 }

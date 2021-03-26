@@ -6,7 +6,7 @@ import {
   ValidationErrors
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { PlayersService } from '../players.service';
 
 @Directive({
