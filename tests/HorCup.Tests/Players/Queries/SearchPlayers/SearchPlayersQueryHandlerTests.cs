@@ -21,9 +21,9 @@ namespace HorCup.Tests.Players.Queries.SearchPlayers
 			_sut = new SearchPlayersQueryHandler(Context, NullLogger<SearchPlayersQueryHandler>.Instance, Mapper);
 		}
 		
-		[TestCase("   1 Fir", PlayersFactory.Player1NickName)]
+		[TestCase("   1Nick", PlayersFactory.Player1NickName)]
 		[TestCase("2Nick    ", PlayersFactory.Player2NickName)]
-		[TestCase("   2 La", PlayersFactory.Player2NickName)]
+		[TestCase("   2Nick     ", PlayersFactory.Player2NickName)]
 		public async Task Handle_SearchByText(string searchText, string resultName)
 		{
 			var (items, total) = await _sut.Handle(new SearchPlayersQuery

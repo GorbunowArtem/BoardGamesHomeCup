@@ -33,7 +33,7 @@ describe('HcAvatarComponent', () => {
 
     const initals = fixture.debugElement.query(By.css('.initials'));
 
-    expect(initals.nativeElement.textContent).toBe('PL');
+    expect(initals.nativeElement.textContent).toBe(' PL ');
   });
 
   it('should initials to be empty string', () => {

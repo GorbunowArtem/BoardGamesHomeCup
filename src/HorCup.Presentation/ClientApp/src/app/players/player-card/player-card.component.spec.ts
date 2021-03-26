@@ -17,8 +17,8 @@ import { HcAvatarComponent } from 'src/app/common/hc-avatar/hc-avatar.component'
 import { ConfirmationDialogMockComponent } from 'src/app/common/test-data/confirmation-dialog-mock';
 import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
 import { NavBarMockComponent } from 'src/app/nav-bar/test-data/nav-bar-header-mock';
-import { Player } from '../models/player';
 import { PlayersService } from '../players.service';
+import { testPlayer1 } from '../test-data/test-player';
 import { PlayerCardComponent } from './player-card.component';
 
 @Component({ selector: 'hc-avatar', template: '' })
@@ -27,12 +27,6 @@ class ValidationErrorsComponentStubComponent {
 }
 
 describe('PlayerCardComponent', () => {
-  const testPlayer: Player = {
-    birthDate: new Date('1995-12-17T03:24:00'),
-    firstName: 'Test',
-    lastName: 'Player',
-    nickname: 'Test P'
-  };
   let component: PlayerCardComponent;
   let loader: HarnessLoader;
   let fixture: ComponentFixture<PlayerCardComponent>;
@@ -71,24 +65,8 @@ describe('PlayerCardComponent', () => {
     fixture = TestBed.createComponent(PlayerCardComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
-    component.player = testPlayer;
+    component.player = testPlayer1;
     fixture.detectChanges();
-  });
-
-  it('should title to equal fullName ', async () => {
-    const card = await loader.getHarness(MatCardHarness);
-
-    const title = await card.getTitleText();
-
-    expect(title).toEqual(`${testPlayer.firstName} ${testPlayer.lastName}`);
-  });
-
-  it('should subtitle to be player nickname', async () => {
-    const card = await loader.getHarness(MatCardHarness);
-
-    const subTitle = await card.getSubtitleText();
-
-    expect(subTitle).toBe(testPlayer.nickname);
   });
 
   xit('should delete user', async () => {

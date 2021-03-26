@@ -199,6 +199,6 @@ describe('AddEditPlayerDialogComponent', () => {
   }
 
   async function getNicknameField() {
-    return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Ник' }));
+    return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
   }
 });
