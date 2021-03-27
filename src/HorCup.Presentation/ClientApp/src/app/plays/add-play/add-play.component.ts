@@ -29,6 +29,7 @@ export class AddPlayComponent implements OnInit {
 
   public gamesOptions!: Observable<Game[]>;
   public playersOption!: Observable<Player[]>;
+  private searchPlayersOptions;
 
   public constructor(
     private _fb: FormBuilder,
@@ -37,7 +38,9 @@ export class AddPlayComponent implements OnInit {
     private _playService: PlaysService,
     private _snackBar: MatSnackBar,
     private _router: Router
-  ) {}
+  ) {
+    this.searchPlayersOptions = new SearchPlayersOptions();
+  }
 
   public ngOnInit() {
     this.gamesOptions = (this.addPlayForm.get('selectedGame') as FormControl).valueChanges.pipe(
@@ -122,10 +125,15 @@ export class AddPlayComponent implements OnInit {
 
   private filterPlayers(searchText: string | Player): Observable<Player[]> {
     if (typeof searchText !== 'string') {
-      searchText = '';
+      this.searchPlayersOptions.searchText = '';
+    } else {
+      this.searchPlayersOptions.searchText = searchText;
     }
+
+    this.searchPlayersOptions.exceptIds = this.getSelectedPlayersIds();
+
     return this._playersService
-      .search(new SearchPlayersOptions(10, 0, searchText, this.getSelectedPlayersIds()))
+      .search(this.searchPlayersOptions)
       .pipe(map((resp) => resp.items.$values));
   }
 

@@ -1,6 +1,5 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { Player } from './models/player';
@@ -13,15 +12,18 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
-  public players: Player[] = [];
+  public players;
 
   public totalItems = 0;
 
-  public playerAddedSubscription!: Subscription;
+  public playersCountChangedSubscription!: Subscription;
 
-  private searchOptions = new SearchPlayersOptions();
+  private searchOptions;
 
-  public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {}
+  public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {
+    this.players = new Set<Player>();
+    this.searchOptions = new SearchPlayersOptions();
+  }
 
   public addPlayer() {
     this._dialog.open(AddEditPlayerDialogComponent, {
@@ -30,18 +32,21 @@ export class PlayersComponent implements OnInit, OnDestroy {
   }
   public ngOnInit() {
     this.search();
-    this.playerAddedSubscription = this._playersService
+    this.playersCountChangedSubscription = this._playersService
       .countChanged()
-      .subscribe(() => this.search());
+      .subscribe((result) => {
+        // TODO: Add delete/edit/add logic for new Players
+        console.log(result);
+      });
   }
 
   public ngOnDestroy() {
-    this.playerAddedSubscription.unsubscribe();
+    this.playersCountChangedSubscription.unsubscribe();
   }
 
   public search() {
     this._playersService.search(this.searchOptions).subscribe((result) => {
-      this.players.push(...result.items.$values);
+      result.items.$values.forEach((player) => this.players.add(player));
       this.totalItems = result.total;
     });
   }
@@ -54,7 +59,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
   }
 
   private loadMore() {
-    if (this.totalItems > this.players.length) {
+    if (this.totalItems > this.players.size) {
       this.searchOptions.take += this.searchOptions.take;
       this.searchOptions.skip = this.searchOptions.take - 10;
 
