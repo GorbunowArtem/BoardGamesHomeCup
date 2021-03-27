@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
@@ -19,6 +19,8 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   public playerAddedSubscription!: Subscription;
 
+  private searchOptions = new SearchPlayersOptions();
+
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {}
 
   public addPlayer() {
@@ -37,16 +39,26 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.playerAddedSubscription.unsubscribe();
   }
 
-  public pageChangedEvent(event: PageEvent) {
-    this.search(event.pageSize, event.pageSize * event.pageIndex);
+  public search() {
+    this._playersService.search(this.searchOptions).subscribe((result) => {
+      this.players.push(...result.items.$values);
+      this.totalItems = result.total;
+    });
   }
 
-  public search(take: number = 6, skip: number = 0, searchText = '') {
-    this._playersService
-      .search(new SearchPlayersOptions(take, skip, searchText))
-      .subscribe((result) => {
-        this.players = result.items.$values;
-        this.totalItems = result.total;
-      });
+  @HostListener('window:scroll', ['$event'])
+  public onScroll() {
+    if (window.innerHeight + window.scrollY === document.body.scrollHeight) {
+      this.loadMore();
+    }
+  }
+
+  private loadMore() {
+    if (this.totalItems > this.players.length) {
+      this.searchOptions.take += this.searchOptions.take;
+      this.searchOptions.skip = this.searchOptions.take - 10;
+
+      this.search();
+    }
   }
 }

@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -42,7 +41,6 @@ import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.compon
     MatRippleModule,
     HcCommonModule,
     HttpClientModule,
-    MatPaginatorModule,
     MatCardModule,
     MatMenuModule,
     MatToolbarModule,
