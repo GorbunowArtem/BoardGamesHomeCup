@@ -1,4 +1,10 @@
-<h2 mat-dialog-title>Добавить игрока</h2>
+<ng-container *ngIf="!data; else editPlayer">
+  <h2 mat-dialog-title>Добавить игрока</h2>
+</ng-container>
+<ng-template #editPlayer>
+  <h2 mat-dialog-title>Редактировать игрока</h2>
+</ng-template>
+
 <mat-dialog-content [formGroup]="playersForm" *ngIf="playersForm">
   <p>
     <mat-form-field>

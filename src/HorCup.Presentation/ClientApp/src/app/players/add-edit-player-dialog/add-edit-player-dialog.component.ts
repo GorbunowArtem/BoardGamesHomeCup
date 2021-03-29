@@ -31,7 +31,7 @@ export class AddEditPlayerDialogComponent implements OnInit {
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
     private _commonService: CommonService,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) data: Player
+    @Inject(MAT_DIALOG_DATA) public data: Player
   ) {
     this._playerStrategy = new PlayersPersistenceFactory().getStrategy(data, _playersService);
   }

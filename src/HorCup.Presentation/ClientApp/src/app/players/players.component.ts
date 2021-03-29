@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogModel } from '../common/models/confirmation-dialog-model';
-import { IState } from '../common/models/i-state';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { Player } from './models/player';
 import { SearchPlayersOptions } from './models/search-players-options';
@@ -42,11 +41,11 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.search();
-    this.playersCountChangedSubscription = this._playersService
-      .stateChanged()
-      .subscribe((result) => {
-        this.onPlayerStateChanged(result);
-      });
+    this.playersCountChangedSubscription = this._playersService.stateChanged().subscribe(() => {
+      this.players = [];
+      this.searchOptions = new SearchPlayersOptions();
+      this.search();
+    });
   }
 
   public ngOnDestroy() {
@@ -93,22 +92,6 @@ export class PlayersComponent implements OnInit, OnDestroy {
       this.searchOptions.skip = this.searchOptions.take - this._playersPerPage;
 
       this.search();
-    }
-  }
-
-  private onPlayerStateChanged(state: IState<Player>) {
-    if (state.added) {
-      this.players.unshift(state.added);
-    } else if (state.edited) {
-      const index = this.players.findIndex((item) => item.id === state.edited.id);
-      if (index > -1) {
-        this.players[index] = state.edited;
-      }
-    } else if (state.removed) {
-      const index = this.players.findIndex((item) => item.id === state.removed.id);
-      if (index > -1) {
-        this.players.splice(index, 1);
-      }
     }
   }
 }
