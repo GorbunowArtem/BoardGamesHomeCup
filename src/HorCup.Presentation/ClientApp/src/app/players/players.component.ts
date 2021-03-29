@@ -1,6 +1,7 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { IState } from '../common/models/i-state';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { Player } from './models/player';
 import { SearchPlayersOptions } from './models/search-players-options';
@@ -12,7 +13,7 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
-  public players;
+  public players: Player[];
 
   public totalItems = 0;
 
@@ -21,7 +22,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
   private searchOptions;
 
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {
-    this.players = new Set<Player>();
+    this.players = [];
     this.searchOptions = new SearchPlayersOptions();
   }
 
@@ -30,13 +31,13 @@ export class PlayersComponent implements OnInit, OnDestroy {
       disableClose: true
     });
   }
+
   public ngOnInit() {
     this.search();
     this.playersCountChangedSubscription = this._playersService
-      .countChanged()
+      .stateChanged()
       .subscribe((result) => {
-        // TODO: Add delete/edit/add logic for new Players
-        console.log(result);
+        this.onPlayerStateChanged(result);
       });
   }
 
@@ -46,7 +47,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   public search() {
     this._playersService.search(this.searchOptions).subscribe((result) => {
-      result.items.$values.forEach((player) => this.players.add(player));
+      this.players.push(...result.items.$values);
       this.totalItems = result.total;
     });
   }
@@ -59,11 +60,27 @@ export class PlayersComponent implements OnInit, OnDestroy {
   }
 
   private loadMore() {
-    if (this.totalItems > this.players.size) {
+    if (this.totalItems > this.players.length) {
       this.searchOptions.take += this.searchOptions.take;
       this.searchOptions.skip = this.searchOptions.take - 10;
 
       this.search();
+    }
+  }
+
+  private onPlayerStateChanged(state: IState<Player>) {
+    if (state.added) {
+      this.players.unshift(state.added);
+    } else if (state.edited) {
+      const index = this.players.findIndex((item) => item.id === state.edited.id);
+      if (index > -1) {
+        this.players[index] = state.edited;
+      }
+    } else if (state.removed) {
+      const index = this.players.findIndex((item) => item.id === state.removed.id);
+      if (index > -1) {
+        this.players.splice(index, 1);
+      }
     }
   }
 }

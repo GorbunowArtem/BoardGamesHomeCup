@@ -16,7 +16,7 @@ const PlayersStatsUrl = '/players-statistic';
   providedIn: 'root'
 })
 export class PlayersService {
-  private _countChangedSubject: Subject<any> = new Subject();
+  private _stateChangedSubject: Subject<any> = new Subject();
 
   public constructor(private _http: HttpClient) {}
 
@@ -27,13 +27,13 @@ export class PlayersService {
   public add(player: Player): Observable<void> {
     return this._http
       .post<Player>(`${PlayersUrl}`, player)
-      .pipe(map(() => this._countChangedSubject.next({ added: player.id })));
+      .pipe(map(() => this._stateChangedSubject.next({ added: player })));
   }
 
   public edit(player: Player): Observable<void> {
     return this._http
       .patch<Player>(`${PlayersUrl}/${player.id}`, player)
-      .pipe(map(() => this._countChangedSubject.next({ edited: player.id })));
+      .pipe(map(() => this._stateChangedSubject.next({ edited: player })));
   }
 
   public search(options: SearchPlayersOptions) {
@@ -45,11 +45,11 @@ export class PlayersService {
   public delete(id: string | undefined): Observable<any> {
     return this._http
       .delete(`${PlayersUrl}/${id}`)
-      .pipe(map(() => this._countChangedSubject.next({ removed: id })));
+      .pipe(map(() => this._stateChangedSubject.next({ removed: { id } })));
   }
 
-  public countChanged(): Observable<any> {
-    return this._countChangedSubject.asObservable();
+  public stateChanged(): Observable<any> {
+    return this._stateChangedSubject.asObservable();
   }
 
   public get(id: string | null): Observable<PlayerDetails> {
