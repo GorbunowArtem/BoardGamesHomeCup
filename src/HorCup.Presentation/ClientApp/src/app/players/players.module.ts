@@ -17,7 +17,6 @@ import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/
 import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
-import { PlayerCardComponent } from './player-card/player-card.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -53,7 +52,6 @@ import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.compon
     PlayersComponent,
     AddEditPlayerDialogComponent,
     UniqueNicknameValidator,
-    PlayerCardComponent,
     PlayerDetailsComponent,
     TopGamesStatsComponent,
     PlayersNavBarComponent

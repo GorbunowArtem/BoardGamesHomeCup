@@ -1,6 +1,8 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogModel } from '../common/models/confirmation-dialog-model';
 import { IState } from '../common/models/i-state';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { Player } from './models/player';
@@ -23,7 +25,11 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   private searchOptions;
 
-  public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {
+  public constructor(
+    private _dialog: MatDialog,
+    private _playersService: PlayersService,
+    public dialog: MatDialog
+  ) {
     this.players = [];
     this.searchOptions = new SearchPlayersOptions();
   }
@@ -51,6 +57,26 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this._playersService.search(this.searchOptions).subscribe((result) => {
       this.players.push(...result.items.$values);
       this.totalItems = result.total;
+    });
+  }
+
+  public edit(player: Player) {
+    this.dialog.open(AddEditPlayerDialogComponent, {
+      data: player,
+      disableClose: true
+    });
+  }
+
+  public delete(id: string | undefined) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: true,
+      data: new ConfirmationDialogModel()
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this._playersService.delete(id).subscribe();
+      }
     });
   }
 
