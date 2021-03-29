@@ -5,7 +5,7 @@ export class SearchPlayersOptions {
   public exceptIds: string[];
 
   public constructor() {
-    this.take = 10;
+    this.take = 15;
     this.skip = 0;
     this.searchText = '';
     this.exceptIds = [];

@@ -13,6 +13,8 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
+  private readonly _playersPerPage = 10;
+
   public players: Player[];
 
   public totalItems = 0;
@@ -62,7 +64,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
   private loadMore() {
     if (this.totalItems > this.players.length) {
       this.searchOptions.take += this.searchOptions.take;
-      this.searchOptions.skip = this.searchOptions.take - 10;
+      this.searchOptions.skip = this.searchOptions.take - this._playersPerPage;
 
       this.search();
     }
