@@ -6,9 +6,14 @@ import { PlayersComponent } from './players.component';
 const routes: Routes = [
   {
     path: '',
-    component: PlayersComponent
+    component: PlayersComponent,
+    data: { animation: 'PlayersPage' }
   },
-  { path: 'participants/:id', component: PlayerDetailsComponent }
+  {
+    path: 'participants/:id',
+    component: PlayerDetailsComponent,
+    data: { animation: 'PlayerDetailsPage' }
+  }
 ];
 
 @NgModule({
