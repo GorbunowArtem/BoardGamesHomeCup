@@ -14,15 +14,17 @@ import { PlayersService } from './players.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit, OnDestroy {
-  private readonly _playersPerPage = 10;
+  public loading: boolean;
 
   public players: Player[];
 
-  public totalItems = 0;
+  public totalItems: number;
 
   public playersCountChangedSubscription!: Subscription;
 
-  private searchOptions;
+  private readonly _playersPerPage: number;
+
+  private _searchOptions: SearchPlayersOptions;
 
   public constructor(
     private _dialog: MatDialog,
@@ -30,7 +32,10 @@ export class PlayersComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) {
     this.players = [];
-    this.searchOptions = new SearchPlayersOptions();
+    this.totalItems = 0;
+    this.loading = false;
+    this._searchOptions = new SearchPlayersOptions();
+    this._playersPerPage = 15;
   }
 
   public addPlayer() {
@@ -43,7 +48,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.search();
     this.playersCountChangedSubscription = this._playersService.stateChanged().subscribe(() => {
       this.players = [];
-      this.searchOptions = new SearchPlayersOptions();
+      this._searchOptions = new SearchPlayersOptions();
       this.search();
     });
   }
@@ -53,9 +58,11 @@ export class PlayersComponent implements OnInit, OnDestroy {
   }
 
   public search() {
-    this._playersService.search(this.searchOptions).subscribe((result) => {
+    this.loading = true;
+    this._playersService.search(this._searchOptions).subscribe((result) => {
       this.players.push(...result.items.$values);
       this.totalItems = result.total;
+      this.loading = false;
     });
   }
 
@@ -81,15 +88,15 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
   @HostListener('window:scroll', ['$event'])
   public onScroll() {
-    if (window.innerHeight + window.scrollY === document.body.scrollHeight) {
+    if (window.innerHeight + window.scrollY === document.body.scrollHeight && !this.loading) {
       this.loadMore();
     }
   }
 
   private loadMore() {
     if (this.totalItems > this.players.length) {
-      this.searchOptions.take += this.searchOptions.take;
-      this.searchOptions.skip = this.searchOptions.take - this._playersPerPage;
+      this._searchOptions.take += this._searchOptions.take;
+      this._searchOptions.skip = this._searchOptions.take - this._playersPerPage;
 
       this.search();
     }
