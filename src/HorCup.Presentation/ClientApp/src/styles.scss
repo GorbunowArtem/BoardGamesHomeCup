@@ -21,4 +21,17 @@ $details-card-margin: 15px;
 .container {
   max-width: 1264px;
   margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

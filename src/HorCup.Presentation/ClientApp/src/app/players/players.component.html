@@ -19,7 +19,7 @@
           <mat-icon>edit</mat-icon><span>Редактировать</span>
         </button>
         <button mat-menu-item class="delete" (click)="delete(player.id)">
-          <mat-icon class="delete">delete</mat-icon><span>Удалить</span>
+          <mat-icon>delete</mat-icon><span>Удалить</span>
         </button>
       </mat-menu>
     </mat-list-item>
@@ -28,4 +28,6 @@
   <hc-add-item (showAddDialog)="addPlayer()"></hc-add-item>
 </main>
 
-<footer></footer>
+<footer>
+  <hc-bottom-nav></hc-bottom-nav>
+</footer>
