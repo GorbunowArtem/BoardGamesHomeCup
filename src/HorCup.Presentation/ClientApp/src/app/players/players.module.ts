@@ -22,6 +22,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TopGamesStatsComponent } from './player-details/top-games-stats/top-games-stats.component';
 import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
 
@@ -46,7 +47,8 @@ import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.compon
     MatToolbarModule,
     MatSnackBarModule,
     MatTableModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule
   ],
   declarations: [
     PlayersComponent,

@@ -1,6 +1,9 @@
-<hc-players-nav-bar></hc-players-nav-bar>
+<header>
+  <hc-players-nav-bar></hc-players-nav-bar>
+  <mat-progress-bar mode="indeterminate"> </mat-progress-bar>
+</header>
 
-<div class="container">
+<main class="container">
   <mat-list>
     <div mat-subheader>Всего: {{ totalItems }}</div>
     <mat-list-item *ngFor="let player of players">
@@ -23,4 +26,6 @@
   </mat-list>
 
   <hc-add-item (showAddDialog)="addPlayer()"></hc-add-item>
-</div>
+</main>
+
+<footer></footer>
