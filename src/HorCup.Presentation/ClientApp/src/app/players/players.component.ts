@@ -1,6 +1,7 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogModel } from '../common/models/confirmation-dialog-model';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
@@ -11,12 +12,15 @@ import { PlayersService } from './players.service';
 @Component({
   selector: 'hc-players',
   templateUrl: './players.component.html',
-  styleUrls: ['./players.component.scss']
+  styleUrls: ['./players.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayersComponent implements OnInit, OnDestroy {
   public loading: boolean;
 
   public players: Player[];
+
+  public playersSource;
 
   public totalItems: number;
 
@@ -36,6 +40,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.loading = false;
     this._searchOptions = new SearchPlayersOptions();
     this._playersPerPage = 15;
+    this.playersSource = new PlayerSource(_playersService);
   }
 
   public addPlayer() {
@@ -100,5 +105,48 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
       this.search();
     }
+  }
+}
+
+export class PlayerSource extends DataSource<Player> {
+  private _length = 100000;
+  private _pageSize = 100;
+  private _fetchedPages = new Set<number>();
+  private _dataStream = new BehaviorSubject<Player[]>([]);
+  private _subscription = new Subscription();
+
+  public connect(collectionViewer: CollectionViewer): Observable<Player[]> {
+    this._subscription.add(
+      collectionViewer.viewChange.subscribe((range) => {
+        const startPage = this._getPageForIndex(range.start);
+        const endPage = this._getPageForIndex(range.end - 1);
+        for (let i = startPage; i <= endPage; i++) {
+          this._fetchPage(i);
+        }
+      })
+    );
+    return this._dataStream;
+  }
+
+  public constructor(private _playerService: PlayersService) {
+    super();
+  }
+  public disconnect(): void {
+    this._subscription.unsubscribe();
+  }
+
+  private _getPageForIndex(index: number): number {
+    return Math.floor(index / this._pageSize);
+  }
+
+  private _fetchPage(page: number) {
+    if (this._fetchedPages.has(page)) {
+      return;
+    }
+    this._fetchedPages.add(page);
+
+    this._playerService.search(new SearchPlayersOptions()).subscribe((players) => {
+      this._dataStream.next(players.items.$values);
+    });
   }
 }
