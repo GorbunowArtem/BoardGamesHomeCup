@@ -25,7 +25,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TopGamesStatsComponent } from './player-details/top-games-stats/top-games-stats.component';
 import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -49,8 +48,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSnackBarModule,
     MatTableModule,
     MatListModule,
-    MatProgressBarModule,
-    ScrollingModule
+    MatProgressBarModule
   ],
   declarations: [
     PlayersComponent,

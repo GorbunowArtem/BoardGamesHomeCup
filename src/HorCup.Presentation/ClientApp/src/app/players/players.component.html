@@ -4,28 +4,26 @@
 </header>
 
 <main class="container">
-  <cdk-virtual-scroll-viewport itemSize="15">
-    <mat-list>
-      <div mat-subheader>Всего: {{ totalItems }}</div>
-      <mat-list-item *cdkVirtualFor="let player of playersSource">
-        <mat-icon mat-list-icon>account_circle</mat-icon>
-        <div mat-line [routerLink]="['/participants', player.id]" class="player-nickname">
-          {{ player.nickname }}
-        </div>
-        <div mat-line>Добавлен: {{ player.added | date }}</div>
+  <mat-list>
+    <div mat-subheader>Всего: {{ totalItems }}</div>
+    <mat-list-item *ngFor="let player of players">
+      <mat-icon mat-list-icon>account_circle</mat-icon>
+      <div mat-line [routerLink]="['/participants', player.id]" class="player-nickname">
+        {{ player.nickname }}
+      </div>
+      <div mat-line>Добавлен: {{ player.added | date }}</div>
 
-        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon> more_vert </mat-icon></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="edit(player)">
-            <mat-icon>edit</mat-icon><span>Редактировать</span>
-          </button>
-          <button mat-menu-item class="delete" (click)="delete(player.id)">
-            <mat-icon>delete</mat-icon><span>Удалить</span>
-          </button>
-        </mat-menu>
-      </mat-list-item>
-    </mat-list>
-  </cdk-virtual-scroll-viewport>
+      <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon> more_vert </mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="edit(player)">
+          <mat-icon>edit</mat-icon><span>Редактировать</span>
+        </button>
+        <button mat-menu-item class="delete" (click)="delete(player.id)">
+          <mat-icon>delete</mat-icon><span>Удалить</span>
+        </button>
+      </mat-menu>
+    </mat-list-item>
+  </mat-list>
 
   <hc-add-item (showAddDialog)="addPlayer()"></hc-add-item>
 </main>
