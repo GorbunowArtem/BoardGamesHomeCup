@@ -1,12 +1,12 @@
 <header>
   <hc-players-nav-bar></hc-players-nav-bar>
-  <mat-progress-bar mode="indeterminate" *ngIf="loading"> </mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" *ngIf="playersSource.loading"> </mat-progress-bar>
 </header>
 
 <main class="container">
-  <cdk-virtual-scroll-viewport itemSize="100" class="players-list">
+  <cdk-virtual-scroll-viewport itemSize="50" class="players-list">
     <mat-list>
-      <div mat-subheader>Всего: {{ totalItems }}</div>
+      <div mat-subheader>Всего: {{ playersSource.total }}</div>
       <mat-list-item *cdkVirtualFor="let player of playersSource">
         <mat-icon mat-list-icon>account_circle</mat-icon>
         <div mat-line [routerLink]="['/participants', player.id]" class="player-nickname">
