@@ -3,7 +3,11 @@ import { PlayersService } from '../../players.service';
 import { AddPlayerStrategy } from './add-player-strategy';
 import { EditPlayerStrategy } from './edit-player-strategy';
 import { IFormPersistenceStrategy } from '../../../common/models/i-form-persistence-strategy';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class PlayersPersistenceFactory {
   public getStrategy(
     player: Player | null,

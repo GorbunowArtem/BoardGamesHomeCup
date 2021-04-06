@@ -31,9 +31,10 @@ export class AddEditPlayerDialogComponent implements OnInit {
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
     private _commonService: CommonService,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: Player
+    @Inject(MAT_DIALOG_DATA) public data: Player,
+    playersPersistenceFactory: PlayersPersistenceFactory
   ) {
-    this._playerStrategy = new PlayersPersistenceFactory().getStrategy(data, _playersService);
+    this._playerStrategy = playersPersistenceFactory.getStrategy(data, _playersService);
   }
 
   public ngOnInit() {

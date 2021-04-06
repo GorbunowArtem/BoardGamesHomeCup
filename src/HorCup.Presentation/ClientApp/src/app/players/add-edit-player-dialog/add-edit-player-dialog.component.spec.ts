@@ -17,7 +17,7 @@ import { of, Subject } from 'rxjs';
 import { PlayerConstraints } from '../models/player-constraints';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
-import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
@@ -29,6 +29,8 @@ import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mo
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonService } from 'src/app/common/common.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
+import { testPlayer1 } from '../test-data/test-player';
 
 @Component({
   selector: 'hc-player-card',
@@ -73,16 +75,17 @@ describe('AddEditPlayerDialogComponent', () => {
   let playersServiceMock: PlayersService;
   let formBuilder: FormBuilder;
   let commonServiceMock: any;
+  let persistenceFactoryMock: PlayersPersistenceFactory;
+  let playersStrategyMock: any;
 
   beforeEach(async () => {
     formBuilder = new FormBuilder();
 
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
-      getConstraints: of(playerConstraints),
       add: of(),
+      stateChanged: of(),
       search: of(searchPlayersResponse),
-      playerAdded: new Subject().asObservable(),
-      countChanged: of()
+      playerAdded: new Subject().asObservable()
     });
 
     commonServiceMock = {
@@ -93,6 +96,16 @@ describe('AddEditPlayerDialogComponent', () => {
         }
       }
     };
+
+    playersStrategyMock = {
+      save: of(),
+      model: testPlayer1,
+      successMessage: 'success'
+    };
+
+    persistenceFactoryMock = jasmine.createSpyObj(PlayersPersistenceFactory, {
+      getStrategy: playersStrategyMock
+    });
 
     await TestBed.configureTestingModule({
       imports: [
@@ -121,8 +134,8 @@ describe('AddEditPlayerDialogComponent', () => {
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: FormBuilder, useValue: formBuilder },
-        { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
-        { provide: CommonService, useValue: commonServiceMock }
+        { provide: CommonService, useValue: commonServiceMock },
+        { provide: PlayersPersistenceFactory, useValue: persistenceFactoryMock }
       ]
     })
       .overrideModule(BrowserDynamicTestingModule, {
@@ -153,7 +166,9 @@ describe('AddEditPlayerDialogComponent', () => {
 
   describe('Form validation', () => {
     it('should nickname field to be required', async () => {
-      const nicknameField = await getNicknameField();
+      const nicknameField = await rootLoader.getHarness(
+        MatInputHarness.with({ placeholder: 'Имя' })
+      );
 
       const isRequired = await nicknameField.isRequired();
 
@@ -161,12 +176,16 @@ describe('AddEditPlayerDialogComponent', () => {
     });
   });
 
-  xit('should add player if all inputs are valid', async () => {
-    const nickNameField = await getNicknameField();
+  it('should add player if all inputs are valid', async () => {
+    const nickNameField = await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
 
     await nickNameField.setValue(validNickname);
 
-    const saveBtn = await getSaveButton();
+    const saveBtn = await rootLoader.getHarness(
+      MatButtonHarness.with({
+        text: 'Сохранить'
+      })
+    );
 
     await saveBtn.click();
 
@@ -189,16 +208,4 @@ describe('AddEditPlayerDialogComponent', () => {
 
     expect(dialogs.length).toBe(0);
   });
-
-  async function getSaveButton() {
-    return await rootLoader.getHarness(
-      MatButtonHarness.with({
-        text: 'Сохранить'
-      })
-    );
-  }
-
-  async function getNicknameField() {
-    return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
-  }
 });

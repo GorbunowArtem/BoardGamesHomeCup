@@ -32,7 +32,7 @@ describe('Service: Players', () => {
   });
 
   it('should search players', () => {
-    const searchOptions = new SearchPlayersOptions(3, 5, 'text');
+    const searchOptions = new SearchPlayersOptions();
 
     playersService.search(searchOptions);
 
