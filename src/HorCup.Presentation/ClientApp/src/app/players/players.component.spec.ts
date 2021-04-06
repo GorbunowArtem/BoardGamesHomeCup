@@ -2,16 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PlayersComponent } from './players.component';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { PlayersService } from './players.service';
 import { of, Subject } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { SearchPlayersOptions } from './models/search-players-options';
 import { HeaderCardMockComponent } from '../common/test-data/header-card-mock';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
@@ -103,15 +100,5 @@ describe('PlayersComponent', () => {
     expect(matDialogMock.open).toHaveBeenCalledWith(AddEditPlayerDialogComponent, {
       disableClose: true
     });
-  });
-
-  it('should navigate to next page and load next set of players', async () => {
-    const paginator = await loader.getHarness(MatPaginatorHarness);
-
-    (playersServiceMock.search as any).calls.reset();
-
-    await paginator.goToNextPage();
-
-    expect(playersServiceMock.search).toHaveBeenCalledWith(new SearchPlayersOptions(6, 6));
   });
 });

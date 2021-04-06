@@ -13,19 +13,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { HcCommonModule } from '../common/hc-common.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UniqueNicknameValidator } from './add-edit-player-dialog/unique-nickname-validator';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TopGamesStatsComponent } from './player-details/top-games-stats/top-games-stats.component';
 import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -40,7 +40,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatFormFieldModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule,
     MatRippleModule,
     HcCommonModule,
     HttpClientModule,
@@ -59,7 +58,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     PlayerDetailsComponent,
     TopGamesStatsComponent,
     PlayersNavBarComponent
-  ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }]
+  ]
 })
 export class PlayersModule {}
