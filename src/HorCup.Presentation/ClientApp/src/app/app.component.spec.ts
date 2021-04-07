@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent } from 'ng-mocks';
 import { AppComponent } from './app.component';
 import { CommonService } from './common/common.service';
-import { NavBarMockComponent } from './nav-bar/test-data/nav-bar-header-mock';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 describe('AppComponent', () => {
   let commonServiceMock: any;
@@ -12,7 +13,7 @@ describe('AppComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent, NavBarMockComponent],
+      declarations: [AppComponent, MockComponent(NavBarComponent)],
       providers: [{ provide: CommonService, useValue: commonServiceMock }]
     }).compileComponents();
   });

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { Game } from 'src/app/games/models/game';
 import { SearchGamesOptions } from 'src/app/games/models/search-games-options';
 import { PlaysService } from '../plays.service';
 import { SearchPlaysOptions } from '../models/search-plays-options';
-import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'hc-plays-filter',
@@ -20,6 +20,7 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 })
 export class PlaysFilterComponent implements OnInit {
   public playsFilter: FormGroup;
+  private searchPlayerOptions: SearchPlayersOptions;
 
   public selectedPlayers: Set<Player> = new Set<Player>();
   public selectedGames: Set<Game> = new Set<Game>();
@@ -40,6 +41,8 @@ export class PlaysFilterComponent implements OnInit {
       dateFrom: [''],
       dateTo: ['']
     });
+
+    this.searchPlayerOptions = new SearchPlayersOptions();
   }
 
   public ngOnInit() {
@@ -128,10 +131,15 @@ export class PlaysFilterComponent implements OnInit {
 
   private filterPlayers(searchText: string | Player): Observable<Player[]> {
     if (typeof searchText !== 'string') {
-      searchText = '';
+      this.searchPlayerOptions.searchText = '';
+    } else {
+      this.searchPlayerOptions.searchText = searchText;
     }
+
+    this.searchPlayerOptions.exceptIds = this.selectedPlayersIds;
+
     return this._playersService
-      .search(new SearchPlayersOptions(10, 0, searchText, this.selectedPlayersIds))
+      .search(this.searchPlayerOptions)
       .pipe(map((resp) => resp.items.$values));
   }
 

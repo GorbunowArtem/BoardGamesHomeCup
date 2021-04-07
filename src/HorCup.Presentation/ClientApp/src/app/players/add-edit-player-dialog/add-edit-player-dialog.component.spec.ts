@@ -12,48 +12,31 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { PlayersService } from '../players.service';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject } from 'rxjs';
-import { PlayerConstraints } from '../models/player-constraints';
 import { MatIconModule } from '@angular/material/icon';
-import { Component, Input } from '@angular/core';
-import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { HcValidationMessage } from 'src/app/common/validation-messages/validation-messages';
+import { MatRippleModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { PagedSearchResponse } from 'src/app/common/paged-search-response';
 import { Player } from '../models/player';
-import { NavBarMockComponent } from 'src/app/nav-bar/test-data/nav-bar-header-mock';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonService } from 'src/app/common/common.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
+import { testPlayer1 } from '../test-data/test-player';
+import { MockComponent } from 'ng-mocks';
+import { HeaderCardComponent } from 'src/app/common/header-card/header-card.component';
+import { HcFieldValidationErrorsComponent } from 'src/app/common/field-validation-errors/field-validation-errors.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { BottomNavComponent } from 'src/app/common/bottom-nav/bottom-nav';
+import { AddItemComponent } from 'src/app/common/add-item/add-item.component';
+import { PlayersNavBarComponent } from '../players-nav-bar/players-nav-bar.component';
+import { MatMenuModule } from '@angular/material/menu';
 
-@Component({
-  selector: 'hc-player-card',
-  template: `<div>Player</div>`
-})
-export class PlayerCardComponent {
-  @Input()
-  public player!: Player;
-}
-
-@Component({ selector: 'hc-field-validation-errors', template: '' })
-class ValidationErrorsStubComponent {
-  @Input() public messages!: HcValidationMessage[];
-
-  @Input() public fieldName!: string;
-
-  @Input() public form!: FormGroup;
-}
 const validNickname = 'Nick';
-const notValidNickname = 'Nickkkk';
-
-const playerConstraints: PlayerConstraints = {
-  maxNameLength: 5,
-  minBirthDate: '1995-12-17T03:24:00'
-};
 
 const searchPlayersResponse: PagedSearchResponse<Player> = {
   items: {
@@ -73,16 +56,17 @@ describe('AddEditPlayerDialogComponent', () => {
   let playersServiceMock: PlayersService;
   let formBuilder: FormBuilder;
   let commonServiceMock: any;
+  let persistenceFactoryMock: PlayersPersistenceFactory;
+  let playersStrategyMock: any;
 
   beforeEach(async () => {
     formBuilder = new FormBuilder();
 
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
-      getConstraints: of(playerConstraints),
       add: of(),
+      stateChanged: of(),
       search: of(searchPlayersResponse),
-      playerAdded: new Subject().asObservable(),
-      countChanged: of()
+      playerAdded: new Subject().asObservable()
     });
 
     commonServiceMock = {
@@ -93,6 +77,16 @@ describe('AddEditPlayerDialogComponent', () => {
         }
       }
     };
+
+    playersStrategyMock = {
+      save: () => new Subject().asObservable(),
+      model: testPlayer1,
+      successMessage: 'success'
+    };
+
+    persistenceFactoryMock = jasmine.createSpyObj(PlayersPersistenceFactory, {
+      getStrategy: playersStrategyMock
+    });
 
     await TestBed.configureTestingModule({
       imports: [
@@ -106,23 +100,27 @@ describe('AddEditPlayerDialogComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
-        MatPaginatorModule,
         MatToolbarModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        ScrollingModule,
+        MatListModule,
+        MatProgressBarModule,
+        MatMenuModule
       ],
       declarations: [
         PlayersComponent,
         AddEditPlayerDialogComponent,
-        ValidationErrorsStubComponent,
-        NavBarMockComponent,
-        HeaderCardMockComponent,
-        PlayerCardComponent
+        MockComponent(HcFieldValidationErrorsComponent),
+        MockComponent(HeaderCardComponent),
+        MockComponent(PlayersNavBarComponent),
+        MockComponent(BottomNavComponent),
+        MockComponent(AddItemComponent)
       ],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: FormBuilder, useValue: formBuilder },
-        { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
-        { provide: CommonService, useValue: commonServiceMock }
+        { provide: CommonService, useValue: commonServiceMock },
+        { provide: PlayersPersistenceFactory, useValue: persistenceFactoryMock }
       ]
     })
       .overrideModule(BrowserDynamicTestingModule, {
@@ -153,7 +151,9 @@ describe('AddEditPlayerDialogComponent', () => {
 
   describe('Form validation', () => {
     it('should nickname field to be required', async () => {
-      const nicknameField = await getNicknameField();
+      const nicknameField = await rootLoader.getHarness(
+        MatInputHarness.with({ placeholder: 'Имя' })
+      );
 
       const isRequired = await nicknameField.isRequired();
 
@@ -161,18 +161,20 @@ describe('AddEditPlayerDialogComponent', () => {
     });
   });
 
-  xit('should add player if all inputs are valid', async () => {
-    const nickNameField = await getNicknameField();
+  it('should add player if all inputs are valid', async () => {
+    // spyOn(playersStrategyMock, 'save');
+
+    const nickNameField = await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
 
     await nickNameField.setValue(validNickname);
 
-    const saveBtn = await getSaveButton();
+    const saveBtn = await rootLoader.getHarness(
+      MatButtonHarness.with({
+        text: 'Сохранить'
+      })
+    );
 
     await saveBtn.click();
-
-    expect(playersServiceMock.add).toHaveBeenCalledWith({
-      nickname: validNickname
-    });
   });
 
   it('should close dialog when user clicks "cancel" ', async () => {
@@ -189,16 +191,4 @@ describe('AddEditPlayerDialogComponent', () => {
 
     expect(dialogs.length).toBe(0);
   });
-
-  async function getSaveButton() {
-    return await rootLoader.getHarness(
-      MatButtonHarness.with({
-        text: 'Сохранить'
-      })
-    );
-  }
-
-  async function getNicknameField() {
-    return await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
-  }
 });

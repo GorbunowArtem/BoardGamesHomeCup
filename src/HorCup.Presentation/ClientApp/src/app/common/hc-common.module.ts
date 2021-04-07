@@ -12,6 +12,10 @@ import { HeaderCardComponent } from './header-card/header-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AddItemComponent } from './add-item/add-item.component';
+import { RouterModule } from '@angular/router';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRippleModule } from '@angular/material/core';
+import { BottomNavComponent } from './bottom-nav/bottom-nav';
 
 @NgModule({
   imports: [
@@ -21,21 +25,26 @@ import { AddItemComponent } from './add-item/add-item.component';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    RouterModule,
+    MatSlideToggleModule,
+    MatRippleModule
   ],
   declarations: [
     HcFieldValidationErrorsComponent,
     HcAvatarComponent,
     ConfirmationDialogComponent,
     HeaderCardComponent,
-    AddItemComponent
+    AddItemComponent,
+    BottomNavComponent
   ],
   exports: [
     HcFieldValidationErrorsComponent,
     HcAvatarComponent,
     ConfirmationDialogComponent,
     HeaderCardComponent,
-    AddItemComponent
+    AddItemComponent,
+    BottomNavComponent
   ]
 })
 export class HcCommonModule {}

@@ -1,8 +1,13 @@
 export class SearchPlayersOptions {
-  public constructor(
-    public take: number = 10,
-    public skip: number = 0,
-    public searchText: string = '',
-    public exceptIds: string[] = []
-  ) {}
+  public take: number;
+  public skip: number;
+  public searchText: string;
+  public exceptIds: string[];
+
+  public constructor() {
+    this.take = 15;
+    this.skip = 0;
+    this.searchText = '';
+    this.exceptIds = [];
+  }
 }

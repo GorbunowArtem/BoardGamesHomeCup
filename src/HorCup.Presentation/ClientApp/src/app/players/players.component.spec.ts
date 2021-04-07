@@ -2,44 +2,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PlayersComponent } from './players.component';
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { PlayersService } from './players.service';
 import { of, Subject } from 'rxjs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { SearchPlayersOptions } from './models/search-players-options';
-import { HeaderCardMockComponent } from '../common/test-data/header-card-mock';
 import { MatIconModule } from '@angular/material/icon';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Player } from './models/player';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
-
-@Component({
-  selector: 'hc-players-nav-bar',
-  template: `<div>NavBar</div>`
-})
-export class PlayerNavBarMockComponent {}
-@Component({
-  selector: 'hc-player-card',
-  template: `<div>Player</div>`
-})
-export class PlayerCardMockComponent {
-  @Input()
-  public player!: Player;
-}
-
-@Component({
-  selector: 'hc-add-item',
-  template: `<div>Add Item</div>`
-})
-export class AddItemMockComponent {
-  @Output() public showAddDialog = new EventEmitter();
-}
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatListModule } from '@angular/material/list';
+import { BottomNavComponent } from '../common/bottom-nav/bottom-nav';
+import { MockComponent } from 'ng-mocks';
+import { AddItemComponent } from '../common/add-item/add-item.component';
+import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
+import { HeaderCardComponent } from '../common/header-card/header-card.component';
 
 describe('PlayersComponent', () => {
   let fixture: ComponentFixture<PlayersComponent>;
@@ -50,6 +29,7 @@ describe('PlayersComponent', () => {
   beforeEach(async () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       playerAdded: new Subject().asObservable(),
+      stateChanged: new Subject().asObservable(),
       search: of({
         total: 10,
         items: [
@@ -68,10 +48,10 @@ describe('PlayersComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         PlayersComponent,
-        HeaderCardMockComponent,
-        PlayerCardMockComponent,
-        AddItemMockComponent,
-        PlayerNavBarMockComponent
+        MockComponent(HeaderCardComponent),
+        MockComponent(BottomNavComponent),
+        MockComponent(AddItemComponent),
+        MockComponent(PlayersNavBarComponent)
       ],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
@@ -80,10 +60,12 @@ describe('PlayersComponent', () => {
       imports: [
         MatDialogModule,
         MatButtonModule,
-        MatPaginatorModule,
         MatFormFieldModule,
         MatIconModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatProgressBarModule,
+        ScrollingModule,
+        MatListModule
       ]
     }).compileComponents();
   });
@@ -94,24 +76,13 @@ describe('PlayersComponent', () => {
   });
 
   it('should display dialog when user clicks on "plus" icon', async () => {
-    const childEl: AddItemMockComponent = fixture.debugElement.query(
-      By.directive(AddItemMockComponent)
-    ).componentInstance;
+    const childEl: AddItemComponent = fixture.debugElement.query(By.directive(AddItemComponent))
+      .componentInstance;
 
     childEl.showAddDialog.emit();
 
     expect(matDialogMock.open).toHaveBeenCalledWith(AddEditPlayerDialogComponent, {
       disableClose: true
     });
-  });
-
-  it('should navigate to next page and load next set of players', async () => {
-    const paginator = await loader.getHarness(MatPaginatorHarness);
-
-    (playersServiceMock.search as any).calls.reset();
-
-    await paginator.goToNextPage();
-
-    expect(playersServiceMock.search).toHaveBeenCalledWith(new SearchPlayersOptions(6, 6));
   });
 });

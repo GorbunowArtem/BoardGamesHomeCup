@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'hc-footer',
+  selector: 'hc-bottom-nav',
   templateUrl: './bottom-nav.html',
   styleUrls: ['./bottom-nav.scss']
 })

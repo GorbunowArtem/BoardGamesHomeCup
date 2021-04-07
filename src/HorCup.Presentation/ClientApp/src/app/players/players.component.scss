@@ -1,17 +1,16 @@
+@import '../../styles.scss';
+
+.delete {
+  color: red;
+}
+
+.player-nickname {
+  font-weight: 400;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .players-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-hc-player-card {
-  width: 300px;
-}
-
-mat-toolbar {
-  width: 100%;
-}
-
-.spacer {
-  flex: 1 1 auto;
+  height: calc(100vh - 112px);
 }

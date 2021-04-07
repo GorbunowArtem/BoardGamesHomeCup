@@ -18,14 +18,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserTestingModule } from '@angular/platform-browser/testing';
+import { MockComponent } from 'ng-mocks';
 import { Subject } from 'rxjs';
-import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
-import { NavBarMockComponent } from 'src/app/nav-bar/test-data/nav-bar-header-mock';
+import { HeaderCardComponent } from 'src/app/common/header-card/header-card.component';
+import { NavBarComponent } from 'src/app/nav-bar/nav-bar.component';
+import { GameCardComponent } from '../game-card/game-card.component';
 import { GamesNavBarComponent } from '../games-nav-bar/games-nav-bar.component';
 import { GamesComponent } from '../games.component';
 import { GamesService } from '../games.service';
 import { SearchGamesOptions } from '../models/search-games-options';
-import { GameCardMockComponent } from '../test-data/game-card-mock';
 import { GamesFilterComponent } from './games-filter.component';
 
 describe('GamesFilterComponent', () => {
@@ -78,9 +79,9 @@ describe('GamesFilterComponent', () => {
       declarations: [
         GamesComponent,
         GamesFilterComponent,
-        HeaderCardMockComponent,
-        NavBarMockComponent,
-        GameCardMockComponent
+        MockComponent(HeaderCardComponent),
+        MockComponent(NavBarComponent),
+        MockComponent(GameCardComponent)
       ],
       providers: [
         { provide: GamesService, useValue: gamesServiceMock },

@@ -31,6 +31,10 @@ namespace HorCup.Presentation
 				var context = services.GetRequiredService<HorCupContext>();
 				context.Database.Migrate();
 				context.Database.EnsureCreated();
+
+#if DEBUG
+				DbInitializer.Initialize(context);
+#endif
 			}
 			catch (Exception ex)
 			{
@@ -50,10 +54,9 @@ namespace HorCup.Presentation
 				.ConfigureAppConfiguration((hostingContext, config) =>
 				{
 					var env = hostingContext.HostingEnvironment;
-				
+
 					config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 						.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-
 				})
 				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 	}
