@@ -50,12 +50,6 @@ class ValidationErrorsStubComponent {
   @Input() public form!: FormGroup;
 }
 const validNickname = 'Nick';
-const notValidNickname = 'Nickkkk';
-
-const playerConstraints: PlayerConstraints = {
-  maxNameLength: 5,
-  minBirthDate: '1995-12-17T03:24:00'
-};
 
 const searchPlayersResponse: PagedSearchResponse<Player> = {
   items: {
@@ -98,7 +92,7 @@ describe('AddEditPlayerDialogComponent', () => {
     };
 
     playersStrategyMock = {
-      save: of(),
+      save: () => of(),
       model: testPlayer1,
       successMessage: 'success'
     };
@@ -119,7 +113,6 @@ describe('AddEditPlayerDialogComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
-        MatPaginatorModule,
         MatToolbarModule,
         MatSnackBarModule
       ],
@@ -177,6 +170,8 @@ describe('AddEditPlayerDialogComponent', () => {
   });
 
   it('should add player if all inputs are valid', async () => {
+    spyOn(playersStrategyMock, 'save');
+
     const nickNameField = await rootLoader.getHarness(MatInputHarness.with({ placeholder: 'Имя' }));
 
     await nickNameField.setValue(validNickname);
@@ -189,9 +184,7 @@ describe('AddEditPlayerDialogComponent', () => {
 
     await saveBtn.click();
 
-    expect(playersServiceMock.add).toHaveBeenCalledWith({
-      nickname: validNickname
-    });
+    expect(playersStrategyMock.save).toHaveBeenCalledWith({ id: '1234', nickname: 'Nick' });
   });
 
   it('should close dialog when user clicks "cancel" ', async () => {

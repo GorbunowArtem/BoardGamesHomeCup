@@ -47,6 +47,7 @@ describe('PlayersComponent', () => {
   beforeEach(async () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       playerAdded: new Subject().asObservable(),
+      stateChanged: new Subject().asObservable(),
       search: of({
         total: 10,
         items: [
