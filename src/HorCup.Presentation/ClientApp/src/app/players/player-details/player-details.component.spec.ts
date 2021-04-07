@@ -5,6 +5,10 @@ import { PlayersService } from '../players.service';
 import { testPlayer1 } from '../test-data/test-player';
 import { PlayerDetailsComponent } from './player-details.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent } from 'ng-mocks';
+import { HeaderCardComponent } from 'src/app/common/header-card/header-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { TopGamesStatsComponent } from './top-games-stats/top-games-stats.component';
 
 describe('PlayerDetailsComponent', () => {
   let component: PlayerDetailsComponent;
@@ -26,12 +30,16 @@ describe('PlayerDetailsComponent', () => {
     });
 
     await TestBed.configureTestingModule({
-      declarations: [PlayerDetailsComponent],
+      declarations: [
+        PlayerDetailsComponent,
+        MockComponent(HeaderCardComponent),
+        MockComponent(TopGamesStatsComponent)
+      ],
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: activatedRouteMock, useValue: ActivatedRoute }
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule, MatCardModule]
     }).compileComponents();
   });
 

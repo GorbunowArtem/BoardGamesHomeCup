@@ -14,7 +14,6 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject } from 'rxjs';
-import { PlayerConstraints } from '../models/player-constraints';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
@@ -24,7 +23,6 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { PagedSearchResponse } from 'src/app/common/paged-search-response';
 import { Player } from '../models/player';
 import { NavBarMockComponent } from 'src/app/nav-bar/test-data/nav-bar-header-mock';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { HeaderCardMockComponent } from 'src/app/common/test-data/header-card-mock';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonService } from 'src/app/common/common.service';
@@ -40,7 +38,6 @@ export class PlayerCardComponent {
   @Input()
   public player!: Player;
 }
-
 @Component({ selector: 'hc-field-validation-errors', template: '' })
 class ValidationErrorsStubComponent {
   @Input() public messages!: HcValidationMessage[];
@@ -92,7 +89,7 @@ describe('AddEditPlayerDialogComponent', () => {
     };
 
     playersStrategyMock = {
-      save: () => of(),
+      save: new Subject().asObservable(),
       model: testPlayer1,
       successMessage: 'success'
     };
