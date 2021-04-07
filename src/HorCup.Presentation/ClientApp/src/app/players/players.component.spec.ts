@@ -8,7 +8,6 @@ import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-
 import { PlayersService } from './players.service';
 import { of, Subject } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HeaderCardMockComponent } from '../common/test-data/header-card-mock';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
@@ -19,6 +18,7 @@ import { BottomNavComponent } from '../common/bottom-nav/bottom-nav';
 import { MockComponent } from 'ng-mocks';
 import { AddItemComponent } from '../common/add-item/add-item.component';
 import { PlayersNavBarComponent } from './players-nav-bar/players-nav-bar.component';
+import { HeaderCardComponent } from '../common/header-card/header-card.component';
 
 describe('PlayersComponent', () => {
   let fixture: ComponentFixture<PlayersComponent>;
@@ -48,7 +48,7 @@ describe('PlayersComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         PlayersComponent,
-        HeaderCardMockComponent,
+        MockComponent(HeaderCardComponent),
         MockComponent(BottomNavComponent),
         MockComponent(AddItemComponent),
         MockComponent(PlayersNavBarComponent)

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Location } from '@angular/common';
 import { HeaderCardComponent } from './header-card.component';
 import { By } from '@angular/platform-browser';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('HeaderCardComponent', () => {
   let component: HeaderCardComponent;
@@ -21,7 +22,7 @@ describe('HeaderCardComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [MatCardModule, MatButtonModule, MatIconModule],
+      imports: [MatCardModule, MatButtonModule, MatIconModule, MatToolbarModule],
       declarations: [HeaderCardComponent],
       providers: [{ provide: Location, useValue: locationStub }]
     }).compileComponents();
