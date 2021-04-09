@@ -1,8 +1,8 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { ISearchableService } from '../common/models/i-searchable-serivice';
 import { Player } from './models/player';
 import { SearchPlayersOptions } from './models/search-players-options';
-import { PlayersService } from './players.service';
 
 export class PlayerSource extends DataSource<Player> {
   private _loading = false;
@@ -13,12 +13,12 @@ export class PlayerSource extends DataSource<Player> {
   private _pageSize = 15;
   private _lastPage = 0;
   private _total = 0;
-  private _playersCountChangedSubscription!: Subscription;
+  private _itemsCountChangedSubscription!: Subscription;
 
-  public constructor(private _playersService: PlayersService) {
+  public constructor(private _searchableService: ISearchableService) {
     super();
     this.search();
-    this._playersCountChangedSubscription = _playersService.stateChanged().subscribe(() => {
+    this._itemsCountChangedSubscription = _searchableService.stateChanged().subscribe(() => {
       this._cachedPlayers = [];
       this._searchOptions = new SearchPlayersOptions();
       this.search();
@@ -41,7 +41,7 @@ export class PlayerSource extends DataSource<Player> {
   }
   public disconnect(): void {
     this._subscription.unsubscribe();
-    this._playersCountChangedSubscription.unsubscribe();
+    this._itemsCountChangedSubscription.unsubscribe();
   }
 
   private _getPageForIndex(index: number): number {
@@ -50,7 +50,7 @@ export class PlayerSource extends DataSource<Player> {
 
   private search() {
     this._loading = true;
-    this._playersService.search(this._searchOptions).subscribe((players) => {
+    this._searchableService.search(this._searchOptions).subscribe((players) => {
       this._total = players.total;
       this._cachedPlayers = this._cachedPlayers.concat(players.items.$values);
       this._dataStream.next(this._cachedPlayers);

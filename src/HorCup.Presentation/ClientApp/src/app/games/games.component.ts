@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { PlayerSource } from '../players/players-source';
 import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
-import { GamesFilterComponent } from './games-filter/games-filter.component';
 import { GamesService } from './games.service';
 import { Game } from './models/game';
 import { SearchGamesOptions } from './models/search-games-options';
@@ -17,6 +16,8 @@ import { SearchGamesOptions } from './models/search-games-options';
 export class GamesComponent implements OnInit, OnDestroy {
   public games: Game[];
 
+  public gamesSource: PlayerSource;
+
   public total: number;
 
   private _searchParamsChangedSubscription!: Subscription;
@@ -27,6 +28,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     this.games = [];
     this.total = 0;
     this._searchOptions = new SearchGamesOptions(6);
+    this.gamesSource = new PlayerSource(_gamesService);
   }
 
   public ngOnInit() {

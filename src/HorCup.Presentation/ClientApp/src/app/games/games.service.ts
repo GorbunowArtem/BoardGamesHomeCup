@@ -14,6 +14,7 @@ const gamesUrl = '/games';
 })
 export class GamesService {
   public searchParamsChangedSubject = new Subject<SearchGamesOptions>();
+  private _stateChangedSubject: Subject<any> = new Subject();
 
   public constructor(private _httpModule: HttpClient) {}
 
@@ -47,5 +48,9 @@ export class GamesService {
     return this._httpModule
       .delete(`${gamesUrl}/${id}`)
       .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+  }
+
+  public stateChanged(): Observable<any> {
+    return this._stateChangedSubject.asObservable();
   }
 }
