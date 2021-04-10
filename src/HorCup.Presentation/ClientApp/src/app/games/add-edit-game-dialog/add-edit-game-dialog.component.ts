@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonService } from 'src/app/common/common.service';
-import { IFormPersistenceStrategy } from 'src/app/common/models/i-form-persistence-strategy';
+import { IFormPersistenceStrategy } from 'src/app/common/models/form-persistence-strategy';
 import {
   max,
   NotUnique,

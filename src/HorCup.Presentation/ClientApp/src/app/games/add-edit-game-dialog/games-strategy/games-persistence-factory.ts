@@ -1,4 +1,4 @@
-import { IFormPersistenceStrategy } from 'src/app/common/models/i-form-persistence-strategy';
+import { IFormPersistenceStrategy } from 'src/app/common/models/form-persistence-strategy';
 import { GamesService } from '../../games.service';
 import { Game } from '../../models/game';
 import { AddGameStrategy } from './add-game-strategy';

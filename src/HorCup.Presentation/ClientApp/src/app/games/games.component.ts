@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PlayerSource } from '../players/players-source';
+import { PageableDataSource } from '../common/pageable-data-source/pageable-data-source';
 import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
 import { GamesService } from './games.service';
 
@@ -10,10 +10,10 @@ import { GamesService } from './games.service';
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent {
-  public games: PlayerSource;
+  public games: PageableDataSource;
 
   public constructor(gamesService: GamesService, private _addEditGameDialog: MatDialog) {
-    this.games = new PlayerSource(gamesService);
+    this.games = new PageableDataSource(gamesService);
   }
 
   public openAddDialog() {

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ISearchableService } from '../common/models/i-searchable-serivice';
+import { ISearchableService } from '../common/models/searchable-service';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
 import { PlayerDetails } from './models/player-details';

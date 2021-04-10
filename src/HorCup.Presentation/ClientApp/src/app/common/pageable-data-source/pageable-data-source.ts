@@ -1,13 +1,14 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { ISearchableService } from '../common/models/i-searchable-serivice';
-import { Player } from './models/player';
-import { SearchPlayersOptions } from './models/search-players-options';
+import { ISearchableService } from '../models/searchable-service';
+import { Player } from '../../players/models/player';
+import { SearchPlayersOptions } from '../../players/models/search-players-options';
+import { IPageableModel } from '../models/pageable-model';
 
-export class PlayerSource extends DataSource<Player> {
+export class PageableDataSource extends DataSource<IPageableModel> {
   private _loading = false;
-  private _cachedPlayers = Array.from<Player>({ length: 0 });
-  private _dataStream = new BehaviorSubject<Player[]>(this._cachedPlayers);
+  private _cachedItems = Array.from<IPageableModel>({ length: 0 });
+  private _dataStream = new BehaviorSubject<IPageableModel[]>(this._cachedItems);
   private _subscription = new Subscription();
   private _searchOptions = new SearchPlayersOptions();
   private _pageSize = 15;
@@ -19,13 +20,13 @@ export class PlayerSource extends DataSource<Player> {
     super();
     this.search();
     this._itemsCountChangedSubscription = _searchableService.stateChanged().subscribe(() => {
-      this._cachedPlayers = [];
+      this._cachedItems = [];
       this._searchOptions = new SearchPlayersOptions();
       this.search();
     });
   }
 
-  public connect(collectionViewer: CollectionViewer): Observable<Player[]> {
+  public connect(collectionViewer: CollectionViewer): Observable<IPageableModel[]> {
     this._subscription.add(
       collectionViewer.viewChange.subscribe((range) => {
         const currentPage = this._getPageForIndex(range.end);
@@ -52,8 +53,8 @@ export class PlayerSource extends DataSource<Player> {
     this._loading = true;
     this._searchableService.search(this._searchOptions).subscribe((players) => {
       this._total = players.total;
-      this._cachedPlayers = this._cachedPlayers.concat(players.items.$values);
-      this._dataStream.next(this._cachedPlayers);
+      this._cachedItems = this._cachedItems.concat(players.items.$values);
+      this._dataStream.next(this._cachedItems);
       this._loading = false;
     });
   }

@@ -5,7 +5,7 @@ import { ConfirmationDialogModel } from '../common/models/confirmation-dialog-mo
 import { AddEditPlayerDialogComponent } from './add-edit-player-dialog/add-edit-player-dialog.component';
 import { Player } from './models/player';
 import { PlayersService } from './players.service';
-import { PlayerSource } from './players-source';
+import { PageableDataSource } from '../common/pageable-data-source/pageable-data-source';
 
 @Component({
   selector: 'hc-players',
@@ -17,7 +17,7 @@ export class PlayersComponent {
   public playersSource;
 
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {
-    this.playersSource = new PlayerSource(_playersService);
+    this.playersSource = new PageableDataSource(_playersService);
   }
 
   public addPlayer() {
