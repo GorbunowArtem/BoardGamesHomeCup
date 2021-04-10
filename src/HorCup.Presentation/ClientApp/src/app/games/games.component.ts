@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageableDataSource } from '../common/pageable-data-source/pageable-data-source';
 import { AddEditGameDialogComponent } from './add-edit-game-dialog/add-edit-game-dialog.component';
 import { GamesService } from './games.service';
+import { SearchGamesOptions } from './models/search-games-options';
 
 @Component({
   selector: 'hc-games',
@@ -13,7 +14,7 @@ export class GamesComponent {
   public games: PageableDataSource;
 
   public constructor(gamesService: GamesService, private _addEditGameDialog: MatDialog) {
-    this.games = new PageableDataSource(gamesService);
+    this.games = new PageableDataSource(gamesService, new SearchGamesOptions());
   }
 
   public openAddDialog() {
