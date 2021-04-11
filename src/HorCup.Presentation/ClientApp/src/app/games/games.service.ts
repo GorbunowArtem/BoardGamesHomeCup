@@ -13,7 +13,9 @@ const gamesUrl = '/games';
   providedIn: 'root'
 })
 export class GamesService {
-  public searchParamsChangedSubject = new Subject<SearchGamesOptions>();
+  public stateChangedSubject: Subject<any> = new Subject();
+
+  private _defaultOptions = new SearchGamesOptions();
 
   public constructor(private _httpModule: HttpClient) {}
 
@@ -30,13 +32,13 @@ export class GamesService {
   public add(game: Game) {
     return this._httpModule
       .post<Game>(`${gamesUrl}`, game)
-      .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+      .pipe(map(() => this.stateChangedSubject.next(this._defaultOptions)));
   }
 
   public edit(model: Game): Observable<void> {
     return this._httpModule
       .patch<Game>(`${gamesUrl}/${model.id}`, model)
-      .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+      .pipe(map(() => this.stateChangedSubject.next(this._defaultOptions)));
   }
 
   public get(id: string | null | undefined): Observable<GameDetails> {
@@ -46,6 +48,10 @@ export class GamesService {
   public delete(id: string | undefined): Observable<any> {
     return this._httpModule
       .delete(`${gamesUrl}/${id}`)
-      .pipe(map(() => this.searchParamsChangedSubject.next(new SearchGamesOptions())));
+      .pipe(map(() => this.stateChangedSubject.next(this._defaultOptions)));
+  }
+
+  public stateChanged(): Observable<any> {
+    return this.stateChangedSubject.asObservable();
   }
 }

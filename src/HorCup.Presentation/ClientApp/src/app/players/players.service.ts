@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ISearchableService } from '../common/models/searchable-service';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
 import { PlayerDetails } from './models/player-details';
@@ -15,7 +16,7 @@ const PlayersStatsUrl = '/players-statistic';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayersService {
+export class PlayersService implements ISearchableService {
   private _stateChangedSubject: Subject<any> = new Subject();
 
   public constructor(private _http: HttpClient) {}

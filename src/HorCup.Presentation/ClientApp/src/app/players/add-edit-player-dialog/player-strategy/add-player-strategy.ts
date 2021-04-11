@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Player } from '../../models/player';
 import { PlayersService } from '../../players.service';
-import { IFormPersistenceStrategy } from '../../../common/models/i-form-persistence-strategy';
+import { IFormPersistenceStrategy } from '../../../common/models/form-persistence-strategy';
 
 export class AddPlayerStrategy implements IFormPersistenceStrategy<Player> {
   public constructor(private _playersService: PlayersService) {}

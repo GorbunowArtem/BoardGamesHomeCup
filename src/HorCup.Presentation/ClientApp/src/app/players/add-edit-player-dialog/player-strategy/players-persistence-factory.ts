@@ -2,7 +2,7 @@ import { Player } from '../../models/player';
 import { PlayersService } from '../../players.service';
 import { AddPlayerStrategy } from './add-player-strategy';
 import { EditPlayerStrategy } from './edit-player-strategy';
-import { IFormPersistenceStrategy } from '../../../common/models/i-form-persistence-strategy';
+import { IFormPersistenceStrategy } from '../../../common/models/form-persistence-strategy';
 import { Injectable } from '@angular/core';
 
 @Injectable({

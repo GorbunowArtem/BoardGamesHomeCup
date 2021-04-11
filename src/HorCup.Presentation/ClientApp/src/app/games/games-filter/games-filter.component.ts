@@ -29,7 +29,7 @@ export class GamesFilterComponent {
   }
 
   public search() {
-    this._gamesService.searchParamsChangedSubject.next(this.gamesFilter.value);
+    this._gamesService.stateChangedSubject.next(this.gamesFilter.value);
     this._filterRef.dismiss();
   }
 

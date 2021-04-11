@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { GameCardComponent } from './game-card/game-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -26,6 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TopPlayersStatsComponent } from './game-details/top-players-stats/top-players-stats.component';
 import { UniqueGameTitleValidator } from './add-edit-game-dialog/unique-game-title-validator';
 import { GamesNavBarComponent } from './games-nav-bar/games-nav-bar.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -36,7 +36,6 @@ import { GamesNavBarComponent } from './games-nav-bar/games-nav-bar.component';
     MatIconModule,
     MatTableModule,
     MatInputModule,
-    MatPaginatorModule,
     MatCardModule,
     BarRatingModule,
     MatBottomSheetModule,
@@ -48,7 +47,8 @@ import { GamesNavBarComponent } from './games-nav-bar/games-nav-bar.component';
     HcCommonModule,
     MatSnackBarModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    ScrollingModule
   ],
   declarations: [
     GamesComponent,

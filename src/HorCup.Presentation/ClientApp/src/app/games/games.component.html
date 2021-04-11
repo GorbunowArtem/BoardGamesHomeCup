@@ -1,24 +1,16 @@
-<hc-games-nav-bar></hc-games-nav-bar>
+<header>
+  <hc-games-nav-bar></hc-games-nav-bar>
+</header>
 
-<ng-container *ngIf="games.length > 0; else elseTemplate">
-  <div class="games-list">
-    <hc-game-card *ngFor="let game of games" [game]="game"></hc-game-card>
-  </div>
-</ng-container>
-<ng-template #elseTemplate>
-  <mat-card>
-    <mat-card-title> Ничего не найдено! </mat-card-title>
-  </mat-card>
-</ng-template>
+<main class="container">
+  <cdk-virtual-scroll-viewport itemSize="75" class="games-container">
+    <div class="games-list">
+      <hc-game-card *cdkVirtualFor="let game of games" [game]="game"></hc-game-card>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</main>
 
 <hc-add-item (showAddDialog)="openAddDialog()"></hc-add-item>
-
-<mat-paginator
-  [length]="total"
-  [pageSize]="6"
-  [hidePageSize]="true"
-  (page)="pageChangedEvent($event)"
-></mat-paginator>
 
 <footer>
   <hc-bottom-nav></hc-bottom-nav>

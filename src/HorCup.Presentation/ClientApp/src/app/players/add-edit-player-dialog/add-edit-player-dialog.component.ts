@@ -10,7 +10,7 @@ import {
 } from 'src/app/common/validation-messages/validation-messages';
 import { Player } from '../models/player';
 import { PlayersService } from '../players.service';
-import { IFormPersistenceStrategy } from '../../common/models/i-form-persistence-strategy';
+import { IFormPersistenceStrategy } from '../../common/models/form-persistence-strategy';
 import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
 
 @Component({

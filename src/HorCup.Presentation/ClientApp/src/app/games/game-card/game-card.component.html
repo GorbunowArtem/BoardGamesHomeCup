@@ -8,13 +8,7 @@
       <a [routerLink]="['/disciplines', game.id]">
         <mat-card-title>{{ game.title | slice: 0:20 }}</mat-card-title>
       </a>
-
       <mat-card-subtitle>Сыграно партий: {{ game.timesPlayed }}</mat-card-subtitle>
-      <bar-rating [(rate)]="rate" [max]="5" [readOnly]="true"></bar-rating>
-      <span class="players-number">
-        <mat-icon>people_alt</mat-icon>
-        {{ game.minPlayers }} - {{ game.maxPlayers }}
-      </span>
     </mat-card-content>
   </div>
 

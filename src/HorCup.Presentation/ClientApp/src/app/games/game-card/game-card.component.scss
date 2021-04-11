@@ -3,7 +3,7 @@ a {
 }
 .mat-card {
   display: flex;
-  margin: 15px;
+  margin: 5px 15px 5px 15px;
   justify-content: space-between;
 }
 
@@ -14,4 +14,8 @@ a {
 
 .menu-opener {
   text-align: right;
+}
+
+.players-number {
+  display: flex;
 }

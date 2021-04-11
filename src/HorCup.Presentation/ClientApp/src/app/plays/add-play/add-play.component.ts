@@ -109,7 +109,7 @@ export class AddPlayComponent implements OnInit {
     }
 
     return this._gamesService
-      .search(new SearchGamesOptions(10, 0, searchText))
+      .search(new SearchGamesOptions())
       .pipe(map((resp) => resp.items.$values));
   }
 

@@ -1,4 +1,6 @@
-export class SearchPlayersOptions {
+import { IPaginatedSearchOptions } from 'src/app/common/models/paginated-search-options';
+
+export class SearchPlayersOptions implements IPaginatedSearchOptions {
   public take: number;
   public skip: number;
   public searchText: string;

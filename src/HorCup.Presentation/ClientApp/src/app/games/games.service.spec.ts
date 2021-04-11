@@ -18,7 +18,8 @@ describe('Service: Games', () => {
   });
 
   it('should search games', () => {
-    const searchOptions = new SearchGamesOptions(4, 5, 'text', 6, 7);
+    const searchOptions = new SearchGamesOptions();
+    searchOptions.searchText = 'sometext';
 
     gamesService.search(searchOptions);
 
