@@ -61,12 +61,4 @@ describe('GameCardComponent', () => {
 
     expect(subtitle).toEqual(testGame1.title.substring(0, 20));
   });
-
-  it('should label contain number of players', () => {
-    const playersNumber = fixture.debugElement.query(By.css('.players-number'));
-
-    expect(playersNumber.nativeElement.textContent).toEqual(
-      `people_alt ${testGame1.minPlayers} - ${testGame1.maxPlayers} `
-    );
-  });
 });

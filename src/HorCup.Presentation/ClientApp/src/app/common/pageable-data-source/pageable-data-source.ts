@@ -22,10 +22,13 @@ export class PageableDataSource extends DataSource<IPageableModel> {
   ) {
     super();
     this.search();
-    this._itemsCountChangedSubscription = _searchableService.stateChanged().subscribe(() => {
-      this._cachedItems = [];
-      this.search();
-    });
+    this._itemsCountChangedSubscription = _searchableService
+      .stateChanged()
+      .subscribe((searchOptions) => {
+        this._cachedItems = [];
+        this._searchOptions = searchOptions;
+        this.search();
+      });
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<IPageableModel[]> {
