@@ -1,9 +1,3 @@
-.games-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 hc-game-card {
   width: 100%;
 }
@@ -22,4 +16,10 @@ mat-toolbar {
 
 .games-container {
   height: calc(100vh - 112px);
+
+  &__games-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

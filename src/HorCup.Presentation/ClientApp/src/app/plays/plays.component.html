@@ -1,15 +1,16 @@
-<hc-plays-nav-bar></hc-plays-nav-bar>
-<mat-accordion [multi]="false">
-  <hc-play-panel *ngFor="let play of plays" [play]="play"></hc-play-panel>
-</mat-accordion>
+<header>
+  <hc-plays-nav-bar></hc-plays-nav-bar>
+</header>
 
-<hc-add-item [routerLink]="['/add-play']"></hc-add-item>
+<main>
+  <cdk-virtual-scroll-viewport itemSize="75" class="plays-container">
+    <mat-accordion [multi]="false">
+      <hc-play-panel *cdkVirtualFor="let play of plays" [play]="play"></hc-play-panel>
+    </mat-accordion>
 
-<div class="actions">
-  <button mat-raised-button color="accent" (click)="loadMore()" *ngIf="moreAvailable">
-    Загрузить еще
-  </button>
-</div>
+    <hc-add-item [routerLink]="['/add-play']"></hc-add-item>
+  </cdk-virtual-scroll-viewport>
+</main>
 
 <footer>
   <hc-bottom-nav></hc-bottom-nav>
