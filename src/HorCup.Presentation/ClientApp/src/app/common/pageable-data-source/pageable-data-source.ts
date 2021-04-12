@@ -1,8 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ISearchableService } from '../models/searchable-service';
-import { Player } from '../../players/models/player';
-import { SearchPlayersOptions } from '../../players/models/search-players-options';
 import { IPageableModel } from '../models/pageable-model';
 import { IPaginatedSearchOptions } from '../models/paginated-search-options';
 

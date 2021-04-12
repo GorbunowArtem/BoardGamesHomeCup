@@ -1,4 +1,6 @@
-export class SearchPlaysOptions {
+import { IPaginatedSearchOptions } from 'src/app/common/models/paginated-search-options';
+
+export class SearchPlaysOptions implements IPaginatedSearchOptions {
   public skip;
   public take;
   public gamesIds: string[];
@@ -8,7 +10,7 @@ export class SearchPlaysOptions {
   public searchText: string;
 
   public constructor() {
-    this.take = 10;
+    this.take = 15;
     this.skip = 0;
     this.gamesIds = [];
     this.playersIds = [];

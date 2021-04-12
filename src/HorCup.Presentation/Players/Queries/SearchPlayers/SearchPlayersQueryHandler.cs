@@ -46,7 +46,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 
 		private static IQueryable<Player> ApplyExceptIdsFilter(SearchPlayersQuery request, IQueryable<Player> query)
 		{
-			if (request.ExceptIds != null && request.ExceptIds.Any())
+			if (request.ExceptIds.Any())
 			{
 				query = query.Where(p => !request.ExceptIds.Contains(p.Id));
 			}
@@ -58,8 +58,7 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 		{
 			if (!string.IsNullOrEmpty(request.SearchText))
 			{
-				var searchTextUpper = request.SearchText.Trim().ToUpperInvariant();
-				query = query.Where(p => p.Nickname.Contains(searchTextUpper, StringComparison.OrdinalIgnoreCase));
+				query = query.Where(p => EF.Functions.Like(p.Nickname, $"%{request.SearchText.Trim()}%"));
 			}
 
 			return query;

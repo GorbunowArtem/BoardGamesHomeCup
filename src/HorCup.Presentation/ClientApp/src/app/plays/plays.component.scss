@@ -1,7 +1,17 @@
+@import '../../styles.scss';
+
 .actions {
   text-align: center;
 
   button {
     margin: 7px;
+  }
+}
+
+.plays-container {
+  height: $virtual-scroll-container-height;
+
+  &__plays-total {
+    padding: 15px 0 0 15px;
   }
 }

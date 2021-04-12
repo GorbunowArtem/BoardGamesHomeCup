@@ -36,6 +36,8 @@ namespace HorCup.Infrastructure.Filters
 					break;
 			}
 
+			_logger.LogError(message);
+			
 			context.ExceptionHandled = true;
 
 			var response = context.HttpContext.Response;

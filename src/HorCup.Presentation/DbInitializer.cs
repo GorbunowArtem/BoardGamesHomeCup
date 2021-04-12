@@ -4,6 +4,8 @@ using System.Linq;
 using HorCup.Presentation.Context;
 using HorCup.Presentation.Games;
 using HorCup.Presentation.Players;
+using HorCup.Presentation.Plays;
+using HorCup.Presentation.PlayScores;
 
 namespace HorCup.Presentation
 {
@@ -15,16 +17,61 @@ namespace HorCup.Presentation
 
 				if (!context.Players.Any())
 				{
-					context.Players.AddRange(GetPlayers());
-				}
+					var games = GetGames();
+					var players = GetPlayers();
 
-				if (!context.Games.Any())
-				{
-					context.Games.AddRange(GetGames());
+					context.Players.AddRange(players);
+					context.Games.AddRange(games);
+
+					AddPlays(players, games, context);
+					
+					context.SaveChanges();
 				}
+		}
+
+		private static void AddPlays(
+			Player[] players,
+			Game[] games,
+			HorCupContext context)
+		{
+			
+			for (int i = 0; i < 40; i++)
+			{
+				
+				var id = Guid.NewGuid();
+
+				
+				context.Plays.Add(new Play
+				{
+					Id = id,
+					Notes = $"Note {i}",
+					GameId = games[i].Id,
+					PlayedDate = DateTime.Now.AddDays(-i),
+				});
+				
+				var score = new PlayScore[]
+				{
+					new()
+					{
+						PlayId = id,
+						Score = 12 + i,
+						PlayerId = players[i].Id,
+					},
+					new()
+					{
+						PlayId = id,
+						Score = 22 + i,
+						PlayerId = players[i + 1].Id,
+						IsWinner = true
+					}
+				};
+				
+				context.PlayScores.AddRange(score);
 
 				context.SaveChanges();
+				
 			}
+		}
 
 		private static Game[] GetGames() =>
 			Enumerable.Range(1, 50)
@@ -36,13 +83,11 @@ namespace HorCup.Presentation
 				 MinPlayers = 2
 				}).ToArray();
 
-		private static IEnumerable<Player> GetPlayers()
+		private static Player[] GetPlayers() =>
+			Enumerable.Range(1,50).Select(i => new Player
 			{
-				return Enumerable.Range(1,50).Select(i => new Player
-				{
-					Added = DateTime.Now.AddDays(-i),
-					Nickname = $"Игрок{i} Игроков",
-				});
-			}	
+				Added = DateTime.Now.AddDays(-i),
+				Nickname = $"Игрок{i} Игроков",
+			}).ToArray();
 	}
 }
