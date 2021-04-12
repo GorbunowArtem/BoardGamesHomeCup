@@ -3,7 +3,7 @@
 </header>
 
 <main>
-  <cdk-virtual-scroll-viewport itemSize="75" class="plays-container">
+  <cdk-virtual-scroll-viewport itemSize="50" class="plays-container">
     <mat-accordion [multi]="false">
       <hc-play-panel *cdkVirtualFor="let play of plays" [play]="play"></hc-play-panel>
     </mat-accordion>
