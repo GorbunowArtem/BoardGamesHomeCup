@@ -10,6 +10,6 @@ namespace HorCup.Presentation.Players.Queries.SearchPlayers
 	{
 		public string SearchText { get; set; } = string.Empty;
 
-		public Guid[] ExceptIds { get; set; }
+		public Guid[] ExceptIds { get; set; } = Array.Empty<Guid>();
 	}
 }

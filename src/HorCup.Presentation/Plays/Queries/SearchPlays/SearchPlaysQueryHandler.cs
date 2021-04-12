@@ -36,7 +36,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 			query = ApplyDatesFilter(request, query);
 
 			query = ApplySearchTextFilter(request, query);
-		
+
 			var plays = await query
 				.Include(p => p.Game)
 				.Include(p => p.PlayerScores)
@@ -70,8 +70,9 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 		{
 			if (!string.IsNullOrEmpty(request.SearchText))
 			{
-				query = query.Where(p => p.Game.Title.Contains(request.SearchText, StringComparison.OrdinalIgnoreCase)
-				                         || p.PlayerScores.Any(ps => ps.Player.Nickname.Contains(request.SearchText, StringComparison.OrdinalIgnoreCase)));
+				query = query.Where(p => EF.Functions.Like(p.Game.Title, $"%{request.SearchText}%")
+				                         || p.PlayerScores.Any(ps =>
+					                         EF.Functions.Like(ps.Player.Nickname, $"%{request.SearchText}")));
 			}
 
 			return query;
@@ -79,7 +80,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 
 		private static IQueryable<Play> ApplyGamesFilter(SearchPlaysQuery request, IQueryable<Play> query)
 		{
-			if (request.GamesIds != null && request.GamesIds.Any())
+			if (request.GamesIds.Any())
 			{
 				query = query.Where(p => request.GamesIds.Contains(p.GameId));
 			}
@@ -89,7 +90,7 @@ namespace HorCup.Presentation.Plays.Queries.SearchPlays
 
 		private static IQueryable<Play> ApplyPlayersFilter(SearchPlaysQuery request, IQueryable<Play> query)
 		{
-			if (request.PlayersIds != null && request.PlayersIds.Any())
+			if (request.PlayersIds.Any())
 			{
 				query = query.Where(p => p.PlayerScores.Any(ps => request.PlayersIds.Contains(ps.PlayerId)));
 			}
