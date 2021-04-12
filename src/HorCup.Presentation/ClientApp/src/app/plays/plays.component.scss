@@ -1,3 +1,5 @@
+@import '../../styles.scss';
+
 .actions {
   text-align: center;
 
@@ -7,5 +9,9 @@
 }
 
 .plays-container {
-  height: calc(100vh - 112px);
+  height: $virtual-scroll-container-height;
+
+  &__plays-total {
+    padding: 15px 0 0 15px;
+  }
 }

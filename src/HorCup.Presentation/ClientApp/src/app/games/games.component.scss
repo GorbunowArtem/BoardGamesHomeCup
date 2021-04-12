@@ -1,3 +1,5 @@
+@import '../../styles.scss';
+
 hc-game-card {
   width: 100%;
 }
@@ -15,11 +17,15 @@ mat-toolbar {
 }
 
 .games-container {
-  height: calc(100vh - 112px);
+  height: $virtual-scroll-container-height;
 
   &__games-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  &__games-total {
+    padding: 15px 0 0 15px;
   }
 }

@@ -12,5 +12,5 @@
 }
 
 .players-list {
-  height: calc(100vh - 112px);
+  height: $virtual-scroll-container-height;
 }

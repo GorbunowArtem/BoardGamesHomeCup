@@ -4,6 +4,7 @@
 
 <main class="container">
   <cdk-virtual-scroll-viewport itemSize="75" class="games-container">
+    <div mat-subheader class="games-container__games-total">Всего: {{ games.total }}</div>
     <div class="games-container__games-list">
       <hc-game-card *cdkVirtualFor="let game of games" [game]="game"></hc-game-card>
     </div>

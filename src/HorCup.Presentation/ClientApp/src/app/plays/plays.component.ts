@@ -12,7 +12,7 @@ import { PlaysService } from './plays.service';
 export class PlaysComponent {
   public plays: PageableDataSource;
 
-  public constructor(private _playsService: PlaysService) {
-    this.plays = new PageableDataSource(_playsService, new SearchPlaysOptions());
+  public constructor(playsService: PlaysService) {
+    this.plays = new PageableDataSource(playsService, new SearchPlaysOptions());
   }
 }
