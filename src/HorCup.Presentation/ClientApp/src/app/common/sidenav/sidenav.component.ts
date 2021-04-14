@@ -11,16 +11,13 @@ export class SidenavComponent implements OnInit {
   @ViewChild('sidenav', { static: true })
   public sidenav!: MatSidenav;
 
-  @Input()
-  public openNav!: boolean;
-
   public constructor(private _sidenavService: SidenavService) {}
 
   public ngOnInit(): void {
     this._sidenavService.setSidenav(this.sidenav);
   }
 
-  public closeSidenav() {
+  public close() {
     this._sidenavService.close();
   }
 }

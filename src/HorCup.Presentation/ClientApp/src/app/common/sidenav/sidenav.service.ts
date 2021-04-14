@@ -18,8 +18,4 @@ export class SidenavService {
   public close() {
     return this.sidenav.close();
   }
-
-  public toggle() {
-    return this.sidenav.toggle();
-  }
 }

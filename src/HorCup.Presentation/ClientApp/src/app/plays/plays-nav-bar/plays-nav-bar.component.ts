@@ -15,8 +15,6 @@ import { PlaysService } from '../plays.service';
 export class PlaysNavBarComponent {
   public viewMode: boolean;
 
-  public toggleActive: boolean;
-
   private _searchTextChanged: Subject<string> = new Subject<string>();
 
   public searchOptions: SearchPlaysOptions;
@@ -27,7 +25,6 @@ export class PlaysNavBarComponent {
     private _sideNavService: SidenavService
   ) {
     this.viewMode = true;
-    this.toggleActive = false;
     this.searchOptions = new SearchPlaysOptions();
     this._searchTextChanged.pipe(debounceTime(500), distinctUntilChanged()).subscribe((model) => {
       this.searchOptions.searchText = model;
@@ -54,7 +51,6 @@ export class PlaysNavBarComponent {
   }
 
   public toggleSidenav() {
-    this.toggleActive = !this.toggleActive;
-    this._sideNavService.toggle();
+    this._sideNavService.open();
   }
 }

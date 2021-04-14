@@ -1,6 +1,6 @@
 <mat-toolbar class="mat-elevation-z8" color="primary">
   <ng-container *ngIf="viewMode; else searchView">
-    <button mat-icon-button [class.active]="toggleActive" (click)="toggleSidenav()">
+    <button mat-icon-button (click)="toggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
     <span>Последние партии</span>
