@@ -16,6 +16,8 @@ import { RouterModule } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRippleModule } from '@angular/material/core';
 import { BottomNavComponent } from './bottom-nav/bottom-nav';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   imports: [
@@ -28,7 +30,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav';
     MatToolbarModule,
     RouterModule,
     MatSlideToggleModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSidenavModule
   ],
   declarations: [
     HcFieldValidationErrorsComponent,
@@ -36,7 +39,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav';
     ConfirmationDialogComponent,
     HeaderCardComponent,
     AddItemComponent,
-    BottomNavComponent
+    BottomNavComponent,
+    SidenavComponent
   ],
   exports: [
     HcFieldValidationErrorsComponent,
@@ -44,7 +48,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav';
     ConfirmationDialogComponent,
     HeaderCardComponent,
     AddItemComponent,
-    BottomNavComponent
+    BottomNavComponent,
+    SidenavComponent
   ]
 })
 export class HcCommonModule {}

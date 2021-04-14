@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PlaysNavBarComponent } from './plays-nav-bar/plays-nav-bar.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatChipsModule,
     MatCardModule,
     MatToolbarModule,
-    ScrollingModule
+    ScrollingModule,
+    MatSidenavModule
   ],
   declarations: [
     PlaysComponent,
