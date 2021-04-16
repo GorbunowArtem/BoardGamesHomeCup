@@ -19,6 +19,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EF0CEDC7-5EF2-4842-866E-637250F02C75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Tests.Integration", "tests\HorCup.Tests.Integration\HorCup.Tests.Integration.csproj", "{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DBEFE47D-0BFE-4BAF-AA30-7AFD2566E22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBEFE47D-0BFE-4BAF-AA30-7AFD2566E22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBEFE47D-0BFE-4BAF-AA30-7AFD2566E22A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{E91A5BEF-9157-4711-897A-32855E7F918B} = {72EF4A8D-BEBC-4C3E-96E5-325C211AEFCF}
 		{EF0CEDC7-5EF2-4842-866E-637250F02C75} = {72EF4A8D-BEBC-4C3E-96E5-325C211AEFCF}
 		{1E629A43-6582-40C4-948D-6C6C8E746160} = {EF0CEDC7-5EF2-4842-866E-637250F02C75}
+		{6AD4773C-03CD-4F4C-8D77-29A01DFE2CD5} = {EAF15B9F-EEA8-4F4F-B2EF-BF636B4E34A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22E75AFB-B62E-4B5F-BB37-AED4AEEDEB26}
