@@ -11,6 +11,12 @@
       <PackageReference Include="SpecFlow.NUnit" Version="3.7.38" />
       <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.7.141" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="specflow.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
     <Target Name="AfterUpdateFeatureFilesInProject">
         <!-- include any generated SpecFlow files in the compilation of the project if not included yet -->
         <ItemGroup>
