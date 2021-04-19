@@ -55,12 +55,6 @@ describe('PlaysNavBarComponent', () => {
   });
 
   describe('in view mode', () => {
-    it('should have menu button ', async () => {
-      const buttons = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'menu' }));
-
-      expect(buttons.length).toBe(1);
-    });
-
     it('should have search button ', async () => {
       const buttons = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'search' }));
 
@@ -120,9 +114,9 @@ describe('PlaysNavBarComponent', () => {
 
       await backButton.click();
 
-      const menu = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'menu' }));
+      const menu = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'arrow_back' }));
 
-      expect(menu.length).toBe(1);
+      expect(menu.length).toBe(0);
     });
 
     it('should have search icon', async () => {
