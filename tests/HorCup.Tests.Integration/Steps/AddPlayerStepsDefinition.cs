@@ -8,7 +8,6 @@ namespace HorCup.Tests.Integration.Steps
 		[Given(@"I am logged as Administrator")]
 		public void GivenIAmLoggedAsAdministrator()
 		{
-			ScenarioContext.StepIsPending();
 		}
 
 		[When(@"I am adding new PLayer with unique nickname")]
