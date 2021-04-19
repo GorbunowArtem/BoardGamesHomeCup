@@ -21,7 +21,7 @@ describe('GamesNavBarComponent', () => {
   beforeEach(async () => {
     bottomSheetMock = jasmine.createSpyObj(['open']);
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         MatToolbarModule,
         MatButtonModule,
@@ -38,13 +38,6 @@ describe('GamesNavBarComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     toolbar = await loader.getHarness(MatToolbarHarness);
   });
-
-  it('should have menu button', async () => {
-    const menuButtons = await toolbar.getAllHarnesses(MatButtonHarness.with({ text: 'menu' }));
-
-    expect(menuButtons.length).toBe(1);
-  });
-
   it('should open filter', async () => {
     const filterBtn = await toolbar.getHarness(MatButtonHarness.with({ text: 'filter_list' }));
 
