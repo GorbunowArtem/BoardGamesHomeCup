@@ -15,16 +15,16 @@ namespace HorCup.Tests.Integration.Steps
 	[Binding]
 	public class GameStepsDefinition
 	{
+		private const string GameEndpoint = "games";
 		private readonly WebDriver _webDriver;
 		private Guid _gameId;
-		private EditGameRequest _updateRequest;
+		private readonly EditGameRequest _updateRequest;
 
 		public GameStepsDefinition(WebDriver webDriver)
 		{
 			_webDriver = webDriver;
-			_updateRequest = new EditGameRequest($"Updated{Guid.NewGuid()}", 6, 3, false);
+			_updateRequest = new EditGameRequest($"Updated{Guid.NewGuid().ToString()}", 6, 3, false);
 		}
-
 
 		[When(@"I am filling title, min and max players:")]
 		public async Task WhenIAmFillingTitleMinAndMaxPlayers(Table table)
@@ -33,7 +33,7 @@ namespace HorCup.Tests.Integration.Steps
 
 			command.Title = $"{command.Title}{Guid.NewGuid().ToString()}";
 
-			var response = await _webDriver.PostAsync("games", command);
+			var response = await _webDriver.PostAsync(GameEndpoint, command);
 
 			_gameId = new Guid(response);
 		}
@@ -48,7 +48,7 @@ namespace HorCup.Tests.Integration.Steps
 		[When(@"I change Game title, min and max players")]
 		public async Task WhenIChangeGameTitleMinAndMaxPlayers()
 		{
-			await _webDriver.PatchAsync($"games/{_gameId.ToString()}", _updateRequest);
+			await _webDriver.PatchAsync($"{GameEndpoint}/{_gameId.ToString()}", _updateRequest);
 		}
 
 		[Then(@"Game is updated")]
@@ -56,7 +56,7 @@ namespace HorCup.Tests.Integration.Steps
 		{
 			_webDriver.CheckResponseStatusCode((int) HttpStatusCode.NoContent);
 
-			var updatedGame = await _webDriver.GetAsync<GameDetailsViewModel>($"games/{_gameId.ToString()}");
+			var updatedGame = await _webDriver.GetAsync<GameDetailsViewModel>($"{GameEndpoint}/{_gameId.ToString()}");
 
 			updatedGame.Title.Should().Be(_updateRequest.Title);
 			updatedGame.MinPlayers.Should().Be(_updateRequest.MinPlayers);
@@ -66,7 +66,7 @@ namespace HorCup.Tests.Integration.Steps
 		[When(@"I delete Game")]
 		public async Task WhenIDeleteGame()
 		{
-			await _webDriver.DeleteAsync($"games/{_gameId.ToString()}");
+			await _webDriver.DeleteAsync($"{GameEndpoint}/{_gameId.ToString()}");
 		}
 
 		[Then(@"Game no longer exists in system")]
@@ -74,7 +74,7 @@ namespace HorCup.Tests.Integration.Steps
 		{
 			_webDriver.CheckResponseStatusCode((int) HttpStatusCode.NoContent);
 
-			var game = await _webDriver.GetAsync<Game>($"games/{_gameId.ToString()}");
+			var game = await _webDriver.GetAsync<Game>($"{GameEndpoint}/{_gameId.ToString()}");
 
 			_webDriver.CheckResponseStatusCode((int) HttpStatusCode.NotFound);
 			game.Should().BeNull();
