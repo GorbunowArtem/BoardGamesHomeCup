@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentAssertions" Version="6.0.0-alpha0001" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
       <PackageReference Include="NUnit" Version="3.13.1" />
       <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
@@ -17,6 +18,10 @@
       <None Update="specflow.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\HorCup.Presentation\HorCup.Presentation.csproj" />
     </ItemGroup>
     <Target Name="AfterUpdateFeatureFilesInProject">
         <!-- include any generated SpecFlow files in the compilation of the project if not included yet -->
