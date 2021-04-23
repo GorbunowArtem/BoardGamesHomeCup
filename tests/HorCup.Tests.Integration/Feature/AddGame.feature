@@ -1,7 +1,7 @@
-Feature: Add new Game
+Feature: Adding Game
 
-    Scenario Outline: Add Game
-        When I am adding new Game:
+    Scenario Outline: Add new Game
+        When I am filling title, min and max players:
           | Title   | MinPlayers   | MaxPlayers   |
           | <title> | <minPlayers> | <maxPlayers> |
         Then new Game added

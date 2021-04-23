@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using FluentAssertions;
 using HorCup.Presentation.Players.Commands.AddPlayer;
 using HorCup.Tests.Integration.Drivers;
 using TechTalk.SpecFlow;
@@ -11,32 +13,35 @@ namespace HorCup.Tests.Integration.Steps
 	public class AddPlayerStepsDefinition
 	{
 		private readonly WebDriver _driver;
-
+		private Guid _playerId;
+		
 		public AddPlayerStepsDefinition(WebDriver driver)
 		{
 			_driver = driver;
 		}
 
-		[Given(@"I am logged in")]
-		public void GivenIAmLoggedAsAdministrator()
+		[Given(@"I am logged as Admin")]
+		public void GivenIAmLoggedAsAdmin()
 		{
 		}
 
-		[When(@"I am adding new Player with unique nickname")]
-		public async Task WhenIAmAddingNewPlayerWithUniqueNickname()
+		[When(@"I am filling unique nickname")]
+		public async Task WhenIAmFillingUniqueNickname()
 		{
-			var response = await _driver.HttpPost("https://localhost:5002/api/players", new AddPlayerCommand
+			var response = await _driver.HttpPost("players", new AddPlayerCommand
 			{
 				Added = DateTime.Now,
-				Nickname = $"IntegrationPlayer{Guid.NewGuid().ToString()}"
+				Nickname = $"Integ {Guid.NewGuid().ToString()}"[..19]
 			});
 			
-			var id = JsonSerializer.Deserialize<Guid>(response);
+			_playerId = new Guid(response);
 		}
 
 		[Then(@"new Player created")]
 		public void ThenNewPlayerCreated()
 		{
+			_driver.CheckResponseStatusCode((int) HttpStatusCode.Created);
+			_playerId.Should().NotBe(Guid.Empty);
 		}
 	}
 }

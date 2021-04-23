@@ -20,8 +20,9 @@ namespace HorCup.Tests.Integration.Steps
 			_webDriver = webDriver;
 		}
 
-		[When(@"I am adding new Game:")]
-		public async Task WhenIAmAddingNewGame(Table table)
+		
+		[When(@"I am filling title, min and max players:")]
+		public async Task WhenIAmFillingTitleMinAndMaxPlayers(Table table)
 		{
 			var command = table.CreateInstance<AddGameCommand>();
 
@@ -38,5 +39,6 @@ namespace HorCup.Tests.Integration.Steps
 			_webDriver.CheckResponseStatusCode((int) HttpStatusCode.Created);
 			_gameId.Should().NotBe(Guid.Empty);
 		}
+
 	}
 }

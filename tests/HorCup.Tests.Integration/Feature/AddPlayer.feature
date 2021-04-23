@@ -1,7 +1,6 @@
-Feature: Add new Player
-	
-	Background: F
-		
-		Given I am logged in
-		When I am adding new Player with unique nickname
-		Then new Player created
+Feature: Adding Player
+
+    Scenario: Creating new Player
+        Given I am logged as Admin
+        When I am filling unique nickname
+        Then new Player created
