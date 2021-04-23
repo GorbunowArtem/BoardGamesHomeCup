@@ -28,12 +28,12 @@ namespace HorCup.Tests.Integration.Steps
 		[When(@"I am filling unique nickname")]
 		public async Task WhenIAmFillingUniqueNickname()
 		{
-			var response = await _driver.HttpPost("players", new AddPlayerCommand
+			var response = await _driver.PostAsync("players", new AddPlayerCommand
 			{
 				Added = DateTime.Now,
 				Nickname = $"Integ {Guid.NewGuid().ToString()}"[..19]
 			});
-			
+
 			_playerId = new Guid(response);
 		}
 

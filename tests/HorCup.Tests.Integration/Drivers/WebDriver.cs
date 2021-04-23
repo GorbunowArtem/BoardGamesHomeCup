@@ -20,14 +20,40 @@ namespace HorCup.Tests.Integration.Drivers
 			_httpClient = new HttpClient {BaseAddress = new Uri(configuration["BaseUrl"])};
 		}
 
-		public async Task HttpGet(string url) => _httpResponse = await _httpClient.GetAsync(url);
+		public async Task<T> GetAsync<T>(string url)  where T: class
+		{
+			_httpResponse = await _httpClient.GetAsync(url);
 
-		public async Task<string> HttpPost<T>(string endpoint, T body)
+			var response = await _httpResponse.Content.ReadAsStringAsync(default);
+
+			if (string.IsNullOrEmpty(response))
+			{
+				return null;
+			}
+			
+			return JsonSerializer.Deserialize<T>(response, new JsonSerializerOptions
+			{
+				PropertyNameCaseInsensitive = true
+			});
+		}
+
+		public async Task<string> PostAsync<T>(string endpoint, T body)
 		{
 			_httpResponse = await _httpClient.PostAsync(endpoint,
 				new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json"));
 
-			return await _httpResponse.Content.ReadAsStringAsync();
+			return await _httpResponse.Content.ReadAsStringAsync(default);
+		}
+
+		public async Task PatchAsync<T>(string endpoint, T body)
+		{
+			_httpResponse = await _httpClient.PatchAsync(endpoint,
+				new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json"));
+		}
+
+		public async Task DeleteAsync(string url)
+		{
+			_httpResponse = await _httpClient.DeleteAsync(url);
 		}
 
 		public void CheckResponseStatusCode(int expectedStatusCode)
