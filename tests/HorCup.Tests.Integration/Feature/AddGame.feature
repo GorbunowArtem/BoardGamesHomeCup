@@ -1,10 +1,12 @@
 Feature: Add new Game
 
-    Background:
-
-    Scenario: Add Game
+    Scenario Outline: Add Game
         When I am adding new Game:
-          | Title | MinPlayers | MaxPlayers |
+          | Title   | MinPlayers   | MaxPlayers   |
+          | <title> | <minPlayers> | <maxPlayers> |
+        Then new Game added
+
+        Examples:
+          | title | minPlayers | maxPlayers |
           | Game1 | 2          | 24         |
           | Game3 | 4          | 8          |
-        Then new Game added
