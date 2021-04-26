@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRippleModule } from '@angular/material/core';
 import { BottomNavComponent } from './bottom-nav/bottom-nav';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav';
     ConfirmationDialogComponent,
     HeaderCardComponent,
     AddItemComponent,
-    BottomNavComponent
+    BottomNavComponent,
+    UserSettingsComponent
   ],
   exports: [
     HcFieldValidationErrorsComponent,
@@ -44,7 +46,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav';
     ConfirmationDialogComponent,
     HeaderCardComponent,
     AddItemComponent,
-    BottomNavComponent
+    BottomNavComponent,
+    UserSettingsComponent
   ]
 })
 export class HcCommonModule {}
