@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ThemeService } from 'src/app/common/theme.service';
@@ -10,7 +11,10 @@ import { ThemeService } from 'src/app/common/theme.service';
 export class UserSettingsDialogComponent implements OnInit {
   public isDarkTheme!: Observable<boolean>;
 
-  public constructor(private _themeService: ThemeService) {}
+  public constructor(
+    private _themeService: ThemeService,
+    private _overlayContainer: OverlayContainer
+  ) {}
 
   public ngOnInit() {
     this.isDarkTheme = this._themeService.isDarkTheme;
