@@ -8,6 +8,7 @@ using HorCup.Presentation.Games.Commands.EditGame;
 using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.IsTitleUnique;
 using HorCup.Presentation.Games.Queries.SearchGames;
+using HorCup.Presentation.Requests;
 using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
 using MediatR;
@@ -54,19 +55,26 @@ namespace HorCup.Presentation.Controllers
 		{
 			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), new {id}, command);
+			return CreatedAtAction(nameof(Add), new {id}, id.ToString());
 		}
 
 		[HttpPatch("{id:Guid}")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
-		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody]EditGameCommand command)
+		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] EditGameRequest request)
 		{
+			var command = new EditGameCommand(
+				id,
+				request.Title,
+				request.MaxPlayers,
+				request.MinPlayers,
+				request.HasScores);
+
 			await _sender.Send(command);
 
 			return NoContent();
 		}
-		
+
 		[HttpDelete("{id:Guid}")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
@@ -78,8 +86,8 @@ namespace HorCup.Presentation.Controllers
 		}
 
 		[HttpHead]
-		[ProducesResponseType((int)HttpStatusCode.OK)]
-		[ProducesResponseType((int)HttpStatusCode.Conflict)]
+		[ProducesResponseType((int) HttpStatusCode.OK)]
+		[ProducesResponseType((int) HttpStatusCode.Conflict)]
 		public async Task<IActionResult> IsTitleUnique(string title, Guid? id)
 		{
 			var isUnique = await _sender.Send(new IsTitleUniqueQuery(title, id));

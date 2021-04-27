@@ -28,7 +28,7 @@ namespace HorCup.Presentation.Controllers
 		public async Task<ActionResult<PagedSearchResponse<PlayViewModel>>> Search([FromQuery] SearchPlaysQuery query)
 		{
 			var (items, total) = await _sender.Send(query);
-
+																			  
 			return Ok(new PagedSearchResponse<PlayViewModel>(items, total));
 		}
 
@@ -39,7 +39,7 @@ namespace HorCup.Presentation.Controllers
 		{
 			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), new {id}, command);
+			return CreatedAtAction(nameof(Add), new {id}, id.ToString());
 		}
 	}
 }

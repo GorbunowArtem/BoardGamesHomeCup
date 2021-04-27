@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
 import { RegisterDialogComponent } from '../account/register/register-dialog.component';
 import { AuthService } from '../common/auth.service';
-import { ThemeService } from './theme.service';
+import { ThemeService } from '../common/theme.service';
 
 @Component({
   selector: 'hc-nav-bar',
