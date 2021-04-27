@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRippleModule } from '@angular/material/core';
 import { BottomNavComponent } from './bottom-nav/bottom-nav';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { UserSettingsDialogComponent } from './user-settings/user-settings-dialog/user-settings-dialog.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     MatToolbarModule,
     RouterModule,
     MatSlideToggleModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSlideToggleModule
   ],
   declarations: [
     HcFieldValidationErrorsComponent,
@@ -38,7 +40,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     HeaderCardComponent,
     AddItemComponent,
     BottomNavComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    UserSettingsDialogComponent
   ],
   exports: [
     HcFieldValidationErrorsComponent,

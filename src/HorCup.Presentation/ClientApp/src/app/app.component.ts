@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { slideInAnimation } from './animations';
 import { CommonService } from './common/common.service';
-import { ThemeService } from './nav-bar/theme.service';
+import { ThemeService } from './common/theme.service';
 
 @Component({
   selector: 'hc-root',
