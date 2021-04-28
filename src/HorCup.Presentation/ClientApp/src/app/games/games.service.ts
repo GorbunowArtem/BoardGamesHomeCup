@@ -16,6 +16,7 @@ export class GamesService {
   public stateChangedSubject: Subject<any> = new Subject();
 
   private _defaultOptions = new SearchGamesOptions();
+  private _options!: SearchGamesOptions;
 
   public constructor(private _httpModule: HttpClient) {}
 
@@ -24,6 +25,8 @@ export class GamesService {
   }
 
   public search(options: SearchGamesOptions): Observable<PagedSearchResponse<Game>> {
+    this._options = options;
+
     return this._httpModule.get<PagedSearchResponse<Game>>(`${gamesUrl}`, {
       params: options as any
     });
@@ -53,5 +56,9 @@ export class GamesService {
 
   public stateChanged(): Observable<any> {
     return this.stateChangedSubject.asObservable();
+  }
+
+  public get currentOptions() {
+    return this._options;
   }
 }
