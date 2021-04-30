@@ -1,8 +1,6 @@
 using AutoMapper;
 using HorCup.Players.Models;
-using HorCup.Players.Shared.ViewModels;
-using PlayerDetailsViewModel = HorCup.Players.ViewModels.PlayerDetailsViewModel;
-using PlayerViewModel = HorCup.Players.ViewModels.PlayerViewModel;
+using HorCup.Players.ViewModels;
 
 namespace HorCup.Players
 {

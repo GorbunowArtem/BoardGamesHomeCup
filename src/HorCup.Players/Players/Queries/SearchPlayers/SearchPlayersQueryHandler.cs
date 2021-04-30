@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Players.Context;
 using HorCup.Players.Models;
-using HorCup.Players.Shared.ViewModels;
+using HorCup.Players.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PlayerViewModel = HorCup.Players.ViewModels.PlayerViewModel;
 
 namespace HorCup.Players.Players.Queries.SearchPlayers
 {

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using HorCup.Infrastructure.Queries;
-using HorCup.Players.Shared.ViewModels;
+using HorCup.Players.ViewModels;
 using MediatR;
-using PlayerViewModel = HorCup.Players.ViewModels.PlayerViewModel;
 
 namespace HorCup.Players.Players.Queries.SearchPlayers
 {

@@ -1,15 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Text.Json.Serialization;
+using FluentValidation.AspNetCore;
+using HorCup.Infrastructure.Filters;
+using HorCup.Infrastructure.Services.DateTimeService;
+using HorCup.Infrastructure.Services.IdGenerator;
+using HorCup.Players.Context;
+using HorCup.Players.Players.Commands.AddPlayer;
+using HorCup.Players.Services.Players;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace HorCup.Players
@@ -23,17 +26,33 @@ namespace HorCup.Players
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers();
+			services.AddControllers(options => options.Filters.Add(typeof(CustomExceptionFilter)))
+				.AddFluentValidation(v =>
+				{
+					v.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>();
+				})
+				.AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+				});
+			
+			services.AddMediatR(Assembly.GetAssembly(typeof(AddPlayerCommand)));
+			services.AddAutoMapper(Assembly.GetAssembly(typeof(AddPlayerCommand)));
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup.Players", Version = "v1"});
 			});
+
+			services.AddScoped<IPlayersContext, PlayersContext>();
+			services.AddScoped<IPlayersService, PlayersService>();
+			services.AddScoped<IIdGenerator, IdGenerator>();
+			services.AddScoped<IDateTimeService, DateTimeService>();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())

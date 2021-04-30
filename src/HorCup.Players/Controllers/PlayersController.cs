@@ -9,7 +9,6 @@ using HorCup.Players.Players.Commands.EditPlayer;
 using HorCup.Players.Players.Queries.GetById;
 using HorCup.Players.Players.Queries.SearchPlayers;
 using HorCup.Players.Services.Players;
-using HorCup.Players.Shared.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

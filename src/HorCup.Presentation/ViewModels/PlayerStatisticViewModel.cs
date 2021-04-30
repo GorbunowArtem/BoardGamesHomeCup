@@ -1,5 +1,4 @@
 using System;
-using HorCup.Players.Shared.ViewModels;
 
 namespace HorCup.Presentation.ViewModels
 {
@@ -7,7 +6,7 @@ namespace HorCup.Presentation.ViewModels
 	{
 		public Guid PlayerId { get; set; }
 
-		public PlayerViewModel Player { get; set; }
+		// public PlayerViewModel Player { get; set; }
 		
 		public Guid GameId { get; set; }
 

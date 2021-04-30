@@ -4,11 +4,10 @@ using AutoMapper;
 using HorCup.Infrastructure.Exceptions;
 using HorCup.Players.Context;
 using HorCup.Players.Models;
-using HorCup.Players.Shared.ViewModels;
+using HorCup.Players.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PlayerDetailsViewModel = HorCup.Players.ViewModels.PlayerDetailsViewModel;
 
 namespace HorCup.Players.Players.Queries.GetById
 {
