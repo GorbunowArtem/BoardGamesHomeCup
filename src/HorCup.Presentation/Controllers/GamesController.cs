@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
+using HorCup.Infrastructure.Responses;
 using HorCup.Presentation.Games.Commands.AddGame;
 using HorCup.Presentation.Games.Commands.DeleteGame;
 using HorCup.Presentation.Games.Commands.EditGame;
@@ -9,7 +10,6 @@ using HorCup.Presentation.Games.Queries.GetById;
 using HorCup.Presentation.Games.Queries.IsTitleUnique;
 using HorCup.Presentation.Games.Queries.SearchGames;
 using HorCup.Presentation.Requests;
-using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.PlayScores;
 using HorCup.Tests.Games.Factory;
-using HorCup.Tests.Players.Factory;
 
 namespace HorCup.Tests.GamesStatistic.Factory
 {
 	public class GamesStatisticsFactory
 	{
 		public readonly GamesFactory GamesFactory = new();
-		public readonly PlayersFactory PlayersFactory = new();
+		// public readonly PlayersFactory PlayersFactory = new();
 
 		public readonly Guid CreatedGameStatisticId = 4434.Guid();
 		public readonly Guid Game1StatId = 123.Guid();
@@ -76,13 +75,13 @@ namespace HorCup.Tests.GamesStatistic.Factory
 			{
 				Score = Player1Game1Score,
 				IsWinner = false,
-				PlayerId = PlayersFactory.Player1Id
+				// PlayerId = PlayersFactory.Player1Id
 			},
 			new ()
 			{
 				Score = Player2Game1Score,
 				IsWinner = true,
-				PlayerId = PlayersFactory.Player2Id
+				// PlayerId = PlayersFactory.Player2Id
 			}
 		};
 
@@ -92,13 +91,13 @@ namespace HorCup.Tests.GamesStatistic.Factory
 			{
 				Score = Player1Game2Score,
 				IsWinner = false,
-				PlayerId = PlayersFactory.Player1Id
+				// PlayerId = PlayersFactory.Player1Id
 			},
 			new ()
 			{
 				Score = Player2Game2Score,
 				IsWinner = true,
-				PlayerId = PlayersFactory.Player2Id
+				// PlayerId = PlayersFactory.Player2Id
 			}
 		};
 	}

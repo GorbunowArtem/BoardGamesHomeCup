@@ -1,6 +1,6 @@
 using System;
 using FluentValidation;
-using HorCup.Presentation.Services.DateTimeService;
+using HorCup.Infrastructure.Services.DateTimeService;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
 {

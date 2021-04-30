@@ -1,4 +1,5 @@
 using System;
+using HorCup.Players.Shared.ViewModels;
 
 namespace HorCup.Presentation.ViewModels
 {

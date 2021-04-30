@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\HorCup.Players\HorCup.Players.csproj" />
       <ProjectReference Include="..\..\src\HorCup.Presentation\HorCup.Presentation.csproj" />
     </ItemGroup>
     <Target Name="AfterUpdateFeatureFilesInProject">

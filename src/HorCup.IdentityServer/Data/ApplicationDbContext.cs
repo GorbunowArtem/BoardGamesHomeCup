@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using HorCup.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using IdentityServer4withASP.NETCoreIdentity.Models;
 
-namespace IdentityServer4withASP.NETCoreIdentity.Data
+namespace HorCup.IdentityServer.Data
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{

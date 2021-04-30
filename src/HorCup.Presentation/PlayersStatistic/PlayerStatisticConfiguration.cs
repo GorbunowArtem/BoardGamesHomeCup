@@ -13,9 +13,9 @@ namespace HorCup.Presentation.PlayersStatistic
 				k.PlayerId
 			});
 
-			builder.HasOne(p => p.Player)
-				.WithMany(ps => ps.PlayerStatistic)
-				.HasForeignKey(ps => ps.PlayerId);
+			// builder.HasOne(p => p.Player)
+			// 	.WithMany(ps => ps.PlayerStatistic)
+			// 	.HasForeignKey(ps => ps.PlayerId);
 
 			builder.HasOne(p => p.Game)
 				.WithMany(gs => gs.PlayerStatistics)

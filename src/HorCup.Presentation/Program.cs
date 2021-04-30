@@ -33,7 +33,7 @@ namespace HorCup.Presentation
 				context.Database.EnsureCreated();
 
 #if DEBUG
-				DbInitializer.Initialize(context);
+				// DbInitializer.Initialize(context);
 #endif
 			}
 			catch (Exception ex)

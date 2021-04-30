@@ -41,11 +41,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Common" />
       <Folder Include="Logs" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
+      <ProjectReference Include="..\HorCup.Players.Shared\HorCup.Players.Shared.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

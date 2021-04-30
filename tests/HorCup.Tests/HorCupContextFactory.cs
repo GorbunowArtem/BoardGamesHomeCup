@@ -2,7 +2,6 @@ using System;
 using HorCup.Presentation.Context;
 using HorCup.Tests.Games.Factory;
 using HorCup.Tests.GamesStatistic.Factory;
-using HorCup.Tests.Players.Factory;
 using HorCup.Tests.PlayersStatistic.Queries;
 using HorCup.Tests.Plays.Factory;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +19,6 @@ namespace HorCup.Tests
 			var context = new HorCupContext(options);
 
 			context.Database.EnsureCreated();
-
-			var playersFactory = new PlayersFactory();
-			context.Players.AddRange(playersFactory.Players);
 
 			var gamesFactory = new GamesFactory();
 			context.Games.AddRange(gamesFactory.Games);

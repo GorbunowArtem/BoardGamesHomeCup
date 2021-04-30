@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace HorCup.IdentityServer.Migrations.IdentityServer.ConfigurationDb
+namespace HorCup.IdentityServer.Data.Migrations.IdentityServer.ConfigurationDb
 {
     public partial class InitialConfigurationMigration : Migration
     {

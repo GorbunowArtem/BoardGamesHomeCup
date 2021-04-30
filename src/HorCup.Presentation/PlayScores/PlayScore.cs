@@ -1,5 +1,6 @@
 using System;
-using HorCup.Presentation.Players;
+using HorCup.Players.Shared.ViewModels;
+using HorCup.Presentation.ViewModels;
 
 namespace HorCup.Presentation.PlayScores
 {
@@ -11,7 +12,7 @@ namespace HorCup.Presentation.PlayScores
 
 		public Guid PlayerId { get; set; }
 
-		public Player Player { get; set; }
+		public PlayerViewModel Player { get; set; }
 		
 		public int? Score { get; set; }
 

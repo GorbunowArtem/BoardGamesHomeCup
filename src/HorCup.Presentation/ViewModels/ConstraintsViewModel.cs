@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using HorCup.Presentation.Games;
-using HorCup.Presentation.Players;
 
 namespace HorCup.Presentation.ViewModels
 {
@@ -9,6 +8,6 @@ namespace HorCup.Presentation.ViewModels
 	{
 		public GamesConstraints GamesConstraints => new GamesConstraints();
 
-		public PlayerConstraints PlayerConstraints => new PlayerConstraints();
+		// public PlayerConstraints PlayerConstraints => new PlayerConstraints();
 	}
 }

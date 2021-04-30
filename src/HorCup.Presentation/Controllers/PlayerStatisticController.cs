@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
+using HorCup.Infrastructure.Responses;
 using HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats;
-using HorCup.Presentation.Responses;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

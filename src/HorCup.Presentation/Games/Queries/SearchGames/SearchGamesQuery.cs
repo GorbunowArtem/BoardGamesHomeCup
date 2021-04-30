@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Presentation.Common.Queries;
+using HorCup.Infrastructure.Queries;
 using HorCup.Presentation.ViewModels;
 using MediatR;
 

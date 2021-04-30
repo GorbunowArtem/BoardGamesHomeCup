@@ -11,9 +11,10 @@ namespace HorCup.Presentation.PlayScores
 
 			builder.Property(ps => ps.Id).ValueGeneratedOnAdd();
 
-			builder.HasOne(ps => ps.Player)
-				.WithMany(ps => ps.PlayScores)
-				.HasForeignKey(ps => ps.PlayerId);
+
+			builder.HasOne(ps => ps.Player);
+			// .WithMany(ps => ps.PlayScores)
+			// .HasForeignKey(ps => ps.PlayerId);
 		}
 	}
 }

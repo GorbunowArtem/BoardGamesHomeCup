@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using HorCup.IdentityServer.Data;
+using HorCup.IdentityServer.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4withASP.NETCoreIdentity.Data;
-using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
