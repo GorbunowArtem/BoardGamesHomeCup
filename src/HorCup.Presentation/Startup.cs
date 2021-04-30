@@ -6,8 +6,7 @@ using HorCup.Infrastructure.Filters;
 using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Games.Commands.AddGame;
-using HorCup.Presentation.Services.Games;
+using HorCup.Presentation.Plays.Commands.AddPlay;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +36,7 @@ namespace HorCup.Presentation
 
 			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
 				.AddFluentValidation(fv =>
-					fv.RegisterValidatorsFromAssemblyContaining<AddGameCommandValidator>())
+					fv.RegisterValidatorsFromAssemblyContaining<AddPlayCommand>())
 				.AddJsonOptions(options =>
 				{
 					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -61,7 +60,6 @@ namespace HorCup.Presentation
 
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
-			services.AddTransient<IGamesService, GamesService>();
 
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}

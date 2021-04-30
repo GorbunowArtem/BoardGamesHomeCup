@@ -10,11 +10,11 @@ namespace HorCup.Presentation.Plays
 			builder.HasKey(p => p.Id);
 
 			builder.Property(p => p.Id).ValueGeneratedOnAdd();
-
-			builder.HasOne(p => p.Game)
-				.WithMany(p => p.Plays)
-				.HasForeignKey(p => p.GameId);
-			
+			//
+			// builder.HasOne(p => p.Game)
+			// 	.WithMany(p => p.Plays)
+			// 	.HasForeignKey(p => p.GameId);
+			//
 			builder.Property(p => p.PlayedDate)
 				.HasColumnType("datetime");
 		}

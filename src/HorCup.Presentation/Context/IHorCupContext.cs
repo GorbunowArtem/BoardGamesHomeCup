@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using HorCup.Presentation.Games;
 using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
@@ -12,8 +11,6 @@ namespace HorCup.Presentation.Context
 {
 	public interface IHorCupContext
 	{
-		DbSet<Game> Games { get; set; }
-
 		DbSet<Play> Plays { get; set; }
 
 		DbSet<PlayScore> PlayScores { get; set; }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Presentation.Games;
 using HorCup.Presentation.PlayScores;
 
 namespace HorCup.Presentation.Plays
@@ -9,7 +8,7 @@ namespace HorCup.Presentation.Plays
 	{
 		public Guid Id { get; set; }
 
-		public Game Game { get; set; }
+		// public Game Game { get; set; }
 		
 		public Guid GameId { get; set; }
 

@@ -1,5 +1,4 @@
 using System;
-using HorCup.Presentation.Games;
 
 namespace HorCup.Presentation.PlayersStatistic
 {
@@ -11,7 +10,7 @@ namespace HorCup.Presentation.PlayersStatistic
 		
 		public Guid GameId { get; set; }
 
-		public Game Game { get; set; }
+		// public Game Game { get; set; }
 		
 		public int PlayedTotal { get; set; }
 

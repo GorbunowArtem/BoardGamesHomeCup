@@ -1,5 +1,4 @@
-﻿using HorCup.Presentation.Games;
-using HorCup.Presentation.GamesStatistic;
+﻿using HorCup.Presentation.GamesStatistic;
 using HorCup.Presentation.PlayersStatistic;
 using HorCup.Presentation.Plays;
 using HorCup.Presentation.PlayScores;
@@ -12,8 +11,6 @@ namespace HorCup.Presentation.Context
 		public HorCupContext(DbContextOptions<HorCupContext> options) : base(options)
 		{
 		}
-
-		public DbSet<Game> Games { get; set; }
 
 		public DbSet<Play> Plays { get; set; }
 		

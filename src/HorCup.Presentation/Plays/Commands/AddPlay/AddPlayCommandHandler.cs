@@ -2,14 +2,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HorCup.Infrastructure.Exceptions;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Games;
 using HorCup.Presentation.GamesStatistic.Commands.GamePlayed;
 using HorCup.Presentation.PlayScores;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace HorCup.Presentation.Plays.Commands.AddPlay
@@ -71,25 +68,25 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 			async Task ValidateGame(int playerScoresCount)
 			{
-				var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
-
-				if (game == null)
-				{
-					_logger.LogError($"Game with id {request.GameId} was not found");
-					throw new NotFoundException(nameof(Game), request.GameId);
-				}
-
-				if (playerScoresCount > game.MaxPlayers)
-				{
-					_logger.LogError("Players count is bigger than game max players");
-					throw new ArgumentException("Players count cannot be bigger than game maximum players");
-				}
-
-				if (game.MinPlayers > playerScoresCount)
-				{
-					_logger.LogError("Players count is less than game min players");
-					throw new ArgumentException("Players count cannot be less than game minimum players");
-				}
+				// var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
+				//
+				// if (game == null)
+				// {
+				// 	_logger.LogError($"Game with id {request.GameId} was not found");
+				// 	throw new NotFoundException(nameof(Game), request.GameId);
+				// }
+				//
+				// if (playerScoresCount > game.MaxPlayers)
+				// {
+				// 	_logger.LogError("Players count is bigger than game max players");
+				// 	throw new ArgumentException("Players count cannot be bigger than game maximum players");
+				// }
+				//
+				// if (game.MinPlayers > playerScoresCount)
+				// {
+				// 	_logger.LogError("Players count is less than game min players");
+				// 	throw new ArgumentException("Players count cannot be less than game minimum players");
+				// }
 			}
 		}
 	}

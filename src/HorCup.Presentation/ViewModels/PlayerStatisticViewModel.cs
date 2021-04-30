@@ -10,7 +10,7 @@ namespace HorCup.Presentation.ViewModels
 		
 		public Guid GameId { get; set; }
 
-		public GameViewModel Game { get; set; }
+		// public GameViewModel Game { get; set; }
 		
 		public int PlayedTotal { get; set; }
 
