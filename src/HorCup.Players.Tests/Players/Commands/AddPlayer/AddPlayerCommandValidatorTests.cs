@@ -1,5 +1,5 @@
 using FluentValidation.TestHelper;
-using HorCup.Players.Players.Commands.AddPlayer;
+using HorCup.Players.Commands.AddPlayer;
 using NUnit.Framework;
 
 namespace HorCup.Players.Tests.Players.Commands.AddPlayer

@@ -1,17 +1,19 @@
-using System.Threading;
-using System.Threading.Tasks;
 using HorCup.Players.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Players.Context
 {
-	public class PlayersContext: IPlayersContext
+	public class PlayersContext : DbContext, IPlayersContext
 	{
-		public DbSet<Player> Players { get; set; }
-		
-		public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+		public PlayersContext(DbContextOptions<PlayersContext> options) : base(options)
 		{
-			throw new System.NotImplementedException();
+		}
+
+		public DbSet<Player> Players { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(PlayersContext).Assembly);
 		}
 	}
 }

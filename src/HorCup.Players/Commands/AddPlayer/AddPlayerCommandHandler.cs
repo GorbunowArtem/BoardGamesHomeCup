@@ -10,7 +10,7 @@ using HorCup.Players.Services.Players;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Players.Commands.AddPlayer
+namespace HorCup.Players.Commands.AddPlayer
 {
 	public class AddPlayerCommandHandler : IRequestHandler<AddPlayerCommand, Guid>
 	{

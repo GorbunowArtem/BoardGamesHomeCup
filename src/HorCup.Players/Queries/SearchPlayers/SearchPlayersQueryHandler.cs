@@ -10,7 +10,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Players.Queries.SearchPlayers
+namespace HorCup.Players.Queries.SearchPlayers
 {
 	public class SearchPlayersQueryHandler: IRequestHandler<SearchPlayersQuery, (IEnumerable<PlayerViewModel> items, int total)>
 	{

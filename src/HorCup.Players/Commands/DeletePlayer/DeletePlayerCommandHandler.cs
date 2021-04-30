@@ -7,7 +7,7 @@ using HorCup.Players.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Players.Commands.DeletePlayer
+namespace HorCup.Players.Commands.DeletePlayer
 {
 	public class DeletePlayerCommandHandler: IRequestHandler<DeletePlayerCommand, Unit>
 	{

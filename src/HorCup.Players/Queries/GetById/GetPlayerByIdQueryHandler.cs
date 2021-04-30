@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Players.Queries.GetById
+namespace HorCup.Players.Queries.GetById
 {
 	public class GetPlayerByIdQueryHandler: IRequestHandler<GetPlayerByIdQuery, PlayerDetailsViewModel>
 	{

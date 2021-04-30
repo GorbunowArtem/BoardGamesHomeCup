@@ -1,7 +1,8 @@
 using System;
 using FluentValidation;
+using HorCup.Players.Models;
 
-namespace HorCup.Players.Players.Commands.EditPlayer
+namespace HorCup.Players.Commands.EditPlayer
 {
 	public class EditPlayerCommandValidator : AbstractValidator<EditPlayerCommand>
 	{

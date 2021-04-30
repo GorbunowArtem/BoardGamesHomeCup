@@ -4,12 +4,13 @@ using FluentValidation.AspNetCore;
 using HorCup.Infrastructure.Filters;
 using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
+using HorCup.Players.Commands.AddPlayer;
 using HorCup.Players.Context;
-using HorCup.Players.Players.Commands.AddPlayer;
 using HorCup.Players.Services.Players;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,17 +29,17 @@ namespace HorCup.Players
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<PlayersContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext")));
+			
 			services.AddControllers(options => options.Filters.Add(typeof(CustomExceptionFilter)))
-				.AddFluentValidation(v =>
-				{
-					v.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>();
-				})
+				.AddFluentValidation(v => { v.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>(); })
 				.AddJsonOptions(options =>
 				{
 					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				});
-			
+
 			services.AddMediatR(Assembly.GetAssembly(typeof(AddPlayerCommand)));
 			services.AddAutoMapper(Assembly.GetAssembly(typeof(AddPlayerCommand)));
 

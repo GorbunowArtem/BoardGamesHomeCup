@@ -1,8 +1,7 @@
-﻿using HorCup.Players.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HorCup.Players.Players
+namespace HorCup.Players.Models
 {
 	public class PlayerConfiguration: IEntityTypeConfiguration<Player>
 	{

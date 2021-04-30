@@ -1,7 +1,7 @@
 using System;
 using MediatR;
 
-namespace HorCup.Players.Players.Commands.EditPlayer
+namespace HorCup.Players.Commands.EditPlayer
 {
 	public record EditPlayerCommand(
 		Guid Id,

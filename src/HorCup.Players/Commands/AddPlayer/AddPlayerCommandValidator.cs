@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using HorCup.Players.Models;
 
-namespace HorCup.Players.Players.Commands.AddPlayer
+namespace HorCup.Players.Commands.AddPlayer
 {
 	public class AddPlayerCommandValidator : AbstractValidator<AddPlayerCommand>
 	{

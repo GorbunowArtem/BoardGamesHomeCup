@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Players.Commands.EditPlayer
+namespace HorCup.Players.Commands.EditPlayer
 {
 	public class EditPlayerCommandHandler: IRequestHandler<EditPlayerCommand, Unit>
 	{

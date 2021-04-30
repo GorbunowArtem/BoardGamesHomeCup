@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace HorCup.Players.Players
+namespace HorCup.Players.Models
 {
 	[ExcludeFromCodeCoverage]
 	public class PlayerConstraints
