@@ -1,13 +1,13 @@
 version: "3.4"
 
 services:
-  horcup.identityserver:
-    image: ${DOCKER_REGISTRY-}identityserver
-    build:
-      context: .
-      dockerfile: src/HorCup.IdentityServer/Dockerfile
-    environment:
-      IDENTITY_ISSUER: "http://10.0.75.1:5001"
+  #  horcup.identityserver:
+  #    image: ${DOCKER_REGISTRY-}identityserver
+  #    build:
+  #      context: .
+  #      dockerfile: src/HorCup.IdentityServer/Dockerfile
+  #    environment:
+  #      IDENTITY_ISSUER: "http://10.0.75.1:5001"
 
   horcup.players:
     image: ${DOCKER_REGISTRY-}players

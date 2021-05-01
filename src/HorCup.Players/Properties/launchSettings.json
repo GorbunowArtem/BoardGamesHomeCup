@@ -11,5 +11,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "Docker": {
+    "commandName": "Docker",
+    "launchUrl": "{Scheme}://{ServiceHost}:5003",
+    "publishAllPorts": true,
+    "useSSL": true,
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Production"
+    }
   }
 }

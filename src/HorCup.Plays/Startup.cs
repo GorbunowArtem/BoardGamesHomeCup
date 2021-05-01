@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace HorCup.Plays
 {
@@ -23,6 +24,8 @@ namespace HorCup.Plays
 			services.AddDbContext<PlaysContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("PlaysContext")));
 			
+			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
+
 			services.AddInfrastructure();
 
 			services.AddTransient<IPlaysContext, PlaysContext>();
@@ -33,11 +36,12 @@ namespace HorCup.Plays
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Plays v1"));
 			}
 
-			app.UseHttpsRedirection();
+			app.UseSwagger();
+			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Plays v1"));
+			
+			// app.UseHttpsRedirection();
 
 			app.UseRouting();
 

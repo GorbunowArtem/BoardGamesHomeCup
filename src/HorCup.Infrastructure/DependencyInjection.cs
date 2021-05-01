@@ -22,7 +22,7 @@ namespace HorCup.Infrastructure
 					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				});
 
-			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
+			// services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 
 			services.AddMediatR(Assembly.GetCallingAssembly());
 			services.AddAutoMapper(Assembly.GetCallingAssembly());

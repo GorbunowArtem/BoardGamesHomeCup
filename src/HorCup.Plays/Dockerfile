@@ -3,12 +3,14 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
 WORKDIR /src
-COPY ["src/HorCup.Plays/HorCup.Plays.csproj", "HorCup.Plays/"]
+
+COPY ["src/HorCup.Plays/HorCup.Plays.csproj", "src/HorCup.Plays/"]
+COPY ["src/HorCup.Infrastructure/HorCup.Infrastructure.csproj", "src/HorCup.Infrastructure/"]
 RUN dotnet restore "src/HorCup.Plays/HorCup.Plays.csproj"
 COPY . .
-WORKDIR "/src/HorCup.Plays"
+WORKDIR "/src/src/HorCup.Plays"
 RUN dotnet build "HorCup.Plays.csproj" -c Release -o /app/build
 
 FROM build AS publish

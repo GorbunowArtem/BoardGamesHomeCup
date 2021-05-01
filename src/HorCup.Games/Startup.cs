@@ -24,7 +24,9 @@ namespace HorCup.Games
 		{
 			services.AddDbContext<GamesContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("GamesContext")));
-		
+
+			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
+
 			services.AddInfrastructure();
 			
 			services.AddScoped<IGamesContext, GamesContext>();
@@ -36,11 +38,13 @@ namespace HorCup.Games
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Games v1"));
+				
 			}
-
-			app.UseHttpsRedirection();
+			
+			app.UseSwagger();
+			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Games v1"));
+			
+			// app.UseHttpsRedirection();
 
 			app.UseRouting();
 
