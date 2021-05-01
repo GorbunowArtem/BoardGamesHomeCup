@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using HorCup.Presentation.PlayersStatistic;
-using HorCup.Presentation.Plays;
-using HorCup.Presentation.PlayScores;
 using HorCup.Presentation.ViewModels;
 
 namespace HorCup.Presentation
@@ -12,9 +10,6 @@ namespace HorCup.Presentation
 		{
 			CreateMap<PlayerStatistic, PlayerStatisticViewModel>();
 
-			
-			CreateMap<PlayScore, PlayScoreViewModel>();
-			CreateMap<Play, PlayViewModel>();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
+using HorCup.Infrastructure;
 using HorCup.Infrastructure.Filters;
 using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
@@ -31,27 +32,16 @@ namespace HorCup.Players
 		{
 			services.AddDbContext<PlayersContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext")));
-			
-			services.AddControllers(options => options.Filters.Add(typeof(CustomExceptionFilter)))
-				.AddFluentValidation(v => { v.RegisterValidatorsFromAssemblyContaining<AddPlayerCommandValidator>(); })
-				.AddJsonOptions(options =>
-				{
-					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-				});
-
-			services.AddMediatR(Assembly.GetAssembly(typeof(AddPlayerCommand)));
-			services.AddAutoMapper(Assembly.GetAssembly(typeof(AddPlayerCommand)));
-
+		
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup.Players", Version = "v1"});
 			});
 
+			services.AddInfrastructure();
+			
 			services.AddScoped<IPlayersContext, PlayersContext>();
 			services.AddScoped<IPlayersService, PlayersService>();
-			services.AddScoped<IIdGenerator, IdGenerator>();
-			services.AddScoped<IDateTimeService, DateTimeService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

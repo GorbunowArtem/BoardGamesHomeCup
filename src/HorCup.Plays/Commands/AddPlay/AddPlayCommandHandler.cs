@@ -3,8 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Infrastructure.Services.IdGenerator;
-using HorCup.Presentation.Context;
-using HorCup.Presentation.GamesStatistic.Commands.GamePlayed;
+using HorCup.Plays.Context;
 using HorCup.Presentation.PlayScores;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -14,16 +13,16 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Guid>
 	{
 		private readonly IIdGenerator _idGenerator;
-		private readonly IHorCupContext _context;
+		private readonly IPlaysContext _context;
 		private readonly ILogger<AddPlayCommandHandler> _logger;
 		private readonly IPublisher _publisher;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
-			IHorCupContext context,
+			IPlaysContext context,
 			ILogger<AddPlayCommandHandler> logger,
 			IPublisher publisher)
-		{
+		{                              
 			_idGenerator = idGenerator;
 			_context = context;
 			_logger = logger;
@@ -58,11 +57,11 @@ namespace HorCup.Presentation.Plays.Commands.AddPlay
 
 			await _context.SaveChangesAsync(cancellationToken);
 
-			await _publisher.Publish(new GamePlayedNotification(
-				request.GameId,
-				request.PlayerScores.Average(p => p.Score),
-				request.PlayedDate,
-				playScores), cancellationToken);
+			// await _publisher.Publish(new GamePlayedNotification(
+			// 	request.GameId,
+			// 	request.PlayerScores.Average(p => p.Score),
+			// 	request.PlayedDate,
+			// 	playScores), cancellationToken);
 
 			return playId;
 

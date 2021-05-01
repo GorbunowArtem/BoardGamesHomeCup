@@ -1,12 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
 using HorCup.Infrastructure.Filters;
 using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Presentation.Context;
-using HorCup.Presentation.Plays.Commands.AddPlay;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,8 +33,6 @@ namespace HorCup.Presentation
 				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
 
 			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
-				.AddFluentValidation(fv =>
-					fv.RegisterValidatorsFromAssemblyContaining<AddPlayCommand>())
 				.AddJsonOptions(options =>
 				{
 					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
