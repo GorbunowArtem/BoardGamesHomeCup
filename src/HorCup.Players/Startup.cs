@@ -32,14 +32,9 @@ namespace HorCup.Players
 		{
 			services.AddDbContext<PlayersContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext")));
-		
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup.Players", Version = "v1"});
-			});
 
 			services.AddInfrastructure();
-			
+
 			services.AddScoped<IPlayersContext, PlayersContext>();
 			services.AddScoped<IPlayersService, PlayersService>();
 		}

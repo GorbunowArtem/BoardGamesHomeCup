@@ -1,14 +1,6 @@
-using System.Reflection;
-using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
-using HorCup.Games.Commands.AddGame;
 using HorCup.Games.Context;
 using HorCup.Games.Services.Games;
 using HorCup.Infrastructure;
-using HorCup.Infrastructure.Filters;
-using HorCup.Infrastructure.Services.DateTimeService;
-using HorCup.Infrastructure.Services.IdGenerator;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,12 +24,7 @@ namespace HorCup.Games
 		{
 			services.AddDbContext<GamesContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("GamesContext")));
-			
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup.Games", Version = "v1"});
-			});
-
+		
 			services.AddInfrastructure();
 			
 			services.AddScoped<IGamesContext, GamesContext>();
