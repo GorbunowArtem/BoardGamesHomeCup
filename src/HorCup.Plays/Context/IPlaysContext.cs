@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using HorCup.Presentation.Plays;
-using HorCup.Presentation.PlayScores;
+using HorCup.Plays.PlayScores;
 using Microsoft.EntityFrameworkCore;
 
 namespace HorCup.Plays.Context

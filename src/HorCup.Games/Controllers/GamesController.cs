@@ -8,9 +8,9 @@ using HorCup.Games.Commands.EditGame;
 using HorCup.Games.Queries.GetById;
 using HorCup.Games.Queries.IsTitleUnique;
 using HorCup.Games.Queries.SearchGames;
+using HorCup.Games.Requests;
 using HorCup.Games.ViewModels;
 using HorCup.Infrastructure.Responses;
-using HorCup.Presentation.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

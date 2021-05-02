@@ -1,6 +1,6 @@
 using System;
 
-namespace HorCup.Presentation.PlayScores
+namespace HorCup.Plays.PlayScores
 {
 	public class PlayScore
 	{

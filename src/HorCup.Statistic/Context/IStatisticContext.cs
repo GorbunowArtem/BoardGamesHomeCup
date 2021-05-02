@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using HorCup.Presentation.GamesStatistic;
-using HorCup.Presentation.PlayersStatistic;
+using HorCup.Statistic.GamesStatistic;
+using HorCup.Statistic.PlayersStatistic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace HorCup.Presentation.Context
+namespace HorCup.Statistic.Context
 {
-	public interface IHorCupContext
+	public interface IStatisticContext
 	{
 		DbSet<GameStatistic> GamesStatistics { get; set; }
 		

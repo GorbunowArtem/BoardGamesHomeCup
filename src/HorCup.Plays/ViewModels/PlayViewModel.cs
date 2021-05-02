@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HorCup.Presentation.ViewModels
+namespace HorCup.Plays.ViewModels
 {
 	public class PlayViewModel
 	{

@@ -1,4 +1,6 @@
-namespace HorCup.Presentation.ViewModels
+using HorCup.Infrastructure.ViewModels;
+
+namespace HorCup.Plays.ViewModels
 {
 	public record PlayScoreViewModel(
 		IdName Player,

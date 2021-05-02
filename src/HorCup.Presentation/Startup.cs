@@ -1,15 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using System.Text.Json.Serialization;
 using HorCup.Infrastructure.Filters;
-using HorCup.Infrastructure.Services.DateTimeService;
-using HorCup.Infrastructure.Services.IdGenerator;
-using HorCup.Presentation.Context;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,9 +23,6 @@ namespace HorCup.Presentation
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<HorCupContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("HorCupContext")));
-
 			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
 				.AddJsonOptions(options =>
 				{
@@ -39,23 +30,12 @@ namespace HorCup.Presentation
 					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				});
 
-			services.AddSwaggerGen();
-
 			services.AddCors(options => options.AddPolicy("AllowAll", p =>
 			{
 				p.AllowAnyOrigin()
 					.AllowAnyHeader()
 					.AllowAnyMethod();
 			}));
-
-			services.AddMediatR(Assembly.GetExecutingAssembly());
-			services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-
-			services.AddScoped<IHorCupContext, HorCupContext>();
-
-			services.AddTransient<IIdGenerator, IdGenerator>();
-			services.AddTransient<IDateTimeService, DateTimeService>();
 
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}
@@ -78,15 +58,10 @@ namespace HorCup.Presentation
 				app.UseHsts();
 			}
 
-			loggerFactory.AddFile("Logs/hor-cup-log.txt");
-
 			app.UseCors("AllowAll");
 			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-
-			app.UseSwagger();
-			app.UseSwaggerUI(sw => { sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Horbunov Home Cup v1"); });
 
 			app.UseRouting();
 

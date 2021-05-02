@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Presentation.PlayScores;
+using HorCup.Plays.PlayScores;
 
-namespace HorCup.Presentation.Plays
+namespace HorCup.Plays
 {
 	public class Play
 	{

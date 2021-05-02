@@ -2,7 +2,7 @@ using System;
 using FluentValidation;
 using HorCup.Infrastructure.Services.DateTimeService;
 
-namespace HorCup.Presentation.Plays.Commands.AddPlay
+namespace HorCup.Plays.Commands.AddPlay
 {
 	public class AddPlayCommandValidator: AbstractValidator<AddPlayCommand>
 	{

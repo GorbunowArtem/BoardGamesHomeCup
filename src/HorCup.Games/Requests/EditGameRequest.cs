@@ -1,4 +1,4 @@
-namespace HorCup.Presentation.Requests
+namespace HorCup.Games.Requests
 {
 	public record EditGameRequest(
 		string Title,

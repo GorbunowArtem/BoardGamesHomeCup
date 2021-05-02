@@ -3,13 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Infrastructure.Responses;
-using HorCup.Presentation.Plays.Commands.AddPlay;
-using HorCup.Presentation.Plays.Queries.SearchPlays;
-using HorCup.Presentation.ViewModels;
+using HorCup.Plays.Commands.AddPlay;
+using HorCup.Plays.Queries.SearchPlays;
+using HorCup.Plays.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HorCup.Presentation.Controllers
+namespace HorCup.Plays.Controllers
 {
 	[ExcludeFromCodeCoverage]
 	[ApiController]

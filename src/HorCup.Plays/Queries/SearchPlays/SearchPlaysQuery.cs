@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using HorCup.Infrastructure.Queries;
-using HorCup.Presentation.ViewModels;
+using HorCup.Plays.ViewModels;
 using MediatR;
 
-namespace HorCup.Presentation.Plays.Queries.SearchPlays
+namespace HorCup.Plays.Queries.SearchPlays
 {
 	public record SearchPlaysQuery : SearchQueryBase, IRequest<(IEnumerable<PlayViewModel> items, int total)>
 	{

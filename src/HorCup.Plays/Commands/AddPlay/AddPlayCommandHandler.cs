@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Plays.Context;
-using HorCup.Presentation.PlayScores;
+using HorCup.Plays.PlayScores;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Presentation.Plays.Commands.AddPlay
+namespace HorCup.Plays.Commands.AddPlay
 {
 	public class AddPlayCommandHandler : IRequestHandler<AddPlayCommand, Guid>
 	{

@@ -1,4 +1,4 @@
-namespace HorCup.Presentation.PlayersStatistic
+namespace HorCup.Statistic.PlayersStatistic
 {
 	public enum PlayerStatsSortBy
 	{

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HorCup.Presentation.Plays
+namespace HorCup.Plays
 {
 	public class PlayConfiguration: IEntityTypeConfiguration<Play>
 	{

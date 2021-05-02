@@ -1,6 +1,6 @@
 using System;
 
-namespace HorCup.Presentation.ViewModels
+namespace HorCup.Infrastructure.ViewModels
 {
 	public record IdName(Guid Id, string Name);
 }

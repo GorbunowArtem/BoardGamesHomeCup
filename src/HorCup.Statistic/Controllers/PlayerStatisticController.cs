@@ -2,12 +2,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 using HorCup.Infrastructure.Responses;
-using HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats;
-using HorCup.Presentation.ViewModels;
+using HorCup.Statistic.PlayersStatistic.Queries.SearchPlayerStats;
+using HorCup.Statistic.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HorCup.Presentation.Controllers
+namespace HorCup.Statistic.Controllers
 {
 	[ExcludeFromCodeCoverage]
 	[ApiController]

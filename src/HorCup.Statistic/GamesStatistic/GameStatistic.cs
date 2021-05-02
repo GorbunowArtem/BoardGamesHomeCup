@@ -1,6 +1,6 @@
 using System;
 
-namespace HorCup.Presentation.GamesStatistic
+namespace HorCup.Statistic.GamesStatistic
 {
 	public class GameStatistic
 	{

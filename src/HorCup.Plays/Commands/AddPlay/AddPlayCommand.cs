@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Presentation.ViewModels;
+using HorCup.Plays.ViewModels;
 using MediatR;
 
-namespace HorCup.Presentation.Plays.Commands.AddPlay
+namespace HorCup.Plays.Commands.AddPlay
 {
 	public record AddPlayCommand : IRequest<Guid>
 	{

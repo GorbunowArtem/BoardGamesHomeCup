@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using HorCup.Infrastructure.Queries;
-using HorCup.Presentation.ViewModels;
+using HorCup.Statistic.ViewModels;
 using MediatR;
 
-namespace HorCup.Presentation.PlayersStatistic.Queries.SearchPlayerStats
+namespace HorCup.Statistic.PlayersStatistic.Queries.SearchPlayerStats
 {
 	public record SearchPlayerStatsQuery : SearchQueryBase, IRequest<(IEnumerable<PlayerStatisticViewModel> items, int total)>
 	{

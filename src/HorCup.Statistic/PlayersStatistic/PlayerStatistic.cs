@@ -1,8 +1,8 @@
 using System;
 
-namespace HorCup.Presentation.ViewModels
+namespace HorCup.Statistic.PlayersStatistic
 {
-	public class PlayerStatisticViewModel
+	public class PlayerStatistic
 	{
 		public Guid PlayerId { get; set; }
 
@@ -10,7 +10,7 @@ namespace HorCup.Presentation.ViewModels
 		
 		public Guid GameId { get; set; }
 
-		// public GameViewModel Game { get; set; }
+		// public Game Game { get; set; }
 		
 		public int PlayedTotal { get; set; }
 

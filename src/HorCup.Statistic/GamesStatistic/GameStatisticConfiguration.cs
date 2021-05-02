@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HorCup.Presentation.GamesStatistic
+namespace HorCup.Statistic.GamesStatistic
 {
 	public class GameStatisticConfiguration : IEntityTypeConfiguration<GameStatistic>
 	{

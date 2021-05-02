@@ -1,7 +1,6 @@
 using AutoMapper;
-using HorCup.Presentation.Plays;
-using HorCup.Presentation.PlayScores;
-using HorCup.Presentation.ViewModels;
+using HorCup.Plays.PlayScores;
+using HorCup.Plays.ViewModels;
 
 namespace HorCup.Plays
 {
