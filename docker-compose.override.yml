@@ -1,16 +1,20 @@
 version: "3.4"
 
 services:
-  horcup.games:
+  horcup.plays:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
-      - "5004:80"
+      - 5002:80
 
   horcup.players:
     environment:
-      - ASPNETCORE_ENVIRONMENT=DevelSopment
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5003:80"
+      - 5003:80
+
+  horcup.games:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5004:80

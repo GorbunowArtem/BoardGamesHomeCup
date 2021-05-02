@@ -1,6 +1,8 @@
 version: "3.4"
 
 services:
+  #  docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+
   #  horcup.identityserver:
   #    image: ${DOCKER_REGISTRY-}identityserver
   #    build:
