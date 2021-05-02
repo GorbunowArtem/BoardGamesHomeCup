@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\tests\HorCup.Tests.Base\HorCup.Tests.Base.csproj" />
       <ProjectReference Include="..\HorCup.Players\HorCup.Players.csproj" />
     </ItemGroup>
 

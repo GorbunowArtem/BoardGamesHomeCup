@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using HorCup.Players.Services.Players;
+using HorCup.Tests.Base;
 using NUnit.Framework;
 
 namespace HorCup.Players.Tests.Services

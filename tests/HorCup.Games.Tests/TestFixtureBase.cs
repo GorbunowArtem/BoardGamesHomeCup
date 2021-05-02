@@ -2,27 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using HorCup.Players.Context;
+using HorCup.Games.Context;
 using HorCup.Tests.Base;
 
-namespace HorCup.Players.Tests
+namespace HorCup.Games.Tests
 {
-	public abstract class TestFixtureBase: IDisposable
+	public abstract class TestFixtureBase
 	{
-		protected readonly PlayersContext Context;
+		protected readonly GamesContext Context;
 
 		protected TestFixtureBase()
 		{
-			Context = PlayersContextFactory.Create();
+			Context = GamesContextFactory.Create();
 
-			var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<PlayersProfile>(); });
+			var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<GamesProfile>(); });
 
 			Mapper = configProvider.CreateMapper();
 		}
 
 		public void Dispose()
 		{
-			PlayersContextFactory.Destroy(Context);
+			GamesContextFactory.Destroy(Context);
 		}
 
 		protected IMapper Mapper { get; }

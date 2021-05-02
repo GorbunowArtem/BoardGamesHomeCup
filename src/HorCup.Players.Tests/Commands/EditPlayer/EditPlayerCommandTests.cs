@@ -9,6 +9,7 @@ using HorCup.Players.Commands.AddPlayer;
 using HorCup.Players.Commands.EditPlayer;
 using HorCup.Players.Services.Players;
 using HorCup.Players.Tests.Factory;
+using HorCup.Tests.Base;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;

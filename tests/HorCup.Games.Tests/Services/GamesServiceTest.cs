@@ -1,13 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using HorCup.Games.Models;
+using HorCup.Games.Services.Games;
+using HorCup.Games.Tests.Factory;
 using HorCup.Infrastructure.Exceptions;
-using HorCup.Presentation.Games;
-using HorCup.Presentation.Services.Games;
-using HorCup.Tests.Games.Factory;
+using HorCup.Tests.Base;
 using NUnit.Framework;
 
-namespace HorCup.Tests.Services
+namespace HorCup.Games.Tests.Services
 {
 	[TestFixture]
 	public class GamesServiceTest: TestFixtureBase

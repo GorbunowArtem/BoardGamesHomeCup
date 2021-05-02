@@ -1,5 +1,6 @@
 ﻿using System;
 using HorCup.Players.Models;
+using HorCup.Tests.Base;
 
 namespace HorCup.Players.Tests.Factory
 {
