@@ -11,13 +11,15 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Players.Commands.EditPlayer
 {
-	public class EditPlayerCommandHandler: IRequestHandler<EditPlayerCommand, Unit>
+	public class EditPlayerCommandHandler : IRequestHandler<EditPlayerCommand, Unit>
 	{
 		private readonly IPlayersContext _context;
 		private readonly ILogger<EditPlayerCommandHandler> _logger;
 		private readonly IPlayersService _playersService;
 
-		public EditPlayerCommandHandler(IPlayersContext context, ILogger<EditPlayerCommandHandler> logger,
+		public EditPlayerCommandHandler(
+			IPlayersContext context,
+			ILogger<EditPlayerCommandHandler> logger,
 			IPlayersService playersService)
 		{
 			_context = context;
@@ -27,10 +29,10 @@ namespace HorCup.Players.Commands.EditPlayer
 
 		public async Task<Unit> Handle(EditPlayerCommand request, CancellationToken cancellationToken)
 		{
-			var existing = await _context.Players.FirstOrDefaultAsync(p => p.Id ==request.Id, cancellationToken);
+			var existing = await _context.Players.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
 			_logger.LogInformation($"Trying to get player {request.Id.ToString()}");
-			
+
 			if (existing == null)
 			{
 				throw new NotFoundException(nameof(Player), request.Id);
@@ -39,13 +41,13 @@ namespace HorCup.Players.Commands.EditPlayer
 			await ValidateNickname();
 
 			existing.Nickname = request.Nickname;
-			
+
 			_context.Players.Update(existing);
-			
+
 			_logger.LogInformation($"Updating player {request.Id.ToString()}");
-			
+
 			await _context.SaveChangesAsync(cancellationToken);
-			
+
 			return Unit.Value;
 
 			async Task ValidateNickname()
@@ -54,7 +56,8 @@ namespace HorCup.Players.Commands.EditPlayer
 				{
 					var isNicknameUnique = await _playersService.IsNicknameUniqueAsync(request.Nickname, request.Id);
 
-					_logger.LogInformation($"Checking if nickname {request.Nickname} for {request.Id.ToString()} is unique ");
+					_logger.LogInformation(
+						$"Checking if nickname {request.Nickname} for {request.Id.ToString()} is unique ");
 
 					if (!isNicknameUnique)
 					{

@@ -9,7 +9,7 @@ using HorCup.Players.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
-namespace HorCup.Players.Tests.Commands
+namespace HorCup.Players.Tests.Commands.DeletePlayer
 {
 	[TestFixture]
 	public class DeletePlayerCommandHandlerTests: TestFixtureBase
