@@ -2,7 +2,7 @@ using FluentValidation.TestHelper;
 using HorCup.Players.Commands.AddPlayer;
 using NUnit.Framework;
 
-namespace HorCup.Players.Tests.Players.Commands.AddPlayer
+namespace HorCup.Players.Tests.Commands.AddPlayer
 {
 	[TestFixture]
 	public class AddPlayerCommandValidatorTests
