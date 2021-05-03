@@ -16,9 +16,9 @@ namespace HorCup.Players.Tests.Services
 			_sut = new PlayersService(Context);
 		}
 
-		[TestCase("player2nick", 567, true)]
-		[TestCase("player2nick", 123, false)]
-		[TestCase("player2nick", null, false)]
+		[TestCase("Player2Nick", 567, true)]
+		[TestCase("Player2Nick", 123, false)]
+		[TestCase("Player2Nick", null, false)]
 		[TestCase("newnickname", null, true)]
 		[TestCase("", null, true)]
 		[TestCase(" ", null, true)]

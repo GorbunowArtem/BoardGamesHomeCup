@@ -23,9 +23,9 @@ namespace HorCup.Games.Tests.Services
 			_sut = new GamesService(Context);
 		}
 
-		[TestCase("game 2", 324, false)]
-		[TestCase("game 2", 2, true)]
-		[TestCase("game 2", null, false)]
+		[TestCase("Game 2", 324, false)]
+		[TestCase("Game 2", 2, true)]
+		[TestCase("Game 2", null, false)]
 		[TestCase("unique title", null, true)]
 		[TestCase("", null, true)]
 		[TestCase(" ", null, true)]

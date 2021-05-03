@@ -28,15 +28,14 @@ namespace HorCup.Games.Services.Games
 				return true;
 			}
 
-			var query = _context.Games.Where(g => g.Title.ToUpper()
-				.Equals(title.Trim().ToUpper()));
-
+			var query = _context.Games.Where(g => g.Title == title.Trim());
+				                                                                              
 			if (id.HasValue)
 			{
 				query = query.Where(g => g.Id != id);
 			}
 
-			return !await query.AnyAsync(cancellationToken);
+			return await query.CountAsync(cancellationToken) == 0;
 		}
 
 		public async Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken)
