@@ -1,16 +1,9 @@
-using System.Threading;
-using System.Threading.Tasks;
-using HorCup.Plays.PlayScores;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace HorCup.Plays.Context
 {
 	public interface IPlaysContext
 	{
-		DbSet<Play> Plays { get; set; }
-
-		DbSet<PlayScore> PlayScores { get; set; }
-		
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+		IMongoCollection<Play> Plays { get; }
 	}
 }

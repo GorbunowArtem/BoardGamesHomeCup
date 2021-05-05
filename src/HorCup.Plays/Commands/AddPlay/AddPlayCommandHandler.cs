@@ -15,18 +15,15 @@ namespace HorCup.Plays.Commands.AddPlay
 		private readonly IIdGenerator _idGenerator;
 		private readonly IPlaysContext _context;
 		private readonly ILogger<AddPlayCommandHandler> _logger;
-		private readonly IPublisher _publisher;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
 			IPlaysContext context,
-			ILogger<AddPlayCommandHandler> logger,
-			IPublisher publisher)
+			ILogger<AddPlayCommandHandler> logger)
 		{                              
 			_idGenerator = idGenerator;
 			_context = context;
 			_logger = logger;
-			_publisher = publisher;
 		}
 
 		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
@@ -35,7 +32,7 @@ namespace HorCup.Plays.Commands.AddPlay
 
 			var playId = _idGenerator.NewGuid();
 
-			await _context.Plays.AddAsync(new Play
+			await _context.Plays.InsertOneAsync(new Play
 			{
 				Id = playId,
 				GameId = request.GameId,
@@ -53,9 +50,9 @@ namespace HorCup.Plays.Commands.AddPlay
 				PlayerId = s.Player.Id
 			}).ToArray();
 			
-			await _context.PlayScores.AddRangeAsync(playScores, cancellationToken);
-
-			await _context.SaveChangesAsync(cancellationToken);
+			// await _context.PlayScores.AddRangeAsync(playScores, cancellationToken);
+			//
+			// await _context.SaveChangesAsync(cancellationToken);
 
 			// await _publisher.Publish(new GamePlayedNotification(
 			// 	request.GameId,

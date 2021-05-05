@@ -20,7 +20,7 @@ namespace HorCup.Infrastructure.Filters
 		public async Task OnExceptionAsync(ExceptionContext context)
 		{
 			var statusCode = HttpStatusCode.InternalServerError;
-			var message = context.Exception.Message;
+			var message = context.Exception.ToString();
 			
 			switch (context.Exception)
 			{

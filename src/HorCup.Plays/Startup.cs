@@ -2,7 +2,6 @@ using HorCup.Infrastructure;
 using HorCup.Plays.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,9 +20,6 @@ namespace HorCup.Plays
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<PlaysContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("PlaysContext")));
-			
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 
 			services.AddInfrastructure();
