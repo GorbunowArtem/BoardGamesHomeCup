@@ -22,12 +22,8 @@ namespace HorCup.Games
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var dbConfig = Configuration.GetSection("CosmosDb");
-			
 			services.AddDbContext<GamesContext>(options =>
-				options.UseCosmos(dbConfig["AccountEndpoint"],
-					dbConfig["AccountKey"],
-					dbConfig["DatabaseName"]));
+				options.UseSqlServer(Configuration.GetConnectionString("GamesContext")));
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 

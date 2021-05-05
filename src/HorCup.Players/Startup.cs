@@ -1,6 +1,14 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
+using FluentValidation.AspNetCore;
 using HorCup.Infrastructure;
+using HorCup.Infrastructure.Filters;
+using HorCup.Infrastructure.Services.DateTimeService;
+using HorCup.Infrastructure.Services.IdGenerator;
+using HorCup.Players.Commands.AddPlayer;
 using HorCup.Players.Context;
 using HorCup.Players.Services.Players;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +30,9 @@ namespace HorCup.Players
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var dbConfig = Configuration.GetSection("CosmosDb");
-			
 			services.AddDbContext<PlayersContext>(options =>
-				options.UseCosmos(dbConfig["AccountEndpoint"],
-					dbConfig["AccountKey"],
-					dbConfig["DatabaseName"]));
-			
+				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext")));
+
 			services.AddInfrastructure();
 			
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });

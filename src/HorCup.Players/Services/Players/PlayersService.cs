@@ -23,7 +23,7 @@ namespace HorCup.Players.Services.Players
 			}
 
 			var query = _context.Players.Where(p =>
-				p.Nickname.Equals(nickname.Trim()));
+				p.Nickname.ToUpper().Equals(nickname.Trim().ToUpper()));
 
 			if (id.HasValue)
 			{
