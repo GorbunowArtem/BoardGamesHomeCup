@@ -10,7 +10,7 @@ import { PlayerStatistic } from './models/player-statistic';
 import { SearchPlayerStatsOptions } from './models/search-player-stats-options';
 import { SearchPlayersOptions } from './models/search-players-options';
 
-const PlayersUrl = '/players';
+const PlayersUrl = 'https://localhost:5003/players';
 const PlayersStatsUrl = '/players-statistic';
 
 @Injectable({

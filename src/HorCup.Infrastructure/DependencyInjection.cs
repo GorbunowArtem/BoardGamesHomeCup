@@ -30,6 +30,14 @@ namespace HorCup.Infrastructure
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
 
+			
+			services.AddCors(options => options.AddPolicy("AllowAll", p =>
+			{
+				p.AllowAnyOrigin()
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+			}));
+			
 			return services;
 		}
 	}

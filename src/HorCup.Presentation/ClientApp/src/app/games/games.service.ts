@@ -7,7 +7,7 @@ import { Game } from './models/game';
 import { GameDetails } from './models/game-details';
 import { SearchGamesOptions } from './models/search-games-options';
 
-const gamesUrl = '/games';
+const gamesUrl = 'https://localhost:5004/games';
 
 @Injectable({
   providedIn: 'root'

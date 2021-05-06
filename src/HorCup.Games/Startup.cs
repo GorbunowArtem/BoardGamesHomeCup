@@ -40,6 +40,7 @@ namespace HorCup.Games
 				app.UseDeveloperExceptionPage();
 				
 			}
+			app.UseCors("AllowAll");
 			
 			app.UseSwagger();
 			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Games v1"));

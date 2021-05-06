@@ -30,13 +30,6 @@ namespace HorCup.Presentation
 					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				});
 
-			services.AddCors(options => options.AddPolicy("AllowAll", p =>
-			{
-				p.AllowAnyOrigin()
-					.AllowAnyHeader()
-					.AllowAnyMethod();
-			}));
-
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 		}
 
