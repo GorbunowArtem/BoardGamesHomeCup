@@ -1,122 +1,100 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading;
-// using System.Threading.Tasks;
-// using HorCup.Presentation.Context;
-// using HorCup.Presentation.ViewModels;
-// using MediatR;
-// using Microsoft.EntityFrameworkCore;
-// using Microsoft.Extensions.Logging;
-//
-// namespace HorCup.Presentation.Plays.Queries.SearchPlays
-// {
-// 	public class
-// 		SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
-// 	{
-// 		private readonly IHorCupContext _context;
-// 		private readonly ILogger<SearchPlaysQueryHandler> _logger;
-//
-// 		public SearchPlaysQueryHandler(IHorCupContext context, ILogger<SearchPlaysQueryHandler> logger)
-// 		{
-// 			_context = context;
-// 			_logger = logger;
-// 		}
-//
-// 		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(
-// 			SearchPlaysQuery request,
-// 			CancellationToken cancellationToken)
-// 		{
-// 			var query = _context.Plays.AsQueryable();
-//
-// 			query = ApplyGamesFilter(request, query);
-//
-// 			query = ApplyPlayersFilter(request, query);
-//
-// 			query = ApplyDatesFilter(request, query);
-//
-// 			query = ApplySearchTextFilter(request, query);
-//
-// 			var plays = await query
-// 				.Include(p => p.Game)
-// 				.Include(p => p.PlayerScores)
-// 				.ThenInclude(p => p.Player)
-// 				.Select(p => new PlayViewModel
-// 				{
-// 					Id = p.Id,
-// 					Notes = p.Notes,
-// 					GameTitle = p.Game.Title,
-// 					GameId = p.GameId,
-// 					PlayedDate = p.PlayedDate,
-// 					PlayerScores = p.PlayerScores.Select(ps => new PlayScoreViewModel(
-// 						new IdName(
-// 							ps.PlayerId,
-// 							ps.Player.Nickname),
-// 						ps.Score,
-// 						ps.IsWinner
-// 					))
-// 				})
-// 				.OrderByDescending(pl => pl.PlayedDate)
-// 				.Skip(request.Skip)
-// 				.Take(request.Take)
-// 				.ToListAsync(cancellationToken);
-//
-// 			var total = await query.CountAsync(cancellationToken);
-//
-// 			return (plays, total);
-// 		}
-//
-// 		private static IQueryable<Play> ApplySearchTextFilter(SearchPlaysQuery request, IQueryable<Play> query)
-// 		{
-// 			if (!string.IsNullOrEmpty(request.SearchText))
-// 			{
-// 				query = query.Where(p => EF.Functions.Like(p.Game.Title, $"%{request.SearchText}%")
-// 				                         || p.PlayerScores.Any(ps =>
-// 					                         EF.Functions.Like(ps.Player.Nickname, $"%{request.SearchText}")));
-// 			}
-//
-// 			return query;
-// 		}
-//
-// 		private static IQueryable<Play> ApplyGamesFilter(SearchPlaysQuery request, IQueryable<Play> query)
-// 		{
-// 			if (request.GamesIds.Any())
-// 			{
-// 				query = query.Where(p => request.GamesIds.Contains(p.GameId));
-// 			}
-//
-// 			return query;
-// 		}
-//
-// 		private static IQueryable<Play> ApplyPlayersFilter(SearchPlaysQuery request, IQueryable<Play> query)
-// 		{
-// 			if (request.PlayersIds.Any())
-// 			{
-// 				query = query.Where(p => p.PlayerScores.Any(ps => request.PlayersIds.Contains(ps.PlayerId)));
-// 			}
-//
-// 			return query;
-// 		}
-//
-// 		private static IQueryable<Play> ApplyDatesFilter(SearchPlaysQuery request, IQueryable<Play> query)
-// 		{
-// 			if (request.DateFrom.HasValue && request.DateTo.HasValue)
-// 			{
-// 				query = query.Where(p => p.PlayedDate >= request.DateFrom && p.PlayedDate <= request.DateTo);
-// 			}
-// 			else
-// 			{
-// 				if (request.DateFrom.HasValue)
-// 				{
-// 					query = query.Where(p => p.PlayedDate >= request.DateFrom);
-// 				}
-// 				else if (request.DateTo.HasValue)
-// 				{
-// 					query = query.Where(p => p.PlayedDate <= request.DateTo);
-// 				}
-// 			}
-//
-// 			return query;
-// 		}
-// 	}
-// }
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using HorCup.Infrastructure.ViewModels;
+using HorCup.Plays.Context;
+using HorCup.Plays.Models;
+using HorCup.Plays.ViewModels;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+
+namespace HorCup.Plays.Queries.SearchPlays
+{
+	public class SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
+	{
+		private readonly IPlaysContext _context;
+		private readonly ILogger<SearchPlaysQueryHandler> _logger;
+		private readonly IMapper _mapper;
+		
+		public SearchPlaysQueryHandler(IPlaysContext context, ILogger<SearchPlaysQueryHandler> logger,
+			IMapper mapper)
+		{
+			_context = context;
+			_logger = logger;
+			_mapper = mapper;
+		}
+
+		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(
+			SearchPlaysQuery request,
+			CancellationToken cancellationToken)
+		{
+			var filter = Builders<Play>.Filter.Empty;
+			
+			// ApplyGamesFilter(request, filter);
+			//
+			// ApplyPlayersFilter(request, filter);
+			//
+			// ApplyDatesFilter(request, filter);
+			//
+			// ApplySearchTextFilter(request, filter);
+
+
+			var result = await _context.Plays.FindAsync(filter, cancellationToken: cancellationToken);
+
+			var plays = await result.ToListAsync(cancellationToken: cancellationToken);
+
+			return (_mapper.Map<IEnumerable<PlayViewModel>>(plays), 0);
+		}
+
+		private static void ApplySearchTextFilter(SearchPlaysQuery request, IQueryable<Play> filter)
+		{
+			if (!string.IsNullOrEmpty(request.SearchText))
+			{
+				// filter = filter.Where(p => EF.Functions.Like(p.Game.Title, $"%{request.SearchText}%")
+				//                          || p.PlayerScores.Any(ps =>
+				// 	                         EF.Functions.Like(ps.Player.Nickname, $"%{request.SearchText}")));
+			}
+		}
+
+		private static void ApplyGamesFilter(SearchPlaysQuery request, FilterDefinition<Play> filter)
+		{
+			if (request.GamesIds.Any())
+			{
+				filter &= Builders<Play>.Filter.In(p => p.Game.Id, request.GamesIds);
+			}
+		}
+
+		private static void ApplyPlayersFilter(SearchPlaysQuery request, FilterDefinition<Play> filter)
+		{
+			if (request.PlayersIds.Any())
+			{
+				// filter &= Builders<Play>.Filter.In(p => p.PlayerScores.Select(pl => pl.Player.Id), request.PlayersIds);
+			}
+		}
+
+		private static IQueryable<Play> ApplyDatesFilter(SearchPlaysQuery request, IQueryable<Play> query)
+		{
+			if (request.DateFrom.HasValue && request.DateTo.HasValue)
+			{
+				query = query.Where(p => p.PlayedDate >= request.DateFrom && p.PlayedDate <= request.DateTo);
+			}
+			else
+			{
+				if (request.DateFrom.HasValue)
+				{
+					query = query.Where(p => p.PlayedDate >= request.DateFrom);
+				}
+				else if (request.DateTo.HasValue)
+				{
+					query = query.Where(p => p.PlayedDate <= request.DateTo);
+				}
+			}
+
+			return query;
+		}
+	}
+}
