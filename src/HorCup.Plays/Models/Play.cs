@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Plays.PlayScores;
+using HorCup.Infrastructure.ViewModels;
 
-namespace HorCup.Plays
+namespace HorCup.Plays.Models
 {
 	public class Play
 	{
 		public Guid Id { get; set; }
 
-		// public Game Game { get; set; }
-		
-		public Guid GameId { get; set; }
+		public IdName Game { get; set; }
 
 		public DateTime PlayedDate { get; set; }
 

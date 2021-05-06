@@ -1,5 +1,6 @@
 using AutoMapper;
-using HorCup.Plays.PlayScores;
+using HorCup.Plays.Commands.AddPlay;
+using HorCup.Plays.Models;
 using HorCup.Plays.ViewModels;
 
 namespace HorCup.Plays
@@ -8,8 +9,8 @@ namespace HorCup.Plays
 	{
 		public PlaysProfile()
 		{
-			CreateMap<PlayScore, PlayScoreViewModel>();
 			CreateMap<Play, PlayViewModel>();
+			CreateMap<AddPlayCommand, Play>();
 		}
 	}
 }

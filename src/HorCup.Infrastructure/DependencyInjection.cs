@@ -41,4 +41,4 @@ namespace HorCup.Infrastructure
 			return services;
 		}
 	}
-}
+}                                                               

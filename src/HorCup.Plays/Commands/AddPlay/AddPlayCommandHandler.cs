@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Plays.Context;
-using HorCup.Plays.PlayScores;
+using HorCup.Plays.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -15,44 +15,27 @@ namespace HorCup.Plays.Commands.AddPlay
 		private readonly IIdGenerator _idGenerator;
 		private readonly IPlaysContext _context;
 		private readonly ILogger<AddPlayCommandHandler> _logger;
+		private readonly IMapper _mapper;
 
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
 			IPlaysContext context,
-			ILogger<AddPlayCommandHandler> logger)
-		{                              
+			ILogger<AddPlayCommandHandler> logger,
+			IMapper mapper)
+		{
 			_idGenerator = idGenerator;
 			_context = context;
 			_logger = logger;
+			_mapper = mapper;
 		}
 
 		public async Task<Guid> Handle(AddPlayCommand request, CancellationToken cancellationToken)
 		{
-			await ValidateGame(request.PlayerScores.Count());
-
 			var playId = _idGenerator.NewGuid();
 
-			await _context.Plays.InsertOneAsync(new Play
-			{
-				Id = playId,
-				GameId = request.GameId,
-				Notes = request.Notes,
-				PlayedDate = request.PlayedDate,
-			}, cancellationToken);
-
-			var highestScore = request.PlayerScores.Select(s => s.Score).Max();
-
-			var playScores = request.PlayerScores.Select(s => new PlayScore
-			{
-				Score = s.Score,
-				IsWinner = highestScore == s.Score,
-				PlayId = playId,
-				PlayerId = s.Player.Id
-			}).ToArray();
+			_logger.LogInformation($"Adding Play with id {playId}");
 			
-			// await _context.PlayScores.AddRangeAsync(playScores, cancellationToken);
-			//
-			// await _context.SaveChangesAsync(cancellationToken);
+			await _context.Plays.InsertOneAsync(_mapper.Map<Play>(request), cancellationToken: cancellationToken);
 
 			// await _publisher.Publish(new GamePlayedNotification(
 			// 	request.GameId,
@@ -61,29 +44,6 @@ namespace HorCup.Plays.Commands.AddPlay
 			// 	playScores), cancellationToken);
 
 			return playId;
-
-			async Task ValidateGame(int playerScoresCount)
-			{
-				// var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.GameId, cancellationToken);
-				//
-				// if (game == null)
-				// {
-				// 	_logger.LogError($"Game with id {request.GameId} was not found");
-				// 	throw new NotFoundException(nameof(Game), request.GameId);
-				// }
-				//
-				// if (playerScoresCount > game.MaxPlayers)
-				// {
-				// 	_logger.LogError("Players count is bigger than game max players");
-				// 	throw new ArgumentException("Players count cannot be bigger than game maximum players");
-				// }
-				//
-				// if (game.MinPlayers > playerScoresCount)
-				// {
-				// 	_logger.LogError("Players count is less than game min players");
-				// 	throw new ArgumentException("Players count cannot be less than game minimum players");
-				// }
-			}
 		}
 	}
 }

@@ -24,6 +24,8 @@ namespace HorCup.Plays
 
 			services.AddInfrastructure();
 
+			services.Configure<MongoDbOptions>(Configuration.GetSection(MongoDbOptions.MongoDb));
+			
 			services.AddTransient<IPlaysContext, PlaysContext>();
 		}
 

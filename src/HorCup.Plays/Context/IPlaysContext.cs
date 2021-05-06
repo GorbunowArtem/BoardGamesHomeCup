@@ -1,3 +1,4 @@
+using HorCup.Plays.Models;
 using MongoDB.Driver;
 
 namespace HorCup.Plays.Context

@@ -150,17 +150,10 @@ export class AddPlayComponent implements OnInit {
 
   private getModel(): AddPlay {
     return {
-      gameId: this.selectedGame.id,
+      game: this.selectedGame,
       notes: this.addPlayForm.get('notes')?.value,
       playedDate: this.addPlayForm.get('playedDate')?.value,
-      playerScores: this.playerScores.value.map((p: any) => {
-        return {
-          player: {
-            id: p.player.id
-          },
-          score: p.score
-        };
-      })
+      playerScores: this.playerScores.value
     };
   }
 }

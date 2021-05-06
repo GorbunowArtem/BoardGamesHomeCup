@@ -8,8 +8,8 @@ namespace HorCup.Plays.Commands.AddPlay
 	{
 		public AddPlayCommandValidator(IDateTimeService dateTimeService)
 		{
-			RuleFor(p => p.GameId)
-				.NotEqual(Guid.Empty);
+			RuleFor(p => p.Game)
+				.NotNull();
 
 			RuleFor(p => p.PlayedDate)
 				.GreaterThan(new DateTime(2015, 1, 1))

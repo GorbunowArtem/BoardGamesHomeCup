@@ -1,6 +1,5 @@
-using System.Security.Authentication;
-using HorCup.Plays.PlayScores;
-using Microsoft.EntityFrameworkCore;
+using HorCup.Plays.Models;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace HorCup.Plays.Context
@@ -9,25 +8,13 @@ namespace HorCup.Plays.Context
 	{
 		private readonly IMongoDatabase _db;
 
-		public PlaysContext()
+		public PlaysContext(IOptions<MongoDbOptions> options)
 		{
-			var connString =
-				"mongodb://localhost:C2y6yDjf5%2FR%2Bob0N8A7Cgv30VRDJIWEHLM%2B4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw%2FJw%3D%3D@localhost:10255/admin?ssl=true";
-			var settings = MongoClientSettings.FromUrl(new MongoUrl(connString));
-			settings.SslSettings = new SslSettings
-			{
-				EnabledSslProtocols = SslProtocols.Tls12
-			};
-			
-			
-			
-			// var client = new MongoClient("mongodb://localhost:C2y6yDjf5%2FR%2Bob0N8A7Cgv30VRDJIWEHLM%2B4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw%2FJw%3D%3D@localhost:10255/admin?ssl=true");
-			var client = new MongoClient(settings);
+			var client = new MongoClient(options.Value.ConnectionString);
 
-			_db = client.GetDatabase("Plays");
-
+			_db = client.GetDatabase("HorCupPlays");
 		}
 
-		public IMongoCollection<Play> Plays => _db.GetCollection<Play>("Play");
+		public IMongoCollection<Play> Plays => _db.GetCollection<Play>("Plays");
 	}
 }
