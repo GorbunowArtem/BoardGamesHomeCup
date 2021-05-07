@@ -3,12 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HorCup.Infrastructure.ViewModels;
 using HorCup.Plays.Context;
 using HorCup.Plays.Models;
 using HorCup.Plays.ViewModels;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 

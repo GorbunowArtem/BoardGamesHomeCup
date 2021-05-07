@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Infrastructure.ViewModels;
 using HorCup.Plays.Models;
+using HorCup.Plays.ViewModels;
 using MediatR;
 
 namespace HorCup.Plays.Commands.AddPlay
@@ -10,7 +10,7 @@ namespace HorCup.Plays.Commands.AddPlay
 	{
 		public Guid Id { get; set; }
 
-		public IdName Game { get; set; }
+		public GameViewModel Game { get; set; }
 
 		public DateTime PlayedDate { get; set; }
 

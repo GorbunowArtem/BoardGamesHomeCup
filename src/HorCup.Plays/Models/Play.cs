@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Infrastructure.ViewModels;
 
 namespace HorCup.Plays.Models
 {
@@ -8,7 +7,7 @@ namespace HorCup.Plays.Models
 	{
 		public Guid Id { get; set; }
 
-		public IdName Game { get; set; }
+		public Game Game { get; set; }
 
 		public DateTime PlayedDate { get; set; }
 

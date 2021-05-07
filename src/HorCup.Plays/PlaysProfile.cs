@@ -9,8 +9,11 @@ namespace HorCup.Plays
 	{
 		public PlaysProfile()
 		{
-			CreateMap<PlayScore, PlayScoreViewModel>();
 			CreateMap<Play, PlayViewModel>();
+			CreateMap<Game, GameViewModel>();
+			CreateMap<PlayScore, PlayScoreViewModel>();
+			
+			CreateMap<GameViewModel, Game>();
 			CreateMap<AddPlayCommand, Play>();
 		}
 	}
