@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  horcup.plays:
+  horcup.presentation:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
@@ -18,3 +18,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 5004:80
+
+  horcup.plays:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5005:80

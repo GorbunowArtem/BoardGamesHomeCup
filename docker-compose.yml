@@ -11,6 +11,12 @@ services:
   #    environment:
   #      IDENTITY_ISSUER: "http://10.0.75.1:5001"
 
+  horcup.presentation:
+    image: ${DOCKER_REGISTRY-}presentation
+    build:
+      context: .
+      dockerfile: src/HorCup.Presentation/Dockerfile
+
   horcup.players:
     image: ${DOCKER_REGISTRY-}players
     build:
