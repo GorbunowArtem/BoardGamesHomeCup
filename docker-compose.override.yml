@@ -3,7 +3,8 @@ version: "3.4"
 services:
   horcup.presentation:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
     ports:
       - 5002:80
 

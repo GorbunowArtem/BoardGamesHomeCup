@@ -53,7 +53,7 @@ namespace HorCup.Presentation
 
 			app.UseCors("AllowAll");
 			
-			app.UseHttpsRedirection();
+			// app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();

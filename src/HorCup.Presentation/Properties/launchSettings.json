@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "HorCup.Presentation.Development": {
+    "HorCup.Presentation": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
