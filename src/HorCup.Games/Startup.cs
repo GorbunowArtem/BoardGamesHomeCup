@@ -1,3 +1,4 @@
+using System;
 using HorCup.Games.Context;
 using HorCup.Games.Services.Games;
 using HorCup.Infrastructure;
@@ -23,7 +24,11 @@ namespace HorCup.Games
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<GamesContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("GamesContext")));
+				options.UseSqlServer(Configuration.GetConnectionString("GamesContext"),
+					sqlOptions =>
+					{
+						sqlOptions.EnableRetryOnFailure(30, TimeSpan.FromSeconds(30), null);
+					}));
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 

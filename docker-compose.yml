@@ -11,6 +11,9 @@ services:
   #    environment:
   #      IDENTITY_ISSUER: "http://10.0.75.1:5001"
 
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
   horcup.presentation:
     image: ${DOCKER_REGISTRY-}presentation
     build:
@@ -22,12 +25,16 @@ services:
     build:
       context: .
       dockerfile: src/HorCup.Players/Dockerfile
+    depends_on:
+      - sqldata
 
   horcup.games:
     image: ${DOCKER_REGISTRY-}games
     build:
       context: .
       dockerfile: src/HorCup.Games/Dockerfile
+    depends_on:
+      - sqldata
 
   horcup.plays:
     image: ${DOCKER_REGISTRY-}plays

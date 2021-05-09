@@ -1,14 +1,7 @@
-using System.Reflection;
-using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
+using System;
 using HorCup.Infrastructure;
-using HorCup.Infrastructure.Filters;
-using HorCup.Infrastructure.Services.DateTimeService;
-using HorCup.Infrastructure.Services.IdGenerator;
-using HorCup.Players.Commands.AddPlayer;
 using HorCup.Players.Context;
 using HorCup.Players.Services.Players;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +24,11 @@ namespace HorCup.Players
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<PlayersContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext")));
+				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext"),
+					sqlOptions =>
+					{
+						sqlOptions.EnableRetryOnFailure(30, TimeSpan.FromSeconds(30), null);
+					}));
 
 			services.AddInfrastructure();
 			
