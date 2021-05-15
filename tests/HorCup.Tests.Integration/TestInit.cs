@@ -1,7 +1,6 @@
 using BoDi;
 using Microsoft.Extensions.Configuration;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Configuration.JsonConfig;
 
 namespace HorCup.Tests.Integration
 {

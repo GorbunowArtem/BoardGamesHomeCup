@@ -1,12 +1,13 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
+using HorCup.Infrastructure.EventBus;
+using HorCup.Infrastructure.EventBus.RabbitMQEventBus;
 using HorCup.Infrastructure.Filters;
 using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace HorCup.Infrastructure
 {
@@ -30,6 +31,7 @@ namespace HorCup.Infrastructure
 			services.AddTransient<IIdGenerator, IdGenerator>();
 			services.AddTransient<IDateTimeService, DateTimeService>();
 
+			services.AddSingleton<IEventBus, RabbitEventBus>();
 			
 			services.AddCors(options => options.AddPolicy("AllowAll", p =>
 			{
