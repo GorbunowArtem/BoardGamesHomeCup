@@ -6,7 +6,6 @@ using HorCup.Infrastructure.Services.DateTimeService;
 using HorCup.Infrastructure.Services.IdGenerator;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace HorCup.Infrastructure
 {

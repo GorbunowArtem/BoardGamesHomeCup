@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Games.Tests", "tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Tests.Base", "tests\HorCup.Tests.Base\HorCup.Tests.Base.csproj", "{24377AB9-AB46-4255-8937-095F34A9D667}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorCup.Plays.Shared", "src\HorCup.Plays.Shared\HorCup.Plays.Shared.csproj", "{DB8AF8B7-083D-4E02-A023-ACE3004680F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{24377AB9-AB46-4255-8937-095F34A9D667}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24377AB9-AB46-4255-8937-095F34A9D667}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24377AB9-AB46-4255-8937-095F34A9D667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8AF8B7-083D-4E02-A023-ACE3004680F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8AF8B7-083D-4E02-A023-ACE3004680F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8AF8B7-083D-4E02-A023-ACE3004680F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB8AF8B7-083D-4E02-A023-ACE3004680F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +134,7 @@ Global
 		{701466A1-51AD-4D50-8932-38CBE71225CF} = {EAF15B9F-EEA8-4F4F-B2EF-BF636B4E34A4}
 		{0F07E214-E117-4CAE-B917-3C85C8FB1347} = {701466A1-51AD-4D50-8932-38CBE71225CF}
 		{24377AB9-AB46-4255-8937-095F34A9D667} = {EAF15B9F-EEA8-4F4F-B2EF-BF636B4E34A4}
+		{DB8AF8B7-083D-4E02-A023-ACE3004680F8} = {2881AE3D-B9CB-4EC5-953E-0DC3A45CC84E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22E75AFB-B62E-4B5F-BB37-AED4AEEDEB26}

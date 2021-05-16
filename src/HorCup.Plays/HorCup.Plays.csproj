@@ -6,11 +6,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit" Version="7.1.8" />
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.1.8" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.8" />
         <PackageReference Include="MongoDB.Driver" Version="2.12.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
+      <ProjectReference Include="..\HorCup.Plays.Shared\HorCup.Plays.Shared.csproj" />
     </ItemGroup>
 
 </Project>

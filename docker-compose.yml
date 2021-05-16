@@ -3,6 +3,8 @@ version: "3.4"
 services:
   #  docker-compose -f docker-compose.yml -f docker-compose.override.yml build
 
+  #  docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
+
   #  horcup.identityserver:
   #    image: ${DOCKER_REGISTRY-}identityserver
   #    build:

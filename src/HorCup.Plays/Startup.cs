@@ -1,5 +1,6 @@
 using HorCup.Infrastructure;
 using HorCup.Plays.Context;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,13 @@ namespace HorCup.Plays
 			services.AddInfrastructure();
 
 			services.Configure<MongoDbOptions>(Configuration.GetSection(MongoDbOptions.MongoDb));
+
+			services.AddMassTransit(x =>
+			{
+				x.UsingRabbitMq();
+			});
 			
+			services.AddMassTransitHostedService();
 			services.AddTransient<IPlaysContext, PlaysContext>();
 		}
 
