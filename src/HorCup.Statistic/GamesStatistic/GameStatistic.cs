@@ -8,8 +8,6 @@ namespace HorCup.Statistic.GamesStatistic
 		
 		public Guid GameId { get; set; }
 
-		// public Game Game { get; set; }
-		
 		public int TimesPlayed { get; set; }
 
 		public double? AverageScore { get; set; }

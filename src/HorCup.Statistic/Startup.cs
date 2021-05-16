@@ -19,7 +19,7 @@ namespace HorCup.Statistic
 			Configuration = configuration;
 		}
 
-		public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }     
 
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -33,6 +33,7 @@ namespace HorCup.Statistic
 			services.AddMassTransit(configuration =>
 			{
 				configuration.AddConsumer<GamePlayedEventConsumer>();
+				configuration.AddConsumer<GamePlayedEventConsumer>();
 
 				configuration.SetKebabCaseEndpointNameFormatter();
 
@@ -43,6 +44,8 @@ namespace HorCup.Statistic
 			});
 
 			services.AddMassTransitHostedService();
+			
+			services.AddScoped<IStatisticContext, StatisticContext>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HorCup.Infrastructure.Services.IdGenerator;
 using HorCup.Plays.Context;
 using HorCup.Plays.Models;
+using HorCup.Plays.Shared.Dto;
 using HorCup.Plays.Shared.Events;
 using MassTransit;
 using MediatR;
@@ -19,7 +22,7 @@ namespace HorCup.Plays.Commands.AddPlay
 		private readonly ILogger<AddPlayCommandHandler> _logger;
 		private readonly IMapper _mapper;
 		private readonly IPublishEndpoint _endpoint;
-		
+
 		public AddPlayCommandHandler(
 			IIdGenerator idGenerator,
 			IPlaysContext context,
@@ -39,22 +42,19 @@ namespace HorCup.Plays.Commands.AddPlay
 			var playId = _idGenerator.NewGuid();
 
 			request.Id = playId;
-			
+
 			_logger.LogInformation($"Adding Play with id {playId}");
-			
+
 			await _context.Plays.InsertOneAsync(_mapper.Map<Play>(request), cancellationToken: cancellationToken);
 
-			// await _publisher.Publish(new GamePlayedNotification(
-			// 	request.GameId,
-			// 	request.PlayerScores.Average(p => p.Score),
-			// 	request.PlayedDate,
-			// 	playScores), cancellationToken);
-
-			await _endpoint.Publish<GamePlayed>(new
+			await _endpoint.Publish(new GamePlayed
 			{
-				playId = playId
+				GameId = request.Game.Id,
+				AverageScore = request.PlayerScores.Average(p => p.Score),
+				LastPlayedDate = request.PlayedDate,
+				PlayedScores = _mapper.Map<IEnumerable<PlayerScoresDto>>(request.PlayerScores)
 			}, cancellationToken);
-			
+
 			return playId;
 		}
 	}
