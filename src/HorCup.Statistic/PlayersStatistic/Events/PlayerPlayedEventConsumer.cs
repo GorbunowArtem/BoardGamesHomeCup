@@ -8,12 +8,12 @@ using Microsoft.Extensions.Logging;
 
 namespace HorCup.Statistic.PlayersStatistic.Events
 {
-	public class PlayerPlayedEventHandler : IConsumer<GamePlayed>
+	public class PlayerPlayedEventConsumer : IConsumer<GamePlayed>
 	{
 		private readonly IStatisticContext _context;
-		private readonly ILogger<PlayerPlayedEventHandler> _logger;
+		private readonly ILogger<PlayerPlayedEventConsumer> _logger;
 
-		public PlayerPlayedEventHandler(IStatisticContext context, ILogger<PlayerPlayedEventHandler> logger)
+		public PlayerPlayedEventConsumer(IStatisticContext context, ILogger<PlayerPlayedEventConsumer> logger)
 		{
 			_context = context;
 			_logger = logger;

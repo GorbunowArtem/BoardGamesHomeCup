@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Infrastructure.Events;
 using HorCup.Plays.Shared.Dto;
 
 namespace HorCup.Plays.Shared.Events
 {
-	public class GamePlayed: IntegrationEvent
+	public class GamePlayed
 	{
 		public Guid GameId { get; set; }
 		

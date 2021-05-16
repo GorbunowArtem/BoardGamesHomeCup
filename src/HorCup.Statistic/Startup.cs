@@ -1,6 +1,7 @@
 using HorCup.Infrastructure;
 using HorCup.Statistic.Context;
 using HorCup.Statistic.GamesStatistic.Events.GamePlayed;
+using HorCup.Statistic.PlayersStatistic.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,7 @@ namespace HorCup.Statistic
 			services.AddMassTransit(configuration =>
 			{
 				configuration.AddConsumer<GamePlayedEventConsumer>();
-				configuration.AddConsumer<GamePlayedEventConsumer>();
+				configuration.AddConsumer<PlayerPlayedEventConsumer>();
 
 				configuration.SetKebabCaseEndpointNameFormatter();
 
