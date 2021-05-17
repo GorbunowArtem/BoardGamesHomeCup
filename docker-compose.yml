@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  #  docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+  #  docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
   #  docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
 
@@ -15,6 +15,12 @@ services:
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
+
+  nosqldata:
+    image: mongo
+
+  rabbitmq:
+    image: masstransit/rabbitmq
 
   horcup.presentation:
     image: ${DOCKER_REGISTRY-}presentation
@@ -43,3 +49,13 @@ services:
     build:
       context: .
       dockerfile: src/HorCup.Plays/Dockerfile
+    depends_on:
+      - nosqldata
+
+  horcup.statistic:
+    image: ${DOCKER_REGISTRY-}statistic
+    build:
+      context: .
+      dockerfile: src/HorCup.Statistic/Dockerfile
+    depends_on:
+      - rabbitmq

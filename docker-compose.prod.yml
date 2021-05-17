@@ -10,6 +10,17 @@ services:
     volumes:
       - horcup-sqldata:/var/opt/mssql
 
+  nosqldata:
+    ports:
+      - 27017:27017
+    volumes:
+      - horcup-nosqldata:/data/db
+
+  rabbitmq:
+    ports:
+      - 15672:15672
+      - 5672:5672
+
   horcup.presentation:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -40,6 +51,15 @@ services:
     ports:
       - 5005:80
 
+  horcup.statistic:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    ports:
+      - 5006:80
+
 volumes:
   horcup-sqldata:
+    external: false
+  horcup-nosqldata:
     external: false
