@@ -44,6 +44,8 @@ namespace HorCup.Plays.Commands.AddPlay
 			request.Id = playId;
 
 			_logger.LogInformation($"Adding Play with id {playId}");
+			
+			SetWinner(request);
 
 			await _context.Plays.InsertOneAsync(_mapper.Map<Play>(request), cancellationToken: cancellationToken);
 
@@ -56,6 +58,19 @@ namespace HorCup.Plays.Commands.AddPlay
 			}, cancellationToken);
 
 			return playId;
+		}
+
+		private static void SetWinner(AddPlayCommand request)
+		{
+			var highestScore = request.PlayerScores.Select(s => s.Score).Max();
+
+			foreach (var playScore in request.PlayerScores)
+			{
+				if (playScore.Score == highestScore)
+				{
+					playScore.IsWinner = true;
+				}
+			}
 		}
 	}
 }

@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonService } from 'src/app/common/common.service';
 import { IFormPersistenceStrategy } from 'src/app/common/models/form-persistence-strategy';
 import {
   max,
@@ -30,17 +29,16 @@ export class AddEditGameDialogComponent implements OnInit {
   public constructor(
     private _dialogRef: MatDialogRef<AddEditGameDialogComponent>,
     private _fb: FormBuilder,
-    gamesService: GamesService,
-    private _commonService: CommonService,
+    private _gamesService: GamesService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) game: Game
   ) {
-    this._strategy = new GamesPersistenceFactory().getStrategy(game, gamesService);
+    this._strategy = new GamesPersistenceFactory().getStrategy(game, _gamesService);
     this.populatePlayersNumberOptions();
   }
 
   public ngOnInit() {
-    const constraints = this._commonService.constraints.gamesConstraints;
+    const constraints = this._gamesService.constraints;
 
     const model = this._strategy.model;
 

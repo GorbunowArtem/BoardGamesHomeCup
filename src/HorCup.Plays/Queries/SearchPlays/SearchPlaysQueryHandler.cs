@@ -12,7 +12,7 @@ using MongoDB.Driver;
 
 namespace HorCup.Plays.Queries.SearchPlays
 {
-	public class SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, int total)>
+	public class SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, long total)>
 	{
 		private readonly IPlaysContext _context;
 		private readonly ILogger<SearchPlaysQueryHandler> _logger;
@@ -26,7 +26,7 @@ namespace HorCup.Plays.Queries.SearchPlays
 			_mapper = mapper;
 		}
 
-		public async Task<(IEnumerable<PlayViewModel> items, int total)> Handle(
+		public async Task<(IEnumerable<PlayViewModel> items, long total)> Handle(
 			SearchPlaysQuery request,
 			CancellationToken cancellationToken)
 		{
@@ -41,11 +41,15 @@ namespace HorCup.Plays.Queries.SearchPlays
 			// ApplySearchTextFilter(request, filter);
 
 
-			var result = await _context.Plays.FindAsync(filter, cancellationToken: cancellationToken);
+			var plays = await _context.Plays.Find(filter)
+				.Skip(request.Skip)
+				.Limit(request.Take)
+				.Sort(Builders<Play>.Sort.Descending(b => b.PlayedDate))
+				.ToListAsync(cancellationToken);
 
-			var plays = await result.ToListAsync(cancellationToken: cancellationToken);
-
-			return (_mapper.Map<IEnumerable<PlayViewModel>>(plays), 0);
+			var count = await _context.Plays.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
+			
+			return (_mapper.Map<IEnumerable<PlayViewModel>>(plays), count);
 		}
 
 		private static void ApplySearchTextFilter(SearchPlaysQuery request, IQueryable<Play> filter)

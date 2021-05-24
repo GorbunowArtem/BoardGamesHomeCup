@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonService } from 'src/app/common/common.service';
 import {
   maxLength,
   NotUnique,
@@ -27,9 +26,8 @@ export class AddEditPlayerDialogComponent implements OnInit {
 
   public constructor(
     private _fb: FormBuilder,
-    _playersService: PlayersService,
+    private _playersService: PlayersService,
     private _dialogRef: MatDialogRef<AddEditPlayerDialogComponent>,
-    private _commonService: CommonService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: Player,
     playersPersistenceFactory: PlayersPersistenceFactory
@@ -38,7 +36,7 @@ export class AddEditPlayerDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const constr = this._commonService.constraints.playerConstraints;
+    const constr = this._playersService.constraints;
 
     const model = this._playerStrategy.model;
 

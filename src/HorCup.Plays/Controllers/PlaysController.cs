@@ -29,7 +29,7 @@ namespace HorCup.Plays.Controllers
 		{
 			var (items, total) = await _sender.Send(query);
 																			  
-			return Ok(new PagedSearchResponse<PlayViewModel>(items, total));
+			return Ok(new PagedSearchResponse<PlayViewModel>(items, (int)total));
 		}
 
 		[HttpPost]

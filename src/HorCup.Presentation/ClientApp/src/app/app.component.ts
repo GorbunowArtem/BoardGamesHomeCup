@@ -3,7 +3,6 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { slideInAnimation } from './animations';
-import { CommonService } from './common/common.service';
 import { ThemeService } from './common/theme.service';
 
 @Component({
@@ -20,12 +19,9 @@ export class AppComponent implements OnInit {
   public componentCssClass!: any;
 
   public constructor(
-    private _commonService: CommonService,
     public overlayContainer: OverlayContainer,
     private themeService: ThemeService
-  ) {
-    this._commonService.init();
-  }
+  ) {}
   public ngOnInit(): void {
     this.isDarkTheme = this.themeService.isDarkTheme;
   }

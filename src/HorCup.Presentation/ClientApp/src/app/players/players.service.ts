@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PlayerConstraints } from '../common/models/constraints';
 import { ISearchableService } from '../common/models/searchable-service';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Player } from './models/player';
@@ -63,5 +64,12 @@ export class PlayersService implements ISearchableService {
     return this._http.get<PagedSearchResponse<PlayerStatistic>>(`${PlayersStatsUrl}`, {
       params: options as any
     });
+  }
+
+  public get constraints(): PlayerConstraints {
+    return {
+      maxNameLength: 33,
+      minBirthDate: new Date().toLocaleString()
+    };
   }
 }

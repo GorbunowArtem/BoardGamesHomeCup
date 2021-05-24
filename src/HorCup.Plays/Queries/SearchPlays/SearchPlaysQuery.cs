@@ -6,7 +6,7 @@ using MediatR;
 
 namespace HorCup.Plays.Queries.SearchPlays
 {
-	public record SearchPlaysQuery : SearchQueryBase, IRequest<(IEnumerable<PlayViewModel> items, int total)>
+	public record SearchPlaysQuery : SearchQueryBase, IRequest<(IEnumerable<PlayViewModel> items, long total)>
 	{
 		public IEnumerable<Guid> GamesIds { get; set; } = Array.Empty<Guid>();
 

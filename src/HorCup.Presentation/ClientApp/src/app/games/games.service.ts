@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { GamesConstraints } from '../common/models/constraints';
 import { PagedSearchResponse } from '../common/paged-search-response';
 import { Game } from './models/game';
 import { GameDetails } from './models/game-details';
@@ -17,8 +18,17 @@ export class GamesService {
 
   private _defaultOptions = new SearchGamesOptions();
   private _options!: SearchGamesOptions;
+  private _constraints!: GamesConstraints;
 
   public constructor(private _httpModule: HttpClient) {}
+
+  public init() {
+    if (!this._constraints) {
+      this._httpModule
+        .get<GamesConstraints>(`${gamesUrl}/constraints`)
+        .subscribe((c) => (this._constraints = c));
+    }
+  }
 
   public isTitleUnique(title: string, id: string | undefined): Observable<any> {
     return this._httpModule.head(`${gamesUrl}?title=${title}&id=${id}`, { observe: 'response' });
@@ -60,5 +70,9 @@ export class GamesService {
 
   public get currentOptions() {
     return this._options;
+  }
+
+  public get constraints(): GamesConstraints {
+    return this._constraints;
   }
 }
