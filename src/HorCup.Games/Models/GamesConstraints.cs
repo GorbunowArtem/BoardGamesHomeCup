@@ -1,6 +1,6 @@
 namespace HorCup.Games.Models
 {
-	public class GamesConstraints
+	public struct GamesConstraints
 	{
 		public int TitleMaxLength => 50;
 

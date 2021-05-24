@@ -19,6 +19,7 @@ export class PlayersComponent {
 
   public constructor(private _dialog: MatDialog, private _playersService: PlayersService) {
     this.playersSource = new PageableDataSource(_playersService, new SearchPlayersOptions());
+    this._playersService.init();
   }
 
   public addPlayer() {

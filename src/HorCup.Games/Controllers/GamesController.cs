@@ -55,7 +55,7 @@ namespace HorCup.Games.Controllers
 		{
 			var id = await _sender.Send(command);
 
-			return CreatedAtAction(nameof(Add), new {id}, id.ToString());
+			return CreatedAtAction(nameof(Add), new {id}, id);
 		}
 
 		[HttpPatch("{id:Guid}")]

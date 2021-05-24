@@ -19,8 +19,17 @@ const PlayersStatsUrl = '/players-statistic';
 })
 export class PlayersService implements ISearchableService {
   private _stateChangedSubject: Subject<any> = new Subject();
+  private _constraints!: PlayerConstraints;
 
   public constructor(private _http: HttpClient) {}
+
+  public init() {
+    if (!this._constraints) {
+      this._http
+        .get<PlayerConstraints>(`${PlayersUrl}/constraints`)
+        .subscribe((c) => (this._constraints = c));
+    }
+  }
 
   public isNicknameUnique(nickname: string, id: string | undefined): Observable<any> {
     return this._http.head(`${PlayersUrl}?nickname=${nickname}&id=${id}`, { observe: 'response' });
@@ -67,9 +76,6 @@ export class PlayersService implements ISearchableService {
   }
 
   public get constraints(): PlayerConstraints {
-    return {
-      maxNameLength: 33,
-      minBirthDate: new Date().toLocaleString()
-    };
+    return this._constraints;
   }
 }

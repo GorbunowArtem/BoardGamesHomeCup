@@ -5,9 +5,9 @@ namespace HorCup.Games.Controllers
 {
 	[ApiController]
 	[Route("games/constraints")]
-	public class ConstraintsController: ControllerBase
+	public class ConstraintsController : ControllerBase
 	{
 		[HttpGet]
-		public ActionResult<GamesConstraints> Get() => Ok(new GamesConstraints());
+		public ActionResult<GamesConstraints> Get() => new(new GamesConstraints());
 	}
 }
