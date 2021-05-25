@@ -70,6 +70,10 @@ namespace HorCup.Plays.Commands.AddPlay
 				{
 					playScore.IsWinner = true;
 				}
+				else
+				{
+					playScore.IsWinner = false;
+				}
 			}
 		}
 	}
