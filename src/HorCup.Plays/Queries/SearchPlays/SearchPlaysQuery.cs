@@ -8,9 +8,9 @@ namespace HorCup.Plays.Queries.SearchPlays
 {
 	public record SearchPlaysQuery : SearchQueryBase, IRequest<(IEnumerable<PlayViewModel> items, long total)>
 	{
-		public IEnumerable<Guid> GamesIds { get; set; } = Array.Empty<Guid>();
+		public IEnumerable<Guid> GamesIds { get; set; }
 
-		public IEnumerable<Guid> PlayersIds { get; set; } = Array.Empty<Guid>();
+		public IEnumerable<Guid> PlayersIds { get; set; }
 
 		public DateTime? DateFrom { get; set; }
 

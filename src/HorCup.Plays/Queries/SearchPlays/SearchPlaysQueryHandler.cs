@@ -32,12 +32,12 @@ namespace HorCup.Plays.Queries.SearchPlays
 		{
 			var filter = Builders<Play>.Filter.Empty;
 			
-			// ApplyGamesFilter(request, filter);
-			//
-			// ApplyPlayersFilter(request, filter);
-			//
+			ApplyGamesFilter(request, ref filter);
+			
+			// ApplyPlayersFilter(request, ref filter);
+			
 			// ApplyDatesFilter(request, filter);
-			//
+			
 			// ApplySearchTextFilter(request, filter);
 
 
@@ -62,19 +62,19 @@ namespace HorCup.Plays.Queries.SearchPlays
 			}
 		}
 
-		private static void ApplyGamesFilter(SearchPlaysQuery request, FilterDefinition<Play> filter)
+		private static void ApplyGamesFilter(SearchPlaysQuery request, ref FilterDefinition<Play> filter)
 		{
-			if (request.GamesIds.Any())
+			if (request.GamesIds != null && request.GamesIds.Any())
 			{
 				filter &= Builders<Play>.Filter.In(p => p.Game.Id, request.GamesIds);
 			}
 		}
 
-		private static void ApplyPlayersFilter(SearchPlaysQuery request, FilterDefinition<Play> filter)
+		private static void ApplyPlayersFilter(SearchPlaysQuery request, ref FilterDefinition<Play> filter)
 		{
-			if (request.PlayersIds.Any())
+			if (request.PlayersIds != null && request.PlayersIds.Any())
 			{
-				// filter &= Builders<Play>.Filter.In(p => p.PlayerScores.Select(pl => pl.Player.Id), request.PlayersIds);
+				filter &= Builders<Play>.Filter.AnyIn(p => p.PlayerScores.Select(pl => pl.Player.Id).ToArray(), request.PlayersIds);
 			}
 		}
 
