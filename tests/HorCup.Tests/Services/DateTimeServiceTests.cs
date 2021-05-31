@@ -1,6 +1,6 @@
 using System;
 using FluentAssertions;
-using HorCup.Presentation.Services.DateTimeService;
+using HorCup.Infrastructure.Services.DateTimeService;
 using NUnit.Framework;
 
 namespace HorCup.Tests.Services

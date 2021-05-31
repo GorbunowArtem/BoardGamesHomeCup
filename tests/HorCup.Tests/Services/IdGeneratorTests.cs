@@ -1,6 +1,6 @@
 using System;
 using FluentAssertions;
-using HorCup.Presentation.Services.IdGenerator;
+using HorCup.Infrastructure.Services.IdGenerator;
 using NUnit.Framework;
 
 namespace HorCup.Tests.Services

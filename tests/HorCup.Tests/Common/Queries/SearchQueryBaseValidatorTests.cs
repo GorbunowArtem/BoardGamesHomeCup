@@ -1,5 +1,5 @@
 using FluentValidation.TestHelper;
-using HorCup.Presentation.Common.Queries;
+using HorCup.Infrastructure.Queries;
 using NUnit.Framework;
 
 namespace HorCup.Tests.Common.Queries

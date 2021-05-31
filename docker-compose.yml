@@ -1,16 +1,61 @@
 version: "3.4"
 
 services:
-  horcup.identityserver:
-    image: ${DOCKER_REGISTRY-}identityserver
-    build:
-      context: .
-      dockerfile: src/HorCup.IdentityServer/Dockerfile
-    environment:
-      IDENTITY_ISSUER: "http://10.0.75.1:5001"
+  #  docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+
+  #  docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
+
+  #  horcup.identityserver:
+  #    image: ${DOCKER_REGISTRY-}identityserver
+  #    build:
+  #      context: .
+  #      dockerfile: src/HorCup.IdentityServer/Dockerfile
+  #    environment:
+  #      IDENTITY_ISSUER: "http://10.0.75.1:5001"
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  nosqldata:
+    image: mongo
+
+  rabbitmq:
+    image: masstransit/rabbitmq
 
   horcup.presentation:
     image: ${DOCKER_REGISTRY-}presentation
     build:
       context: .
       dockerfile: src/HorCup.Presentation/Dockerfile
+
+  horcup.players:
+    image: ${DOCKER_REGISTRY-}players
+    build:
+      context: .
+      dockerfile: src/HorCup.Players/Dockerfile
+    depends_on:
+      - sqldata
+
+  horcup.games:
+    image: ${DOCKER_REGISTRY-}games
+    build:
+      context: .
+      dockerfile: src/HorCup.Games/Dockerfile
+    depends_on:
+      - sqldata
+
+  horcup.plays:
+    image: ${DOCKER_REGISTRY-}plays
+    build:
+      context: .
+      dockerfile: src/HorCup.Plays/Dockerfile
+    depends_on:
+      - nosqldata
+
+  horcup.statistic:
+    image: ${DOCKER_REGISTRY-}statistic
+    build:
+      context: .
+      dockerfile: src/HorCup.Statistic/Dockerfile
+    depends_on:
+      - rabbitmq

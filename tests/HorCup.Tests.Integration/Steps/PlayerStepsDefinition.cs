@@ -2,9 +2,9 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HorCup.Presentation.Players.Commands.AddPlayer;
-using HorCup.Presentation.Players.Commands.EditPlayer;
-using HorCup.Presentation.ViewModels;
+using HorCup.Players.Commands.AddPlayer;
+using HorCup.Players.Commands.EditPlayer;
+using HorCup.Players.ViewModels;
 using HorCup.Tests.Integration.Drivers;
 using TechTalk.SpecFlow;
 
@@ -27,7 +27,6 @@ namespace HorCup.Tests.Integration.Steps
 		{
 			var response = await _driver.PostAsync(PlayersEndpoint, new AddPlayerCommand
 			{
-				Added = DateTime.Now,
 				Nickname = $"Integ {Guid.NewGuid().ToString()}"[..19]
 			});
 

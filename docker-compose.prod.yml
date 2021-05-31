@@ -1,0 +1,65 @@
+version: "3.4"
+
+services:
+  sqldata:
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - 5433:1433
+    volumes:
+      - horcup-sqldata:/var/opt/mssql
+
+  nosqldata:
+    ports:
+      - 27017:27017
+    volumes:
+      - horcup-nosqldata:/data/db
+
+  rabbitmq:
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+  horcup.presentation:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    ports:
+      - 5002:80
+
+  horcup.players:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    #      - ConnectionString=${HORCUP_PLAYERS:-Server=sqldata;Database=HorCup.Players;User Id=sa;Password=Pass@word}
+    ports:
+      - 5003:80
+
+  horcup.games:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    #      - ConnectionString=${HORCUP_GAMES:-Server=sqldata;Database=HorCup.Games;User Id=sa;Password=Pass@word}
+    ports:
+      - 5004:80
+
+  horcup.plays:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    ports:
+      - 5005:80
+
+  horcup.statistic:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BUILD_CONFIGURATION=Release
+    ports:
+      - 5006:80
+
+volumes:
+  horcup-sqldata:
+    external: false
+  horcup-nosqldata:
+    external: false

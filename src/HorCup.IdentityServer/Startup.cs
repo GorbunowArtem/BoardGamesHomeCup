@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using HorCup.IdentityServer.Data;
 using HorCup.IdentityServer.Extensions;
+using HorCup.IdentityServer.Models;
 using HorCup.Infrastructure.Filters;
 using IdentityServer4;
-using IdentityServer4withASP.NETCoreIdentity.Data;
-using IdentityServer4withASP.NETCoreIdentity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

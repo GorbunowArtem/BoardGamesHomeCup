@@ -15,6 +15,7 @@ export class GamesComponent {
 
   public constructor(gamesService: GamesService, private _addEditGameDialog: MatDialog) {
     this.games = new PageableDataSource(gamesService, new SearchGamesOptions());
+    gamesService.init();
   }
 
   public openAddDialog() {

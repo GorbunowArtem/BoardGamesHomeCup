@@ -5,9 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentAssertions" Version="6.0.0-alpha0001" />
+      <PackageReference Include="FluentAssertions" Version="5.10.3" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-      <PackageReference Include="NUnit" Version="3.13.1" />
+      <PackageReference Include="NUnit" Version="3.13.2" />
       <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
       <PackageReference Include="SpecFlow" Version="3.7.38" />
       <PackageReference Include="SpecFlow.NUnit" Version="3.7.38" />
@@ -24,6 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\HorCup.Games\HorCup.Games.csproj" />
+      <ProjectReference Include="..\..\src\HorCup.Players\HorCup.Players.csproj" />
       <ProjectReference Include="..\..\src\HorCup.Presentation\HorCup.Presentation.csproj" />
     </ItemGroup>
     <Target Name="AfterUpdateFeatureFilesInProject">

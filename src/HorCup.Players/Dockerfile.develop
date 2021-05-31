@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal
+ENV DOTNET_USE_POLLING_FILE_WATCHER 1
+
+WORKDIR /app
+
+COPY ["src/HorCup.Players/HorCup.Players.csproj", "src/HorCup.Players/"]
+COPY ["src/HorCup.Infrastructure/HorCup.Infrastructure.csproj", "src/HorCup.Infrastructure/"]
+
+ENTRYPOINT dotnet watch run  --urls=https://+:5003 --project DocketTestApp.csproj
