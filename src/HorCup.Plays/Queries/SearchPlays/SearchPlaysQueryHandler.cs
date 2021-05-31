@@ -8,17 +8,21 @@ using HorCup.Plays.Models;
 using HorCup.Plays.ViewModels;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HorCup.Plays.Queries.SearchPlays
 {
-	public class SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, long total)>
+	public class
+		SearchPlaysQueryHandler : IRequestHandler<SearchPlaysQuery, (IEnumerable<PlayViewModel> items, long total)>
 	{
 		private readonly IPlaysContext _context;
 		private readonly ILogger<SearchPlaysQueryHandler> _logger;
 		private readonly IMapper _mapper;
-		
-		public SearchPlaysQueryHandler(IPlaysContext context, ILogger<SearchPlaysQueryHandler> logger,
+
+		public SearchPlaysQueryHandler(
+			IPlaysContext context,
+			ILogger<SearchPlaysQueryHandler> logger,
 			IMapper mapper)
 		{
 			_context = context;
@@ -31,16 +35,15 @@ namespace HorCup.Plays.Queries.SearchPlays
 			CancellationToken cancellationToken)
 		{
 			var filter = Builders<Play>.Filter.Empty;
-			
+
 			ApplyGamesFilter(request, ref filter);
-			
-			// ApplyPlayersFilter(request, ref filter);
-			
-			// ApplyDatesFilter(request, filter);
-			
-			// ApplySearchTextFilter(request, filter);
 
+			ApplyPlayersFilter(request, ref filter);
 
+			ApplyDatesFilter(request, ref filter);
+
+			ApplySearchTextFilter(request, ref filter);
+										  
 			var plays = await _context.Plays.Find(filter)
 				.Skip(request.Skip)
 				.Limit(request.Take)
@@ -48,17 +51,18 @@ namespace HorCup.Plays.Queries.SearchPlays
 				.ToListAsync(cancellationToken);
 
 			var count = await _context.Plays.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
-			
+
 			return (_mapper.Map<IEnumerable<PlayViewModel>>(plays), count);
 		}
 
-		private static void ApplySearchTextFilter(SearchPlaysQuery request, IQueryable<Play> filter)
+		private static void ApplySearchTextFilter(SearchPlaysQuery request, ref FilterDefinition<Play> filter)
 		{
 			if (!string.IsNullOrEmpty(request.SearchText))
 			{
-				// filter = filter.Where(p => EF.Functions.Like(p.Game.Title, $"%{request.SearchText}%")
-				//                          || p.PlayerScores.Any(ps =>
-				// 	                         EF.Functions.Like(ps.Player.Nickname, $"%{request.SearchText}")));
+				filter &= Builders<Play>.Filter.Or(
+					Builders<Play>.Filter.Regex(p => p.Game.Title, new BsonRegularExpression(request.SearchText))
+				          ,Builders<Play>.Filter.ElemMatch(p => p.PlayerScores,
+					          pl => pl.Player.Name.Contains(request.SearchText)));
 			}
 		}
 
@@ -74,29 +78,30 @@ namespace HorCup.Plays.Queries.SearchPlays
 		{
 			if (request.PlayersIds != null && request.PlayersIds.Any())
 			{
-				filter &= Builders<Play>.Filter.AnyIn(p => p.PlayerScores.Select(pl => pl.Player.Id).ToArray(), request.PlayersIds);
+				filter &= Builders<Play>.Filter.ElemMatch(p => p.PlayerScores,
+					ps => request.PlayersIds.Contains(ps.Player.Id));
 			}
 		}
 
-		private static IQueryable<Play> ApplyDatesFilter(SearchPlaysQuery request, IQueryable<Play> query)
+		private static void ApplyDatesFilter(SearchPlaysQuery request, ref FilterDefinition<Play> filter)
 		{
 			if (request.DateFrom.HasValue && request.DateTo.HasValue)
 			{
-				query = query.Where(p => p.PlayedDate >= request.DateFrom && p.PlayedDate <= request.DateTo);
+				filter &= Builders<Play>.Filter.And(
+					Builders<Play>.Filter.Gte(p => p.PlayedDate, request.DateFrom),
+					Builders<Play>.Filter.Lte(p => p.PlayedDate, request.DateTo));
 			}
 			else
 			{
 				if (request.DateFrom.HasValue)
 				{
-					query = query.Where(p => p.PlayedDate >= request.DateFrom);
+					filter &= Builders<Play>.Filter.Gte(p => p.PlayedDate, request.DateFrom);
 				}
 				else if (request.DateTo.HasValue)
 				{
-					query = query.Where(p => p.PlayedDate <= request.DateTo);
+					filter &= Builders<Play>.Filter.Lte(p => p.PlayedDate, request.DateTo);
 				}
 			}
-
-			return query;
 		}
 	}
 }
