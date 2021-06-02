@@ -3,6 +3,8 @@ import { SearchPlayersOptions } from './models/search-players-options';
 import { PlayersService } from './players.service';
 import { testPlayer1 } from './test-data/test-player';
 
+const playersUrl = 'https://localhost:5003/players';
+
 describe('Service: Players', () => {
   let playersService: PlayersService;
   let httpClientMock: any;
@@ -20,7 +22,7 @@ describe('Service: Players', () => {
   it('should verify is nickname unique', () => {
     playersService.isNicknameUnique('nick', 'id').subscribe();
 
-    expect(httpClientMock.head).toHaveBeenCalledWith('/players?nickname=nick&id=id', {
+    expect(httpClientMock.head).toHaveBeenCalledWith(`${playersUrl}?nickname=nick&id=id`, {
       observe: 'response'
     });
   });
@@ -28,7 +30,7 @@ describe('Service: Players', () => {
   it('should add player', () => {
     playersService.add(testPlayer1).subscribe();
 
-    expect(httpClientMock.post).toHaveBeenCalledWith('/players', testPlayer1);
+    expect(httpClientMock.post).toHaveBeenCalledWith(playersUrl, testPlayer1);
   });
 
   it('should search players', () => {
@@ -36,12 +38,15 @@ describe('Service: Players', () => {
 
     playersService.search(searchOptions);
 
-    expect(httpClientMock.get).toHaveBeenCalledWith('/players', { params: searchOptions });
+    expect(httpClientMock.get).toHaveBeenCalledWith(playersUrl, { params: searchOptions });
   });
 
   it('should edit player', () => {
     playersService.edit(testPlayer1).subscribe();
 
-    expect(httpClientMock.patch).toHaveBeenCalledWith(`/players/${testPlayer1.id}`, testPlayer1);
+    expect(httpClientMock.patch).toHaveBeenCalledWith(
+      `${playersUrl}/${testPlayer1.id}`,
+      testPlayer1
+    );
   });
 });

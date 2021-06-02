@@ -41,7 +41,8 @@ describe('PlayersComponent', () => {
           }
         ]
       }),
-      countChanged: of()
+      countChanged: of(),
+      init: of()
     });
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
 

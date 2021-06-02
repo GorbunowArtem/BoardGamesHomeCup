@@ -8,7 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatToolbarHarness } from '@angular/material/toolbar/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MockComponent } from 'ng-mocks';
+import { UserSettingsComponent } from 'src/app/common/user-settings/user-settings.component';
 import { GamesFilterComponent } from '../games-filter/games-filter.component';
+import { GamesService } from '../games.service';
 import { SearchGamesOptions } from '../models/search-games-options';
 import { GamesNavBarComponent } from './games-nav-bar.component';
 
@@ -17,10 +20,12 @@ describe('GamesNavBarComponent', () => {
   let loader: HarnessLoader;
   let bottomSheetMock: any;
   let toolbar: MatToolbarHarness;
+  let gamesServiceMock: any;
 
   beforeEach(async () => {
     bottomSheetMock = jasmine.createSpyObj(['open']);
 
+    gamesServiceMock = { currentOptions: new SearchGamesOptions() };
     await TestBed.configureTestingModule({
       imports: [
         MatToolbarModule,
@@ -29,8 +34,11 @@ describe('GamesNavBarComponent', () => {
         BrowserAnimationsModule,
         MatBottomSheetModule
       ],
-      declarations: [GamesNavBarComponent],
-      providers: [{ provide: MatBottomSheet, useValue: bottomSheetMock }]
+      declarations: [GamesNavBarComponent, MockComponent(UserSettingsComponent)],
+      providers: [
+        { provide: MatBottomSheet, useValue: bottomSheetMock },
+        { provide: GamesService, useValue: gamesServiceMock }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(GamesNavBarComponent);
