@@ -44,6 +44,8 @@ namespace HorCup.Statistic
 				});
 			});
 
+			services.AddHealthChecks();
+			
 			services.AddMassTransitHostedService();
 			
 			services.AddScoped<IStatisticContext, StatisticContext>();
@@ -65,7 +67,11 @@ namespace HorCup.Statistic
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapHealthChecks("/health");
+				endpoints.MapControllers();
+			});
 		}
 	}
 }
