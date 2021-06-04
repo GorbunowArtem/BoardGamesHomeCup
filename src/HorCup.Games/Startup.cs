@@ -32,6 +32,8 @@ namespace HorCup.Games
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 
+			services.AddHealthChecks();
+			
 			services.AddInfrastructure();
 			
 			services.AddScoped<IGamesContext, GamesContext>();
@@ -56,7 +58,11 @@ namespace HorCup.Games
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+				endpoints.MapHealthChecks("/health");
+			});
 		}
 	}
 }

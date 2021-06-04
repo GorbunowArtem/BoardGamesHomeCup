@@ -9,6 +9,7 @@
         <PackageReference Include="MassTransit" Version="7.1.8" />
         <PackageReference Include="MassTransit.AspNetCore" Version="7.1.8" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
         <PackageReference Include="MongoDB.Driver" Version="2.12.3" />
     </ItemGroup>
 

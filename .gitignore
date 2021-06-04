@@ -245,3 +245,4 @@ Logs
 coveragereport
 *.jwk
 *.feature.cs
+*.sonarqube

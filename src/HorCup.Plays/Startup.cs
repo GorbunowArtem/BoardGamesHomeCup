@@ -33,6 +33,9 @@ namespace HorCup.Plays
 			});
 			
 			services.AddMassTransitHostedService();
+			
+			services.AddHealthChecks();
+			
 			services.AddTransient<IPlaysContext, PlaysContext>();
 		}
 
@@ -54,7 +57,11 @@ namespace HorCup.Plays
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapHealthChecks("/health");
+				endpoints.MapControllers();
+			});
 		}
 	}
 }
