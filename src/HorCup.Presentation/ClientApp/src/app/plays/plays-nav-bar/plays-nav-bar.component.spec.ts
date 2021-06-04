@@ -12,6 +12,8 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatToolbarHarness } from '@angular/material/toolbar/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MockComponent } from 'ng-mocks';
+import { UserSettingsComponent } from 'src/app/common/user-settings/user-settings.component';
 import { SearchPlaysOptions } from '../models/search-plays-options';
 import { PlaysFilterComponent } from '../plays-filter/plays-filter.component';
 import { PlaysService } from '../plays.service';
@@ -41,7 +43,7 @@ describe('PlaysNavBarComponent', () => {
         BrowserAnimationsModule,
         FormsModule
       ],
-      declarations: [PlaysNavBarComponent],
+      declarations: [PlaysNavBarComponent, MockComponent(UserSettingsComponent)],
       providers: [
         { provide: PlaysService, useValue: playsServiceMock },
         { provide: MatBottomSheet, useValue: bottomSheetMock }

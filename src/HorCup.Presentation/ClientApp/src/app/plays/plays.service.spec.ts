@@ -31,7 +31,7 @@ describe('Service: Play', () => {
       done();
     });
 
-    expect(httpClientMock.get).toHaveBeenCalledWith('/plays', {
+    expect(httpClientMock.get).toHaveBeenCalledWith('https://localhost:5005/plays', {
       params: options as any
     });
   });
@@ -39,6 +39,6 @@ describe('Service: Play', () => {
   it('should add play', () => {
     service.add(testPlay1 as any);
 
-    expect(httpClientMock.post).toHaveBeenCalledWith('/plays', testPlay1);
+    expect(httpClientMock.post).toHaveBeenCalledWith('https://localhost:5005/plays', testPlay1);
   });
 });

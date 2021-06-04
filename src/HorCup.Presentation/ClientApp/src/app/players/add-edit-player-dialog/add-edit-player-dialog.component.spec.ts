@@ -21,7 +21,6 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { PagedSearchResponse } from 'src/app/common/paged-search-response';
 import { Player } from '../models/player';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CommonService } from 'src/app/common/common.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PlayersPersistenceFactory } from './player-strategy/players-persistence-factory';
 import { testPlayer1 } from '../test-data/test-player';
@@ -55,7 +54,6 @@ describe('AddEditPlayerDialogComponent', () => {
   let overlayContainer: OverlayContainer;
   let playersServiceMock: PlayersService;
   let formBuilder: FormBuilder;
-  let commonServiceMock: any;
   let persistenceFactoryMock: PlayersPersistenceFactory;
   let playersStrategyMock: any;
 
@@ -65,18 +63,14 @@ describe('AddEditPlayerDialogComponent', () => {
     playersServiceMock = jasmine.createSpyObj(PlayersService, {
       add: of(),
       stateChanged: of(),
+      init: of(),
+      constraints: {
+        maxNameLength: 11,
+        minBirthDate: new Date()
+      },
       search: of(searchPlayersResponse),
       playerAdded: new Subject().asObservable()
     });
-
-    commonServiceMock = {
-      constraints: {
-        playerConstraints: {
-          maxNameLength: 11,
-          minBirthDate: new Date()
-        }
-      }
-    };
 
     playersStrategyMock = {
       save: () => new Subject().asObservable(),
@@ -119,7 +113,6 @@ describe('AddEditPlayerDialogComponent', () => {
       providers: [
         { provide: PlayersService, useValue: playersServiceMock },
         { provide: FormBuilder, useValue: formBuilder },
-        { provide: CommonService, useValue: commonServiceMock },
         { provide: PlayersPersistenceFactory, useValue: persistenceFactoryMock }
       ]
     })
