@@ -25,25 +25,25 @@ namespace HorCup.Players.Tests.Commands.AddPlayer
 		{
 			_factory = new PlayersFactory();
 
-			var idGeneratorServiceMock = new Mock<IIdGenerator>();
-			idGeneratorServiceMock.Setup(id => id.NewGuid()).Returns(_factory.CreatedPlayerId);
+			var idGeneratorServiceStub = new Mock<IIdGenerator>();
+			idGeneratorServiceStub.Setup(id => id.NewGuid()).Returns(_factory.CreatedPlayerId);
 
-			var dateTimeServiceMock = new Mock<IDateTimeService>();
-			dateTimeServiceMock.Setup(dt => dt.Now).Returns(new DateTime());
+			var dateTimeServiceStub = new Mock<IDateTimeService>();
+			dateTimeServiceStub.Setup(dt => dt.Now).Returns(new DateTime(2020, 12, 12));
 
-			var playersServiceMock = new Mock<IPlayersService>();
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, null))
+			var playersServiceStub = new Mock<IPlayersService>();
+			playersServiceStub.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, null))
 				.Returns(Task.FromResult(false));
-			
-			playersServiceMock.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName, null))
+
+			playersServiceStub.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player3NickName, null))
 				.Returns(Task.FromResult(true));
 
 			_sut = new AddPlayerCommandHandler(
 				Context,
 				new NullLogger<AddPlayerCommandHandler>(),
-				playersServiceMock.Object,
-				dateTimeServiceMock.Object,
-				idGeneratorServiceMock.Object);
+				playersServiceStub.Object,
+				dateTimeServiceStub.Object,
+				idGeneratorServiceStub.Object);
 		}
 
 		[Test]

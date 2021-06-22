@@ -31,6 +31,6 @@ namespace HorCup.Players.Tests.Factory
 			},
 		};
 
-		public Commands Commands => new Commands(this);
+		public Commands Commands => new(this);
 	}
 }
