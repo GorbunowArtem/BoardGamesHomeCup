@@ -36,8 +36,8 @@ services:
     depends_on:
       - sqldata
 
-  horcup.games:
-    image: ${DOCKER_REGISTRY-}games
+  games-api:
+    image: ${DOCKER_REGISTRY-horcup}/games.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: src/HorCup.Games/Dockerfile

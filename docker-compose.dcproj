@@ -17,7 +17,7 @@
     <None Include="docker-compose.yml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="docker-compose.debug.yml">
+    <Content Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </Content>
   </ItemGroup>
