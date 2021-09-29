@@ -51,6 +51,7 @@ services:
       dockerfile: src/HorCup.Plays/Dockerfile
     depends_on:
       - nosqldata
+      - rabbitmq
 
   horcup.statistic:
     image: ${DOCKER_REGISTRY-}statistic
@@ -59,3 +60,4 @@ services:
       dockerfile: src/HorCup.Statistic/Dockerfile
     depends_on:
       - rabbitmq
+      - sqldata
