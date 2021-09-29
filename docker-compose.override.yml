@@ -13,9 +13,16 @@ services:
   games-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=${HORCUP_AZURE_GAMES_DB:-Server=sqldata;Database=HorCup.Games;User Id=sa;Password=Pass@word}
     ports:
       - "5004:80"
+
+  players-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Players;User Id=sa;Password=Pass@word}
+    ports:
+      - "5003:80"
 
 volumes:
   horcup-sqldata:

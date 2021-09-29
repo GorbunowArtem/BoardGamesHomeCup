@@ -22,14 +22,8 @@ services:
   rabbitmq:
     image: masstransit/rabbitmq
 
-  horcup.presentation:
-    image: ${DOCKER_REGISTRY-}presentation
-    build:
-      context: .
-      dockerfile: src/HorCup.Presentation/Dockerfile
-
-  horcup.players:
-    image: ${DOCKER_REGISTRY-}players
+  players-api:
+    image: ${DOCKER_REGISTRY-horcup}/players.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: src/HorCup.Players/Dockerfile
@@ -52,6 +46,12 @@ services:
     depends_on:
       - nosqldata
       - rabbitmq
+
+  horcup.presentation:
+    image: ${DOCKER_REGISTRY-}presentation
+    build:
+      context: .
+      dockerfile: src/HorCup.Presentation/Dockerfile
 
   horcup.statistic:
     image: ${DOCKER_REGISTRY-}statistic

@@ -24,10 +24,10 @@ namespace HorCup.Players
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<PlayersContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("PlayersContext"),
+				options.UseSqlServer(Configuration["ConnectionString"],
 					sqlOptions =>
 					{
-						sqlOptions.EnableRetryOnFailure(30, TimeSpan.FromSeconds(30), null);
+						sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
 					}));
 
 			services.AddInfrastructure();
