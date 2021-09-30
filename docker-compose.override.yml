@@ -10,19 +10,32 @@ services:
     volumes:
       - horcup-sqldata:/var/opt/mssql
 
+  rabbitmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
   games-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${HORCUP_AZURE_GAMES_DB:-Server=sqldata;Database=HorCup.Games;User Id=sa;Password=Pass@word}
     ports:
-      - "5004:80"
+      - "5003:80"
 
   players-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Players;User Id=sa;Password=Pass@word}
     ports:
-      - "5003:80"
+      - "5004:80"
+
+  plays-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__ConnectionString=mongodb://localhost
+      - EventBusConnection=localhost
+    ports:
+      - "5005:80"
 
 volumes:
   horcup-sqldata:

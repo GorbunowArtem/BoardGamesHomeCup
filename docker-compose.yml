@@ -38,8 +38,8 @@ services:
     depends_on:
       - sqldata
 
-  horcup.plays:
-    image: ${DOCKER_REGISTRY-}plays
+  plays-api:
+    image: ${DOCKER_REGISTRY-horcup}/plays.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: src/HorCup.Plays/Dockerfile
