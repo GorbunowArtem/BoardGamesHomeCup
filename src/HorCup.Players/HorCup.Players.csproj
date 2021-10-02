@@ -4,30 +4,40 @@
         <TargetFramework>net5.0</TargetFramework>
         <DebugType>portable</DebugType>
         <PreserveCompilationContext>true</PreserveCompilationContext>
+        <AssemblyName>HorCup.Players</AssemblyName>
+        <PackageId>HorCup.Players</PackageId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
+        <UserSecretsId>HorCup.Players-20161122013612</UserSecretsId>
         <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+        <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
         <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="10.1.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5"/>
+        <PackageReference Include="FluentValidation" Version="10.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5"/>
-        <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+        <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj"/>
+        <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Services"/>
+        <Folder Include="Services" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -22,6 +22,14 @@ services:
   rabbitmq:
     image: masstransit/rabbitmq
 
+  identity-api:
+    image: ${DOCKER_REGISTRY-horcup}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/HorCup.IdentityServer/Dockerfile
+    depends_on:
+      - sqldata
+
   players-api:
     image: ${DOCKER_REGISTRY-horcup}/players.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -53,11 +61,17 @@ services:
       context: .
       dockerfile: src/HorCup.Presentation/Dockerfile
 
-  horcup.statistic:
-    image: ${DOCKER_REGISTRY-}statistic
+  statistic-api:
+    image: ${DOCKER_REGISTRY-horcup}/statistic.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: src/HorCup.Statistic/Dockerfile
     depends_on:
       - rabbitmq
       - sqldata
+
+  spa:
+    image: ${DOCKER_REGISTRY-horcup}/spa:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/HorCup.Presentation/Dockerfile
