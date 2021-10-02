@@ -11,9 +11,13 @@
         <!-- Set this to true if you enable server-side prerendering -->
         <BuildServerSideRenderer>false</BuildServerSideRenderer>
         <UserSecretsId>ea084d7e-f8fc-48b5-b317-f092f5bc030f</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS> <TargetFramework>net5.0</TargetFramework>
+        <DebugType>portable</DebugType>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <DockerfileContext>..\..</DockerfileContext>
-        <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+        <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
+        <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+        <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,6 +35,15 @@
 
     <ItemGroup>
         <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.deps.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.runtimeconfig.dev.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\InterviewQuestions.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\project.packagespec.json" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

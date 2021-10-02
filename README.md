@@ -19,36 +19,17 @@ Application for keeping statistic of played board games, optimized for mobile vi
 
 ## Prerequisites:
 
-- Microsoft SQL server
-- Node 14.x
 - Docker
 
 ## Run an application:
 
-- navigate to src\HorCup.Presentation
-- open command prompt and run command
+- from repository root run
 
 ```c#
-dotnet run
+docker-compose up
 ```
 
-- application will be available at https://localhost:5001
-
-## Build a Docker image
-
-- open `appsettings.Production.json` file and change `HorCupContext` value to connection string to ypour SQL database. Make sure TCP connection is enabled for your SQL server instance.
-- navigate to `src\HorCup.Presentation`
-- open cmd and run command
-
-```dockerfile
-docker build -t hor-cup-image .
-```
-
-- it will build a Docker image. To run it execute:
-
-```dockerfile
-docker run hor-cup-image --port=80
-```
+- application will be available at http://host.docker.internal:5007
 
 ## To check unit tests coverage:
 
