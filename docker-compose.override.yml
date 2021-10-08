@@ -1,63 +1,92 @@
-version: "3.4"
+version : "3.4"
 
-services:
-  sqldata:
-    environment:
+services :
+  sql-server :
+    environment :
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
-    ports:
+    ports :
       - "5433:1433"
-    volumes:
+    volumes :
       - horcup-sqldata:/var/opt/mssql
 
-  rabbitmq:
-    ports:
+  rabbitmq :
+    ports :
       - "15672:15672"
       - "5672:5672"
 
-  identity-api:
-    environment:
+  mongodb :
+    ports :
+      - "27017:27017"
+    volumes :
+      - horcup-mongodbdata:/var/opt/mongodb
+
+  cassandradb :
+    ports :
+      - "9042:9042"
+    environment :
+      - CASSANDRA_USE_ASTRA=false
+      - CASSANDRA_USER=cassandra
+      - CASSANDRA_PASSWORD=cassandra
+      - CASSANDRA_LOCAL_DC=datacenter1
+      - CASSANDRA_CONTACT_POINTS=db:9042
+      - CASSANDRA_KEYSPACE_CQL=CREATE KEYSPACE spring_petclinic WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
+      - MONITORING_PROMETHEUS=false
+      - DISTRIBUTED_TRACING_ENABLED=false
+
+    volumes :
+      - horcup-cassandradbdata:/var/opt/cassandradb
+
+  identity-api :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings_DefaultConnection=${HORCUP_AZURE_IDENTITY_DB:-Server=sqldata;Database=HorCup.Identity;User Id=sa;Password=Pass@word}
-    ports:
+    ports :
       - "5002:80"
 
-  games-api:
-    environment:
+  games-api :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${HORCUP_AZURE_GAMES_DB:-Server=sqldata;Database=HorCup.Games;User Id=sa;Password=Pass@word}
-    ports:
+    ports :
       - "5003:80"
 
-  players-api:
-    environment:
+  players-api :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Players;User Id=sa;Password=Pass@word}
-    ports:
+    ports :
       - "5004:80"
 
-  plays-api:
-    environment:
+  plays-api :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
       - MongoDb__ConnectionString=mongodb://localhost
       - EventBusConnection=localhost
-    ports:
+    ports :
       - "5005:80"
 
-  statistic-api:
-    environment:
+  statistic-api :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Statistic;User Id=sa;Password=Pass@word}
       - EventBusConnection=localhost
-    ports:
+    ports :
       - "5006:80"
 
-  spa:
-    environment:
+  spa :
+    environment :
       - ASPNETCORE_ENVIRONMENT=Development
-    ports:
+    ports :
       - "5007:80"
 
-volumes:
-  horcup-sqldata:
-    external: false
+volumes :
+  horcup-sqldata :
+    external : false
+
+  horcup-mongodbdata :
+    external : false
+
+  horcup-cassandradbdata :
+    external : false
+      
