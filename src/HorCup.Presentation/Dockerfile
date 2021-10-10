@@ -1,20 +1,19 @@
+ARG NODE_IMAGE=node:16.0
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
 
+FROM ${NODE_IMAGE} as node-build
+WORKDIR /web/src
+COPY src/HorCup.Presentation/ClientApp/package.json .
+COPY src/HorCup.Presentation/ClientApp/package-lock.json .
+RUN npm install -g npm@7.15.1
+RUN npm install
+COPY src/HorCup.Presentation/ClientApp/ .
+RUN npm npm build:prod
+
 FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
 WORKDIR /src
-
-# Prevent 'Warning: apt-key output should not be parsed (stdout is not a terminal)'
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-
-# install NodeJS 14.x
-# see https://github.com/nodesource/distributions/blob/master/README.md#deb
-RUN apt-get update -yq 
-RUN apt-get install curl gnupg -yq 
-RUN apt install ca-certificates 
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
-RUN apt-get install -y nodejs 
 
 COPY "HorCup.sln" "HorCup.sln"
 COPY "src/HorCup.Games/HorCup.Games.csproj" "src/HorCup.Games/HorCup.Games.csproj"

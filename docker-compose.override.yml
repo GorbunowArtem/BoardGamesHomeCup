@@ -20,22 +20,22 @@ services :
       - "27017:27017"
     volumes :
       - horcup-mongodbdata:/var/opt/mongodb
-
-  cassandradb :
-    ports :
-      - "9042:9042"
-    environment :
-      - CASSANDRA_USE_ASTRA=false
-      - CASSANDRA_USER=cassandra
-      - CASSANDRA_PASSWORD=cassandra
-      - CASSANDRA_LOCAL_DC=datacenter1
-      - CASSANDRA_CONTACT_POINTS=db:9042
-      - CASSANDRA_KEYSPACE_CQL=CREATE KEYSPACE spring_petclinic WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
-      - MONITORING_PROMETHEUS=false
-      - DISTRIBUTED_TRACING_ENABLED=false
-
-    volumes :
-      - horcup-cassandradbdata:/var/opt/cassandradb
+#
+#  cassandradb :
+#    ports :
+#      - "9042:9042"
+#    environment :
+#      - CASSANDRA_USE_ASTRA=false
+#      - CASSANDRA_USER=cassandra
+#      - CASSANDRA_PASSWORD=cassandra
+#      - CASSANDRA_LOCAL_DC=datacenter1
+#      - CASSANDRA_CONTACT_POINTS=db:9042
+#      - CASSANDRA_KEYSPACE_CQL=CREATE KEYSPACE spring_petclinic WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
+#      - MONITORING_PROMETHEUS=false
+#      - DISTRIBUTED_TRACING_ENABLED=false
+#
+#    volumes :
+#      - horcup-cassandradbdata:/var/opt/cassandradb
 
   identity-api :
     environment :

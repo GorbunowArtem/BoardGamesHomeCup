@@ -26,8 +26,8 @@ services :
   rabbitmq :
     image : masstransit/rabbitmq
 
-  cassandradb :
-    image : cassandra
+#  cassandradb :
+#    image : cassandra
 
   identity-api :
     image : ${DOCKER_REGISTRY-horcup}/identity.api:${PLATFORM:-linux}-${TAG:-latest}

@@ -20,17 +20,10 @@ import { PlaysService } from '../plays.service';
   styleUrls: ['./add-play.component.scss']
 })
 export class AddPlayComponent implements OnInit {
-  public addPlayForm = this._fb.group({
-    notes: [''],
-    selectedGame: [null, [Validators.required]],
-    playedDate: [new Date(), [Validators.required]],
-    playerScores: this._fb.array([this.defaultPlayerScore, this.defaultPlayerScore])
-  });
-
   public gamesOptions!: Observable<Game[]>;
+
   public playersOption!: Observable<Player[]>;
   private searchPlayersOptions;
-
   public constructor(
     private _fb: FormBuilder,
     private _gamesService: GamesService,
@@ -57,6 +50,13 @@ export class AddPlayComponent implements OnInit {
       switchMap((searchText) => this.filterPlayers(searchText))
     );
   }
+
+  public addPlayForm = this._fb.group({
+    notes: [''],
+    selectedGame: [null, [Validators.required]],
+    playedDate: [new Date(), [Validators.required]],
+    playerScores: this._fb.array([this.defaultPlayerScore, this.defaultPlayerScore])
+  });
 
   public get defaultPlayerScore() {
     return this._fb.group({

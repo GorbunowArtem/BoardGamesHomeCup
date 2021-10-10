@@ -29,7 +29,10 @@ namespace HorCup.Plays
 
 			services.AddMassTransit(x =>
 			{
-				x.UsingRabbitMq();
+				x.UsingRabbitMq((context, cfg) =>
+				{
+					cfg.Host("rabbitmq");
+				});
 			});
 			
 			services.AddMassTransitHostedService();
