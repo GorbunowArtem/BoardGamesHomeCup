@@ -8,7 +8,7 @@ services :
     ports :
       - "5433:1433"
     volumes :
-      - horcup-sqldata:/var/opt/mssql
+      - horcup-sql-server:/var/opt/mssql
 
   rabbitmq :
     ports :
@@ -40,21 +40,21 @@ services :
   identity-api :
     environment :
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings_DefaultConnection=${HORCUP_AZURE_IDENTITY_DB:-Server=sqldata;Database=HorCup.Identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings_DefaultConnection=${HORCUP_AZURE_IDENTITY_DB:-Server=sql-server;Database=HorCup.Identity;User Id=sa;Password=Pass@word}
     ports :
       - "5002:80"
 
   games-api :
     environment :
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${HORCUP_AZURE_GAMES_DB:-Server=sqldata;Database=HorCup.Games;User Id=sa;Password=Pass@word}
+      - ConnectionString=${HORCUP_AZURE_GAMES_DB:-Server=sql-server;Database=HorCup.Games;User Id=sa;Password=Pass@word}
     ports :
       - "5003:80"
 
   players-api :
     environment :
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Players;User Id=sa;Password=Pass@word}
+      - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sql-server;Database=HorCup.Players;User Id=sa;Password=Pass@word}
     ports :
       - "5004:80"
 
@@ -69,7 +69,7 @@ services :
   statistic-api :
     environment :
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sqldata;Database=HorCup.Statistic;User Id=sa;Password=Pass@word}
+      - ConnectionString=${HORCUP_AZURE_PLAYERS_DB:-Server=sql-server;Database=HorCup.Statistic;User Id=sa;Password=Pass@word}
       - EventBusConnection=localhost
     ports :
       - "5006:80"
@@ -81,7 +81,7 @@ services :
       - "5007:80"
 
 volumes :
-  horcup-sqldata :
+  horcup-sql-server :
     external : false
 
   horcup-mongodbdata :

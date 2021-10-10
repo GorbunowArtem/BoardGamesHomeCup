@@ -69,7 +69,7 @@ services :
       dockerfile : src/HorCup.Statistic/Dockerfile
     depends_on :
       - rabbitmq
-      - sqldata
+      - sql-server
 
   spa :
     image : ${DOCKER_REGISTRY-horcup}/spa:${PLATFORM:-linux}-${TAG:-latest}
