@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build -- --prod",
+    "build:prod": "ng build --prod",
     "build:ssr": "ng run BoardGamesShop:server:dev",
     "test": "ng test",
     "test:coverage": "ng test --no-watch --code-coverage",

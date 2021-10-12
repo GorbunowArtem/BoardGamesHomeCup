@@ -65,8 +65,6 @@ namespace HorCup.Presentation
 					pattern: "{controller}/{action=Index}/{id?}");
 			});
 
-			
-
 			app.UseSpa(spa =>
 			{
 				// To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -74,10 +72,10 @@ namespace HorCup.Presentation
 
 				spa.Options.SourcePath = "ClientApp";
 
-				if (env.IsDevelopment())
-				{
-					spa.UseAngularCliServer(npmScript: "start");
-				}
+				// if (env.IsDevelopment())
+				// {
+				// 	spa.UseAngularCliServer(npmScript: "start");
+				// }
 			});
 		}
 	}
