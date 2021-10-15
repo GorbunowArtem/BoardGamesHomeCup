@@ -20,7 +20,7 @@ namespace HorCup.Players
 		}
 
 		private static Player[] GetPlayers() =>
-			Enumerable.Range(1, 50)
+			Enumerable.Range(1, 5000)
 				.Select(i => new Player
 				{
 					Added = DateTime.Now.AddDays(-i),
