@@ -66,14 +66,7 @@ namespace HorCup.Plays.Commands.AddPlay
 
 			foreach (var playScore in request.PlayerScores)
 			{
-				if (playScore.Score == highestScore)
-				{
-					playScore.IsWinner = true;
-				}
-				else
-				{
-					playScore.IsWinner = false;
-				}
+				playScore.IsWinner = playScore.Score == highestScore;
 			}
 		}
 	}

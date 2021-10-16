@@ -27,6 +27,6 @@ namespace HorCup.Plays.Tests
 
 			PublishEndpoint = new Mock<IPublishEndpoint>();
 			
-		}
+		}                     
 	}
 }

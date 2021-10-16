@@ -13,12 +13,8 @@ namespace HorCup.Games.Tests.Factory
 		}
 
 		public AddGameCommand AddGameCommand(string title = null) =>
-			new()
-			{
-				Title = title ?? GamesFactory.CreatedGameTitle,
-				MaxPlayers = GamesFactory.CreatedGameMaxPlayers,
-				MinPlayers = GamesFactory.CreatedGameMinPlayers
-			};
+			new(title ?? GamesFactory.CreatedGameTitle, GamesFactory.CreatedGameMaxPlayers,
+				GamesFactory.CreatedGameMinPlayers);
 
 		public EditGameCommand EditGameCommand => new(_factory.Game2Id, GamesFactory.UpdatedTitle,
 			12, 5, false);

@@ -35,6 +35,7 @@ namespace HorCup.Players.Queries.SearchPlayers
 			query = ApplyExceptIdsFilter(request, query);
 			
 			var players = await query
+				.AsNoTracking()
 				.OrderByDescending(p => p.Added)
 				.Skip(request.Skip)
 				.Take(request.Take)

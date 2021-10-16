@@ -13,7 +13,7 @@ namespace HorCup.Plays.Commands.AddPlay
 
 			RuleFor(p => p.PlayedDate)
 				.GreaterThan(new DateTime(2015, 1, 1))
-				.LessThanOrEqualTo(dateTimeService.Now);
+				.LessThanOrEqualTo(dateTimeService.UtcNow);
 		}
 	}
 }

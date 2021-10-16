@@ -11,7 +11,6 @@ namespace HorCup.Plays.Context
 		public PlaysContext(IOptions<MongoDbOptions> options)
 		{
 			var client = new MongoClient(options.Value.ConnectionString);
-
 			_db = client.GetDatabase("HorCupPlays");
 		}
 

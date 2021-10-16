@@ -17,10 +17,6 @@ namespace HorCup.Games.Models
 
 			builder.Property(g => g.MaxPlayers)
 				.IsRequired();
-			//
-			// builder.HasOne(g => g.GameStatistic)
-			// 	.WithOne(gs => gs.Game)
-			// 	.HasForeignKey<GameStatistic>(gs => gs.GameId);
 		}
 	}
 }

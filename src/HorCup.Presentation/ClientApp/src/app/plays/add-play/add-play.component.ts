@@ -20,16 +20,11 @@ import { PlaysService } from '../plays.service';
   styleUrls: ['./add-play.component.scss']
 })
 export class AddPlayComponent implements OnInit {
-  public addPlayForm = this._fb.group({
-    notes: [''],
-    selectedGame: [null, [Validators.required]],
-    playedDate: [new Date(), [Validators.required]],
-    playerScores: this._fb.array([this.defaultPlayerScore, this.defaultPlayerScore])
-  });
-
   public gamesOptions!: Observable<Game[]>;
+
   public playersOption!: Observable<Player[]>;
   private searchPlayersOptions;
+  public addPlayForm;
 
   public constructor(
     private _fb: FormBuilder,
@@ -40,6 +35,12 @@ export class AddPlayComponent implements OnInit {
     private _router: Router
   ) {
     this.searchPlayersOptions = new SearchPlayersOptions();
+    this.addPlayForm = this._fb.group({
+      notes: [''],
+      selectedGame: [null, [Validators.required]],
+      playedDate: [new Date(), [Validators.required]],
+      playerScores: this._fb.array([this.defaultPlayerScore, this.defaultPlayerScore])
+    });
   }
 
   public ngOnInit() {

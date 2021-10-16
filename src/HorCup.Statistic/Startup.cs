@@ -40,6 +40,7 @@ namespace HorCup.Statistic
 
 				configuration.UsingRabbitMq((context, cfg) =>
 				{
+					cfg.Host("rabbitmq");
 					cfg.ConfigureEndpoints(context);
 				});
 			});
