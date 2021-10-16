@@ -37,15 +37,6 @@
         <ProjectReference Include="..\HorCup.Infrastructure\HorCup.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.deps.json" />
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.runtimeconfig.dev.json" />
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\bin\Debug\net5.0\InterviewQuestions.runtimeconfig.json" />
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\InterviewQuestions.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="ClientApp\coverage\InterviewQuestions\obj\project.packagespec.json" />
-    </ItemGroup>
-
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
