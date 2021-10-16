@@ -49,7 +49,7 @@ namespace HorCup.Players.Commands.AddPlayer
 			{
 				Id = id,
 				Nickname = request.Nickname.Trim(),
-				Added = _dateTimeService.Now
+				Added = _dateTimeService.UtcNow
 			};
 
 			await _context.Players.AddAsync(player, cancellationToken);

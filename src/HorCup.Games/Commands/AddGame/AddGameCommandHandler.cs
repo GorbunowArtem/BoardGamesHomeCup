@@ -51,8 +51,7 @@ namespace HorCup.Games.Commands.AddGame
 				Title = request.Title,
 				MaxPlayers = request.MaxPlayers,
 				MinPlayers = request.MinPlayers,
-				Added = _dateTimeService.Now,
-				HasScores = request.HasScores
+				Added = _dateTimeService.UtcNow
 			};
 
 			_logger.LogInformation($"Adding game with id {id.ToString()} title {request.Title}");

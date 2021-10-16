@@ -29,7 +29,7 @@ namespace HorCup.Players.Tests.Commands.AddPlayer
 			idGeneratorServiceStub.Setup(id => id.NewGuid()).Returns(_factory.CreatedPlayerId);
 
 			var dateTimeServiceStub = new Mock<IDateTimeService>();
-			dateTimeServiceStub.Setup(dt => dt.Now).Returns(new DateTime(2020, 12, 12));
+			dateTimeServiceStub.Setup(dt => dt.UtcNow).Returns(new DateTime(2020, 12, 12));
 
 			var playersServiceStub = new Mock<IPlayersService>();
 			playersServiceStub.Setup(ps => ps.IsNicknameUniqueAsync(PlayersFactory.Player1NickName, null))

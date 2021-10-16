@@ -30,7 +30,7 @@ namespace HorCup.Presentation
 					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				});
 
-			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp\\dist"; });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

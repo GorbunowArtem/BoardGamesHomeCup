@@ -4,6 +4,6 @@ namespace HorCup.Infrastructure.Services.DateTimeService
 {
 	public class DateTimeService: IDateTimeService
 	{
-		public DateTime Now => DateTime.UtcNow;
+		public DateTime UtcNow => DateTime.UtcNow;
 	}
 }
