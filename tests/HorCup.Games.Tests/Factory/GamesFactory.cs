@@ -33,7 +33,7 @@ namespace HorCup.Games.Tests.Factory
 		public const int Game3MaxPlayers = 6;
 		public const int Game4MaxPlayers = 8;
 
-		public Game[] Games => new Game[]
+		public GameAggregate[] Games => new GameAggregate[]
 		{
 			new()
 			{

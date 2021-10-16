@@ -28,7 +28,7 @@ namespace HorCup.Games.Tests.Commands
 			
 			await _sut.Invoking(handler => handler.Handle(new DeleteGameCommand(id), CancellationToken.None))
 				.Should().ThrowAsync<NotFoundException>()
-				.WithMessage($"Entity {nameof(Game)} with key {id.ToString()} was not found");
+				.WithMessage($"Entity {nameof(GameAggregate)} with key {id.ToString()} was not found");
 		}
 
 		[Test]

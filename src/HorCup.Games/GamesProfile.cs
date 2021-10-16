@@ -8,8 +8,8 @@ namespace HorCup.Games
 	{
 		public GamesProfile()
 		{
-			CreateMap<Game, GameViewModel>();
-			CreateMap<Game, GameDetailsViewModel>();
+			CreateMap<GameAggregate, GameViewModel>();
+			CreateMap<GameAggregate, GameDetailsViewModel>();
 		}
 	}
 }

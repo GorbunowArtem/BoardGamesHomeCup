@@ -2,9 +2,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
+using Akka.Actor;
+using Akkatecture.Akka;
 using HorCup.Games.Commands.AddGame;
 using HorCup.Games.Commands.DeleteGame;
 using HorCup.Games.Commands.EditGame;
+using HorCup.Games.Models;
 using HorCup.Games.Queries.GetById;
 using HorCup.Games.Queries.IsTitleUnique;
 using HorCup.Games.Queries.SearchGames;
@@ -22,10 +25,11 @@ namespace HorCup.Games.Controllers
 	public class GamesController : ControllerBase
 	{
 		private readonly ISender _sender;
-
-		public GamesController(ISender sender)
+		private readonly ActorRefProvider<GameManager> _provider;
+		public GamesController(ISender sender, ActorRefProvider<GameManager> provider)
 		{
 			_sender = sender;
+			_provider = provider;
 		}
 
 		[HttpGet]
@@ -51,10 +55,13 @@ namespace HorCup.Games.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody] AddGameCommand command)
+		public ActionResult<Guid> Add([FromBody] GameViewModel game)
 		{
-			var id = await _sender.Send(command);
-
+			var id = GameId.New;
+			
+			var command = new AddGameCommand(GameId.New, game.Title, game.MaxPlayers, game.MinPlayers);
+			
+			_provider.Tell(command);
 			return CreatedAtAction(nameof(Add), new {id}, id);
 		}
 

@@ -60,7 +60,7 @@ namespace HorCup.Games.Tests.Commands.AddGame
 					handler.Handle(_factory.Commands.AddGameCommand(GamesFactory.NotUniqueGameTitle), CancellationToken.None))
 				.Should()
 				.ThrowAsync<EntityExistsException>()
-				.WithMessage($"Entity {nameof(Game)} with {GamesFactory.NotUniqueGameTitle} already exists");
+				.WithMessage($"Entity {nameof(GameAggregate)} with {GamesFactory.NotUniqueGameTitle} already exists");
 		}
 	}
 }

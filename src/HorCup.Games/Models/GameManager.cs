@@ -1,0 +1,11 @@
+using Akkatecture.Aggregates;
+using Akkatecture.Akka;
+using Akkatecture.Commands;
+
+namespace HorCup.Games.Models
+{
+	public class GameManager: AggregateManager<GameAggregate, GameId, Command<GameAggregate, GameId>>, IGameActorService
+	{
+		
+	}
+}

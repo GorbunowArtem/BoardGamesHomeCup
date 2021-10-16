@@ -63,7 +63,7 @@ namespace HorCup.Games.Tests.Commands.EditGame
 						CancellationToken.None))
 				.Should()
 				.ThrowAsync<EntityExistsException>()
-				.WithMessage($"Entity {nameof(Game)} with {_factory.Game3Id.ToString()} already exists");
+				.WithMessage($"Entity {nameof(GameAggregate)} with {_factory.Game3Id.ToString()} already exists");
 		}
 
 		[Test]

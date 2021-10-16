@@ -1,10 +1,8 @@
-using System;
-using HorCup.Games.Context;
-using HorCup.Games.Services.Games;
+using Akka.Actor;
+using HorCup.Games.Models;
 using HorCup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,18 +21,24 @@ namespace HorCup.Games
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<GamesContext>(options =>
-				options.UseSqlServer(Configuration["ConnectionString"],
-					sqlOptions => { sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null); }));
-
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorCup", Version = "v1" }); });
 
 			services.AddHealthChecks();
 
 			services.AddInfrastructure();
 
-			services.AddScoped<IGamesContext, GamesContext>();
-			services.AddScoped<IGamesService, GamesService>();
+			var actorSystem = ActorSystem.Create("games");
+				
+				var gamesActor = actorSystem
+				.ActorOf(Props.Create(() => new GameManager()));
+
+				services.AddAkkatecture(actorSystem)
+					.AddActorReference<GameManager>(gamesActor);
+				
+
+				services.AddTransient<IGameActorService, GameActorService>();
+				
+				// services.AddScoped<IGamesService, GamesService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

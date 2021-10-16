@@ -45,7 +45,7 @@ namespace HorCup.Games.Tests.Services
 			await _sut.Invoking(action => action.TryGetGameAsync(id, default))
 				.Should()
 				.ThrowAsync<NotFoundException>()
-				.WithMessage($"Entity {nameof(Game)} with key {id.ToString()} was not found");
+				.WithMessage($"Entity {nameof(GameAggregate)} with key {id.ToString()} was not found");
 		}
 
 		[Test]
