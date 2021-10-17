@@ -1,4 +1,8 @@
+using System;
+using System.IO;
 using Akka.Actor;
+using Akka.Configuration;
+using Akka.Persistence.MongoDb;
 using HorCup.Games.Models;
 using HorCup.Games.Queries;
 using HorCup.Infrastructure;
@@ -28,20 +32,26 @@ namespace HorCup.Games
 
 			services.AddInfrastructure();
 
-			var actorSystem = ActorSystem.Create("games");
-				
-				var gamesActor = actorSystem.ActorOf(Props.Create(() => new GameManager()), "game-manager");
-				var gamesStorage = actorSystem.ActorOf(Props.Create(() => new GameStorageHandler()), "game-storage-handler");
+			var path = Environment.CurrentDirectory;
+			var configPath = Path.Combine(path, "akka.conf");
+			var config = ConfigurationFactory.ParseString(File.ReadAllText(configPath));
+			var actorSystem = ActorSystem.Create("games", config);
 
-				services.AddAkkatecture(actorSystem)
-					.AddActorReference<GameManager>(gamesActor)
-					.AddActorReference<GameStorageHandler>(gamesStorage);
-				
+			MongoDbPersistence.Get(actorSystem);
+			
+			var gamesActor = actorSystem.ActorOf(Props.Create(() => new GameManager()), "game-manager");
+			var gamesStorage =
+				actorSystem.ActorOf(Props.Create(() => new GameStorageHandler()), "game-storage-handler");
 
-				services.AddTransient<IGameActorService, GameActorService>();
-				services.AddTransient<IGamesQueryHandler, GamesQueryHandler>();
-				
-				// services.AddScoped<IGamesService, GamesService>();
+			services.AddAkkatecture(actorSystem)
+				.AddActorReference<GameManager>(gamesActor)
+				.AddActorReference<GameStorageHandler>(gamesStorage);
+
+
+			services.AddTransient<IGameActorService, GameActorService>();
+			services.AddTransient<IGamesQueryHandler, GamesQueryHandler>();
+
+			// services.AddScoped<IGamesService, GamesService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
