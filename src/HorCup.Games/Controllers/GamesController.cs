@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
+using HorCup.Games.Commands;
 using HorCup.Games.Commands.AddGame;
 using HorCup.Games.Commands.DeleteGame;
 using HorCup.Games.Commands.EditGame;
@@ -13,20 +14,16 @@ using HorCup.Games.ViewModels;
 using HorCup.Infrastructure.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Revo.AspNetCore.Web;
 
 namespace HorCup.Games.Controllers
 {
 	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("games")]
-	public class GamesController : ControllerBase
+	public class GamesController : CommandApiController
 	{
 		private readonly ISender _sender;
-
-		public GamesController(ISender sender)
-		{
-			_sender = sender;
-		}
 
 		[HttpGet]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
@@ -51,10 +48,13 @@ namespace HorCup.Games.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody] AddGameCommand command)
+		public async Task<ActionResult<Guid>> Add([FromBody] CreateGameCommand command)
 		{
-			var id = await _sender.Send(command);
+			var id = Guid.NewGuid();
 
+			command.Id = id;
+			await CommandBus.SendAsync(command);
+			
 			return CreatedAtAction(nameof(Add), new {id}, id);
 		}
 

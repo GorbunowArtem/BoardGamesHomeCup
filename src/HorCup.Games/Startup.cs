@@ -8,21 +8,30 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Revo.AspNetCore;
+using Revo.AspNetCore.Configuration;
+using Revo.Core.Configuration;
+using Revo.EFCore.Configuration;
+using Revo.EFCore.DataAccess.Configuration;
+using Revo.EFCore.DataAccess.Conventions;
 
 namespace HorCup.Games
 {
-	public class Startup
+	public class Startup : RevoStartup
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration) : base(configuration)
 		{
 			Configuration = configuration;
 		}
 
 		public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
+		public override void ConfigureServices(IServiceCollection services)
 		{
+			base.ConfigureServices(services);
+			
 			services.AddDbContext<GamesContext>(options =>
 				options.UseSqlServer(Configuration["ConnectionString"],
 					sqlOptions => { sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null); }));
@@ -37,8 +46,9 @@ namespace HorCup.Games
 			services.AddScoped<IGamesService, GamesService>();
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public override void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
 		{
+			base.Configure(app, env, loggerFactory);
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -61,5 +71,19 @@ namespace HorCup.Games
 				endpoints.MapHealthChecks("/health");
 			});
 		}
+
+		protected override IRevoConfiguration CreateRevoConfiguration() =>
+			new RevoConfiguration()
+				.UseAspNetCore()
+				.UseEFCoreDataAccess(contextBuilder =>
+						contextBuilder.UseSqlServer(Configuration["ConnectionString"]),
+					advancedAction: config =>
+					{
+						config.AddConvention<BaseTypeAttributeConvention>(-200)
+							.AddConvention<IdColumnsPrefixedWithTableNameConvention>(-110)
+							.AddConvention<PrefixConvention>(-9)
+							.AddConvention<SnakeCaseTableNamesConvention>(1);
+					})
+				.UseAllEFCoreInfrastructure();
 	}
 }
