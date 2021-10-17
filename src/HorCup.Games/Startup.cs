@@ -1,5 +1,6 @@
 using Akka.Actor;
 using HorCup.Games.Models;
+using HorCup.Games.Queries;
 using HorCup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,14 +30,16 @@ namespace HorCup.Games
 
 			var actorSystem = ActorSystem.Create("games");
 				
-				var gamesActor = actorSystem
-				.ActorOf(Props.Create(() => new GameManager()));
+				var gamesActor = actorSystem.ActorOf(Props.Create(() => new GameManager()), "game-manager");
+				var gamesStorage = actorSystem.ActorOf(Props.Create(() => new GameStorageHandler()), "game-storage-handler");
 
 				services.AddAkkatecture(actorSystem)
-					.AddActorReference<GameManager>(gamesActor);
+					.AddActorReference<GameManager>(gamesActor)
+					.AddActorReference<GameStorageHandler>(gamesStorage);
 				
 
 				services.AddTransient<IGameActorService, GameActorService>();
+				services.AddTransient<IGamesQueryHandler, GamesQueryHandler>();
 				
 				// services.AddScoped<IGamesService, GamesService>();
 		}

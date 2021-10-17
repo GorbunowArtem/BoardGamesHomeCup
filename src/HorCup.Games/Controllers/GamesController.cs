@@ -2,13 +2,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
-using Akka.Actor;
 using Akkatecture.Akka;
 using HorCup.Games.Commands.AddGame;
 using HorCup.Games.Commands.DeleteGame;
 using HorCup.Games.Commands.EditGame;
 using HorCup.Games.Models;
-using HorCup.Games.Queries.GetById;
+using HorCup.Games.Queries;
 using HorCup.Games.Queries.IsTitleUnique;
 using HorCup.Games.Queries.SearchGames;
 using HorCup.Games.Requests;
@@ -26,10 +25,13 @@ namespace HorCup.Games.Controllers
 	{
 		private readonly ISender _sender;
 		private readonly ActorRefProvider<GameManager> _provider;
-		public GamesController(ISender sender, ActorRefProvider<GameManager> provider)
+		private readonly IGamesQueryHandler _queryHandler;
+		public GamesController(ISender sender, ActorRefProvider<GameManager> provider,
+			IGamesQueryHandler queryHandler)
 		{
 			_sender = sender;
 			_provider = provider;
+			_queryHandler = queryHandler;
 		}
 
 		[HttpGet]
@@ -47,7 +49,7 @@ namespace HorCup.Games.Controllers
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		public async Task<ActionResult<GameDetailsViewModel>> GetById([FromRoute] Guid id)
 		{
-			var game = await _sender.Send(new GetGameByIdQuery(id));
+			var game = await _queryHandler.Get(id);
 
 			return Ok(game);
 		}
@@ -59,10 +61,10 @@ namespace HorCup.Games.Controllers
 		{
 			var id = GameId.New;
 			
-			var command = new AddGameCommand(GameId.New, game.Title, game.MaxPlayers, game.MinPlayers);
+			var command = new AddGameCommand(id, game.Title, game.MaxPlayers, game.MinPlayers);
 			
 			_provider.Tell(command);
-			return CreatedAtAction(nameof(Add), new {id}, id);
+			return CreatedAtAction(nameof(Add), new {id = id.GetGuid()}, id.GetGuid().ToString());
 		}
 
 		[HttpPatch("{id:Guid}")]

@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Akka.Actor;
 using HorCup.Games.Events;
 

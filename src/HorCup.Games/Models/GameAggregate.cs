@@ -8,14 +8,6 @@ namespace HorCup.Games.Models
 	public class GameAggregate : AggregateRoot<GameAggregate, GameId, GameState>,
 		IExecute<AddGameCommand>
 	{
-		// public string Title { get; set; }
-		//
-		// public int MaxPlayers { get; set; }
-		//
-		// public int MinPlayers { get; set; }
-		//
-		// public DateTime Added { get; set; }
-
 		public GameAggregate(GameId id) : base(id)
 		{
 		}
@@ -39,10 +31,8 @@ namespace HorCup.Games.Models
 
 					var maxPlayersChanged = new GameMaxPlayersChanged(command.MaxPlayers);
 
-					Emit(titleChanged);
-					Emit(minPlayersChanged);
-					Emit(maxPlayersChanged);
-					// EmitAll(titleChanged, minPlayersChanged, maxPlayersChanged);
+				
+					EmitAll(titleChanged, minPlayersChanged, maxPlayersChanged);
 				// }
 			}
 

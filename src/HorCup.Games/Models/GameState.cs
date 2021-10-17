@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Akkatecture.Aggregates;
 using HorCup.Games.Events;
 

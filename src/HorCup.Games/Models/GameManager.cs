@@ -1,5 +1,4 @@
 using Akkatecture.Aggregates;
-using Akkatecture.Akka;
 using Akkatecture.Commands;
 
 namespace HorCup.Games.Models
