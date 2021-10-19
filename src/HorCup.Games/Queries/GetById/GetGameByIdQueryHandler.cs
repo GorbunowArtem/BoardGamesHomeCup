@@ -1,41 +1,24 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using HorCup.Games.Context;
-using HorCup.Games.Services.Games;
-using HorCup.Games.ViewModels;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Revo.Core.Commands;
+using Revo.DataAccess.Entities;
 
 namespace HorCup.Games.Queries.GetById
 {
-	public class GetGameByIdQueryHandler: IRequestHandler<GetGameByIdQuery, GameDetailsViewModel>
+	public class GetGameByIdQueryHandler: IQueryHandler<GetGameByIdQuery, GameReadModel>
 	{
-		private readonly IGamesContext _context;
-		private readonly ILogger<GetGameByIdQueryHandler> _logger;
-		private readonly IMapper _mapper;
-		private readonly IGamesService _gamesService;
+		private readonly IReadRepository _repository;
 
-		public GetGameByIdQueryHandler(IGamesContext context, ILogger<GetGameByIdQueryHandler> logger,
-			IMapper mapper,
-			IGamesService gamesService)
+		public GetGameByIdQueryHandler(IReadRepository repository)
 		{
-			_context = context;
-			_logger = logger;
-			_mapper = mapper;
-			_gamesService = gamesService;
+			_repository = repository;
 		}
 
-		public async Task<GameDetailsViewModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
+		public async Task<GameReadModel> HandleAsync(GetGameByIdQuery query, CancellationToken cancellationToken)
 		{
-			await _gamesService.TryGetGameAsync(request.Id, cancellationToken);
+			var game = await _repository.GetAsync<GameReadModel>(cancellationToken, query.Id);
 			
-			var game = await _context.Games.Where(g => g.Id == request.Id)
-				.SingleAsync(cancellationToken);
-
-			return _mapper.Map<GameDetailsViewModel>(game);
+			return game;
 		}
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-using HorCup.Games.Context;
 using HorCup.Games.Services.Games;
 using HorCup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +14,8 @@ using Revo.Core.Configuration;
 using Revo.EFCore.Configuration;
 using Revo.EFCore.DataAccess.Configuration;
 using Revo.EFCore.DataAccess.Conventions;
+using Revo.Infrastructure;
+using Revo.RavenDB.Configuration;
 
 namespace HorCup.Games
 {
@@ -31,22 +31,18 @@ namespace HorCup.Games
 		public override void ConfigureServices(IServiceCollection services)
 		{
 			base.ConfigureServices(services);
-			
-			services.AddDbContext<GamesContext>(options =>
-				options.UseSqlServer(Configuration["ConnectionString"],
-					sqlOptions => { sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null); }));
 
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorCup", Version = "v1" }); });
 
 			services.AddHealthChecks();
 
 			services.AddInfrastructure();
-
-			services.AddScoped<IGamesContext, GamesContext>();
-			services.AddScoped<IGamesService, GamesService>();
 		}
 
-		public override void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+		public override void Configure(
+			IApplicationBuilder app,
+			IWebHostEnvironment env,
+			ILoggerFactory loggerFactory)
 		{
 			base.Configure(app, env, loggerFactory);
 			if (env.IsDevelopment())

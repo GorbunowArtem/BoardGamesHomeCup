@@ -10,8 +10,6 @@ namespace HorCup.Games.Queries.SearchGames
 		{
 			var constraints = new GamesConstraints();
 			
-			Include(new SearchQueryBaseValidator());
-
 			RuleFor(s => s.MaxPlayers)
 				.GreaterThanOrEqualTo(1)
 				.LessThanOrEqualTo(constraints.MaxPlayers);

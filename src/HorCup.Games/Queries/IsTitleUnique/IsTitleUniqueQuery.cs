@@ -3,5 +3,5 @@ using MediatR;
 
 namespace HorCup.Games.Queries.IsTitleUnique
 {
-	public record IsTitleUniqueQuery(string Title, Guid? Id = null) : IRequest<bool>;
+	public record IsTitleUniqueQuery(string Title, Guid? Id = null);
 }

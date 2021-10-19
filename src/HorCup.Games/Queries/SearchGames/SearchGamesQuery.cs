@@ -6,7 +6,7 @@ using MediatR;
 
 namespace HorCup.Games.Queries.SearchGames
 {
-	public record SearchGamesQuery : SearchQueryBase, IRequest<(IEnumerable<GameViewModel> items, int total)>
+	public record SearchGamesQuery 
 	{
 		public string SearchText { get; set; }
 
