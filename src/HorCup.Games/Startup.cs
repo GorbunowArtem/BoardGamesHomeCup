@@ -64,6 +64,8 @@ namespace HorCup.Games
 				.WithTransientLifetime()
 			);
 
+			services.Configure<MongoDbOptions>(Configuration.GetSection(MongoDbOptions.MongoDb));
+			
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorCup", Version = "v1" }); });
 
 			services.AddHealthChecks();
