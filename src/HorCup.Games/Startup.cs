@@ -1,3 +1,4 @@
+using HorCup.Games.Projections;
 using HorCup.Games.Services.Games;
 using HorCup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +72,7 @@ namespace HorCup.Games
 		protected override IRevoConfiguration CreateRevoConfiguration() =>
 			new RevoConfiguration()
 				.UseAspNetCore()
+				.ConfigureKernel(c => c.LoadModule(new MongoModule()))
 				.UseEFCoreDataAccess(contextBuilder =>
 						contextBuilder.UseSqlServer(Configuration["ConnectionString"]),
 					advancedAction: config =>

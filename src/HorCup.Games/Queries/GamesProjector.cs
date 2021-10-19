@@ -1,17 +1,16 @@
 using HorCup.Games.Events;
 using HorCup.Games.Models;
+using HorCup.Games.Projections;
+using Microsoft.Extensions.Logging;
 using Revo.Core.Events;
 using Revo.EFCore.DataAccess.Entities;
 using Revo.EFCore.Projections;
-using Revo.Infrastructure.Repositories;
-using Revo.RavenDB.DataAccess;
-using Revo.RavenDB.Projections;
+using Revo.Infrastructure.Projections;
 
 namespace HorCup.Games.Queries
 {
-	public class GamesProjector: RavenEntityEventToPocoProjector<GameAggregate, GameReadModel>
+	public class GamesProjector: MongoEventProjector<GameAggregate>
 	{
-		//
 		private void Apply(IEventMessage<GameTitleSet> evt)
 		{
 			var game = new GameReadModel
@@ -20,7 +19,6 @@ namespace HorCup.Games.Queries
 				Title = evt.Event.Title
 			};
 			
-			Repository.Add(game);
 		}
 		// 	Target.Title = evt.Event.Title;
 		// }
@@ -34,10 +32,8 @@ namespace HorCup.Games.Queries
 		// {
 		// 	Target.Description = evt.Event.Description;
 		// }
-
-
-		public GamesProjector(IRavenCrudRepository repository) : base(repository)
-		{
-		}
-	}
+	
+	}	
+	
+	
 }
