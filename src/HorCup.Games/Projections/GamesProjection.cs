@@ -19,9 +19,9 @@ namespace HorCup.Games.Projections
 
 		public GamesProjection(IOptions<MongoDbOptions> options)
 		{
-			var client = new MongoClient(options.Value.ConnectionString).GetDatabase(options.Value.DbName);
+			var client = new MongoClient(options.Value.ConnectionString).GetDatabase("GamesApiRead");
 
-			_games = client.GetCollection<GameDto>("GamesReadModel");
+			_games = client.GetCollection<GameDto>("Games");
 		}
 
 		public Task Handle(GameTitleSet message, CancellationToken token = new()) =>
