@@ -1,6 +1,5 @@
 using FluentValidation;
 using HorCup.Games.Models;
-using HorCup.Infrastructure.Queries;
 
 namespace HorCup.Games.Queries.SearchGames
 {

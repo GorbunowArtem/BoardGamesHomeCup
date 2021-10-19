@@ -1,5 +1,5 @@
 using System;
-using Revo.Core.Commands;
+using CQRSlite.Commands;
 
 namespace HorCup.Games.Commands
 {

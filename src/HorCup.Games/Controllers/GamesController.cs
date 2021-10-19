@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
+using CQRSlite.Commands;
+using CQRSlite.Queries;
 using HorCup.Games.Commands;
-using HorCup.Games.Queries.GetById;
+using HorCup.Games.Queries;
 using HorCup.Games.ViewModels;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Revo.AspNetCore.Web;
 
 namespace HorCup.Games.Controllers
 {
 	[ExcludeFromCodeCoverage]
 	[ApiController]
 	[Route("games")]
-	public class GamesController : CommandApiController
+	public class GamesController : Controller
 	{
-		private readonly ISender _sender;
+		private readonly ICommandSender _commandSender;
+		private readonly IQueryProcessor _queryProcessor;
+
+		public GamesController(ICommandSender commandSender, IQueryProcessor queryProcessor)
+		{
+			_commandSender = commandSender;
+			_queryProcessor = queryProcessor;
+		}
+
 		//
 		// [HttpGet]
 		// [ProducesResponseType((int) HttpStatusCode.OK)]
@@ -33,20 +42,20 @@ namespace HorCup.Games.Controllers
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		public async Task<ActionResult<GameDetailsViewModel>> GetById([FromRoute] Guid id)
 		{
-			var game = await CommandBus.SendAsync(new GetGameByIdQuery(id));
-
+			var game = await _queryProcessor.Query(new GetGameByIdQuery(id));
+			
 			return Ok(game);
 		}
 
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody] CreateGameCommand command)
+		public async Task<ActionResult<Guid>> Add([FromBody] CreateGameCommand command, CancellationToken cancellationToken)
 		{
 			var id = Guid.NewGuid();
 
 			command.Id = id;
-			await CommandBus.SendAsync(command);
+			await _commandSender.Send(command, cancellationToken);
 			
 			return CreatedAtAction(nameof(Add), new {id}, id);
 		}

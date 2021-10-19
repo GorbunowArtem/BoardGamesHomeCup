@@ -1,31 +1,29 @@
-using System.Threading;
 using System.Threading.Tasks;
+using CQRSlite.Commands;
+using CQRSlite.Domain;
 using HorCup.Games.Models;
-using Revo.Core.Commands;
-using Revo.Infrastructure.Repositories;
 
 namespace HorCup.Games.Commands
 {
-	public class GameCommandHandler: ICommandHandler<CreateGameCommand>
+	public class GameCommandHandler : ICommandHandler<CreateGameCommand>
 	{
-		private readonly IRepository _repository;
+		private readonly ISession _session;
 
-		public GameCommandHandler(IRepository repository)
+		public GameCommandHandler(ISession session)
 		{
-			_repository = repository;
+			_session = session;
 		}
 
-		public Task HandleAsync(CreateGameCommand command, CancellationToken cancellationToken)
+		public async Task Handle(CreateGameCommand command)
 		{
 			var game = new GameAggregate(command.Id);
-			
+
 			game.SetTitle(command.Title);
 			game.SetPlayersCount(command.MinPlayers, command.MaxPlayers);
 			game.SetDescription(command.Description);
-			
-			_repository.Add(game);
-			
-			return Task.CompletedTask;
+
+			await _session.Add(game);
+			await _session.Commit();
 		}
 	}
 }

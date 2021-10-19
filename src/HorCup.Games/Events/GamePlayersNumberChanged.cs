@@ -1,8 +1,9 @@
-using Revo.Domain.Events;
+using System;
+using CQRSlite.Events;
 
 namespace HorCup.Games.Events
 {
-	public class GamePlayersNumberChanged : DomainAggregateEvent
+	public class GamePlayersNumberChanged : IEvent
 	{
 		public GamePlayersNumberChanged(int minPlayers, int maxPlayers)
 		{
@@ -13,5 +14,8 @@ namespace HorCup.Games.Events
 		public int MinPlayers { get; }
 
 		public int MaxPlayers { get; }
+		public Guid Id { get; set; }
+		public int Version { get; set; }
+		public DateTimeOffset TimeStamp { get; set; }
 	}
 }

@@ -1,9 +1,10 @@
-using Revo.Domain.Dto;
+using System;
 
-namespace HorCup.Games.Queries.GetById
+namespace HorCup.Games.Models
 {
-	public class GameDto: EntityDto
+	public class GameDto
 	{
+		public Guid Id { get; set; }
 		public string Title { get; set; }
 
 		public int MinPlayers { get; set; }

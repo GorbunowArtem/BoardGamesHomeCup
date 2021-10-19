@@ -1,12 +1,10 @@
 using System;
+using CQRSlite.Domain;
 using HorCup.Games.Events;
-using Revo.Domain.Entities.Attributes;
-using Revo.Domain.Entities.EventSourcing;
 
 namespace HorCup.Games.Models
 {
-	[DomainClassId("6872da95-5d19-4b6e-9d9c-221dacab675f")]
-	public class GameAggregate : EventSourcedAggregateRoot
+	public class GameAggregate : AggregateRoot
 	{
 		public string Title { get; set; }
 
@@ -16,15 +14,16 @@ namespace HorCup.Games.Models
 
 		public string Description { get; set; }
 
-		public GameAggregate(Guid id) : base(id)
+		public GameAggregate(Guid id)
 		{
+			Id = id;
 		}
-
+		
 		public void SetTitle(string title)
 		{
 			if (!string.IsNullOrWhiteSpace(title) && !string.Equals(title, Title, StringComparison.InvariantCultureIgnoreCase))
 			{
-				Publish(new GameTitleSet(title));
+				ApplyChange(new GameTitleSet(title));
 			}
 		}
 
@@ -33,7 +32,7 @@ namespace HorCup.Games.Models
 			if (minPlayers != MinPlayers
 			    || maxPlayers != MaxPlayers)
 			{
-				Publish(new GamePlayersNumberChanged(minPlayers, maxPlayers));
+				ApplyChange(new GamePlayersNumberChanged(minPlayers, maxPlayers));
 			}
 		}
 
@@ -41,7 +40,7 @@ namespace HorCup.Games.Models
 		{
 			if (!string.Equals(description, Description, StringComparison.InvariantCultureIgnoreCase))
 			{
-				Publish(new GameDescriptionChanged(description));
+				ApplyChange(new GameDescriptionChanged(description));
 			}
 		}
 

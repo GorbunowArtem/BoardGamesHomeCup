@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using HorCup.Games.ViewModels;
-using HorCup.Infrastructure.Queries;
-using MediatR;
 
 namespace HorCup.Games.Queries.SearchGames
 {

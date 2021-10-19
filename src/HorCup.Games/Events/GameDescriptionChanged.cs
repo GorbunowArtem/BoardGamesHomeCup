@@ -1,8 +1,9 @@
-using Revo.Domain.Events;
+using System;
+using CQRSlite.Events;
 
 namespace HorCup.Games.Events
 {
-	public class GameDescriptionChanged: DomainAggregateEvent
+	public class GameDescriptionChanged: IEvent
 	{
 		public GameDescriptionChanged(string description)
 		{
@@ -10,5 +11,8 @@ namespace HorCup.Games.Events
 		}
 
 		public string Description { get; }
+		public Guid Id { get; set; }
+		public int Version { get; set; }
+		public DateTimeOffset TimeStamp { get; set; }
 	}
 }
