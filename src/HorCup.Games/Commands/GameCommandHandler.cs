@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using CQRSlite.Commands;
 using CQRSlite.Domain;
@@ -5,7 +6,8 @@ using HorCup.Games.Models;
 
 namespace HorCup.Games.Commands
 {
-	public class GameCommandHandler : ICommandHandler<CreateGameCommand>
+	public class GameCommandHandler : ICancellableCommandHandler<CreateGameCommand>,
+		ICancellableCommandHandler<EditGameCommand>
 	{
 		private readonly ISession _session;
 
@@ -14,7 +16,7 @@ namespace HorCup.Games.Commands
 			_session = session;
 		}
 
-		public async Task Handle(CreateGameCommand command)
+		public async Task Handle(CreateGameCommand command, CancellationToken token = new())
 		{
 			var game = new GameAggregate(command.Id);
 
@@ -22,8 +24,19 @@ namespace HorCup.Games.Commands
 			game.SetPlayersCount(command.MinPlayers, command.MaxPlayers);
 			game.SetDescription(command.Description);
 
-			await _session.Add(game);
-			await _session.Commit();
+			await _session.Add(game, token);
+			await _session.Commit(token);
+		}
+
+		public async Task Handle(EditGameCommand command, CancellationToken token = new())
+		{
+			var game = await _session.Get<GameAggregate>(command.Id, cancellationToken: token);
+			
+			game.SetTitle(command.Title);
+			game.SetPlayersCount(command.MinPlayers, command.MaxPlayers);
+			game.SetDescription(command.Description);
+
+			await _session.Commit(token);
 		}
 	}
 }

@@ -7,7 +7,9 @@ using CQRSlite.Commands;
 using CQRSlite.Queries;
 using HorCup.Games.Commands;
 using HorCup.Games.Queries;
+using HorCup.Games.Requests;
 using HorCup.Games.ViewModels;
+using HorCup.Infrastructure.Services.IdGenerator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HorCup.Games.Controllers
@@ -19,11 +21,14 @@ namespace HorCup.Games.Controllers
 	{
 		private readonly ICommandSender _commandSender;
 		private readonly IQueryProcessor _queryProcessor;
+		private readonly IIdGenerator _idGenerator;
 
-		public GamesController(ICommandSender commandSender, IQueryProcessor queryProcessor)
+		public GamesController(ICommandSender commandSender, IQueryProcessor queryProcessor,
+			IIdGenerator idGenerator)
 		{
 			_commandSender = commandSender;
 			_queryProcessor = queryProcessor;
+			_idGenerator = idGenerator;
 		}
 
 		//
@@ -50,33 +55,37 @@ namespace HorCup.Games.Controllers
 		[HttpPost]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody] CreateGameCommand command, CancellationToken cancellationToken)
+		public async Task<ActionResult<Guid>> Add([FromBody] AddEditGameRequest request, CancellationToken cancellationToken)
 		{
-			var id = Guid.NewGuid();
-
-			command.Id = id;
+			var id = _idGenerator.NewGuid();
+			var command = new CreateGameCommand(id,
+				request.Title,
+				request.MinPlayers,
+				request.MaxPlayers,
+				request.Description);
+			
 			await _commandSender.Send(command, cancellationToken);
 			
-			return CreatedAtAction(nameof(Add), new {id}, id);
+			return CreatedAtAction(nameof(Add), new {command.Id}, command.Id.ToString());
 		}
 
-		// [HttpPatch("{id:Guid}")]
-		// [ProducesResponseType((int) HttpStatusCode.NoContent)]
-		// [ProducesResponseType((int) HttpStatusCode.NotFound)]
-		// public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] EditGameRequest request)
-		// {
-		// 	var command = new EditGameCommand(
-		// 		id,
-		// 		request.Title,
-		// 		request.MaxPlayers,
-		// 		request.MinPlayers,
-		// 		request.HasScores);
-		//
-		// 	await _sender.Send(command);
-		//
-		// 	return NoContent();
-		// }
-		//
+		[HttpPatch("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] AddEditGameRequest request, CancellationToken token)
+		{
+			var command = new EditGameCommand(
+				id,
+				request.Title,
+				request.MaxPlayers,
+				request.MinPlayers,
+				request.Description);
+		
+			await _commandSender.Send(command, token);
+		
+			return NoContent();
+		}
+		
 		// [HttpDelete("{id:Guid}")]
 		// [ProducesResponseType((int) HttpStatusCode.NoContent)]
 		// [ProducesResponseType((int) HttpStatusCode.NotFound)]

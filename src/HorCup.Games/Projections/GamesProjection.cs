@@ -25,11 +25,13 @@ namespace HorCup.Games.Projections
 		}
 
 		public Task Handle(GameTitleSet message, CancellationToken token = new()) =>
-			_games.InsertOneAsync(new GameDto
-			{
-				Id = message.Id,
-				Title = message.Title
-			}, new InsertOneOptions(), token);
+			_games.UpdateOneAsync(Builders<GameDto>.Filter.Eq(g => g.Id, message.Id),
+				Builders<GameDto>.Update
+					.Set(g => g.Id, message.Id)
+					.Set(g => g.Title, message.Title), new UpdateOptions
+				{
+					IsUpsert = true
+				}, token);
 
 		public Task<GameDto> Handle(GetGameByIdQuery message, CancellationToken token = new()) =>
 			_games.Find(Builders<GameDto>.Filter.Eq(g => g.Id, message.Id)).FirstOrDefaultAsync(token);
