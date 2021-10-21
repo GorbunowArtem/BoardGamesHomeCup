@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using HorCup.Games.Models;
 
-namespace HorCup.Games.Commands.AddGame
+namespace HorCup.Games.Commands
 {
 	public class AddGameCommandValidator: AbstractValidator<CreateGameCommand>
 	{

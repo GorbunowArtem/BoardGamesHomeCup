@@ -14,6 +14,8 @@ namespace HorCup.Games.Models
 
 		public string Description { get; set; }
 
+		public bool Deleted { get; set; }
+
 		public GameAggregate(Guid id)
 		{
 			Id = id;
@@ -21,13 +23,17 @@ namespace HorCup.Games.Models
 
 		private GameAggregate()
 		{
-			
 		}
+
 		public void SetTitle(string title)
 		{
-			if (!string.IsNullOrWhiteSpace(title) && !string.Equals(title, Title, StringComparison.InvariantCultureIgnoreCase))
+			if (!string.IsNullOrWhiteSpace(title) &&
+			    !string.Equals(title, Title, StringComparison.InvariantCultureIgnoreCase))
 			{
-				ApplyChange(new GameTitleSet{Title = title});
+				ApplyChange(new GameTitleSet
+				{
+					Title = title
+				});
 			}
 		}
 
@@ -36,7 +42,11 @@ namespace HorCup.Games.Models
 			if (minPlayers != MinPlayers
 			    || maxPlayers != MaxPlayers)
 			{
-				ApplyChange(new GamePlayersNumberChanged(minPlayers, maxPlayers));
+				ApplyChange(new GamePlayersNumberChanged
+				{
+					MaxPlayers = maxPlayers,
+					MinPlayers = minPlayers,
+				});
 			}
 		}
 
@@ -44,7 +54,18 @@ namespace HorCup.Games.Models
 		{
 			if (!string.Equals(description, Description, StringComparison.InvariantCultureIgnoreCase))
 			{
-				ApplyChange(new GameDescriptionChanged(description));
+				ApplyChange(new GameDescriptionChanged
+				{
+					Description = description
+				});
+			}
+		}
+
+		public void Delete()
+		{
+			if (!Deleted)
+			{
+				ApplyChange(new GameDeleted());
 			}
 		}
 
@@ -58,10 +79,16 @@ namespace HorCup.Games.Models
 			MaxPlayers = evt.MaxPlayers;
 			MinPlayers = evt.MinPlayers;
 		}
-		
+
+
 		private void Apply(GameDescriptionChanged evt)
 		{
 			Description = evt.Description;
+		}
+
+		private void Apply(GameDeleted evt)
+		{
+			Deleted = true;
 		}
 	}
 }

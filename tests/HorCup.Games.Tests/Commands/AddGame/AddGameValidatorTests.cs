@@ -1,6 +1,6 @@
 using AutoFixture;
 using FluentValidation.TestHelper;
-using HorCup.Games.Commands.AddGame;
+using HorCup.Games.Commands;
 using NUnit.Framework;
 
 namespace HorCup.Games.Tests.Commands.AddGame

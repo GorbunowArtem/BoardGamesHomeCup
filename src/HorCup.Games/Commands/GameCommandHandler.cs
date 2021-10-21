@@ -7,7 +7,8 @@ using HorCup.Games.Models;
 namespace HorCup.Games.Commands
 {
 	public class GameCommandHandler : ICancellableCommandHandler<CreateGameCommand>,
-		ICancellableCommandHandler<EditGameCommand>
+		ICancellableCommandHandler<EditGameCommand>,
+		ICancellableCommandHandler<DeleteGameCommand>
 	{
 		private readonly ISession _session;
 
@@ -36,6 +37,15 @@ namespace HorCup.Games.Commands
 			game.SetPlayersCount(command.MinPlayers, command.MaxPlayers);
 			game.SetDescription(command.Description);
 
+			await _session.Commit(token);
+		}
+
+		public async Task Handle(DeleteGameCommand command, CancellationToken token = new CancellationToken())
+		{
+			var game = await _session.Get<GameAggregate>(command.Id, cancellationToken: token);
+
+			game.Delete();
+			
 			await _session.Commit(token);
 		}
 	}

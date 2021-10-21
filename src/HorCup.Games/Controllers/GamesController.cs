@@ -86,15 +86,15 @@ namespace HorCup.Games.Controllers
 			return NoContent();
 		}
 		
-		// [HttpDelete("{id:Guid}")]
-		// [ProducesResponseType((int) HttpStatusCode.NoContent)]
-		// [ProducesResponseType((int) HttpStatusCode.NotFound)]
-		// public async Task<IActionResult> Delete([FromRoute] Guid id)
-		// {
-		// 	await _sender.Send(new DeleteGameCommand(id));
-		//
-		// 	return NoContent();
-		// }
+		[HttpDelete("{id:Guid}")]
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Delete([FromRoute] Guid id)
+		{
+			await _commandSender.Send(new DeleteGameCommand(id));
+		
+			return NoContent();
+		}
 		//
 		// [HttpHead]
 		// [ProducesResponseType((int) HttpStatusCode.OK)]

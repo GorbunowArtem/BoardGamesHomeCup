@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CQRSlite.Events;
 using NEventStore;
 
-namespace HorCup.Games
+namespace HorCup.Games.EventStore
 {
 	public class SqlEventStore : IEventStore
 	{
@@ -21,9 +21,10 @@ namespace HorCup.Games
 
 		public async Task Save(IEnumerable<IEvent> events, CancellationToken cancellationToken = default)
 		{
-			using var stream = _store.OpenStream(events.First().Id, 0, int.MaxValue);
+			var enumerable = events.ToArray();
+			using var stream = _store.OpenStream(enumerable.First().Id, 0);
 
-			foreach (var @event in events)
+			foreach (var @event in enumerable)
 			{
 				stream.Add(new EventMessage { Body = @event });
 				await _publisher.Publish(@event, cancellationToken);

@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HorCup.Games.Commands.AddGame;
 using HorCup.Games.Models;
 using HorCup.Games.Services.Games;
 using HorCup.Games.Tests.Factory;

@@ -1,4 +1,4 @@
-namespace HorCup.Games
+namespace HorCup.Games.Options
 {
 	public class MongoDbOptions
 	{

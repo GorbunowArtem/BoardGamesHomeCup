@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using HorCup.Games.AutomapperProfile;
 using HorCup.Games.Context;
 using HorCup.Tests.Base;
 

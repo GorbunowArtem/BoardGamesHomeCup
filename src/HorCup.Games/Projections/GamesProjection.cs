@@ -4,6 +4,7 @@ using CQRSlite.Events;
 using CQRSlite.Queries;
 using HorCup.Games.Events;
 using HorCup.Games.Models;
+using HorCup.Games.Options;
 using HorCup.Games.Queries;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -13,7 +14,8 @@ namespace HorCup.Games.Projections
 	public class GamesProjection : ICancellableEventHandler<GameTitleSet>,
 		ICancellableEventHandler<GamePlayersNumberChanged>,
 		ICancellableEventHandler<GameDescriptionChanged>,
-		ICancellableQueryHandler<GetGameByIdQuery, GameDto>
+		ICancellableQueryHandler<GetGameByIdQuery, GameDto>,
+		ICancellableEventHandler<GameDeleted>
 	{
 		private readonly IMongoCollection<GameDto> _games;
 
@@ -44,5 +46,8 @@ namespace HorCup.Games.Projections
 		public Task Handle(GameDescriptionChanged message, CancellationToken token = new()) =>
 			_games.UpdateOneAsync(Builders<GameDto>.Filter.Eq(g => g.Id, message.Id),
 				Builders<GameDto>.Update.Set(g => g.Description, message.Description), cancellationToken: token);
+
+		public Task Handle(GameDeleted message, CancellationToken token = new()) =>
+			_games.DeleteOneAsync(Builders<GameDto>.Filter.Eq(g => g.Id, message.Id), token);
 	}
 }
