@@ -11,9 +11,9 @@ namespace HorCup.Games.Events
 			MaxPlayers = maxPlayers;
 		}
 
-		public int MinPlayers { get; }
+		public int MinPlayers { get; set; }
 
-		public int MaxPlayers { get; }
+		public int MaxPlayers { get; set; }
 		public Guid Id { get; set; }
 		public int Version { get; set; }
 		public DateTimeOffset TimeStamp { get; set; }

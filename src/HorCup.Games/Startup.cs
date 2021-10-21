@@ -34,7 +34,8 @@ namespace HorCup.Games
 			services.AddSingleton<IEventPublisher>(y => y.GetService<Router>());
 			services.AddSingleton<IHandlerRegistrar>(y => y.GetService<Router>());
 			services.AddSingleton<IQueryProcessor>(y => y.GetService<Router>());
-			services.AddSingleton<IEventStore, MongoEventStore>();
+			// services.AddSingleton<IEventStore, MongoEventStore>();
+			services.AddSingleton<IEventStore, SqlEventStore>();
 			services.AddSingleton<ICache, MemoryCache>();
 			services.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
 				y.GetService<IEventStore>(), y.GetService<ICache>()));

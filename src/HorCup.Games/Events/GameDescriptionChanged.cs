@@ -10,7 +10,7 @@ namespace HorCup.Games.Events
 			Description = description;
 		}
 
-		public string Description { get; }
+		public string Description { get; set; }
 		public Guid Id { get; set; }
 		public int Version { get; set; }
 		public DateTimeOffset TimeStamp { get; set; }
