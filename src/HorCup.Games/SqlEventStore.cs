@@ -40,7 +40,7 @@ namespace HorCup.Games
 			var events = _store.Advanced.GetFrom(
 					"default",
 					aggregateId.ToString(),
-					0, int.MaxValue)
+					fromVersion + 1, int.MaxValue)
 				.SelectMany(e => e.Events)
 				.Select(e => e.Body)
 				.OfType<IEvent>()

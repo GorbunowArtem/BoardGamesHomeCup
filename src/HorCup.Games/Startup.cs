@@ -50,10 +50,11 @@ namespace HorCup.Games
 				}))
 				.UsingSqlPersistence(new NetStandardConnectionFactory(
 					SqlClientFactory.Instance,
-					"Server=EPUADNIW015C;Database=HorCup.Games.Write;Trusted_Connection=True;MultipleActiveResultSets=true"))
+					"Server=EPUADNIW015C;Database=HorCup.Games.Write;Trusted_Connection=True"))
 				.WithDialect(new MsSqlDialect())
 				.InitializeStorageEngine()
 				.UsingJsonSerialization()
+				.Compress()
 				.Build());
 			services.AddScoped<IEventStore, SqlEventStore>();
 			services.AddScoped<ICache, MemoryCache>();
