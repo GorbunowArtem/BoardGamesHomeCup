@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using CQRSlite.Caching;
@@ -14,7 +15,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NEventStore;
+using NEventStore.Persistence.Sql;
+using NEventStore.Persistence.Sql.SqlDialects;
+using NEventStore.Serialization.Json;
 
 namespace HorCup.Games
 {
@@ -34,9 +40,23 @@ namespace HorCup.Games
 			services.AddSingleton<IEventPublisher>(y => y.GetService<Router>());
 			services.AddSingleton<IHandlerRegistrar>(y => y.GetService<Router>());
 			services.AddSingleton<IQueryProcessor>(y => y.GetService<Router>());
-			// services.AddSingleton<IEventStore, MongoEventStore>();
-			services.AddSingleton<IEventStore, SqlEventStore>();
-			services.AddSingleton<ICache, MemoryCache>();
+			services.AddSingleton<IStoreEvents>(y => Wireup.Init()
+				.WithLoggerFactory(LoggerFactory.Create(logging =>
+				{
+					logging
+						.AddConsole()
+						.AddDebug()
+						.SetMinimumLevel(LogLevel.Trace);
+				}))
+				.UsingSqlPersistence(new NetStandardConnectionFactory(
+					SqlClientFactory.Instance,
+					"Server=EPUADNIW015C;Database=HorCup.Games.Write;Trusted_Connection=True;MultipleActiveResultSets=true"))
+				.WithDialect(new MsSqlDialect())
+				.InitializeStorageEngine()
+				.UsingJsonSerialization()
+				.Build());
+			services.AddScoped<IEventStore, SqlEventStore>();
+			services.AddScoped<ICache, MemoryCache>();
 			services.AddScoped<IRepository>(y => new CacheRepository(new Repository(y.GetService<IEventStore>()),
 				y.GetService<IEventStore>(), y.GetService<ICache>()));
 			services.AddScoped<ISession, Session>();
@@ -66,7 +86,7 @@ namespace HorCup.Games
 			);
 
 			services.Configure<MongoDbOptions>(Configuration.GetSection(MongoDbOptions.MongoDb));
-			
+
 			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorCup", Version = "v1" }); });
 
 			services.AddHealthChecks();

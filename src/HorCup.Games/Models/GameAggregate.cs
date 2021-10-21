@@ -18,12 +18,16 @@ namespace HorCup.Games.Models
 		{
 			Id = id;
 		}
-		
+
+		private GameAggregate()
+		{
+			
+		}
 		public void SetTitle(string title)
 		{
 			if (!string.IsNullOrWhiteSpace(title) && !string.Equals(title, Title, StringComparison.InvariantCultureIgnoreCase))
 			{
-				ApplyChange(new GameTitleSet(title));
+				ApplyChange(new GameTitleSet{Title = title});
 			}
 		}
 

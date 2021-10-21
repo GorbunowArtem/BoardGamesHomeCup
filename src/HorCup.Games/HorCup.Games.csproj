@@ -21,9 +21,10 @@
         <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
         <PackageReference Include="NEventStore" Version="8.0.0" />
         <PackageReference Include="NEventStore.Persistence.MongoDB" Version="8.0.0" />
+        <PackageReference Include="NEventStore.Persistence.Sql" Version="8.0.0" />
         <PackageReference Include="NEventStore.PollingClient" Version="8.0.0" />
+        <PackageReference Include="NEventStore.Serialization.Bson" Version="8.0.0" />
         <PackageReference Include="NEventStore.Serialization.Json" Version="8.0.0" />
-        <PackageReference Include="NEventStoreCore.Persistence.Sql" Version="1.0.0" />
         <PackageReference Include="Scrutor.AspNetCore" Version="3.3.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
         <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
