@@ -40,7 +40,7 @@ namespace HorCup.Games.Commands
 			await _session.Commit(token);
 		}
 
-		public async Task Handle(DeleteGameCommand command, CancellationToken token = new CancellationToken())
+		public async Task Handle(DeleteGameCommand command, CancellationToken token = new())
 		{
 			var game = await _session.Get<GameAggregate>(command.Id, cancellationToken: token);
 

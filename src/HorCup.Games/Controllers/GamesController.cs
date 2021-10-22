@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using CQRSlite.Commands;
 using CQRSlite.Queries;
 using HorCup.Games.Commands;
+using HorCup.Games.Models;
 using HorCup.Games.Queries;
+using HorCup.Games.Queries.SearchGames;
 using HorCup.Games.Requests;
 using HorCup.Games.ViewModels;
+using HorCup.Infrastructure.Responses;
 using HorCup.Infrastructure.Services.IdGenerator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +26,9 @@ namespace HorCup.Games.Controllers
 		private readonly IQueryProcessor _queryProcessor;
 		private readonly IIdGenerator _idGenerator;
 
-		public GamesController(ICommandSender commandSender, IQueryProcessor queryProcessor,
+		public GamesController(
+			ICommandSender commandSender,
+			IQueryProcessor queryProcessor,
 			IIdGenerator idGenerator)
 		{
 			_commandSender = commandSender;
@@ -31,31 +36,33 @@ namespace HorCup.Games.Controllers
 			_idGenerator = idGenerator;
 		}
 
-		//
-		// [HttpGet]
-		// [ProducesResponseType((int) HttpStatusCode.OK)]
-		// public async Task<ActionResult<PagedSearchResponse<GameViewModel>>> SearchGames(
-		// 	[FromQuery] SearchGamesQuery query)
-		// {
-		// 	var (items, total) = await _sender.Send(query);
-		//
-		// 	return Ok(new PagedSearchResponse<GameViewModel>(items, total));
-		// }
+
+		[HttpGet]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		public async Task<ActionResult<PagedSearchResponse<GameSearchModel>>> SearchGames(
+			[FromQuery] SearchGamesQuery query)
+		{
+			var (items, total) = await _queryProcessor.Query(query);
+
+			return Ok(new PagedSearchResponse<GameSearchModel>(items, total));
+		}
 
 		[HttpGet("{id:Guid}")]
-		[ProducesResponseType((int) HttpStatusCode.OK)]
-		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		public async Task<ActionResult<GameDetailsViewModel>> GetById([FromRoute] Guid id)
 		{
 			var game = await _queryProcessor.Query(new GetGameByIdQuery(id));
-			
+
 			return Ok(game);
 		}
 
 		[HttpPost]
-		[ProducesResponseType((int) HttpStatusCode.Created)]
-		[ProducesResponseType((int) HttpStatusCode.Conflict)]
-		public async Task<ActionResult<Guid>> Add([FromBody] AddEditGameRequest request, CancellationToken cancellationToken)
+		[ProducesResponseType((int)HttpStatusCode.Created)]
+		[ProducesResponseType((int)HttpStatusCode.Conflict)]
+		public async Task<ActionResult<Guid>> Add(
+			[FromBody] AddEditGameRequest request,
+			CancellationToken cancellationToken)
 		{
 			var id = _idGenerator.NewGuid();
 			var command = new CreateGameCommand(id,
@@ -63,16 +70,19 @@ namespace HorCup.Games.Controllers
 				request.MinPlayers,
 				request.MaxPlayers,
 				request.Description);
-			
+
 			await _commandSender.Send(command, cancellationToken);
-			
-			return CreatedAtAction(nameof(Add), new {command.Id}, command.Id.ToString());
+
+			return CreatedAtAction(nameof(Add), new { command.Id }, command.Id.ToString());
 		}
 
 		[HttpPatch("{id:Guid}")]
-		[ProducesResponseType((int) HttpStatusCode.NoContent)]
-		[ProducesResponseType((int) HttpStatusCode.NotFound)]
-		public async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] AddEditGameRequest request, CancellationToken token)
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
+		public async Task<IActionResult> Edit(
+			[FromRoute] Guid id,
+			[FromBody] AddEditGameRequest request,
+			CancellationToken token)
 		{
 			var command = new EditGameCommand(
 				id,
@@ -80,19 +90,19 @@ namespace HorCup.Games.Controllers
 				request.MaxPlayers,
 				request.MinPlayers,
 				request.Description);
-		
+
 			await _commandSender.Send(command, token);
-		
+
 			return NoContent();
 		}
-		
+
 		[HttpDelete("{id:Guid}")]
-		[ProducesResponseType((int) HttpStatusCode.NoContent)]
-		[ProducesResponseType((int) HttpStatusCode.NotFound)]
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			await _commandSender.Send(new DeleteGameCommand(id));
-		
+
 			return NoContent();
 		}
 		//

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using CQRSlite.Queries;
+using HorCup.Games.Models;
 
 namespace HorCup.Games.Queries.SearchGames
 {
-	public record SearchGamesQuery 
+	public record SearchGamesQuery : IQuery<(IEnumerable<GameSearchModel> items, long total)>
 	{
 		public string SearchText { get; set; }
 
