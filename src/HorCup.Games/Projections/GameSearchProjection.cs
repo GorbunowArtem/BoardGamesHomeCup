@@ -45,13 +45,17 @@ namespace HorCup.Games.Projections
 		public Task Handle(GameDeleted message, CancellationToken token = new()) =>
 			_client.DeleteAsync<GameSearchModel>(message.Id, ct: token);
 
-		public async Task<(IEnumerable<GameSearchModel> items, long total)> Handle(SearchGamesQuery message, CancellationToken token = new())
+		public async Task<(IEnumerable<GameSearchModel> items, long total)> Handle(
+			SearchGamesQuery message,
+			CancellationToken token = new())
 		{
 			var searchRequest = _client.SearchAsync<GameSearchModel>(
-				q => q.Query(
-					g => g.Match(
-						m => m.Field(gm => gm.Title)
-							.Query("game"))), token);
+				q => q.Query(m => m.Match(
+						f => f.Field(gm => gm.Title)
+							.Query(message.SearchText)
+					)
+				)
+				, token);
 
 			var totalRequest = _client.CountAsync(new CountRequest(GameIndex), token);
 
