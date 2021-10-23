@@ -50,9 +50,15 @@ namespace HorCup.Games.Projections
 			CancellationToken token = new())
 		{
 			var searchRequest = _client.SearchAsync<GameSearchModel>(
-				q => q.Query(m => m.Match(
-						f => f.Field(gm => gm.Title)
-							.Query(message.SearchText)
+				q => q.Query(
+					m => m.Bool(
+						f => f.Should(
+							gm => gm.Term(
+								g => g.Title, message.SearchText),
+							g => g.Range(
+								r => r.GreaterThanOrEquals(message.MinPlayers)
+									.Field(game => game.MinPlayers))
+						)
 					)
 				)
 				, token);
@@ -65,3 +71,5 @@ namespace HorCup.Games.Projections
 		}
 	}
 }
+// && q.Query(gt => gt.Range(m => m.GreaterThanOrEquals(message.MinPlayers)
+// 	.Field(gm => gm.MinPlayers)))
