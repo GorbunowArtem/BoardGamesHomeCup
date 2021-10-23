@@ -57,7 +57,10 @@ namespace HorCup.Games.Projections
 								g => g.Title, message.SearchText),
 							g => g.Range(
 								r => r.GreaterThanOrEquals(message.MinPlayers)
-									.Field(game => game.MinPlayers))
+									.Field(game => game.MinPlayers)),
+							q => q.Range(
+								rang => rang.LessThanOrEquals(message.MaxPlayers)
+									.Field(game => game.MaxPlayers))
 						)
 					)
 				)
@@ -71,5 +74,3 @@ namespace HorCup.Games.Projections
 		}
 	}
 }
-// && q.Query(gt => gt.Range(m => m.GreaterThanOrEquals(message.MinPlayers)
-// 	.Field(gm => gm.MinPlayers)))
