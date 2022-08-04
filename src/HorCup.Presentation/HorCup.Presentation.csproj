@@ -11,19 +11,21 @@
         <!-- Set this to true if you enable server-side prerendering -->
         <BuildServerSideRenderer>false</BuildServerSideRenderer>
         <UserSecretsId>ea084d7e-f8fc-48b5-b317-f092f5bc030f</UserSecretsId>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS> <TargetFramework>net5.0</TargetFramework>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS> <TargetFramework>net6.0</TargetFramework>
         <DebugType>portable</DebugType>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
         <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
         <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
-        <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.7" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
+        <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
     </ItemGroup>
 
     <ItemGroup>
