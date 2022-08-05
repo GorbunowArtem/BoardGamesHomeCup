@@ -4,16 +4,15 @@ using HorCup.Games.ViewModels;
 using HorCup.Infrastructure.Queries;
 using MediatR;
 
-namespace HorCup.Games.Queries.SearchGames
+namespace HorCup.Games.Queries.SearchGames;
+
+public record SearchGamesQuery : SearchQueryBase, IRequest<(IEnumerable<GameViewModel> items, int total)>
 {
-	public record SearchGamesQuery : SearchQueryBase, IRequest<(IEnumerable<GameViewModel> items, int total)>
-	{
-		public string SearchText { get; set; }
+	public string SearchText { get; set; }
 
-		public int? MinPlayers { get; set; }
+	public int? MinPlayers { get; set; }
 
-		public int? MaxPlayers { get; set; }
+	public int? MaxPlayers { get; set; }
 
-		public IEnumerable<Guid> ExceptIds { get; set; }
-	}
+	public IEnumerable<Guid> ExceptIds { get; set; }
 }

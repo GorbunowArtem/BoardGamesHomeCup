@@ -2,79 +2,78 @@ using FluentValidation.TestHelper;
 using HorCup.Games.Queries.SearchGames;
 using NUnit.Framework;
 
-namespace HorCup.Games.Tests.Queries.SearchGames
+namespace HorCup.Games.Tests.Queries.SearchGames;
+
+[TestFixture]
+public class SearchGamesQueryValidatorTests
 {
-	[TestFixture]
-	public class SearchGamesQueryValidatorTests
+	private SearchGamesQueryValidator _sut;
+
+	[SetUp]
+	public void SetUp()
 	{
-		private SearchGamesQueryValidator _sut;
-
-		[SetUp]
-		public void SetUp()
-		{
-			_sut = new SearchGamesQueryValidator();
-		}
+		_sut = new SearchGamesQueryValidator();
+	}
 		
-		[TestCase(25)]
-		[TestCase(-1)]
-		[TestCase(0)]
-		public void SearchGamesQueryValidator_MaxPlayersIsInvalid_ValidationErrorThrown(int? maxPlayers)
+	[TestCase(25)]
+	[TestCase(-1)]
+	[TestCase(0)]
+	public void SearchGamesQueryValidator_MaxPlayersIsInvalid_ValidationErrorThrown(int? maxPlayers)
+	{
+		var model = new SearchGamesQuery
 		{
-			var model = new SearchGamesQuery
-			{
-				MaxPlayers = maxPlayers
-			};
+			MaxPlayers = maxPlayers
+		};
 
-			var result = _sut.TestValidate(model);
+		var result = _sut.TestValidate(model);
 
-			result.ShouldHaveValidationErrorFor(s => s.MaxPlayers);
-		}
+		result.ShouldHaveValidationErrorFor(s => s.MaxPlayers);
+	}
 		
-		[TestCase(24)]
-		[TestCase(null)]
-		[TestCase(1)]
-		[TestCase(5)]
-		public void SearchGamesQueryValidator_MaxPlayersIsValid_ValidationPassed(int? maxPlayers)
+	[TestCase(24)]
+	[TestCase(null)]
+	[TestCase(1)]
+	[TestCase(5)]
+	public void SearchGamesQueryValidator_MaxPlayersIsValid_ValidationPassed(int? maxPlayers)
+	{
+		var model = new SearchGamesQuery
 		{
-			var model = new SearchGamesQuery
-			{
-				MaxPlayers = maxPlayers
-			};
+			MaxPlayers = maxPlayers
+		};
 
-			var result = _sut.TestValidate(model);
+		var result = _sut.TestValidate(model);
 
-			result.ShouldNotHaveValidationErrorFor(s => s.MaxPlayers);
-		}
+		result.ShouldNotHaveValidationErrorFor(s => s.MaxPlayers);
+	}
 		
-		[TestCase(23)]
-		[TestCase(-1)]
-		[TestCase(0)]
-		public void SearchGamesQueryValidator_MinPlayersIsInvalid_ValidationErrorThrown(int? minPlayers)
+	[TestCase(23)]
+	[TestCase(-1)]
+	[TestCase(0)]
+	public void SearchGamesQueryValidator_MinPlayersIsInvalid_ValidationErrorThrown(int? minPlayers)
+	{
+		var model = new SearchGamesQuery
 		{
-			var model = new SearchGamesQuery
-			{
-				MinPlayers = minPlayers
-			};
+			MinPlayers = minPlayers
+		};
 
-			var result = _sut.TestValidate(model);
+		var result = _sut.TestValidate(model);
 
-			result.ShouldHaveValidationErrorFor(s => s.MinPlayers);
-		}
+		result.ShouldHaveValidationErrorFor(s => s.MinPlayers);
+	}
 		
-		[TestCase(22)]
-		[TestCase(null)]
-		[TestCase(1)]
-		[TestCase(5)]
-		public void SearchGamesQueryValidator_MinPlayersIsValid_ValidationPassed(int? minPlayers)
+	[TestCase(22)]
+	[TestCase(null)]
+	[TestCase(1)]
+	[TestCase(5)]
+	public void SearchGamesQueryValidator_MinPlayersIsValid_ValidationPassed(int? minPlayers)
+	{
+		var model = new SearchGamesQuery
 		{
-			var model = new SearchGamesQuery
-			{
-				MinPlayers = minPlayers
-			};
+			MinPlayers = minPlayers
+		};
 
-			var result = _sut.TestValidate(model);
+		var result = _sut.TestValidate(model);
 
-			result.ShouldNotHaveValidationErrorFor(s => s.MaxPlayers);
-		}
+		result.ShouldNotHaveValidationErrorFor(s => s.MaxPlayers);
 	}
 }

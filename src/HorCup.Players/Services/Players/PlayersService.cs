@@ -4,33 +4,32 @@ using System.Threading.Tasks;
 using HorCup.Players.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace HorCup.Players.Services.Players
+namespace HorCup.Players.Services.Players;
+
+public class PlayersService : IPlayersService
 {
-	public class PlayersService : IPlayersService
+	private readonly IPlayersContext _context;
+
+	public PlayersService(IPlayersContext context)
 	{
-		private readonly IPlayersContext _context;
+		_context = context;
+	}
 
-		public PlayersService(IPlayersContext context)
+	public async Task<bool> IsNicknameUniqueAsync(string nickname, Guid? id)
+	{
+		if (string.IsNullOrEmpty(nickname) || string.IsNullOrWhiteSpace(nickname))
 		{
-			_context = context;
+			return true;
 		}
 
-		public async Task<bool> IsNicknameUniqueAsync(string nickname, Guid? id)
+		var query = _context.Players.Where(p =>
+			p.Nickname.ToUpper().Equals(nickname.Trim().ToUpper()));
+
+		if (id.HasValue)
 		{
-			if (string.IsNullOrEmpty(nickname) || string.IsNullOrWhiteSpace(nickname))
-			{
-				return true;
-			}
-
-			var query = _context.Players.Where(p =>
-				p.Nickname.ToUpper().Equals(nickname.Trim().ToUpper()));
-
-			if (id.HasValue)
-			{
-				query = query.Where(p => p.Id != id);
-			}
-
-			return await query.SingleOrDefaultAsync() == null;
+			query = query.Where(p => p.Id != id);
 		}
+
+		return await query.SingleOrDefaultAsync() == null;
 	}
 }

@@ -7,34 +7,33 @@ using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
 
-namespace HorCup.Plays.Tests.Queries
+namespace HorCup.Plays.Tests.Queries;
+
+[TestFixture]
+public class SearchPlaysQueryTests: TestFixtureBase
 {
-	[TestFixture]
-	public class SearchPlaysQueryTests: TestFixtureBase
+	private SearchPlaysQueryHandler _sut;
+
+	[SetUp]
+	public void SetUp()
 	{
-		private SearchPlaysQueryHandler _sut;
+		_sut = new SearchPlaysQueryHandler(Context.Object, NullLogger<SearchPlaysQueryHandler>.Instance, Mapper);
+	}
 
-		[SetUp]
-		public void SetUp()
+	[Test]
+	[Ignore("Needs a lot of time to setup mocks")]
+	public async Task Handle_ShouldFilterByGames()
+	{
+		Context.Setup(p => p.Plays).Returns(new Mock<IMongoCollection<Play>>().Object);
+
+		var result = await _sut.Handle(new SearchPlaysQuery
 		{
-			_sut = new SearchPlaysQueryHandler(Context.Object, NullLogger<SearchPlaysQueryHandler>.Instance, Mapper);
-		}
-
-		[Test]
-		[Ignore("Needs a lot of time to setup mocks")]
-		public async Task Handle_ShouldFilterByGames()
-		{
-			Context.Setup(p => p.Plays).Returns(new Mock<IMongoCollection<Play>>().Object);
-
-			var result = await _sut.Handle(new SearchPlaysQuery
+			Take = 10                ,
+			GamesIds = new []
 			{
-				Take = 10                ,
-				GamesIds = new []
-				{
-					Guid.NewGuid(), 
-				}
-			}, default);
+				Guid.NewGuid() 
+			}
+		}, default);
 			
-		}
 	}
 }

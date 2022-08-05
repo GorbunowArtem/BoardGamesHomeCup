@@ -3,12 +3,11 @@ using System.Threading.Tasks;
 using HorCup.Players.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HorCup.Players.Context
+namespace HorCup.Players.Context;
+
+public interface IPlayersContext
 {
-	public interface IPlayersContext
-	{
-		DbSet<Player> Players { get; set; }
+	DbSet<Player> Players { get; set; }
 		
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-	}
+	Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

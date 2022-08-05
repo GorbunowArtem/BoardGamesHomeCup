@@ -2,31 +2,30 @@ using System;
 using FluentValidation;
 using HorCup.Games.Models;
 
-namespace HorCup.Games.Commands.EditGame
+namespace HorCup.Games.Commands.EditGame;
+
+public class EditGameCommandValidator: AbstractValidator<EditGameCommand>
 {
-	public class EditGameCommandValidator: AbstractValidator<EditGameCommand>
+	public EditGameCommandValidator()
 	{
-		public EditGameCommandValidator()
-		{
-			var constraints = new GamesConstraints();
+		var constraints = new GamesConstraints();
 
-			RuleFor(g => g.Id)
-				.NotEqual(Guid.Empty);
+		RuleFor(g => g.Id)
+			.NotEqual(Guid.Empty);
 			
-			RuleFor(g => g.Title)
-				.NotNull()
-				.NotEmpty()
-				.MaximumLength(constraints.TitleMaxLength);
+		RuleFor(g => g.Title)
+			.NotNull()
+			.NotEmpty()
+			.MaximumLength(constraints.TitleMaxLength);
 
-			RuleFor(g => g.MaxPlayers)
-				.GreaterThanOrEqualTo(1)
-				.LessThanOrEqualTo(constraints.MaxPlayers)
-				.GreaterThanOrEqualTo(p => p.MinPlayers);
+		RuleFor(g => g.MaxPlayers)
+			.GreaterThanOrEqualTo(1)
+			.LessThanOrEqualTo(constraints.MaxPlayers)
+			.GreaterThanOrEqualTo(p => p.MinPlayers);
 			
-			RuleFor(g => g.MinPlayers)
-				.GreaterThanOrEqualTo(1)
-				.LessThanOrEqualTo(constraints.MinPlayers)
-				.LessThanOrEqualTo(p => p.MaxPlayers);
-		}
+		RuleFor(g => g.MinPlayers)
+			.GreaterThanOrEqualTo(1)
+			.LessThanOrEqualTo(constraints.MinPlayers)
+			.LessThanOrEqualTo(p => p.MaxPlayers);
 	}
 }

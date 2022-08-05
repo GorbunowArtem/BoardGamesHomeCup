@@ -5,28 +5,27 @@ using HorCup.Plays.Models;
 using MassTransit;
 using Moq;
 
-namespace HorCup.Plays.Tests
+namespace HorCup.Plays.Tests;
+
+public class TestFixtureBase
 {
-	public class TestFixtureBase
+	protected IMapper Mapper { get; }
+
+	protected Mock<IPlaysContext> Context { get; }
+
+	protected Mock<IPublishEndpoint> PublishEndpoint { get; }
+
+	public TestFixtureBase()
 	{
-		protected IMapper Mapper { get; }
+		var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<PlaysProfile>(); });
 
-		protected Mock<IPlaysContext> Context { get; }
+		Mapper = configProvider.CreateMapper();
 
-		protected Mock<IPublishEndpoint> PublishEndpoint { get; }
+		Context = new Mock<IPlaysContext>();
+		Context.Setup(c => c.Plays.InsertOneAsync(It.IsAny<Play>(), null, default))
+			.Returns(Task.CompletedTask);
 
-		public TestFixtureBase()
-		{
-			var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<PlaysProfile>(); });
-
-			Mapper = configProvider.CreateMapper();
-
-			Context = new Mock<IPlaysContext>();
-			Context.Setup(c => c.Plays.InsertOneAsync(It.IsAny<Play>(), null, default))
-				.Returns(Task.CompletedTask);
-
-			PublishEndpoint = new Mock<IPublishEndpoint>();
+		PublishEndpoint = new Mock<IPublishEndpoint>();
 			
-		}                     
-	}
+	}                     
 }

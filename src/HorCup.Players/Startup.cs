@@ -10,58 +10,57 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace HorCup.Players
+namespace HorCup.Players;
+
+public class Startup
 {
-	public class Startup
+	public Startup(IConfiguration configuration)
 	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+		Configuration = configuration;
+	}
 
-		public IConfiguration Configuration { get; }
+	public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddDbContext<PlayersContext>(options =>
-				options.UseSqlServer(Configuration["ConnectionString"],
-					sqlOptions =>
-					{
-						sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
-					}));
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddDbContext<PlayersContext>(options =>
+			options.UseSqlServer(Configuration["ConnectionString"],
+				sqlOptions =>
+				{
+					sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
+				}));
 
-			services.AddInfrastructure();
+		services.AddInfrastructure();
 			
-			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
+		services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
 
-			services.AddHealthChecks();
+		services.AddHealthChecks();
 			
-			services.AddScoped<IPlayersContext, PlayersContext>();
-			services.AddScoped<IPlayersService, PlayersService>();
-		}
+		services.AddScoped<IPlayersContext, PlayersContext>();
+		services.AddScoped<IPlayersService, PlayersService>();
+	}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	{
+		if (env.IsDevelopment())
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			app.UseCors("AllowAll");
-			
-			app.UseSwagger();
-			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Players v1"));
-
-			// app.UseHttpsRedirection();
-
-			app.UseRouting();
-
-			app.UseAuthorization();
-
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapHealthChecks("/health");
-				endpoints.MapControllers();
-			});
+			app.UseDeveloperExceptionPage();
 		}
+		app.UseCors("AllowAll");
+			
+		app.UseSwagger();
+		app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Players v1"));
+
+		// app.UseHttpsRedirection();
+
+		app.UseRouting();
+
+		app.UseAuthorization();
+
+		app.UseEndpoints(endpoints =>
+		{
+			endpoints.MapHealthChecks("/health");
+			endpoints.MapControllers();
+		});
 	}
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace HorCup.Infrastructure.Services.DateTimeService
+namespace HorCup.Infrastructure.Services.DateTimeService;
+
+public interface IDateTimeService
 {
-	public interface IDateTimeService
-	{
-		DateTime UtcNow { get; }
-	}
+	DateTime UtcNow { get; }
 }

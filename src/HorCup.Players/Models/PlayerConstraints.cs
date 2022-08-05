@@ -1,7 +1,6 @@
-﻿namespace HorCup.Players.Models
+﻿namespace HorCup.Players.Models;
+
+public struct PlayerConstraints
 {
-	public struct PlayerConstraints
-	{
-		public int MaxNameLength => 20;
-	}
+	public int MaxNameLength => 20;
 }

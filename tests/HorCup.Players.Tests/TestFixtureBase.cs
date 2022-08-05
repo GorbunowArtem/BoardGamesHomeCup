@@ -5,29 +5,28 @@ using AutoMapper;
 using HorCup.Players.Context;
 using HorCup.Tests.Base;
 
-namespace HorCup.Players.Tests
+namespace HorCup.Players.Tests;
+
+public abstract class TestFixtureBase: IDisposable
 {
-	public abstract class TestFixtureBase: IDisposable
+	protected readonly PlayersContext Context;
+
+	protected TestFixtureBase()
 	{
-		protected readonly PlayersContext Context;
+		Context = PlayersContextFactory.Create();
 
-		protected TestFixtureBase()
-		{
-			Context = PlayersContextFactory.Create();
+		var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<PlayersProfile>(); });
 
-			var configProvider = new MapperConfiguration(cfg => { cfg.AddProfile<PlayersProfile>(); });
-
-			Mapper = configProvider.CreateMapper();
-		}
-
-		public void Dispose()
-		{
-			PlayersContextFactory.Destroy(Context);
-		}
-
-		protected IMapper Mapper { get; }
-
-		protected static IEnumerable<Guid> ToGuidList(IEnumerable<int> ids) =>
-			ids.Select(i => i.Guid()).ToArray();
+		Mapper = configProvider.CreateMapper();
 	}
+
+	public void Dispose()
+	{
+		PlayersContextFactory.Destroy(Context);
+	}
+
+	protected IMapper Mapper { get; }
+
+	protected static IEnumerable<Guid> ToGuidList(IEnumerable<int> ids) =>
+		ids.Select(i => i.Guid()).ToArray();
 }

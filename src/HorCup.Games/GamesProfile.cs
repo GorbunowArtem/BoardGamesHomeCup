@@ -2,14 +2,13 @@ using AutoMapper;
 using HorCup.Games.Models;
 using HorCup.Games.ViewModels;
 
-namespace HorCup.Games
+namespace HorCup.Games;
+
+public class GamesProfile : Profile
 {
-	public class GamesProfile : Profile
+	public GamesProfile()
 	{
-		public GamesProfile()
-		{
-			CreateMap<Game, GameViewModel>();
-			CreateMap<Game, GameDetailsViewModel>();
-		}
+		CreateMap<Game, GameViewModel>();
+		CreateMap<Game, GameDetailsViewModel>();
 	}
 }

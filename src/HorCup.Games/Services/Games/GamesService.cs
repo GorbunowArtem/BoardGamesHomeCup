@@ -7,48 +7,47 @@ using HorCup.Games.Models;
 using HorCup.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace HorCup.Games.Services.Games
+namespace HorCup.Games.Services.Games;
+
+public class GamesService : IGamesService
 {
-	public class GamesService : IGamesService
+	private readonly IGamesContext _context;
+
+	public GamesService(IGamesContext context)
 	{
-		private readonly IGamesContext _context;
+		_context = context;
+	}
 
-		public GamesService(IGamesContext context)
+	public async Task<bool> IsTitleUniqueAsync(
+		string title,
+		Guid? id,
+		CancellationToken cancellationToken)
+	{
+		if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title))
 		{
-			_context = context;
+			return true;
 		}
 
-		public async Task<bool> IsTitleUniqueAsync(
-			string title,
-			Guid? id,
-			CancellationToken cancellationToken)
+		var query = _context.Games.Where(g => g.Title.ToUpper()
+			.Equals(title.Trim().ToUpper()));
+
+		if (id.HasValue)
 		{
-			if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title))
-			{
-				return true;
-			}
-
-			var query = _context.Games.Where(g => g.Title.ToUpper()
-				.Equals(title.Trim().ToUpper()));
-
-			if (id.HasValue)
-			{
-				query = query.Where(g => g.Id != id);
-			}
-
-			return !await query.AnyAsync(cancellationToken);
+			query = query.Where(g => g.Id != id);
 		}
 
-		public async Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken)
+		return !await query.AnyAsync(cancellationToken);
+	}
+
+	public async Task<Game> TryGetGameAsync(Guid id, CancellationToken cancellationToken)
+	{
+		var game = await _context.Games.Where(g => g.Id == id).FirstOrDefaultAsync(cancellationToken);
+
+		if (game == null)
 		{
-			var game = await _context.Games.Where(g => g.Id == id).FirstOrDefaultAsync(cancellationToken);
-
-			if (game == null)
-			{
-				throw new NotFoundException(nameof(Game), id);
-			}
-
-			return game;
+			throw new NotFoundException(nameof(Game), id);
 		}
+
+		return game;
 	}
 }

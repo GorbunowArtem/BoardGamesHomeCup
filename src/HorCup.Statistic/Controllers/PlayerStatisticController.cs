@@ -7,28 +7,27 @@ using HorCup.Statistic.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HorCup.Statistic.Controllers
+namespace HorCup.Statistic.Controllers;
+
+[ExcludeFromCodeCoverage]
+[ApiController]
+[Route("players-statistic")]
+public class PlayerStatisticController : ControllerBase
 {
-	[ExcludeFromCodeCoverage]
-	[ApiController]
-	[Route("players-statistic")]
-	public class PlayerStatisticController : ControllerBase
+	private readonly ISender _sender;
+
+	public PlayerStatisticController(ISender sender)
 	{
-		private readonly ISender _sender;
+		_sender = sender;
+	}
 
-		public PlayerStatisticController(ISender sender)
-		{
-			_sender = sender;
-		}
+	[HttpGet]
+	[ProducesResponseType((int) HttpStatusCode.OK)]
+	public async Task<ActionResult<PagedSearchResponse<PlayerStatisticViewModel>>> Search(
+		[FromQuery] SearchPlayerStatsQuery query)
+	{
+		var (items, total) = await _sender.Send(query);
 
-		[HttpGet]
-		[ProducesResponseType((int) HttpStatusCode.OK)]
-		public async Task<ActionResult<PagedSearchResponse<PlayerStatisticViewModel>>> Search(
-			[FromQuery] SearchPlayerStatsQuery query)
-		{
-			var (items, total) = await _sender.Send(query);
-
-			return Ok(new PagedSearchResponse<PlayerStatisticViewModel>(items, total));
-		}
+		return Ok(new PagedSearchResponse<PlayerStatisticViewModel>(items, total));
 	}
 }

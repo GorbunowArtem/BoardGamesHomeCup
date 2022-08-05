@@ -6,44 +6,43 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Infrastructure.Filters
+namespace HorCup.Infrastructure.Filters;
+
+public class CustomExceptionFilter : IAsyncExceptionFilter
 {
-	public class CustomExceptionFilter : IAsyncExceptionFilter
+	private readonly ILogger<CustomExceptionFilter> _logger;
+
+	public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger)
 	{
-		private readonly ILogger<CustomExceptionFilter> _logger;
+		_logger = logger;
+	}
 
-		public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger)
+	public async Task OnExceptionAsync(ExceptionContext context)
+	{
+		var statusCode = HttpStatusCode.InternalServerError;
+		var message = context.Exception.ToString();
+			
+		switch (context.Exception)
 		{
-			_logger = logger;
+			case ValidationException validationException:
+				statusCode = HttpStatusCode.BadRequest;
+				message = JsonSerializer.Serialize(validationException.Failures);
+				break;
+			case NotFoundException:
+				statusCode = HttpStatusCode.NotFound;
+				break;
+			case EntityExistsException:
+				statusCode = HttpStatusCode.Conflict;
+				break;
 		}
 
-		public async Task OnExceptionAsync(ExceptionContext context)
-		{
-			var statusCode = HttpStatusCode.InternalServerError;
-			var message = context.Exception.ToString();
+		_logger.LogError(message);
 			
-			switch (context.Exception)
-			{
-				case ValidationException validationException:
-					statusCode = HttpStatusCode.BadRequest;
-					message = JsonSerializer.Serialize(validationException.Failures);
-					break;
-				case NotFoundException:
-					statusCode = HttpStatusCode.NotFound;
-					break;
-				case EntityExistsException:
-					statusCode = HttpStatusCode.Conflict;
-					break;
-			}
+		context.ExceptionHandled = true;
 
-			_logger.LogError(message);
-			
-			context.ExceptionHandled = true;
+		var response = context.HttpContext.Response;
+		response.StatusCode = (int) statusCode;
 
-			var response = context.HttpContext.Response;
-			response.StatusCode = (int) statusCode;
-
-			await response.WriteAsync(message);
-		}
+		await response.WriteAsync(message);
 	}
 }

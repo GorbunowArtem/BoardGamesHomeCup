@@ -9,72 +9,71 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Presentation
+namespace HorCup.Presentation;
+
+[ExcludeFromCodeCoverage]
+public class Startup
 {
-	[ExcludeFromCodeCoverage]
-	public class Startup
+	public Startup(IConfiguration configuration)
 	{
-		public Startup(IConfiguration configuration)
+		Configuration = configuration;
+	}
+
+	public IConfiguration Configuration { get; }
+
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
+			.AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+			});
+
+		services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+	}
+
+	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+	public void Configure(
+		IApplicationBuilder app,
+		IWebHostEnvironment env,
+		ILoggerFactory loggerFactory)
+	{
+		if (env.IsDevelopment())
 		{
-			Configuration = configuration;
+			app.UseDeveloperExceptionPage();
+		}
+		else
+		{
+			app.UseExceptionHandler("/Error");
+			app.UseSpaStaticFiles();
+			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+			app.UseHsts();
 		}
 
-		public IConfiguration Configuration { get; }
-
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddControllersWithViews(options => { options.Filters.Add(typeof(CustomExceptionFilter)); })
-				.AddJsonOptions(options =>
-				{
-					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-					options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-				});
-
-			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
-		}
-
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(
-			IApplicationBuilder app,
-			IWebHostEnvironment env,
-			ILoggerFactory loggerFactory)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Error");
-				app.UseSpaStaticFiles();
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
-
-			app.UseCors("AllowAll");
+		app.UseCors("AllowAll");
 			
-			// app.UseHttpsRedirection();
-			app.UseStaticFiles();
+		// app.UseHttpsRedirection();
+		app.UseStaticFiles();
 
-			app.UseRouting();
+		app.UseRouting();
 
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllerRoute(
-					name: "default",
-					pattern: "{controller}/{action=Index}/{id?}");
-			});
+		app.UseEndpoints(endpoints =>
+		{
+			endpoints.MapControllerRoute(
+				name: "default",
+				pattern: "{controller}/{action=Index}/{id?}");
+		});
 
-			app.UseSpa(spa =>
-			{
+		app.UseSpa(spa =>
+		{
 				
-				spa.Options.SourcePath = "ClientApp";
+			spa.Options.SourcePath = "ClientApp";
 
-				// if (env.IsDevelopment())
-				// {
-				// 	spa.UseAngularCliServer(npmScript: "start");
-				// }
-			});
-		}
+			// if (env.IsDevelopment())
+			// {
+			// 	spa.UseAngularCliServer(npmScript: "start");
+			// }
+		});
 	}
 }

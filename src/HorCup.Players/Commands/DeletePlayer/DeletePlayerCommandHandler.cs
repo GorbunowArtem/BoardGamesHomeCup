@@ -7,36 +7,35 @@ using HorCup.Players.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace HorCup.Players.Commands.DeletePlayer
+namespace HorCup.Players.Commands.DeletePlayer;
+
+public class DeletePlayerCommandHandler: IRequestHandler<DeletePlayerCommand, Unit>
 {
-	public class DeletePlayerCommandHandler: IRequestHandler<DeletePlayerCommand, Unit>
+	private readonly IPlayersContext _context;
+	private readonly ILogger<DeletePlayerCommandHandler> _logger;
+
+	public DeletePlayerCommandHandler(IPlayersContext context, ILogger<DeletePlayerCommandHandler> logger)
 	{
-		private readonly IPlayersContext _context;
-		private readonly ILogger<DeletePlayerCommandHandler> _logger;
+		_context = context;
+		_logger = logger;
+	}
 
-		public DeletePlayerCommandHandler(IPlayersContext context, ILogger<DeletePlayerCommandHandler> logger)
+	public async Task<Unit> Handle(DeletePlayerCommand request, CancellationToken cancellationToken)
+	{
+		var player = _context.Players.FirstOrDefault(p => p.Id == request.Id);
+
+		if (player == null)
 		{
-			_context = context;
-			_logger = logger;
+			_logger.LogError($"Entity with id {request.Id} not found. Unable to delete");
+			throw new NotFoundException(nameof(Player), request.Id);
 		}
-
-		public async Task<Unit> Handle(DeletePlayerCommand request, CancellationToken cancellationToken)
-		{
-			var player = _context.Players.FirstOrDefault(p => p.Id == request.Id);
-
-			if (player == null)
-			{
-				_logger.LogError($"Entity with id {request.Id} not found. Unable to delete");
-				throw new NotFoundException(nameof(Player), request.Id);
-			}
 			
-			_logger.LogInformation($"Deleting {nameof(Player)} with id {request.Id}");
+		_logger.LogInformation($"Deleting {nameof(Player)} with id {request.Id}");
 			
-			_context.Players.Remove(player);
+		_context.Players.Remove(player);
 
-			await _context.SaveChangesAsync(cancellationToken);
+		await _context.SaveChangesAsync(cancellationToken);
 			
-			return Unit.Value;
-		}
+		return Unit.Value;
 	}
 }

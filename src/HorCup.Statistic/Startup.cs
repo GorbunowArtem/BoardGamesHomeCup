@@ -11,68 +11,65 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace HorCup.Statistic
+namespace HorCup.Statistic;
+
+public class Startup
 {
-	public class Startup
+	public Startup(IConfiguration configuration)
 	{
-		public Startup(IConfiguration configuration)
+		Configuration = configuration;
+	}
+
+	public IConfiguration Configuration { get; }     
+
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddDbContext<StatisticContext>(options =>
+			options.UseSqlServer(Configuration.GetConnectionString("StatisticContext")));
+
+		services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
+
+		services.AddInfrastructure();
+
+		services.AddMassTransit(configuration =>
 		{
-			Configuration = configuration;
-		}
+			configuration.AddConsumer<GamePlayedEventConsumer>();
+			configuration.AddConsumer<PlayerPlayedEventConsumer>();
 
-		public IConfiguration Configuration { get; }     
+			configuration.SetKebabCaseEndpointNameFormatter();
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddDbContext<StatisticContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("StatisticContext")));
-
-			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "HorCup", Version = "v1"}); });
-
-			services.AddInfrastructure();
-
-			services.AddMassTransit(configuration =>
+			configuration.UsingRabbitMq((context, cfg) =>
 			{
-				configuration.AddConsumer<GamePlayedEventConsumer>();
-				configuration.AddConsumer<PlayerPlayedEventConsumer>();
-
-				configuration.SetKebabCaseEndpointNameFormatter();
-
-				configuration.UsingRabbitMq((context, cfg) =>
-				{
-					cfg.Host("rabbitmq");
-					cfg.ConfigureEndpoints(context);
-				});
+				cfg.Host("rabbitmq");
+				cfg.ConfigureEndpoints(context);
 			});
+		});
 
-			services.AddHealthChecks();
+		services.AddHealthChecks();
 			
-			services.AddMassTransitHostedService();
-			
-			services.AddScoped<IStatisticContext, StatisticContext>();
-		}
+		services.AddScoped<IStatisticContext, StatisticContext>();
+	}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	{
+		if (env.IsDevelopment())
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Statistic v1"));
-			}
-
-			app.UseHttpsRedirection();
-
-			app.UseRouting();
-
-			app.UseAuthorization();
-
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapHealthChecks("/health");
-				endpoints.MapControllers();
-			});
+			app.UseDeveloperExceptionPage();
+			app.UseSwagger();
+			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Statistic v1"));
 		}
+
+		app.UseHttpsRedirection();
+
+		app.UseRouting();
+
+		app.UseAuthorization();
+
+		app.UseEndpoints(endpoints =>
+		{
+			endpoints.MapHealthChecks("/health");
+			endpoints.MapControllers();
+		});
 	}
 }

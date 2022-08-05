@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace HorCup.Infrastructure.Services.IdGenerator
+namespace HorCup.Infrastructure.Services.IdGenerator;
+
+public class IdGenerator: IIdGenerator
 {
-	public class IdGenerator: IIdGenerator
-	{
-		public Guid NewGuid() => Guid.NewGuid();
-	}
+	public Guid NewGuid() => Guid.NewGuid();
 }

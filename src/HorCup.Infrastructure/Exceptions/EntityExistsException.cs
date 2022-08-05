@@ -1,12 +1,11 @@
 using System;
 
-namespace HorCup.Infrastructure.Exceptions
+namespace HorCup.Infrastructure.Exceptions;
+
+public class EntityExistsException: Exception
 {
-	public class EntityExistsException: Exception
+	public EntityExistsException(string name, object key): base($"Entity {name} with {key} already exists")
 	{
-		public EntityExistsException(string name, object key): base($"Entity {name} with {key} already exists")
-		{
 			
-		}
 	}
 }

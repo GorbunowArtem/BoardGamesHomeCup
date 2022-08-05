@@ -1,9 +1,8 @@
-namespace HorCup.Plays
-{
-	public class MongoDbOptions
-	{
-		public const string MongoDb = "MongoDb";
+namespace HorCup.Plays;
 
-		public string ConnectionString { get; set; }
-	}
+public class MongoDbOptions
+{
+	public const string MongoDb = "MongoDb";
+
+	public string ConnectionString { get; set; }
 }

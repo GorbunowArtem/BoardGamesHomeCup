@@ -1,28 +1,27 @@
 ﻿using FluentValidation;
 using HorCup.Games.Models;
 
-namespace HorCup.Games.Commands.AddGame
-{
-	public class AddGameCommandValidator: AbstractValidator<AddGameCommand>
-	{
-		public AddGameCommandValidator()
-		{
-			var constraints = new GamesConstraints();
-			
-			RuleFor(g => g.Title)
-				.NotNull()
-				.NotEmpty()
-				.MaximumLength(constraints.TitleMaxLength);
+namespace HorCup.Games.Commands.AddGame;
 
-			RuleFor(g => g.MaxPlayers)
-				.GreaterThanOrEqualTo(1)
-				.LessThanOrEqualTo(constraints.MaxPlayers)
-				.GreaterThanOrEqualTo(p => p.MinPlayers);
+public class AddGameCommandValidator: AbstractValidator<AddGameCommand>
+{
+	public AddGameCommandValidator()
+	{
+		var constraints = new GamesConstraints();
 			
-			RuleFor(g => g.MinPlayers)
-				.GreaterThanOrEqualTo(1)
-				.LessThanOrEqualTo(constraints.MinPlayers)
-				.LessThanOrEqualTo(p => p.MaxPlayers);
-		}
+		RuleFor(g => g.Title)
+			.NotNull()
+			.NotEmpty()
+			.MaximumLength(constraints.TitleMaxLength);
+
+		RuleFor(g => g.MaxPlayers)
+			.GreaterThanOrEqualTo(1)
+			.LessThanOrEqualTo(constraints.MaxPlayers)
+			.GreaterThanOrEqualTo(p => p.MinPlayers);
+			
+		RuleFor(g => g.MinPlayers)
+			.GreaterThanOrEqualTo(1)
+			.LessThanOrEqualTo(constraints.MinPlayers)
+			.LessThanOrEqualTo(p => p.MaxPlayers);
 	}
 }

@@ -1,11 +1,10 @@
 using System;
 
-namespace HorCup.Plays.Models
-{
-	public class Game
-	{
-		public Guid Id { get; set; }
+namespace HorCup.Plays.Models;
 
-		public string Title { get; set; }
-	}
+public class Game
+{
+	public Guid Id { get; set; }
+
+	public string Title { get; set; }
 }

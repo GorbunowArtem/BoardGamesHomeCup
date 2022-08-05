@@ -1,9 +1,8 @@
-namespace HorCup.Statistic.PlayersStatistic
+namespace HorCup.Statistic.PlayersStatistic;
+
+public enum PlayerStatsSortBy
 {
-	public enum PlayerStatsSortBy
-	{
-		TotalPlayed,
-		TotalWins,
-		AverageScore
-	}
+	TotalPlayed,
+	TotalWins,
+	AverageScore
 }

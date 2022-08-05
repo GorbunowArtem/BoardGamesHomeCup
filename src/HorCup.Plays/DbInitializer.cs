@@ -6,57 +6,56 @@ using HorCup.Plays.Models;
 using MongoDB.Driver;
 using RandomNameGeneratorLibrary;
 
-namespace HorCup.Plays
+namespace HorCup.Plays;
+
+internal class DbInitializer
 {
-	internal class DbInitializer
+	public static void Initialize(IPlaysContext context)
 	{
-		public static void Initialize(IPlaysContext context)
+		if (!context.Plays.Find(_ => true).Any())
 		{
-			if (!context.Plays.Find(_ => true).Any())
-			{
-				var personGenerator = new PersonNameGenerator();
+			var personGenerator = new PersonNameGenerator();
 
-				var placeGenerator = new PlaceNameGenerator();
+			var placeGenerator = new PlaceNameGenerator();
 
-				var random = new Random(250);
+			var random = new Random(250);
 
-				var plays = Enumerable.Range(1, 250)
-					.Select(i => new Play
+			var plays = Enumerable.Range(1, 250)
+				.Select(i => new Play
+				{
+					Game = new Game
 					{
-						Game = new Game
-						{
-							Id = Guid.NewGuid(),
-							Title = placeGenerator.GenerateRandomPlaceName()
-						},
 						Id = Guid.NewGuid(),
-						Notes = placeGenerator.GenerateRandomPlaceName(),
-						PlayedDate = DateTime.Now.AddDays(-i),
-						PlayerScores = new PlayScore[]
+						Title = placeGenerator.GenerateRandomPlaceName()
+					},
+					Id = Guid.NewGuid(),
+					Notes = placeGenerator.GenerateRandomPlaceName(),
+					PlayedDate = DateTime.Now.AddDays(-i),
+					PlayerScores = new PlayScore[]
+					{
+						new()
 						{
-							new()
-							{
-								Player = new IdName(Guid.NewGuid(), personGenerator.GenerateRandomFirstAndLastName()),
-								Score = random.Next()
-							},
+							Player = new IdName(Guid.NewGuid(), personGenerator.GenerateRandomFirstAndLastName()),
+							Score = random.Next()
+						},
 
-							new()
-							{
-								Player = new IdName(Guid.NewGuid(), personGenerator.GenerateRandomFirstAndLastName()),
-								Score = random.Next()
-							},
+						new()
+						{
+							Player = new IdName(Guid.NewGuid(), personGenerator.GenerateRandomFirstAndLastName()),
+							Score = random.Next()
+						},
 
-							new()
-							{
-								Player = new IdName(Guid.NewGuid(),
-									personGenerator
-										.GenerateRandomFirstAndLastName()),
-								Score = random.Next()
-							},
-						}
-					});
+						new()
+						{
+							Player = new IdName(Guid.NewGuid(),
+								personGenerator
+									.GenerateRandomFirstAndLastName()),
+							Score = random.Next()
+						},
+					}
+				});
 
-				context.Plays.InsertMany(plays);
-			}
+			context.Plays.InsertMany(plays);
 		}
 	}
 }

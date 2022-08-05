@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace HorCup.Infrastructure.Services.DateTimeService
+namespace HorCup.Infrastructure.Services.DateTimeService;
+
+public class DateTimeService: IDateTimeService
 {
-	public class DateTimeService: IDateTimeService
-	{
-		public DateTime UtcNow => DateTime.UtcNow;
-	}
+	public DateTime UtcNow => DateTime.UtcNow;
 }
