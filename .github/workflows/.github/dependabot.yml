@@ -1,0 +1,20 @@
+version: 2
+registries:
+  nuget-public:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
+updates:
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: wednesday
+    registries:
+      - nuget-public
+    ignore:
+      - dependency-name: "Moq"
+      - dependency-name: "Npgsql*"
+    groups:
+      dev-dependencies:
+        patterns:
+          - "*"
