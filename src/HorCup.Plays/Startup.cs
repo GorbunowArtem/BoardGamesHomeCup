@@ -35,8 +35,6 @@ namespace HorCup.Plays
 				});
 			});
 			
-			services.AddMassTransitHostedService();
-			
 			services.AddHealthChecks();
 			
 			services.AddTransient<IPlaysContext, PlaysContext>();
@@ -54,8 +52,6 @@ namespace HorCup.Plays
 			app.UseSwagger();
 			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorCup.Plays v1"));
 			
-			// app.UseHttpsRedirection();
-
 			app.UseRouting();
 
 			app.UseAuthorization();
