@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <DebugType>portable</DebugType>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
         <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
         <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+        <LangVersion>latestmajor</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>

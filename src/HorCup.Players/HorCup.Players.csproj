@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <DebugType>portable</DebugType>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <AssemblyName>HorCup.Players</AssemblyName>
@@ -11,7 +11,8 @@
         <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
         <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
         <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
-        <LangVersion>preview</LangVersion>
+        <LangVersion>latestmajor</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
