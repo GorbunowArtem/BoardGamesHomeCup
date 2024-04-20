@@ -1,0 +1,17 @@
+<header>
+  <hc-plays-nav-bar></hc-plays-nav-bar>
+</header>
+
+<main class="container">
+  <cdk-virtual-scroll-viewport itemSize="50" class="plays-container">
+    <div mat-subheader class="plays-container__plays-total">Всего: {{ plays.total }}</div>
+    <mat-accordion [multi]="false">
+      <hc-play-panel *cdkVirtualFor="let play of plays" [play]="play"></hc-play-panel>
+    </mat-accordion>
+  </cdk-virtual-scroll-viewport>
+  <hc-add-item [routerLink]="['/add-play']"></hc-add-item>
+</main>
+
+<footer>
+  <hc-bottom-nav></hc-bottom-nav>
+</footer>

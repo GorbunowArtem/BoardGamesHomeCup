@@ -1,0 +1,106 @@
+<hc-header-card [text]="'Добавить сыгранную партию'"></hc-header-card>
+<mat-vertical-stepper #stepper>
+  <form [formGroup]="addPlayForm">
+    <mat-step>
+      <ng-template matStepLabel>Выберите игру и дату партии</ng-template>
+      <p>
+        <mat-form-field>
+          <input
+            type="text"
+            placeholder="Выберите игру"
+            matInput
+            [matAutocomplete]="gamesAutocomplete"
+            formControlName="selectedGame"
+            required
+          />
+          <mat-autocomplete #gamesAutocomplete="matAutocomplete" [displayWith]="displayGame">
+            <mat-option *ngFor="let game of gamesOptions | async" [value]="game">
+              {{ game.title }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Дата партии</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Дата партии"
+            formControlName="playedDate"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </p>
+      <div>
+        <button mat-button matStepperNext color="accent">Далее</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Выберите участников партии</ng-template>
+      <div formArrayName="playerScores">
+        <div *ngFor="let playerScore of playerScoresControls; let i = index">
+          <ng-container [formGroup]="playerScore">
+            <p class="player-number">{{ i + 1 }}-й игрок &nbsp;</p>
+            <p>
+              <mat-form-field>
+                <mat-label>Выберите игрока</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [matAutocomplete]="playersAuto"
+                  formControlName="player"
+                  required
+                />
+              </mat-form-field>
+              <mat-autocomplete #playersAuto="matAutocomplete" [displayWith]="displayPlayer">
+                <mat-option *ngFor="let pl of playersOption | async" [value]="pl">
+                  {{ pl.nickname }}
+                </mat-option>
+              </mat-autocomplete>
+            </p>
+            <p>
+              <mat-form-field>
+                <mat-label>Очки</mat-label>
+                <input matInput type="number" formControlName="score" required />
+              </mat-form-field>
+            </p>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </div>
+        <button mat-icon-button color="accent" *ngIf="canAddPlayer()" (click)="addPlayer()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="playerScores.length > 1"
+          color="warn"
+          (click)="removePlayer()"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious color="warn">Назад</button>
+        <button mat-button matStepperNext color="accent">Далее</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Добавить</ng-template>
+      <mat-form-field>
+        <mat-label>Замечания</mat-label>
+        <textarea matInput formControlName="notes"></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious color="warn">Назад</button
+        ><button mat-button color="primary" (click)="save()" [disabled]="!addPlayForm.valid">
+          Сохранить
+        </button>
+      </div>
+    </mat-step>
+  </form>
+</mat-vertical-stepper>

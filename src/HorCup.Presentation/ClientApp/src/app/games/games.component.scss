@@ -1,0 +1,31 @@
+@import '../../styles.scss';
+
+hc-game-card {
+  width: 100%;
+}
+
+mat-toolbar {
+  width: 100%;
+}
+
+.no-result {
+  text-align: center;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.games-container {
+  height: $virtual-scroll-container-height;
+
+  &__games-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__games-total {
+    padding: 15px 0 0 15px;
+  }
+}

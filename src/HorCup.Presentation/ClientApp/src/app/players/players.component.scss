@@ -1,0 +1,16 @@
+@import '../../styles.scss';
+
+.delete {
+  color: red;
+}
+
+.player-nickname {
+  font-weight: 400;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.players-list {
+  height: $virtual-scroll-container-height;
+}

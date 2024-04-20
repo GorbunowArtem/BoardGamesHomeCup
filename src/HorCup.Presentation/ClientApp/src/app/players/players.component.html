@@ -1,0 +1,35 @@
+<header>
+  <hc-players-nav-bar></hc-players-nav-bar>
+  <mat-progress-bar mode="indeterminate" *ngIf="playersSource.loading"> </mat-progress-bar>
+</header>
+
+<main class="container">
+  <cdk-virtual-scroll-viewport itemSize="50" class="players-list">
+    <mat-list>
+      <div mat-subheader>Всего: {{ playersSource.total }}</div>
+      <mat-list-item *cdkVirtualFor="let player of playersSource">
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+        <div mat-line [routerLink]="['/participants', player.id]" class="player-nickname">
+          {{ player.nickname }}
+        </div>
+        <div mat-line>Добавлен: {{ player.added | date }}</div>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon> more_vert </mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(player)">
+            <mat-icon>edit</mat-icon><span>Редактировать</span>
+          </button>
+          <button mat-menu-item class="delete" (click)="delete(player.id)">
+            <mat-icon>delete</mat-icon><span>Удалить</span>
+          </button>
+        </mat-menu>
+      </mat-list-item>
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
+
+  <hc-add-item (showAddDialog)="addPlayer()"></hc-add-item>
+</main>
+
+<footer>
+  <hc-bottom-nav></hc-bottom-nav>
+</footer>

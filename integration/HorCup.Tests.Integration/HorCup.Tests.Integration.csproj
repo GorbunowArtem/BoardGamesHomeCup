@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentAssertions" Version="5.10.3" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+      <PackageReference Include="NUnit" Version="3.13.2" />
+      <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+      <PackageReference Include="SpecFlow" Version="3.7.38" />
+      <PackageReference Include="SpecFlow.NUnit" Version="3.7.38" />
+      <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.7.141" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="specflow.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\HorCup.Games\HorCup.Games.csproj" />
+      <ProjectReference Include="..\..\src\HorCup.Players\HorCup.Players.csproj" />
+      <ProjectReference Include="..\..\src\HorCup.Presentation\HorCup.Presentation.csproj" />
+    </ItemGroup>
+    <Target Name="AfterUpdateFeatureFilesInProject">
+        <!-- include any generated SpecFlow files in the compilation of the project if not included yet -->
+        <ItemGroup>
+            <Compile Include="**\*.feature.cs" Exclude="@(Compile)" />
+        </ItemGroup>
+    </Target>
+</Project>

@@ -1,0 +1,18 @@
+<header>
+  <hc-games-nav-bar></hc-games-nav-bar>
+</header>
+
+<main class="container">
+  <cdk-virtual-scroll-viewport itemSize="75" class="games-container">
+    <div mat-subheader class="games-container__games-total">Всего: {{ games.total }}</div>
+    <div class="games-container__games-list">
+      <hc-game-card *cdkVirtualFor="let game of games" [game]="game"></hc-game-card>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</main>
+
+<hc-add-item (showAddDialog)="openAddDialog()"></hc-add-item>
+
+<footer>
+  <hc-bottom-nav></hc-bottom-nav>
+</footer>
