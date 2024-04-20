@@ -1,16 +1,78 @@
-version: "3.4"
+version : "3.4"
 
-services:
-  horcup.identityserver:
-    image: ${DOCKER_REGISTRY-}identityserver
-    build:
-      context: .
-      dockerfile: src/HorCup.IdentityServer/Dockerfile
-    environment:
-      IDENTITY_ISSUER: "http://10.0.75.1:5001"
+services :
+  #  docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
-  horcup.presentation:
-    image: ${DOCKER_REGISTRY-}presentation
-    build:
-      context: .
-      dockerfile: src/HorCup.Presentation/Dockerfile
+  #  docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
+
+  #  horcup.identityserver:
+  #    image: ${DOCKER_REGISTRY-}identityserver
+  #    build:
+  #      context: .
+  #      dockerfile: src/HorCup.IdentityServer/Dockerfile
+  #    environment:
+  #      IDENTITY_ISSUER: "http://10.0.75.1:5001"
+
+#  docker network create artem-net
+#  docker run --name cass --network artem-net -d cassandra
+#  docker run -it --network artem-net --rm cassandra cqlsh cass
+
+  sql-server :
+    image : mcr.microsoft.com/mssql/server:2019-latest
+
+  mongodb :
+    image : mongo
+
+  rabbitmq :
+    image : masstransit/rabbitmq
+
+#  cassandradb :
+#    image : cassandra
+
+  identity-api :
+    image : ${DOCKER_REGISTRY-horcup}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.IdentityServer/Dockerfile
+    depends_on :
+      - sql-server
+
+  players-api :
+    image : ${DOCKER_REGISTRY-horcup}/players.api:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.Players/Dockerfile
+    depends_on :
+      - sql-server
+
+  games-api :
+    image : ${DOCKER_REGISTRY-horcup}/games.api:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.Games/Dockerfile
+    depends_on :
+      - sql-server
+
+  plays-api :
+    image : ${DOCKER_REGISTRY-horcup}/plays.api:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.Plays/Dockerfile
+    depends_on :
+      - mongodb
+      - rabbitmq
+
+  statistic-api :
+    image : ${DOCKER_REGISTRY-horcup}/statistic.api:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.Statistic/Dockerfile
+    depends_on :
+      - rabbitmq
+      - sql-server
+
+  spa :
+    image : ${DOCKER_REGISTRY-horcup}/spa:${PLATFORM:-linux}-${TAG:-latest}
+    build :
+      context : .
+      dockerfile : src/HorCup.Presentation/Dockerfile
