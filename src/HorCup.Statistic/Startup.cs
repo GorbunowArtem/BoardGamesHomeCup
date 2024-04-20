@@ -47,8 +47,6 @@ namespace HorCup.Statistic
 
 			services.AddHealthChecks();
 			
-			services.AddMassTransitHostedService();
-			
 			services.AddScoped<IStatisticContext, StatisticContext>();
 		}
 
